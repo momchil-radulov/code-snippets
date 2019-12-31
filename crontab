@@ -4,4 +4,4 @@ add lines:
 # to run a job every 5 minutes
 */5 * * * * /bin/bash /root/git/db/restart_fpm.sh
 # to run a job at 1 a.m.
-0 1 * * * /bin/bash /root/git/db/restart_fpm.sh
+0 1 * * * /usr/sbin/service mqtt2db restart
