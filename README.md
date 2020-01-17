@@ -6,5 +6,7 @@ Simple Wep API with Python.
 limonade php example
 ## restart_fpm.sh
 Restart fpm service when sqlite db is locked.
+## AccountController.cs
+Code snippet for asp.net core
 ## $sudo crontab -e
 add a job to scheduled tasks
