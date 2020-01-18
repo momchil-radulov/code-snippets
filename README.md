@@ -4,6 +4,8 @@ Code snippets
 Simple Wep API with Python.
 ## index(limonade).php
 limonade php example
+## functions(wordpress).php
+wordpress plugins in functions.php
 ## restart_fpm.sh
 Restart fpm service when sqlite db is locked.
 ## AccountController.cs
