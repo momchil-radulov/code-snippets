@@ -1,4 +1,42 @@
 /*
+* Create a order - WooCommerce plugin.
+* https://codetrycatch.com/create-a-woocommerce-order-programatically/
+* How to use: https://my-site/wp-admin/admin-ajax.php?action=my_action
+*/
+function create_order() {
+	$user_id = get_current_user_id();
+	$address = array(
+                'first_name' => get_user_meta($user_id, 'billing_first_name', true),
+                'last_name' => get_user_meta($user_id, 'billing_last_name', true),
+                'address_1' => get_user_meta($user_id, 'billing_address_1', true),
+                'address_2' => get_user_meta($user_id, 'billing_address_2', true),
+                'company' => get_user_meta($user_id, 'billing_company', true),
+                'email' => get_user_meta($user_id, 'billing_email', true),
+                'phone' => get_user_meta($user_id, 'billing_phone', true),
+                'country' => get_user_meta($user_id, 'billing_country', true),
+                'state' => get_user_meta($user_id, 'billing_state', true),
+                'postcode' => get_user_meta($user_id, 'billing_postcode', true),
+                'city' => get_user_meta($user_id, 'billing_city', true),
+            );
+
+	$order = wc_create_order();
+	$order->add_product( get_product( '2308' ), 1 ); //(get_product with id and next is for quantity)
+	$order->set_address( $address, 'billing' );
+	$order->set_address( $address, 'shipping' );
+	$order->calculate_totals();
+	$order->set_customer_id($user_id);
+}
+
+function my_action() {
+	global $wpdb;
+	create_order();
+    echo 'create_order();';
+	wp_die();
+}
+add_action( 'wp_ajax_my_action', 'my_action' );
+add_action( 'wp_ajax_nopriv_my_action', 'my_action' );
+
+/*
 * Automatically adding the product to the cart - WooCommerce plugin.
 * https://wordpress.org/support/topic/how-can-i-automatically-add-product-when-user-registered-in-wordpress/
 */
