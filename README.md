@@ -6,6 +6,8 @@ Simple Wep API with Python.
 limonade php example
 ## functions(wordpress).php
 wordpress plugins in functions.php
+## page-init-from-url.html
+Initialize html page from url parameters.
 ## restart_fpm.sh
 Restart fpm service when sqlite db is locked.
 ## AccountController.cs
