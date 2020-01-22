@@ -25,8 +25,7 @@ function create_order($user_id = 0) {
 	$order->set_address( $address, 'billing' );
 	$order->set_address( $address, 'shipping' );
 	$order->calculate_totals();
-	if ($user_id > 0)
-		$order->set_customer_id($user_id);
+	$order->set_customer_id($user_id);
 }
 
 function my_action() {
