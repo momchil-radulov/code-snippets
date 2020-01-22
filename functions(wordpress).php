@@ -38,10 +38,10 @@ function my_action() {
 add_action( 'wp_ajax_my_action', 'my_action' );
 add_action( 'wp_ajax_nopriv_my_action', 'my_action' );
 
-function action_woocommerce_created_customer( $customer_id, $new_customer_data, $password_generated ) { 
-	create_order($customer_id);
-};
-add_action( 'woocommerce_created_customer', 'action_woocommerce_created_customer', 10, 3 );
+function user_register( $user_id ) { 
+	create_order($user_id);
+}
+do_action( 'user_register', $user_id );
 
 /*
 * Automatically adding the product to the cart - WooCommerce plugin.
