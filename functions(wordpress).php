@@ -1,5 +1,5 @@
 /*
-* Create a order - WooCommerce plugin.
+* Create a order on create customer or by web api - WooCommerce plugin.
 * https://codetrycatch.com/create-a-woocommerce-order-programatically/
 * How to use: https://my-site/wp-admin/admin-ajax.php?action=my_action
 */
@@ -25,7 +25,8 @@ function create_order($user_id = 0) {
 	$order->set_address( $address, 'billing' );
 	$order->set_address( $address, 'shipping' );
 	$order->calculate_totals();
-	$order->set_customer_id($user_id);
+	if ($user_id > 0)
+		$order->set_customer_id($user_id);
 }
 
 function my_action() {
