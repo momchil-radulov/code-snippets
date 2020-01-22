@@ -24,8 +24,8 @@ function create_order($user_id = 0) {
 	$order->add_product( get_product( '2308' ), 1 ); //(get_product with id and next is for quantity)
 	$order->set_address( $address, 'billing' );
 	$order->set_address( $address, 'shipping' );
-	$order->calculate_totals();
 	$order->set_customer_id($user_id);
+	$order->calculate_totals();
 }
 
 function my_action() {
@@ -45,7 +45,7 @@ function user_register_add_order( $user_id ) {
 
 function sv_link_orders_at_registration( $user_id ) {
 	create_order($user_id);
-    wc_update_new_customer_past_orders( $user_id );
+	wc_update_new_customer_past_orders( $user_id );
 }
 
 add_action( 'woocommerce_created_customer', 'sv_link_orders_at_registration' );
