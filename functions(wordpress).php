@@ -30,8 +30,10 @@ function create_order($user_id = 0) {
 
 function my_action() {
 	global $wpdb;
-	create_order();
-    echo 'create_order();';
+	$user_id = get_current_user_id();
+	create_order(0);
+    	echo 'create_order(); ';
+	echo '$user_id = ' . $user_id;
 	wp_die();
 }
 add_action( 'wp_ajax_my_action', 'my_action' );
@@ -40,7 +42,13 @@ add_action( 'wp_ajax_nopriv_my_action', 'my_action' );
 function user_register_add_order( $user_id ) {
 	create_order($user_id);
 }
-//add_action( 'woocommerce_created_customer', 'user_register_add_order' );
+
+function sv_link_orders_at_registration( $user_id ) {
+	create_order($user_id);
+    wc_update_new_customer_past_orders( $user_id );
+}
+
+add_action( 'woocommerce_created_customer', 'sv_link_orders_at_registration' );
 add_action( 'user_register', 'user_register_add_order' );
 
 /*
