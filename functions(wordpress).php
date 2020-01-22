@@ -41,7 +41,7 @@ add_action( 'wp_ajax_nopriv_my_action', 'my_action' );
 function user_register( $user_id ) { 
 	create_order($user_id);
 }
-do_action( 'user_register', $user_id );
+do_action( 'user_register', user_register );
 
 /*
 * Automatically adding the product to the cart - WooCommerce plugin.
