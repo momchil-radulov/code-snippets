@@ -3,8 +3,9 @@
 * https://codetrycatch.com/create-a-woocommerce-order-programatically/
 * How to use: https://my-site/wp-admin/admin-ajax.php?action=my_action
 */
-function create_order() {
-	$user_id = get_current_user_id();
+function create_order($user_id = 0) {
+	if ($user_id == 0)
+		$user_id = get_current_user_id();
 	$address = array(
                 'first_name' => get_user_meta($user_id, 'billing_first_name', true),
                 'last_name' => get_user_meta($user_id, 'billing_last_name', true),
@@ -20,7 +21,7 @@ function create_order() {
             );
 
 	$order = wc_create_order();
-	$order->add_product( get_product( '2308' ), 1 ); //(get_product with id and next is for quantity)
+	$order->add_product( get_product( '2308' ), 2 ); //(get_product with id and next is for quantity)
 	$order->set_address( $address, 'billing' );
 	$order->set_address( $address, 'shipping' );
 	$order->calculate_totals();
@@ -35,6 +36,11 @@ function my_action() {
 }
 add_action( 'wp_ajax_my_action', 'my_action' );
 add_action( 'wp_ajax_nopriv_my_action', 'my_action' );
+
+function action_woocommerce_created_customer( $customer_id, $new_customer_data, $password_generated ) { 
+	create_order($customer_id);
+};
+add_action( 'woocommerce_created_customer', 'action_woocommerce_created_customer', 10, 3 );
 
 /*
 * Automatically adding the product to the cart - WooCommerce plugin.
