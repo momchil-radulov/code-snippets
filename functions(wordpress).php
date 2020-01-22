@@ -21,7 +21,7 @@ function create_order($user_id = 0) {
             );
 
 	$order = wc_create_order();
-	$order->add_product( get_product( '2308' ), 2 ); //(get_product with id and next is for quantity)
+	$order->add_product( get_product( '2308' ), 1 ); //(get_product with id and next is for quantity)
 	$order->set_address( $address, 'billing' );
 	$order->set_address( $address, 'shipping' );
 	$order->calculate_totals();
