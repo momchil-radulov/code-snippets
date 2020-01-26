@@ -6,6 +6,8 @@ Simple Wep API with Python.
 limonade php example
 ## functions(wordpress).php
 wordpress plugins in functions.php
+## class-wc-admin-list-table-orders.php
+woocommerce add data to display in orders table
 ## page-init-from-url.html
 Initialize html page from url parameters.
 ## restart_fpm.sh
