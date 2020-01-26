@@ -11,9 +11,10 @@ append code:
 $user  = get_user_by( 'id', $this->object->get_customer_id() );
 echo $user->user_login;
 global $wpdb;
-$files = $wpdb->get_results("SELECT * FROM formcraft_3_files limit 1");
+$files = $wpdb->get_results("SELECT * FROM formcraft_3_files where id =
+    (select id from formcraft_3_submissions where content like '%\\\"" . $user->user_login . "%')");
 foreach( $files as $file ) {
     echo '<a href="' . $file->file_url . '" target="_blank">';
     echo '<img src="' . $file->file_url . '" width="50px" height="50px">';
     echo '</a>';
-} 
+}
