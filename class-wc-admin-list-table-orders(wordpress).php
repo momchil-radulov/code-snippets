@@ -10,4 +10,10 @@ render_order_date_column()
 append code:
 $user  = get_user_by( 'id', $this->object->get_customer_id() );
 echo $user->user_login;
-echo '<img src="https://media.gettyimages.com/photos/blue-sky-and-white-clouds-picture-id1096877588">';
+global $wpdb;
+$files = $wpdb->get_results("SELECT * FROM formcraft_3_files limit 1");
+foreach( $files as $file ) {
+    echo '<a href="' . $file->file_url . '" target="_blank">';
+    echo '<img src="' . $file->file_url . '" width="50px" height="50px">';
+    echo '</a>';
+} 
