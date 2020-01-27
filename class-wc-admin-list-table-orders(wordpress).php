@@ -35,3 +35,20 @@ foreach( $files as $file ) {
     echo '</a>';
 }
 */
+
+url (for edit wp-admin/edit.php)
+https://istinskirimi.com:2083/cpsess7330492454/frontend/paper_lantern/filemanager/editit.html?file=edit.php&fileop=&dir=%2Fhome%2Fistinski%2Fautomateyour.store%2Fwp-admin&dirop=&charset=&file_charset=_DETECT_&baseurl=&basedir=&edit=1
+add code:
+/*
+echo '123123123';
+$included_files = get_included_files();
+$counter = 0;
+foreach ($included_files as $filename) {
+    $counter++;
+    echo "$filename\n";
+}
+echo $counter;
+*/
+
+url (for edit wp-admin/post.php)
+https://istinskirimi.com:2083/cpsess7330492454/frontend/paper_lantern/filemanager/editit.html?file=post.php&fileop=&dir=%2Fhome%2Fistinski%2Fautomateyour.store%2Fwp-admin&dirop=&charset=&file_charset=_DETECT_&baseurl=&basedir=&edit=1
