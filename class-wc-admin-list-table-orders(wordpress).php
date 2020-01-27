@@ -37,7 +37,7 @@ foreach( $files as $file ) {
 */
 
 url (for edit wp-admin/edit.php)
-https://istinskirimi.com:2083/cpsess7330492454/frontend/paper_lantern/filemanager/editit.html?file=edit.php&fileop=&dir=%2Fhome%2Fistinski%2Fautomateyour.store%2Fwp-admin&dirop=&charset=&file_charset=_DETECT_&baseurl=&basedir=&edit=1
+https://you-site.com:2083/cpsess7330492454/frontend/paper_lantern/filemanager/editit.html?file=edit.php&fileop=&dir=%2Fhome%2Fistinski%2Fautomateyour.store%2Fwp-admin&dirop=&charset=&file_charset=_DETECT_&baseurl=&basedir=&edit=1
 add code:
 /*
 echo '123123123';
@@ -51,4 +51,4 @@ echo $counter;
 */
 
 url (for edit wp-admin/post.php)
-https://istinskirimi.com:2083/cpsess7330492454/frontend/paper_lantern/filemanager/editit.html?file=post.php&fileop=&dir=%2Fhome%2Fistinski%2Fautomateyour.store%2Fwp-admin&dirop=&charset=&file_charset=_DETECT_&baseurl=&basedir=&edit=1
+https://you-site.com:2083/cpsess7330492454/frontend/paper_lantern/filemanager/editit.html?file=post.php&fileop=&dir=%2Fhome%2Fistinski%2Fautomateyour.store%2Fwp-admin&dirop=&charset=&file_charset=_DETECT_&baseurl=&basedir=&edit=1
