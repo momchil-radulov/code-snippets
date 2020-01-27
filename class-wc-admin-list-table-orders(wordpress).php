@@ -1,3 +1,6 @@
+url (for edit in wordpress)
+https://you-site.com/wp-admin/plugin-editor.php?file=woocommerce%2Fincludes%2Fadmin%2Flist-tables%2Fclass-wc-admin-list-table-orders.php&plugin=woocommerce%2Fwoocommerce.php
+
 url (to show woocommerce orders):
 https://your-site.com/wp-admin/edit.php?post_type=shop_order
 
@@ -11,6 +14,19 @@ append code:
 $user  = get_user_by( 'id', $this->object->get_customer_id() );
 echo $user->user_login;
 global $wpdb;
+$file = $wpdb->get_row("select *
+                          from formcraft_3_submissions
+                         where content like '%\\\"" . $user->user_login . "%'");
+$content = json_decode(str_replace('\"', '"', $file->content), true);
+foreach($content as $item) {
+    if($item["url"][0]) {
+        $url = str_replace('\\/','/',$item["url"][0]);
+        echo '<a href="' . $url . '" target="_blank">';
+        echo '<img src="' . $url . '" width="50px" height="50px">';
+        echo '</a>';
+    }
+}
+/*
 $files = $wpdb->get_results("SELECT * FROM formcraft_3_files where id =
     (select id from formcraft_3_submissions where content like '%\\\"" . $user->user_login . "%')");
 foreach( $files as $file ) {
@@ -18,3 +34,4 @@ foreach( $files as $file ) {
     echo '<img src="' . $file->file_url . '" width="50px" height="50px">';
     echo '</a>';
 }
+*/
