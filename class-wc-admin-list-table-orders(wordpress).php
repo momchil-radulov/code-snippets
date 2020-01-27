@@ -12,7 +12,6 @@ render_order_date_column()
 
 append code:
 $user  = get_user_by( 'id', $this->object->get_customer_id() );
-echo $user->user_login;
 global $wpdb;
 $file = $wpdb->get_row("select *
                           from formcraft_3_submissions
@@ -27,6 +26,7 @@ foreach($content as $item) {
     }
 }
 /*
+echo $user->user_login;
 $files = $wpdb->get_results("SELECT * FROM formcraft_3_files where id =
     (select id from formcraft_3_submissions where content like '%\\\"" . $user->user_login . "%')");
 foreach( $files as $file ) {
