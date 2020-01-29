@@ -108,3 +108,23 @@ function echo_log( $what ) // https://stackoverflow.com/questions/14541989/how-d
     echo '<pre>'.print_r( $what, true ).'</pre>';
 }
 add_filter('pre_get_posts', 'custom_admin_shop_manager_orders');
+
+/*
+* Това ограничава автора да вижда само неговите си поръчки
+* Show orders only for assigned users, except only admins - WooCommerce plugin.
+* https://stackoverflow.com/questions/45879418/how-can-i-assign-an-order-to-a-certain-shop-manager-in-woocommerce
+*/
+function custom_admin_shop_manager_orders($query) {
+	global $pagenow;
+	$qv = &$query->query_vars;
+	$currentUserRoles = wp_get_current_user()->roles;
+	$user_id = get_current_user_id();
+	if (!in_array('administrator', $currentUserRoles)) {
+		if ( $pagenow == 'edit.php' &&
+			isset($qv['post_type']) && $qv['post_type'] == 'shop_order' ) {
+			$query->set('author', $user_id);
+		}	
+	}
+	return $query;
+}
+add_filter('pre_get_posts', 'custom_admin_shop_manager_orders');
