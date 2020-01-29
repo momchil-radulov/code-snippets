@@ -11,6 +11,7 @@ function:
 render_order_date_column()
 
 append code:
+echo '<br />';
 $user  = get_user_by( 'id', $this->object->get_customer_id() );
 global $wpdb;
 $file = $wpdb->get_row("select *
