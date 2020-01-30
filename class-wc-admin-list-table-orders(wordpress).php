@@ -21,7 +21,7 @@ $content = json_decode(str_replace('\"', '"', $file->content), true);
 foreach($content as $item) {
     if($item["label"] == "Telefon") {
         $phone = $item["value"];
-		echo "Телефон " . $phone;
+	echo "Телефон " . $phone;
     }
 }
 
