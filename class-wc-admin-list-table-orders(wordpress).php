@@ -8,6 +8,24 @@ file:
 /wp-content/plugins/woocommerce/includes/admin/list-tables/class-wc-admin-list-table-orders.php
 
 function:
+render_order_total_column()
+
+append code:
+echo '<br />';
+$user  = get_user_by( 'id', $this->object->get_customer_id() );
+global $wpdb;
+$file = $wpdb->get_row("select *
+                          from formcraft_3_submissions
+                         where content like '%\\\"" . $user->user_login . "%'");
+$content = json_decode(str_replace('\"', '"', $file->content), true);
+foreach($content as $item) {
+    if($item["label"] == "Telefon") {
+        $phone = $item["value"];
+		echo "Телефон " . $phone;
+    }
+}
+
+function:
 render_order_date_column()
 
 append code:
@@ -22,10 +40,11 @@ foreach($content as $item) {
     if($item["url"][0]) {
         $url = str_replace('\\/','/',$item["url"][0]);
         echo '<a href="' . $url . '" target="_blank">';
-        echo '<img src="' . $url . '" width="50px" height="50px">';
+        echo '<img src="' . $url . '" width="50px" height: auto; ">';
         echo '</a>';
     }
 }
+
 /*
 echo $user->user_login;
 $files = $wpdb->get_results("SELECT * FROM formcraft_3_files where id =
