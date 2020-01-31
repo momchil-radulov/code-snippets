@@ -12,8 +12,12 @@ render_order_total_column()
 
 append code:
 echo '<br />';
-$user  = get_user_by( 'id', $this->object->get_customer_id() );
-global $wpdb;
+//$user  = get_user_by( 'id', $this->object->get_customer_id() );
+$telefon = get_user_meta($this->object->get_customer_id(), 'Telefon', true);
+if ($telefon) {
+	echo "Телефон " . $telefon;
+}
+/*global $wpdb;
 $file = $wpdb->get_row("select *
                           from formcraft_3_submissions
                          where content like '%\\\"" . $user->user_login . "%'");
@@ -24,6 +28,7 @@ foreach($content as $item) {
 	echo "Телефон " . $phone;
     }
 }
+*/
 
 function:
 render_order_date_column()
