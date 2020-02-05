@@ -17,6 +17,16 @@ $telefon = get_user_meta($this->object->get_customer_id(), 'Telefon', true);
 if ($telefon) {
 	echo "Телефон " . $telefon;
 }
+$city = get_user_meta($this->object->get_customer_id(), 'City', true);
+if ($city) {
+	echo '<br />';
+	echo "гр. " . $city;
+}
+$age = get_user_meta($this->object->get_customer_id(), 'Age', true);
+if ($age) {
+	echo '<br />';
+	echo $age . " години";
+}
 /*global $wpdb;
 $file = $wpdb->get_row("select *
                           from formcraft_3_submissions
@@ -40,7 +50,11 @@ global $wpdb;
 $file = $wpdb->get_row("select *
                           from formcraft_3_submissions
                          where content like '%\\\"" . $user->user_login . "%'");
-$content = json_decode(str_replace('\"', '"', $file->content), true);
+$content = $file->content;
+$content = str_replace('\"', '"', $content);
+$content = str_replace("\'", "'", $content);
+//echo $content;
+$content = json_decode($content, true);
 foreach($content as $item) {
     if($item["url"][0]) {
         $url = str_replace('\\/','/',$item["url"][0]);
