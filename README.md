@@ -16,3 +16,5 @@ Restart fpm service when sqlite db is locked.
 Code snippet for asp.net core
 ## $sudo crontab -e
 add a job to scheduled tasks
+## .bashrc
+change cursor
