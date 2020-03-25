@@ -18,5 +18,7 @@ Code snippet for asp.net core
 add a job to scheduled tasks
 ## .bashrc
 change cursor
+## bash
+useful bash commands
 ## apt
 apt package manager useful commands
