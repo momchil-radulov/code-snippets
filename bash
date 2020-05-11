@@ -10,6 +10,10 @@ sudo setfacl -m user:$USER:rw /var/run/docker.sock
 /etc/ca-certificates.conf
 openssl s_client -connect google.com:443 -CApath /etc/ssl/certs
 curl https://google.com:443
+# install a certificate to ubuntu
+sudo cp foo.crt /usr/share/ca-certificates/extra/foo.crt
+sudo dpkg-reconfigure ca-certificates
+certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "webmail" -i /path_to/foo.crt # for chrome browser
 
 sudo socat -v tcp-listen:80,reuseaddr,fork tcp:localhost:8080
 python -m http.server 8080 --bind 127.0.0.1 --cgi
