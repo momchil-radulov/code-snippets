@@ -1,0 +1,3 @@
+libs:
+bash::
+bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
