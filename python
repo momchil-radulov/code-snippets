@@ -1,3 +1,6 @@
 libs:
 bash::
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
+
+check code quality:
+pylint --output-format=colorized --reports=y *py | less -r
