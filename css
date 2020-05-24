@@ -1,0 +1,7 @@
+# detect phone layout and change position
+@media only screen and ( max-device-width: 736px ) {
+  div.class {
+    position: relative;
+    top: 10px;
+  }
+}
