@@ -1,14 +1,20 @@
-libs:
-bash::
+#libs:
+##bash::
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
 
-check code quality:
+#work with virtual environment:
+python3 -m venv folder_for_venv
+. folder_for_venv/bin/activate
+python -m pip install requests
+python freeze > requere
+
+#check code quality:
 python3 -m pip install pylint
 python3 -m pip install mypy
 pylint *py
 pylint --output-format=colorized --reports=y *py | less -r
 mypy *py
 
-get current datetime with timezone ('2020-06-18 19:02:32.463950+03:00'):
+#get current datetime with timezone ('2020-06-18 19:02:32.463950+03:00'):
 import arrow
 arrow.now().datetime
