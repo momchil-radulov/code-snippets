@@ -18,6 +18,12 @@ python -m pip install mypylib.whl --wheel-dir ~/pylibs/wheel
 :if my-directory is the one that has setup.py:
 python -m pip install -e .
 
+#create working environment
+python3 -m venv mstore
+. mstore/bin/activate
+python -m pip install wheel
+python -m pip install ipython
+python -m pip install jupyter
 
 #check code quality:
 python3 -m pip install pylint
