@@ -8,6 +8,9 @@ python3 -m venv folder_for_venv
 python -m pip install requests
 python freeze > requirements.txt
 python -m pip install -r requirements.txt
+:uninstall package:
+pip uninstall requests
+python freeze | xargs pip uninstall
 OR
 python -m pip install wheel
 :if my-directory is the one that has setup.py:
