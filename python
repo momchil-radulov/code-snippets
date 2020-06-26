@@ -27,6 +27,8 @@ python3 -m venv mstore
 python -m pip install wheel
 python -m pip install ipython
 python -m pip install jupyter
+:also install:
+numpy, pandas, matplotlib
 :run:
 jupyter notebook
 
