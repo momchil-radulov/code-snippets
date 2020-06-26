@@ -1,0 +1,9 @@
+$sudo -i -u postgres psql
+CREATE USER dbuser WITH ENCRYPTED PASSWORD 'astrongpassword';
+(OR AFTER CREATE) ALTER USER dbuser WITH ENCRYPTED PASSWORD 'anewstrongpassword';
+ALTER USER dbuser CREATEDB;
+CREATE DATABASE websitedb ENCODING 'UTF8' OWNER dbuser;
+(OR AFTER CREATE) GRANT ALL PRIVILEGES ON DATABASE websitedb TO dbuser;
+
+$sudo -u postgres createuser dbuser
+$sudo -u postgres createdb websitedb
