@@ -1,4 +1,6 @@
 lsb_release -a
+# open file with GUI
+xdg-open mydoc.pdf
 
 sudo journalctl -u docker.service
 cat /etc/group | grep docker
