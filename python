@@ -44,3 +44,9 @@ black --check *py
 #get current datetime with timezone ('2020-06-18 19:02:32.463950+03:00'):
 import arrow
 arrow.now().datetime
+
+# database
+pip install sandman2
+pip install psycopg2-binary
+sandman2ctl -d sqlite:////home/user_name/projects/test/users.db
+sandman2ctl 'postgresql://user_name:password@host_name.com/db_name'
