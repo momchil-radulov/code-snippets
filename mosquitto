@@ -1,0 +1,30 @@
+$ gettemp --format "temp_%n=%v C" --repeat 3 | mosquitto_pub --stdin-line --topic /sensors/temps/outside
+$ mosquitto_sub -t /sensors/temps/# -F "UPDATE Temperatures(%t, %p)" | mysqlcli
+$ tail temperature.pool | mosquitto_pub -l --topic /sensors/temps/outside
+
+# on different topics
+$ gettemp --format "temp_%n=%v C" | publish.py
+
+[publish.py]
+import paho.mqtt.client as mqtt
+import time
+import sys
+import re
+
+
+def main():
+  client = mqtt.Client()
+  client.connect("localhost", 1883 , 60)
+  client.loop_start()
+
+  for line in sys.stdin:
+    m = re.match('(.*)=(.*)', line)
+    if m:
+      client.publish(m.group(1), payload=m.group(2))
+
+  time.sleep(2)
+  client.loop_stop()
+
+if __name__ == "__main__":
+    main()
+    
