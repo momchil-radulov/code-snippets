@@ -73,3 +73,8 @@ tail -f === less +F (see https://www.brianstorti.com/stop-using-tail/)
 #zsh
 sudo apt instal zsh
 https://ohmyz.sh/#install
+
+#ctags
+cd ~/projects/tags
+ctags -R --languages=python -f pl.tags ../pylib
+:set tags=~/projects/tags/pl.tags,~/projects/tags/project_name.tags
