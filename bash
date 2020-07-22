@@ -69,3 +69,7 @@ tail -f nc.log | /bin/bash -i 2>&1 | nc -l localhost 7777 > nc.log
 nc localhost 7777
 
 tail -f === less +F (see https://www.brianstorti.com/stop-using-tail/)
+
+#zsh
+sudo apt instal zsh
+https://ohmyz.sh/#install
