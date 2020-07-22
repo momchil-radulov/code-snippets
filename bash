@@ -61,9 +61,11 @@ sudo apt install postgresql-client
 host_name.com:5432:db_name:user_name:password
 chmod 600 ~/.pgpass
 psql -h host_name.com -U user_name db_name
-
++
 # reverse shell
 ## server
 tail -f nc.log | /bin/bash -i 2>&1 | nc -l localhost 7777 > nc.log
 ## client
 nc localhost 7777
+
+tail -f === less +F (see https://www.brianstorti.com/stop-using-tail/)
