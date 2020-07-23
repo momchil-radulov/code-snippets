@@ -1,0 +1,12 @@
+conda info
+conda update conda
+conda install --help
+conda create -n myenv  python=3.7
+conda activate myenv
+conda deactivate
+conda env list
+conda list --explicit > spec-file.txt
+conda create --name myenv --file spec-file.txt
+conda list OR conda list -n myenv
+conda install PACKAGENAME OR conda install -n myenv PACKAGENAME
+conda update PACKAGENAME
