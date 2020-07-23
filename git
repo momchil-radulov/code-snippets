@@ -4,13 +4,18 @@
 # Locally
 .git/info/exclude
 
-### temporary undo changes in a file and after that, return changes
+# show diff with
+git diff section-3.1
+# REMOVE!! changes
+git reset --hard section-3.1
+
+# temporary undo changes in a file and after that, return changes
 git stash push project_name/appsettings.json  
 git stash pop
-### show and clear stash stack
+# show and clear stash stack
 git stash list  
 git stash clear
-### revert last commit
+# revert last commit
 git reset --soft HEAD~1
-### undo last add command
+# undo last add command
 git reset
