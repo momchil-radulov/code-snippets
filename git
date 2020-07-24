@@ -1,7 +1,8 @@
 # basic workflow
 git init
 git add . OR git add <file_name> # add all files or a file to the git 
-git rm <file_name> # remove file from git
+git rm <file_name> # remove file from git and from the project
+git rm --cached <file_name> # remove file only from git (not physi
 git status
 git diff
 git diff --staged
