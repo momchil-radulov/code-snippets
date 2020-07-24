@@ -61,6 +61,18 @@ git pull # get last changes before merge
 git merge <branch_name> # merge branch to master
 git push # push changes to the server
 
+# branch
+git checkout -b <branch_name> # create a new branch from current code
+git commit -a # commit branch changes
+git push # push branch changes
+git checkout master # return to master/main branch
+git pull # get last changes before merge
+git merge <branch_name> # merge branch to master
+git push # push changes to the server
+git branch # show branches
+git branch -d <branch_name> # delete a branch
+git checkout <branch_name> # get code of a branch
+
 # temporary undo changes in a file and after that, return changes
 git stash push project_name/appsettings.json  
 git stash pop
