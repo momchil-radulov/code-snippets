@@ -22,6 +22,10 @@ git clone <url_of_a_project> [path_for_project]
 1 *.sess
 git checkout -b project_feature # create a new branch
 
+# remote
+git remote -v
+git remote show origin
+
 # How to ignore new files
 .gitignore # globally
 .git/info/exclude # locally 
@@ -40,6 +44,22 @@ git log -S function_name # to find the last commit that changed the number of oc
 git diff section-3.1
 # REMOVE!! changes
 git reset --hard section-3.1
+
+# tags
+git tag # show tags
+git tag -a v1.4 -m "my version 1.4" # git create annotated tag
+git tag v1.4-lw # git create lightweight tag (basically the commit)
+git log --pretty=oneline # show commits
+git tag -a v1.2 9fceb02 # add tag from a commit
+git push origin --tags # push tags to server
+git show v1.2 # show info for tag "v1.2"
+git checkout v2.0.0 # git checkout a tag version of git
+git checkout -b <branch_name> # create a new branch from current code
+git tag -d v1.4-lw # delete a tag
+git checkout master # return to master/main branch
+git pull # get last changes before merge
+git merge <branch_name> # merge branch to master
+git push # push changes to the server
 
 # temporary undo changes in a file and after that, return changes
 git stash push project_name/appsettings.json  
