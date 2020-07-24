@@ -2,7 +2,8 @@
 git init
 git add . OR git add <file_name> # add all files or a file to the git 
 git rm <file_name> # remove file from git and from the project
-git rm --cached <file_name> # remove file only from git (not physi
+git rm --cached <file_name> # remove file only from git (not physicaly)
+git mv <file_name> <file_name_new> # rename git file
 git status
 git diff
 git diff --staged
@@ -21,12 +22,18 @@ git clone <url_of_a_project> [path_for_project]
 1 *.sess
 git checkout -b project_feature # create a new branch
 
+# How to ignore new files
+.gitignore # globally
+.git/info/exclude # locally 
 
-## How to ignore new files
-# Globally
-.gitignore
-# Locally
-.git/info/exclude
+# Show
+git log
+git log -2 # show only two commits
+git log --pretty=oneline # show one line for a commit
+git log stat
+git log -p [--patch] # shows the difference (the patch output) introduced in each commit
+git log -p <file_name> # show changes only for <file_name>
+git log -S function_name # to find the last commit that changed the number of occurrences of that string
 
 # show diff with
 git diff section-3.1
