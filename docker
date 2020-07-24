@@ -9,16 +9,18 @@ docker container rm -f $(docker container ls -aq) # remove all containers
 docker container run --help
 docker container run diamol/ch02-hello-diamol
 docker container run --detach --publish 8088:80 diamol/ch02-hello-diamol-web
-docker container run -it -p 1883:1883 eclipse-mosquitto
+docker container ru -p 1880:1880n -it -p 1883:1883 eclipse-mosquitto
 
 docker pull nodered/node-red:latest
 docker run -it -p 1880:1880 -v /home/pi/.node-red:/data --name nodered nodered/node-red:latest
-docker run -d --rm -e "NODE_RED_CREDENTIAL_SECRET=your_secret_goes_here" -p 1880:1880 -v `pwd`:/data --name nodered nodered/node-red:latest
+docker run -it -p 1880:1880 -e TZ=Europe/London --name nodered -u node-red:dialout --device=/dev/ttyACM0 nodered/node-red
+docker run -d --rm --restart always -p 1880:1880 -e "NODE_RED_CREDENTIAL_SECRET=your_secret_goes_here" -v `pwd`:/data --name nodered nodered/node-red:latest
 docker container start nodered
 docker exec -it mynodered /bin/bash
 docker attach nodered
 docker container stop nodered
 docker container rm nodered
+docker update --restart always nodered
 docker container logs nodered
 
 docker build -t hello-python-microservice .
