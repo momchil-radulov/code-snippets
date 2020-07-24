@@ -33,6 +33,7 @@ git log --pretty=oneline # show one line for a commit
 git log stat
 git log -p [--patch] # shows the difference (the patch output) introduced in each commit
 git log -p <file_name> # show changes only for <file_name>
+git blame <file_name> # show file row by row with who and when created this row
 git log -S function_name # to find the last commit that changed the number of occurrences of that string
 
 # show diff with
