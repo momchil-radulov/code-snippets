@@ -8,5 +8,5 @@ docker run --rm -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 \
 docker container ls OR docker container ps
 docker container stop elasticsearch
 docker stats elasticsearch
-curl -X GET 'localhost:9200/'
+curl -X GET 'localhost:9200/' OR curl -XGET 127.0.0.1:9200 OR curl 127.0.0.1:9200 OR curl localhost:9200
 curl -X GET 'localhost:9200/_cat/nodes?v&pretty'
