@@ -1,0 +1,34 @@
+service php7.0-fpm restart
+service nginx restart
+
+cd /etc/systemd/system
+sudo systemctl daemon-reload
+
+file:[mqtt2db.service]
+[Unit]
+Description=mqtt2db python script
+Documentation=man:foo(1)
+Documentation=http://www.rsyslog.com/doc/
+After=syslog.target OR After=network.target
+ConditionPathExists=!/etc/monit/mqtt2db_not_to_be_run
+[Service]
+Type=simple
+User=root
+Group=root
+; [-] file is optional
+EnvironmentFile=-/path/to/file.config
+  OR Environment=PATH=/usr/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+  OR Environment=PM2_HOME=/root/.pm2
+WorkingDirectory=/root/git/automation/python
+ExecStart=/usr/bin/python3 /root/git/automation/python/mqtt2db.py
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=always
+TimeoutStartSec=10
+RestartSec=10
+StandardOutput=syslog OR StandardOutput=null
+StandardError=syslog
+[Install]
+WantedBy=multi-user.target
+;alias must be different from default file name
+;Alias=mqtt2db.service
