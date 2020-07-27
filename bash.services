@@ -1,5 +1,7 @@
 service php7.0-fpm restart
-service nginx restart
+service nginx start
+service nginx reload OR service nginx restart
+service nginx stop
 
 cd /etc/systemd/system
 sudo systemctl daemon-reload
