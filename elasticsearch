@@ -8,6 +8,10 @@ docker run --rm -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 \
 docker container ls OR docker container ps
 docker container stop elasticsearch
 docker stats elasticsearch
+# volumes
+docker volume ls
+docker volume inspect data
+
 curl -X GET 'localhost:9200/' OR curl -XGET 127.0.0.1:9200 OR curl 127.0.0.1:9200 OR curl localhost:9200
 curl -X GET 'localhost:9200/_cat/nodes?v&pretty'
 
@@ -16,3 +20,4 @@ curl -H "Content-Type: application/json" -XPUT localhost:9200/shakespeare --data
 wget http://media.sundog-soft.com/es7/shakespeare_7.0.json
 curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
 curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {"match_phrase": {"text_entry": "to be or not to be"}}}'
+curl localhost:9200/tags/_search?pretty
