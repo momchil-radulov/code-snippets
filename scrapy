@@ -6,6 +6,7 @@ scrapy startproject screenshot
 cd screenshot
 scrapy genspider mom2000com mom2000.com
 scrapy crawl mom2000com
+scrapy fetch ...
 vim screenshot/settings.py
 ROBOTSTXT_OBEY = True => ROBOTSTXT_OBEY = False
 vim screenshot/spiders/mom2000com.py
