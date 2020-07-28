@@ -1,13 +1,19 @@
 service php7.0-fpm restart
 service nginx start
 service nginx reload OR service nginx restart
+service nginx status
 service nginx stop
 
 cd /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable mqtt2db.service
 sudo systemctl strart mqtt2db.service
+sudo systemctl status mqtt2db.service
 sudo systemctl stop mqtt2db.service
+
+# logs
+journalctl -u nginx.service OR journalctl -u nginx
+journalctl -u nginx.service -b # logs only for the current boot
 
 file:[mqtt2db.service]
 [Unit]
