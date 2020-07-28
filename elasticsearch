@@ -1,6 +1,6 @@
 docker network create net1
 docker network ls
-docker run -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.8.0
+docker run -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" ecurlasticsearch:7.8.0
 docker run --rm -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 \
        -v data:/usr/share/elasticsearch/data \
        -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
@@ -21,3 +21,4 @@ wget http://media.sundog-soft.com/es7/shakespeare_7.0.json
 curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
 curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {"match_phrase": {"text_entry": "to be or not to be"}}}'
 curl localhost:9200/tags/_search?pretty
+curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {"year": {"type":"date"}}}}'
