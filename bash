@@ -80,5 +80,6 @@ ctags -R --languages=python -f pl.tags ../pylib
 :set tags=~/projects/tags/pl.tags,~/projects/tags/project_name.tags
 
 #useful
+cd ~/bin && wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py && chmod a+x ps_mem.py && cd ~ && source .profile,
 bzip2, ca-certificates, curl, git, gnupg,gzip, locales, mercurial, net-tools,
 netcat, openssh-client, parallel, sudo, tar, unzip, wget, xvfb, zip
