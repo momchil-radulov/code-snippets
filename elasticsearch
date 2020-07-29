@@ -22,3 +22,4 @@ curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bul
 curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {"match_phrase": {"text_entry": "to be or not to be"}}}'
 curl localhost:9200/tags/_search?pretty
 curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {"year": {"type":"date"}}}}'
+curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies/_doc/109487 -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
