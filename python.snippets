@@ -1,0 +1,8 @@
+# read and set attributes from a module
+виж https://github.com/charlsagente/python-settings/blob/master/python_settings/__init__.py#L51
+import importlib
+mod = importlib.import_module(self.SETTINGS_MODULE)
+for setting in dir(mod):
+  if setting.isupper():
+    setting_value = getattr(mod, setting)
+    setattr(self, setting, setting_value)
