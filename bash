@@ -23,6 +23,10 @@ certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "webmail" -i /path_to/foo.crt # 
 sudo socat -v tcp-listen:80,reuseaddr,fork tcp:localhost:8080
 python -m http.server 8080 --bind 127.0.0.1 --cgi
 
+# json
+jq -C . movies.json | less -R
+cat movies.json | jq -C | less -R OR cat movies.json | jq -C .title | less -R OR cat movies.json | jq -C . | less -R
+
 # overload a command
 [bin/curlj]
 1 #!/bin/bash
