@@ -23,6 +23,12 @@ certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "webmail" -i /path_to/foo.crt # 
 sudo socat -v tcp-listen:80,reuseaddr,fork tcp:localhost:8080
 python -m http.server 8080 --bind 127.0.0.1 --cgi
 
+# overload a command
+[bin/curlj]
+1 #!/bin/bash
+2 /usr/bin/curl -H"Content-Type: application/json" "$@"
+chmod +x bin/curlj
+
 # pipe
 ## read stdin pipe with buffer from python:
 [readstdio.py]
