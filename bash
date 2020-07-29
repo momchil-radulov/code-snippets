@@ -78,3 +78,7 @@ https://ohmyz.sh/#install
 cd ~/projects/tags
 ctags -R --languages=python -f pl.tags ../pylib
 :set tags=~/projects/tags/pl.tags,~/projects/tags/project_name.tags
+
+#useful
+bzip2, ca-certificates, curl, git, gnupg,gzip, locales, mercurial, net-tools,
+netcat, openssh-client, parallel, sudo, tar, unzip, wget, xvfb, zip
