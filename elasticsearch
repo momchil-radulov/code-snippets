@@ -28,6 +28,10 @@ curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappin
 "genre": {"type":"keyword"},
 "title": {"type":"text", "analyzer":"english"}
 }}}'
+curlj -XPUT 127.0.0.1:9200/series -d '{"mappings": {"properties": {
+"film_to_franchise": {"type":"join",
+                      "relations": {"franchise":"film"}}
+}}}'
 curl 127.0.0.1:9200/movies/_mappings
 
 # add a new record
@@ -45,6 +49,8 @@ wget http://media.sundog-soft.com/es7/shakes-mapping.json
 curl -H "Content-Type: application/json" -XPUT localhost:9200/shakespeare --data-binary @shakes-mapping.json
 wget http://media.sundog-soft.com/es7/shakespeare_7.0.json
 curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
+wget http://media.sundog-soft.com/es7/series.json
+curlj -XPUT 'localhost:9200/_bulk?pretty' --data-binary @series.json
 
 # search
 curl localhost:9200/tags/_search?pretty
@@ -55,6 +61,11 @@ curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_sear
 }}'
 curlj -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {
 "match": {"genre": "Sci-Fi"}
+}}'
+curlj localhost:9200/series/_search?pretty -d '{"query": {
+"has_parent": {"parent_type": "franchise",
+               "query": {"match": {"title":"star wars"}}
+              }
 }}'
 
 # search by a term
