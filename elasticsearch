@@ -35,4 +35,7 @@ curlj -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
 curlj -X[POST|PUT] 127.0.0.1:9200/movies/_doc/109487 -d '{"title":"Interstellar2", "year":2015}'
 # update the record
 curlj -XPOST 127.0.0.1:9200/movies/_doc/109487/_update -d '{"doc":{"title":"Interstellar2", "year":2015}}'
-
+# search by a term
+curl 127.0.0.1:9200/movies/_search?q=Action | jq -C | less -R
+# delete
+curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
