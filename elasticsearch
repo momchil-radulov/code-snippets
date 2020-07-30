@@ -29,3 +29,4 @@ curl -XPOST -H"Content-Type: application/json" 127.0.0.1:9200/movies/_doc/109487
 2 /usr/bin/curl -H"Content-Type: application/json" "$@"
 curl 127.0.0.1:9200/movies/_search?pretty
 wget http://media.sundog-soft.com/es7/movies.json
+curlj -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
