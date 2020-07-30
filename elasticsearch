@@ -23,6 +23,7 @@ curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_sear
 curl localhost:9200/tags/_search?pretty
 curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {"year": {"type":"date"}}}}'
 curl 127.0.0.1:9200/movies/_mappings
+# add a new record
 curl -XPOST -H"Content-Type: application/json" 127.0.0.1:9200/movies/_doc/109487 -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
 [bin/curlj]
 1 #!/bin/bash
@@ -30,3 +31,8 @@ curl -XPOST -H"Content-Type: application/json" 127.0.0.1:9200/movies/_doc/109487
 curl 127.0.0.1:9200/movies/_search?pretty
 wget http://media.sundog-soft.com/es7/movies.json
 curlj -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
+# REPLACE the record and update his _version
+curlj -X[POST|PUT] 127.0.0.1:9200/movies/_doc/109487 -d '{"title":"Interstellar2", "year":2015}'
+# update the record
+curlj -XPOST 127.0.0.1:9200/movies/_doc/109487/_update -d '{"doc":{"title":"Interstellar2", "year":2015}}'
+
