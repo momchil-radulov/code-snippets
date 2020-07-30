@@ -52,6 +52,11 @@ curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bul
 wget http://media.sundog-soft.com/es7/series.json
 curlj -XPUT 'localhost:9200/_bulk?pretty' --data-binary @series.json
 
+# search (query lite)
+curl 127.0.0.1:9200/movies/_search?q=title:star&pretty
+curl '127.0.0.1:9200/movies/_search?q=+year:2010+title:star'
+curl '127.0.0.1:9200/movies/_search?q=+year>2010+title:star'
+curl '127.0.0.1:9200/movies/_search?q=+year:>2010+title:star'
 # search
 curl localhost:9200/tags/_search?pretty
 curl 127.0.0.1:9200/movies/_doc/109487?pretty
