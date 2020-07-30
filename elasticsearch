@@ -37,5 +37,10 @@ curlj -X[POST|PUT] 127.0.0.1:9200/movies/_doc/109487 -d '{"title":"Interstellar2
 curlj -XPOST 127.0.0.1:9200/movies/_doc/109487/_update -d '{"doc":{"title":"Interstellar2", "year":2015}}'
 # search by a term
 curl 127.0.0.1:9200/movies/_search?q=Action | jq -C | less -R
+curl 127.0.0.1:9200/movies/_search | jq .hits.hits[0]._source.id
+curl 127.0.0.1:9200/movies/_search | jq '.hits.hits[0] | {id:._source.id}'
 # delete
 curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
+# get the item
+curl 127.0.0.1:9200/movies/_doc/109487
+curl 127.0.0.1:9200/movies/_doc/109487 | jq '. | {found: .found}' OR curl 127.0.0.1:9200/movies/_doc/109487 | jq .found
