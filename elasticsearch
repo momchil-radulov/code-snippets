@@ -15,19 +15,23 @@ docker volume inspect data
 curl -X GET 'localhost:9200/' OR curl -XGET 127.0.0.1:9200 OR curl 127.0.0.1:9200 OR curl localhost:9200
 curl -X GET 'localhost:9200/_cat/nodes?v&pretty'
 
-wget http://media.sundog-soft.com/es7/shakes-mapping.json
-curl -H "Content-Type: application/json" -XPUT localhost:9200/shakespeare --data-binary @shakes-mapping.json
-wget http://media.sundog-soft.com/es7/shakespeare_7.0.json
-curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
-curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {"match_phrase": {"text_entry": "to be or not to be"}}}'
-curl localhost:9200/tags/_search?pretty
-curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {"year": {"type":"date"}}}}'
-curl 127.0.0.1:9200/movies/_mappings
-# add a new record
-curl -XPOST -H"Content-Type: application/json" 127.0.0.1:9200/movies/_doc/109487 -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
 [bin/curlj]
 1 #!/bin/bash
 2 /usr/bin/curl -H"Content-Type: application/json" "$@"
+
+# mappings
+curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {"year": {"type":"date"}}}}'
+# keyword => no text analyzer
+curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {
+"id": {"type":"integer"},
+"year": {"type":"date"},
+"genre": {"type":"keyword"},
+"title": {"type":"text", "analyzer":"english"}
+}}}'
+curl 127.0.0.1:9200/movies/_mappings
+
+# add a new record
+curl -XPOST -H"Content-Type: application/json" 127.0.0.1:9200/movies/_doc/109487 -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
 curl 127.0.0.1:9200/movies/_search?pretty
 wget http://media.sundog-soft.com/es7/movies.json
 curlj -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
@@ -35,6 +39,19 @@ curlj -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
 curlj -X[POST|PUT] 127.0.0.1:9200/movies/_doc/109487 -d '{"title":"Interstellar2", "year":2015}'
 # update the record
 curlj -XPOST 127.0.0.1:9200/movies/_doc/109487/_update -d '{"doc":{"title":"Interstellar2", "year":2015}}'
+
+# add multiple
+wget http://media.sundog-soft.com/es7/shakes-mapping.json
+curl -H "Content-Type: application/json" -XPUT localhost:9200/shakespeare --data-binary @shakes-mapping.json
+wget http://media.sundog-soft.com/es7/shakespeare_7.0.json
+curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
+
+# search
+curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {
+"match_phrase": {"text_entry": "to be or not to be"}
+}}'
+curl localhost:9200/tags/_search?pretty
+
 # search by a term
 curl 127.0.0.1:9200/movies/_search?q=Action | jq -C | less -R
 curl 127.0.0.1:9200/movies/_search | jq .hits.hits[0]._source.id  # get first id
@@ -43,6 +60,10 @@ curl 127.0.0.1:9200/movies/_search | jq '.hits.hits[0] | {id:._source.id}' # ret
 curl 127.0.0.1:9200/movies/_search | jq '[ .hits.hits[] | {id:._source.id} ]' # return a result as JSON ARRAY object
 # delete
 curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
+curl -XDELETE 127.0.0.1:9200/movies # DELETE ALL INDEX
 # get the item
-curl 127.0.0.1:9200/movies/_doc/109487
+curl 127.0.0.1:9200/movies/_doc/109487?pretty
 curl 127.0.0.1:9200/movies/_doc/109487 | jq '. | {found: .found}' OR curl 127.0.0.1:9200/movies/_doc/109487 | jq .found
+
+# concurency
+curlj -XPUT '127.0.0.1:9200/movies/_doc/109487?if_seq_no=16&if_primary_term=3' -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
