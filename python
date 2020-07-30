@@ -1,5 +1,5 @@
 #libs:
-logzero, simple-settings, pysimplegui, arrow, requests, beautifulsoup4, 
+logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, 
 #bash::
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
 
