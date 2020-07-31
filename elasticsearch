@@ -60,9 +60,17 @@ curl '127.0.0.1:9200/movies/_search?q=+year:2010+title:star'
 curl '127.0.0.1:9200/movies/_search?q=+year>2010+title:star'  # didn't work without urlencode
 curl '127.0.0.1:9200/movies/_search?q=+year:>2010+title:star' # didn't work without urlencode
 # search
-curl localhost:9200/tags/_search?pretty
 curl 127.0.0.1:9200/movies/_doc/109487?pretty
 curl 127.0.0.1:9200/movies/_doc/109487 | jq '. | {found: .found}' OR curl 127.0.0.1:9200/movies/_doc/109487 | jq .found
+curl localhost:9200/movies/_search?pretty
+# paging
+curlj localhost:9200/movies/_search?pretty -d '{
+       "from": 0,
+       "size": 2,
+       "query": {
+              "match_all": {}
+       }
+}'
 # phrase, slop => words between search terms
 curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{
        "query": {
