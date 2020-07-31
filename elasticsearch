@@ -43,6 +43,9 @@ curlj -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
 curlj -X[POST|PUT] 127.0.0.1:9200/movies/_doc/109487 -d '{"title":"Interstellar2", "year":2015}'
 # update the record
 curlj -XPOST 127.0.0.1:9200/movies/_doc/109487/_update -d '{"doc":{"title":"Interstellar2", "year":2015}}'
+# update with concurency
+curlj -XPUT '127.0.0.1:9200/movies/_doc/109487?if_seq_no=16&if_primary_term=3' -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
+curlj -XPOST '127.0.0.1:9200/movies/_doc/109487/_update?if_seq_no=16&if_primary_term=3' -d '{"doc":{"title":"Interstellar2", "year":2015}}'
 
 # add multiple
 wget http://media.sundog-soft.com/es7/shakes-mapping.json
@@ -120,6 +123,3 @@ curl 127.0.0.1:9200/movies/_search | jq '[ .hits.hits[] | {id:._source.id} ]' # 
 # delete
 curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
 curl -XDELETE 127.0.0.1:9200/movies # DELETE ALL INDEX
-
-# concurency
-curlj -XPUT '127.0.0.1:9200/movies/_doc/109487?if_seq_no=16&if_primary_term=3' -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
