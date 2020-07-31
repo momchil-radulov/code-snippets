@@ -104,7 +104,23 @@ curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
                             { "terms": { "year": [2014, 2025] } },
                             { "exists": { "field": "tags" } }
                      ]
-             
+              }
+       }
+}'
+curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
+       "query": {
+              "bool": {
+                     "must":     { "match": { "genre": "Sci-Fi" } },
+                     "must_not": { "match": { "title": "trek" } },
+                     "filter":   { "range": { "year": { "gte":   2010, "lt": 2015 } } }
+              }
+       }
+}'
+# fuzziness, levenshtein edit distance - number of changes to match, or "AUTO"
+curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
+       "query": {
+              "fuzzy": {
+                     "title": { "value": "intrsteller", "fuzziness": 2 }
               }
        }
 }'
