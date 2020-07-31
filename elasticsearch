@@ -53,12 +53,12 @@ wget http://media.sundog-soft.com/es7/series.json
 curlj -XPUT 'localhost:9200/_bulk?pretty' --data-binary @series.json
 
 # search (query lite / URI Search)
-      &size=200  &_source_includes=title,year
+      &from=0 &size=200  &_source_includes=title,year
 curl '127.0.0.1:9200/movies/_search?q=title:star&pretty'
-curl '127.0.0.1:9200/movies/_search?q=title:star&_source_include:title,year&pretty'
+curl '127.0.0.1:9200/movies/_search?q=title:star&_source_includes=title,year&pretty'
 curl '127.0.0.1:9200/movies/_search?q=+year:2010+title:star'
-curl '127.0.0.1:9200/movies/_search?q=+year>2010+title:star'
-curl '127.0.0.1:9200/movies/_search?q=+year:>2010+title:star'
+curl '127.0.0.1:9200/movies/_search?q=+year>2010+title:star'  # didn't work without urlencode
+curl '127.0.0.1:9200/movies/_search?q=+year:>2010+title:star' # didn't work without urlencode
 # search
 curl localhost:9200/tags/_search?pretty
 curl 127.0.0.1:9200/movies/_doc/109487?pretty
