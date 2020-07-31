@@ -63,9 +63,11 @@ curl '127.0.0.1:9200/movies/_search?q=+year:>2010+title:star'
 curl localhost:9200/tags/_search?pretty
 curl 127.0.0.1:9200/movies/_doc/109487?pretty
 curl 127.0.0.1:9200/movies/_doc/109487 | jq '. | {found: .found}' OR curl 127.0.0.1:9200/movies/_doc/109487 | jq .found
-curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {
-"match_phrase": {"text_entry": "to be or not to be"}
-}}'
+curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{
+       "query": {
+              "match_phrase": {"text_entry": "to be or not to be"}
+       }
+}'
 curlj -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{
        "query": {
               "match": {"genre": "Sci-Fi"}
