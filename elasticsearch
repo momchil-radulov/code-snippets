@@ -63,7 +63,7 @@ curl '127.0.0.1:9200/movies/_search?q=+year:>2010+title:star' # didn't work with
 curl 127.0.0.1:9200/movies/_doc/109487?pretty
 curl 127.0.0.1:9200/movies/_doc/109487 | jq '. | {found: .found}' OR curl 127.0.0.1:9200/movies/_doc/109487 | jq .found
 curl localhost:9200/movies/_search?pretty
-# paging
+# paging, maxsize = 10_000 default = 10
 curlj localhost:9200/movies/_search?pretty -d '{
        "from": 0,
        "size": 2,
