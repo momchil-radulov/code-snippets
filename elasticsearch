@@ -39,12 +39,14 @@ curl -XPOST -H"Content-Type: application/json" 127.0.0.1:9200/movies/_doc/109487
 curl 127.0.0.1:9200/movies/_search?pretty
 wget http://media.sundog-soft.com/es7/movies.json
 curlj -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
-# REPLACE the record and update his _version
+# REPLACE the record and update his _seq_no and _version
 curlj -X[POST|PUT] 127.0.0.1:9200/movies/_doc/109487 -d '{"title":"Interstellar2", "year":2015}'
 # update the record
 curlj -XPOST 127.0.0.1:9200/movies/_doc/109487/_update -d '{"doc":{"title":"Interstellar2", "year":2015}}'
 # update with concurency
+# full update/replace
 curlj -XPUT '127.0.0.1:9200/movies/_doc/109487?if_seq_no=16&if_primary_term=3' -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
+# partial update (with _update and POST)
 curlj -XPOST '127.0.0.1:9200/movies/_doc/109487/_update?if_seq_no=16&if_primary_term=3' -d '{"doc":{"title":"Interstellar2", "year":2015}}'
 
 # add multiple
