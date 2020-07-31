@@ -66,9 +66,11 @@ curl 127.0.0.1:9200/movies/_doc/109487 | jq '. | {found: .found}' OR curl 127.0.
 curl -H "Content-Type: application/json" -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {
 "match_phrase": {"text_entry": "to be or not to be"}
 }}'
-curlj -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{"query": {
-"match": {"genre": "Sci-Fi"}
-}}'
+curlj -XGET 'localhost:9200/shakespeare/_search?pretty' -d '{
+       "query": {
+              "match": {"genre": "Sci-Fi"}
+       }
+}'
 # filter
 curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
        "query": {
