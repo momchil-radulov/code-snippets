@@ -74,7 +74,13 @@ curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
        "query": {
               "bool": {
                      "must": { "term": { "title": "Sci-Fi" } },
-                     "filter": { "range": { "year": { "gte":   2010 } } }
+                     "filter": [
+                            { "range": { "year": { "gte":   2010 } } },
+                            { "term": { "year": 2014 } },
+                            { "terms": { "year": [2014, 2025] } },
+                            { "exists": { "field": "tags" } }
+                     ]
+             
               }
        }
 }'
