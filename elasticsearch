@@ -35,6 +35,57 @@ curlj -XPUT 127.0.0.1:9200/series -d '{"mappings": {"properties": {
 "film_to_franchise": {"type":"join",
                       "relations": {"franchise":"film"}}
 }}}'
+# index time with N-grams
+curlj -XPUT 'localhost:9200/movies?pretty' -d '{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "autocomplete_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20
+        }
+      },
+      "analyzer": {
+        "autocomplete": { 
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "autocomplete_filter"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "analyzer": "autocomplete", 
+        "search_analyzer": "standard" 
+      }
+    }
+  }  
+}'
+curlj -XPUT 127.0.0.1:9200/movies/_mapping?pretty -d '{
+       "properties": {
+              "title": {
+                     "type":"text",
+                     "analyzer": "autocomplete"}
+              }
+       }
+}'
+curlj -XGET 127.0.0.1:9200/movies/_search?pretty -d '{
+  "query": {
+    "match": {
+      "title": {
+        "query": "tr",
+        "analyzer": "standard"
+      }
+    }
+  }
+}'
 curl 127.0.0.1:9200/movies/_mappings
 
 # add a new record
@@ -59,6 +110,7 @@ wget http://media.sundog-soft.com/es7/shakespeare_7.0.json
 curl -H "Content-Type: application/json" -XPOST 'localhost:9200/shakespeare/_bulk' --data-binary @shakespeare_7.0.json
 wget http://media.sundog-soft.com/es7/series.json
 curlj -XPUT 'localhost:9200/_bulk?pretty' --data-binary @series.json
+curlj -XPUT 'localhost:9200/_bulk?pretty' --data-binary @movies.json
 
 # search (query lite / URI Search)
       &from=0 &size=200 &sort=title.raw &_source_includes=title,year &pretty
