@@ -1,0 +1,2 @@
+sudo adduser user_name
+sudo deluser user_name
