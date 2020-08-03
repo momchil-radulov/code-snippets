@@ -1,2 +1,8 @@
 sudo adduser user_name
 sudo deluser user_name
+# generate password
+cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
+sudo su user_name
+ssh-keygen
+ssh-copy-id
+add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
