@@ -66,7 +66,12 @@ curlj -XPUT 'localhost:9200/movies?pretty' -d '{
         "search_analyzer": "standard" 
       }
     }
-  }  
+  }
+}'
+# test analyzer
+curlj -XGET localhost:9200/movies/_analyze?pretty -d '{
+       "analyzer": "autocomplete",
+       "text": "Sta"
 }'
 curlj -XPUT 127.0.0.1:9200/movies/_mapping?pretty -d '{
        "properties": {
@@ -76,6 +81,7 @@ curlj -XPUT 127.0.0.1:9200/movies/_mapping?pretty -d '{
               }
        }
 }'
+# query-time ! "analyzer": "standard" to not match "t" from [t,tr,tra,trac,track] !
 curlj -XGET 127.0.0.1:9200/movies/_search?pretty -d '{
   "query": {
     "match": {
@@ -161,12 +167,14 @@ curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
               "regexp": {"title": "ep.*"}
        }
 }'
-# query-time search (search as you type)
+# query-time search (search as you type), ! "analyzer": "standard" to not match "t" from [t,tr,tra,trac,track] !
 curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
        "query": {
               "match_phrase_prefix": {
                      "title": {"query": "star tr",
-                               "slop": 10}
+                               "slop": 10,
+                               "analyzer": "standard"
+                              }
               }
        }
 }'
