@@ -51,7 +51,7 @@ curlj -XPOST 127.0.0.1:9200/movies/_doc/109487/_update -d '{"doc":{"title":"Inte
 curlj -XPUT '127.0.0.1:9200/movies/_doc/109487?if_seq_no=16&if_primary_term=3' -d '{"genres":["IMAX","Sci-Fi"], "title":"Interstellar", "year":2014}'
 # partial update (with _update and POST)
 curlj -XPOST '127.0.0.1:9200/movies/_doc/109487/_update?if_seq_no=16&if_primary_term=3' -d '{"doc":{"title":"Interstellar2", "year":2015}}'
-
+]
 # add multiple
 wget http://media.sundog-soft.com/es7/shakes-mapping.json
 curl -H "Content-Type: application/json" -XPUT localhost:9200/shakespeare --data-binary @shakes-mapping.json
@@ -107,6 +107,14 @@ curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
 curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
        "query": {
               "regexp": {"title": "ep.*"}
+       }
+}'
+curlj -XGET 'localhost:9200/movies/_search?pretty' -d '{
+       "query": {
+              "match_phrase_prefix": {
+                     "title": {"query": "tr",
+                               "slop": 10}
+              }
        }
 }'
 # filter
