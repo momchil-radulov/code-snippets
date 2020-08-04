@@ -1,0 +1,19 @@
+docker network create net1
+docker network ls
+docker run -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" ecurlasticsearch:7.8.0
+docker run --rm -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 \
+       -v data:/usr/share/elasticsearch/data \
+       -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
+       docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+docker container ls OR docker container ps
+docker container stop elasticsearch
+docker stats elasticsearch
+# volumes
+docker volume ls
+docker volume inspect data
+
+# logstash
+sudo apt install openjdk-8-jre-headless
+sudo apt update
+sudo apt install logstash
+
