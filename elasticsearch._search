@@ -1,5 +1,6 @@
 curl -X GET 'localhost:9200/' OR curl -XGET 127.0.0.1:9200 OR curl 127.0.0.1:9200 OR curl localhost:9200
 curl -X GET 'localhost:9200/_cat/nodes?v&pretty'
+curl -X GET 'localhost:9200/_cat/indices?v&pretty'
 
 [bin/curlj]
 1 #!/bin/bash
