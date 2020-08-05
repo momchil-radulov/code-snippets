@@ -216,6 +216,17 @@ curl 127.0.0.1:9200/movies/_search | jq '.hits.hits[]._source.id' # get all id's
 curl 127.0.0.1:9200/movies/_search | jq '.hits.hits[0] | {id:._source.id}' # return a result as JSON object
 curl 127.0.0.1:9200/movies/_search | jq '[ .hits.hits[] | {id:._source.id} ]' # return a result as JSON ARRAY object
 
+# agregates, size=0 => don't get search result of the query, only aggregates
+curlj -XGET 'localhost:9200/ratings/_search?size=0&pretty' -d '{
+       "query":{"match":{"rating":5.o}},
+       "query":{"match_phrase":{"title":"Star Wars Episode IV"}},
+       "aggs": {
+              "ratings":     {"terms": {"field": "rating"}},
+              "avg_ratings": {"avg":   {"field": "rating"}}
+       }
+
+}'
+
 # delete
 curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
 curl -XDELETE 127.0.0.1:9200/movies # DELETE ALL INDEX
