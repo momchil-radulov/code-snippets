@@ -5,11 +5,13 @@ docker image ls -qf
 
 docker container ls -aq
 docker container ps
+docker container ps -a
 docker container rm -f $(docker container ls -aq) # remove all containers
 docker container run --help
 docker container run diamol/ch02-hello-diamol
-docker container run --detach --publish 8088:80 diamol/ch02-hello-diamol-web
-docker container ru -p 1880:1880n -it -p 1883:1883 eclipse-mosquitto
+# --workdir OR -w
+docker container run --rm --detach --publish 8088:80 --workdir=/var/www diamol/ch02-hello-diamol-web
+docker container run -p 1880:1880n -it -p 1883:1883 eclipse-mosquitto
 
 docker pull nodered/node-red:latest
 docker run -it -p 1880:1880 -v /home/pi/.node-red:/data --name nodered nodered/node-red:latest
@@ -24,3 +26,17 @@ docker update --restart always nodered
 docker container logs nodered
 
 docker build -t hello-python-microservice .
+
+docker network create net1
+--name kibana => hostname kibana, in the network net1 dns kibana
+
+[run.sh]
+1 #!/bin/bash
+2 docker run --rm -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 \
+3        -v data:/usr/share/elasticsearch/data \
+4        -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
+5        docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+6 docker run --rm -d --name kibana --net net1 -p 5601:5601 kibana:7.8.1
+
+docker inspect kibana
+docker exec -it -u root kibana /bin/bash
