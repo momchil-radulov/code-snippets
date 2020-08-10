@@ -244,6 +244,19 @@ curlj -XGET 'localhost:9200/ratings/_search?size=0&pretty' -d '{
        }
 
 }'
+# timeseries
+curlj -XGET 'localhost:9200/ratings/_search?size=0&pretty' -d '{
+       "query":{"match":{"agent":"Googlebot"}},
+       "aggs": {
+              "timestamp": {
+                     "date_histogram": {
+                            "field": "@timestamp",
+                            "interval": "hour"
+                     }
+              }
+       }
+
+}'
 
 # delete
 curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
