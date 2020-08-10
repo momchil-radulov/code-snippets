@@ -11,7 +11,7 @@ docker container run --help
 docker container run diamol/ch02-hello-diamol
 # --workdir OR -w
 docker container run --rm --detach --publish 8088:80 --workdir=/var/www diamol/ch02-hello-diamol-web
-docker container run -p 1880:1880n -it -p 1883:1883 eclipse-mosquitto
+docker container run -p 1880:1880 -it -p 1883:1883 eclipse-mosquitto
 
 docker pull nodered/node-red:latest
 docker run -it -p 1880:1880 -v /home/pi/.node-red:/data --name nodered nodered/node-red:latest
