@@ -18,6 +18,12 @@ curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappin
                  "fields": { "raw": {"type": "keyword"} }
                 }
 }}}'
+# fielddata => you can aggs on this field, but on the terms
+curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/ratings -d '{"mappings": {"properties": {
+       "title": {"type":"text",
+                 "fielddata":true
+                }
+}}}'
 curlj -XPUT 127.0.0.1:9200/series -d '{"mappings": {"properties": {
 "film_to_franchise": {"type":"join",
                       "relations": {"franchise":"film"}}
@@ -252,6 +258,25 @@ curlj -XGET 'localhost:9200/ratings/_search?size=0&pretty' -d '{
                      "date_histogram": {
                             "field": "@timestamp",
                             "interval": "hour"
+                     }
+              }
+       }
+
+}'
+# nested aggregations
+curlj -XGET 'localhost:9200/ratings/_search?size=0&pretty' -d '{
+       "query":{"match_phrase":{"title":"Star Wars"}},
+       "aggs": {
+              "titles": {
+                     "terms": {
+                            "field": "title.raw"
+                     },
+                     "aggs": {
+                            "avg_rating": {
+                                   "avg": {
+                                          "field": "rating"
+                                   }
+                            }
                      }
               }
        }
