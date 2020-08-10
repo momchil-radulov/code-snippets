@@ -17,3 +17,21 @@ sudo apt install openjdk-8-jre-headless
 sudo apt update
 sudo apt install logstash
 
+# filebeat
+sudo apt update
+sudo apt install filebeat
+sudo systemctl stop elasticsearch.service
+sudo systemctl start elasticsearch.service
+cd /etc/filebeat/modules.d
+sudo mv apache.yml.disabled apache.yml
+
+[apache.yml]
+var paths: ["/home/student/logs/access*"]
+var paths: ["/home/student/logs/error*"]
+
+sudo systemctl enable filebeat.service
+sudo systemctl start filebeat.service
+# loading kibana dashboards, but kibana must be running and reachable
+sudo filebeat setup --dashboards
+sudo systemctl stop kibana.service
+sudo systemctl start kibana.service
