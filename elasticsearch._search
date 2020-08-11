@@ -300,6 +300,13 @@ curlj -XPOST 'localhost:9200/_aliases' -d '{
        ]
 }'
 
+# xpack
+curlj -XPOST 'localhost:9200/_xpack/sql?format=txt' -d '{
+       "query": "DESCRIBE movies"
+}'
+curlj -XPOST 'localhost:9200/_xpack/sql?format=txt' -d '{
+       "query": "SELECT title, year FROM movies WHERE year < 2000 ORDER BY year LIMIT 10"
+}'
 # delete
 curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
 curl -XDELETE 127.0.0.1:9200/movies # DELETE ALL INDEX
