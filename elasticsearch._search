@@ -28,6 +28,7 @@ curlj -XPUT 127.0.0.1:9200/series -d '{"mappings": {"properties": {
 "film_to_franchise": {"type":"join",
                       "relations": {"franchise":"film"}}
 }}}'
+curl -X GET 'localhost:9200/movies/_settings?pretty'
 curlj -XPUT 'localhost:9200/new_index' -d '{
        "settings": {
               "number_of_shards": 10,
@@ -287,6 +288,16 @@ curlj -XGET 'localhost:9200/ratings/_search?size=0&pretty' -d '{
               }
        }
 
+}'
+
+# aliases
+curlj -XPOST 'localhost:9200/_aliases' -d '{
+       "actions": [
+              {"add": {"alias":"logs_current", "index":"logs_2017_06"}},
+              {"remove": {"alias":"logs_current", "index":"logs_2017_05"}},
+              {"add": {"alias":"logs_last_3_months", "index":"logs_2017_06"}},
+              {"remove": {"alias":"logs_last_3_months", "index":"logs_2017_03"}}
+       ]
 }'
 
 # delete
