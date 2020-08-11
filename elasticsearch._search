@@ -28,6 +28,12 @@ curlj -XPUT 127.0.0.1:9200/series -d '{"mappings": {"properties": {
 "film_to_franchise": {"type":"join",
                       "relations": {"franchise":"film"}}
 }}}'
+curlj -XPUT 'localhost:9200/new_index' -d '{
+       "settings": {
+              "number_of_shards": 10,
+              "number_of_replicas": 1
+       }
+}'
 # index time with N-grams
 curlj -XPUT 'localhost:9200/movies?pretty' -d '{
   "settings": {
