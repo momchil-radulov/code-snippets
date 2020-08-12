@@ -1,0 +1,18 @@
+# make backup of a folder
+aws --version
+aws configure
+aws s3 ls
+cd ~/projects/n
+ls
+aws s3 sync . s3://bucket_name/projects/n
+
+# make backup of a folder with s3cmd
+s3cmd --configure
+sudo crontab -e
+0 1 * * * sudo bash /home/ubuntu/aws/aws-backup.sh >> /home/ubuntu/aws/aws-backup.log 2>&1
+[aws-backup.sh]
+echo 'projects/n ...'
+s3cmd --config /home/ubuntu/.s3cfg sync /home/ubuntu/projects/n/ s3://bucket_name/projects/n/
+[aws-restore.sh]
+echo 'projects/n ...'
+s3cmd --config /home/ubuntu/.s3cfg sync s3://bucket_name/projects/n/ /home/ubuntu/projects/n/
