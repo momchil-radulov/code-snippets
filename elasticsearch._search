@@ -1,6 +1,7 @@
 curl -X GET 'localhost:9200/' OR curl -XGET 127.0.0.1:9200 OR curl 127.0.0.1:9200 OR curl localhost:9200
 curl -X GET 'localhost:9200/_cat/nodes?v&pretty'
 curl -X GET 'localhost:9200/_cat/indices?v&pretty'
+curl -X GET 'localhost:9200/_cluster/health?pretty'
 
 [bin/curlj]
 1 #!/bin/bash
@@ -307,6 +308,13 @@ curlj -XPOST 'localhost:9200/_xpack/sql?format=txt' -d '{
 curlj -XPOST 'localhost:9200/_xpack/sql?format=txt' -d '{
        "query": "SELECT title, year FROM movies WHERE year < 2000 ORDER BY year LIMIT 10"
 }'
+# sql to json query
+curlj -XPOST 'localhost:9200/_xpack/sql/translate?pretty' -d '{
+       "query": "SELECT title, year FROM movies WHERE year < 2000 ORDER BY year LIMIT 10"
+}'
+# didn't work
+docker exec -it elasticsearch /bin/bash -i -c "cd /usr/share/elasticsearch && bin/elasticsearch-sql-cli"
+
 # delete
 curl -XDELETE 127.0.0.1:9200/movies/_doc/109487
 curl -XDELETE 127.0.0.1:9200/movies # DELETE ALL INDEX
