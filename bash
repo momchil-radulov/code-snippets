@@ -5,6 +5,9 @@ xdg-open mydoc.pdf
 #network
 ss, nmcli
 
+#debug bash script
+/bin/bash -x scrpt.sh
+
 sudo journalctl -u docker.service
 cat /etc/group | grep docker
 sudo gpasswd -a $USER docker
