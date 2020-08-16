@@ -9,6 +9,7 @@ ss, nmcli
 /bin/bash -x scrpt.sh
 
 # !!! Use Bash Strict Mode !!!
+see http://redsymbol.net/articles/unofficial-bash-strict-mode/
 [script.sh]
 1 #!/bin/bash
 2 set -euo pipefail
