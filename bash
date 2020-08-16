@@ -8,6 +8,11 @@ ss, nmcli
 #debug bash script
 /bin/bash -x scrpt.sh
 
+# !!! Use Bash Strict Mode !!!
+[script.sh]
+1 #!/bin/bash
+2 set -euo pipefail
+
 sudo journalctl -u docker.service
 cat /etc/group | grep docker
 sudo gpasswd -a $USER docker
