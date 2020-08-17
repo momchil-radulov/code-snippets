@@ -6,9 +6,12 @@ bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama,
 #work with virtual environment:
 python3 -m venv folder_for_venv
 . folder_for_venv/bin/activate
+python -m pip install wheel
+# add modules ...
 python -m pip install requests
+# save module dependencies
 python freeze > requirements.txt
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt #[OR WITH WHEEL]# python -m pip wheel --wheel-dir=/wheels -r requirements.txt
 :uninstall package:
 pip uninstall requests
 python freeze | xargs pip uninstall
