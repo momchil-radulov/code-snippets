@@ -10,9 +10,15 @@ ss, nmcli
 
 # !!! Use Bash Strict Mode !!!
 see http://redsymbol.net/articles/unofficial-bash-strict-mode/
+-e => option instructs bash to immediately exit if any command [1] has a non-zero exit status.
+-u => a reference to any variable you haven't previously defined - with the exceptions of $* and $@ - is an error, and causes the program to immediately exit
+-o pipefail => if any command in a pipeline fails, that return code will be used as the return code of the whole pipeline. By default, the pipeline's return code is that of the last command
 [script.sh]
 1 #!/bin/bash
 2 set -euo pipefail
+
+# diff with color, like git diff
+diff -u /docker/build_docker.sh browsfarm-ci/docker/build_docker.sh | tig
 
 sudo journalctl -u docker.service
 cat /etc/group | grep docker
