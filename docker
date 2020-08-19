@@ -19,6 +19,7 @@ docker run -it -p 1880:1880 -e TZ=Europe/London --name nodered -u node-red:dialo
 docker run -d --rm --restart always -p 1880:1880 -e "NODE_RED_CREDENTIAL_SECRET=your_secret_goes_here" -v `pwd`:/data --name nodered nodered/node-red:latest
 docker container start nodered
 docker exec -it mynodered /bin/bash
+#apk update && apk add curl => install in docker curl
 docker attach nodered
 docker container stop nodered
 docker container rm nodered
