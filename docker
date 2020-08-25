@@ -2,6 +2,9 @@ docker version
 docker-compose version
 
 docker image ls -qf
+docker image rm image_id
+docker image rm -f image_id
+docker images -a
 
 docker container ls -aq
 docker container ps
