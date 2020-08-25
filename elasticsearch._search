@@ -308,10 +308,16 @@ curlj -XPOST 'localhost:9200/_xpack/sql?format=txt' -d '{
 curlj -XPOST 'localhost:9200/_xpack/sql?format=txt' -d '{
        "query": "SELECT title, year FROM movies WHERE year < 2000 ORDER BY year LIMIT 10"
 }'
-# sql to json query
+# sql to json translate query
 curlj -XPOST 'localhost:9200/_xpack/sql/translate?pretty' -d '{
        "query": "SELECT title, year FROM movies WHERE year < 2000 ORDER BY year LIMIT 10"
 }'
+# kibana sql to json translate query
+POST /_sql/translate
+{
+  "query": "SELECT * FROM library ORDER BY page_count DESC",
+  "fetch_size": 10
+}
 # didn't work
 docker exec -it elasticsearch /bin/bash -i -c "cd /usr/share/elasticsearch && bin/elasticsearch-sql-cli"
 
