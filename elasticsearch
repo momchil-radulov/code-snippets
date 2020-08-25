@@ -21,6 +21,22 @@ docker stats elasticsearch
 docker volume ls
 docker volume inspect data
 
+# Copy an index from production to staging with mappings:
+docker run --rm -ti elasticdump/elasticsearch-dump \
+  --input=http://production.es.com:9200/my_index \
+  --output=http://staging.es.com:9200/my_index \
+  --type=mapping
+docker run --rm -ti elasticdump/elasticsearch-dump \
+  --input=http://production.es.com:9200/my_index \
+  --output=http://staging.es.com:9200/my_index \
+  --type=data
+
+# Backup index data to a file:
+docker run --rm -ti -v /data:/tmp elasticdump/elasticsearch-dump \
+  --input=http://production.es.com:9200/my_index \
+  --output=/tmp/my_index_mapping.json \
+  --type=data
+
 # logstash
 sudo apt install openjdk-8-jre-headless
 sudo apt update
