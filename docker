@@ -34,6 +34,10 @@ docker build -t hello-python-microservice .
 docker network create net1
 --name kibana => hostname kibana, in the network net1 dns kibana
 
+docker run --rm -p 6379:6379   --name redis -d redis
+docker run --rm --network net1 --name some-redis -d redis
+docker run --rm --network net1 -it redis redis-cli -h some-redis
+
 [run.sh]
 1 #!/bin/bash
 2 docker run --rm -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 \
