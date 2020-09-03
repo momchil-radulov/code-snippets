@@ -1,0 +1,15 @@
+docker run --rm -p 6379:6379   --name redis -d redis
+docker run --rm --network net1 --name some-redis -d redis
+docker run --rm --network net1 -it redis redis-cli -h some-redis
+
+redis-cli KEYS "prefix:*" | xargs redis-cli DEL
+
+redis-cli
+127.0.0.1:6379>
+GET key
+SET key value
+SET key 'value value value'
+KEYS *
+EXPIRE key seconds
+INCR key
+DECR key
