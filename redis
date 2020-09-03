@@ -9,6 +9,7 @@ redis-cli
 GET key
 SET key value
 SET key 'value value value'
+DEL key
 KEYS *
 EXPIRE key seconds
 INCR key
