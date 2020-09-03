@@ -3,6 +3,11 @@ docker run --rm --network net1 --name some-redis -d redis
 docker run --rm --network net1 -it redis redis-cli -h some-redis
 
 redis-cli KEYS "prefix:*" | xargs redis-cli DEL
+redis-cli --stat
+redis-cli --scan # get keys
+redis-cli --scan --pattern 'user:*' | wc -l
+redis-cli --bigkeys
+redis-cli monitor
 
 redis-cli
 127.0.0.1:6379>
