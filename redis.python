@@ -1,0 +1,34 @@
+виж https://stackoverflow.com/questions/32276493/how-to-store-and-retrieve-a-dictionary-with-redis
+import redis
+import pickle
+import json
+
+conn = redis.Redis(host='localhost', port=6379, db=0,
+                   charset="utf-8", decode_responses=True)
+# set
+conn.set(key, value, ex = seconds_to_expire)
+# get
+conn.get(key)
+# expire
+conn.expire(key, seconds_to_expire)
+# delete
+conn.delete(key)
+# hmset
+mydict = {"Name":"Pradeep", "Company":"SCTL", "Address":"Mumbai", "Location":"RCP"}
+conn.hmset("redisDict", mydict)
+conn.hgetall("redisDict")
+{'Company': 'SCTL', 'Address': 'Mumbai', 'Location': 'RCP', 'Name': 'Pradeep'}
+# pickle
+p_mydict = pickle.dumps(mydict)
+conn.set('redisDict',p_mydict)
+read_dict = conn.get('redisDict')
+yourdict = pickle.loads(read_dict)
+# json
+p_mydict = json.dumps(mydict)
+conn.set('redisDict',p_mydict)
+read_dict = conn.get('redisDict')
+yourdict = json.loads(read_dict)
+# delete keys
+keys_for_delete = conn.keys('key_name:*')
+    for key in keys_for_delete:
+        conn.delete(key)
