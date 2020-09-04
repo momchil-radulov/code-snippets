@@ -7,3 +7,25 @@ CREATE DATABASE websitedb ENCODING 'UTF8' OWNER dbuser;
 
 $sudo -u postgres createuser dbuser
 $sudo -u postgres createdb websitedb
+
+sudo apt install -y postgresql-client-common
+sudo apt install -y postgresql-client
+# install psql v.12
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+sudo apt update
+sudo apt -y install postgresql-client-12 [OR] sudo apt install -y postgresql-client
+
+psql -V [OR] psql --version
+[~/.pgpass]
+host_name.com:5432:db_name:user_name:password
+chmod 600 ~/.pgpass
+psql -h host_name.com -U user_name db_name
+>SELECT version();
+>\l         # list database
+>\c db user # connect to database as user
+>\dt        # list tables
+>\d "table" # describe table
+>\q         # quit/exit
+>\x         # set Expanded display to On/Off
+>select "Column" from "Table" where "Column" = 'string';
