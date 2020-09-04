@@ -22,10 +22,15 @@ host_name.com:5432:db_name:user_name:password
 chmod 600 ~/.pgpass
 psql -h host_name.com -U user_name db_name
 >SELECT version();
+>\?         # help, list available commands
 >\l         # list database
 >\c db user # connect to database as user
+>\dn        # list schemas
 >\dt        # list tables
 >\d "table" # describe table
+>\dv        # list views
+>\df        # list functions
+>\du        # list users and roles
 >\q         # quit/exit
 >\x         # set Expanded display to On/Off
 >select "Column" from "Table" where "Column" = 'string';
