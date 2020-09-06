@@ -34,3 +34,9 @@ psql -h host_name.com -U user_name db_name
 >\q         # quit/exit
 >\x         # set Expanded display to On/Off
 >select "Column" from "Table" where "Column" = 'string';
+
+# python
+pip install sandman2
+pip install psycopg2-binary # for postgresql
+sandman2ctl -d sqlite:////home/user_name/projects/test/users.db
+sandman2ctl 'postgresql://user_name:password@host_name.com/db_name'
