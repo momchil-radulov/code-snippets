@@ -2,3 +2,99 @@ pip install wheel
 pip install flask
 pip install flask-qrcode # виж https://marcoagner.github.io/Flask-QRcode/
 pip install psycopg2-binary
+pip install flask_weasyprint # виж https://stackoverflow.com/questions/51115171/generating-a-pdf-from-a-flask-endpoint
+
+[app.py]
+  1 from flask import Flask, request, render_template
+  2 from flask_weasyprint import HTML, render_pdf
+  3 from flask_qrcode import QRcode
+  4 import psycopg2
+  5 import datetime
+  6 
+  7 SQL_OWNERS = """select distinct "OwnerId"                        as id,
+  8                                 "FirstName" || ' ' || "LastName" as owner
+  9                            from "Cars"
+ 10                       left join "AspNetUsers" on "AspNetUsers"."Id" = "Cars"."OwnerId"
+ 11                        order by owner;"""
+ 12 SQL_CARS =     """select "Id"               as id,
+ 13                          "InitialSum" / 100 as price
+ 14                     from "Cars"
+ 15                    where "OwnerId" = '{owner}'
+ 16                      and date_trunc('day', "DateCreated") between '{from_date}' and '{to_date}';     """
+ 17 app = Flask(__name__)
+ 18 QRcode(app)
+ 19 
+ 20 @app.route('/cars')
+ 21 def get_owners():
+ 22     owners = exec_sql(SQL_OWNERS)
+ 23     return render_template('owners.html', owners=owners)
+ 24 
+ 25 @app.route('/cars/p')
+ 26 def print_cars():
+ 27     owner = request.args.get('owner')
+ 28     from_date = request.args.get('from_date') or datetime.date.today()
+ 29     to_date = request.args.get('to_date') or datetime.date.today()
+ 30     img_size = request.args.get('img_size')
+ 31     pdf = request.args.get('pdf')
+ 32     cars = exec_sql(SQL_CARS.format(owner=owner, from_date=from_date, to_date=to_date))
+ 33     if pdf:
+ 34         html = render_template('cars.html', cars=cars, img_size=img_size)
+ 35         return render_pdf(HTML(string=html))
+ 36     else:
+ 37         return render_template('cars.html', cars=cars, img_size=img_size)
+ 38 
+ 39 def exec_sql(sql):
+ 40     query_results = None
+ 41     conn = psycopg2.connect(host="host.com", port = 5432,
+ 42                             database="db", user="dbadmin", password="dbpass")
+ 43     cur = conn.cursor()
+ 44     try:
+ 45         cur.execute(sql)
+ 46         query_results = cur.fetchall()
+ 47     finally:
+ 48         cur.close()
+ 49         conn.close()
+ 50     return query_results
+
+[owners.html]
+  1 <!DOCTYPE html>
+  2 <html>
+  3 <head>
+  4     <meta name="viewport" content="width=device-width, initial-scale=1">
+  5     <title>Коли</title>
+  6 </head>
+  7 <body>
+  8 <form method="get" action="/cars/p">
+  9     <select name="owner">
+ 10     {% for id, owner in owners %}
+ 11     <option value="{{ id }}">{{ owner }}</option>
+ 12     {% endfor %}
+ 13     </select>
+ 14     от <input name="from_date" type="date"></input>
+ 15     до <input name="to_date" type="date"></input>
+ 16     размер <input name="img_size" type="text" value="150"></input>
+ 17     pdf <input type="checkbox" name="pdf" value="pdf">
+ 18     <input type="submit" value="Зареди колите">
+ 19 </form>
+ 20 </body>
+ 21 </html>
+
+[cars.html]
+  1 <!DOCTYPE html>
+  2 <html>
+  3 <head>
+  4     <meta name="viewport" content="width=device-width, initial-scale=1">
+  5     <title>Коли</title>
+  6 </head>
+  7 <body>
+  8     {% for id, price in cars %}
+  9 <figure style="float: left;">
+ 10     <img width="{{img_size}}px" height="{{img_size}}px" src="{{ qrcode("https://host.com/Home/CarsApplication?carId={{ id }}", box_size=3)  }}">
+ 11     <figcaption style="text-align: center;">{{ price }} лв.</figcaption>
+ 12 </figure>
+ 13     {% endfor %}
+ 14 <div style="clear: both;">
+ 15 <a href="/cars">Обратно</a> <button onclick="window.print()">Разпечатай</button>
+ 16 </div>
+ 17 </body>
+ 18 </html>
