@@ -89,7 +89,8 @@ pip install flask_weasyprint # виж https://stackoverflow.com/questions/511151
   7 <body>
   8     {% for id, price in cars %}
   9 <figure style="float: left;">
- 10     <img width="{{img_size}}px" height="{{img_size}}px" src="{{ qrcode("https://host.com/Home/CarsApplication?carId={{ id }}", box_size=3)  }}">
+ 10     <img width="{{img_size}}px" height="{{img_size}}px"
+             src="{{ qrcode("https://host.com/Home/CarsApplication?carId={}".format(id), box_size=3)  }}">
  11     <figcaption style="text-align: center;">{{ price }} лв.</figcaption>
  12 </figure>
  13     {% endfor %}
