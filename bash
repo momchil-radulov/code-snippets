@@ -44,6 +44,7 @@ cat movies.json | jq -C | less -R
  OR cat movies.json | jq -C .title | less -R
  OR cat movies.json | jq -C . | less -R
 cat movies.json | jq keys[] => get top level keys
+cat movies.json | jq .title[] => get attribute values from a object
 
 # overload a command
 [bin/curlj]
