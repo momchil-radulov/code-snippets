@@ -40,7 +40,10 @@ python -m http.server 8080 --bind 127.0.0.1 --cgi
 
 # json
 jq -C . movies.json | less -R
-cat movies.json | jq -C | less -R OR cat movies.json | jq -C .title | less -R OR cat movies.json | jq -C . | less -R
+cat movies.json | jq -C | less -R
+ OR cat movies.json | jq -C .title | less -R
+ OR cat movies.json | jq -C . | less -R
+cat movies.json | jq keys[] => get top level keys
 
 # overload a command
 [bin/curlj]
