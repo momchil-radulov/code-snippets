@@ -3,8 +3,11 @@ docker run --rm --network net1 --name some-redis -d redis
 docker run --rm --network net1 -it redis redis-cli -h some-redis
 
 redis-cli KEYS "prefix:*" | xargs redis-cli DEL
+redis-cli KEYS "*" => get all keys in ALL databases
+redis-cli FLASHDB => delete all keys in current database
+redis-cli FLASHALL => delete all keys in ALL databases
 redis-cli --stat
-redis-cli --scan # get keys
+redis-cli --scan # get ALL keys
 redis-cli --scan --pattern 'user:*' | wc -l
 redis-cli --bigkeys
 redis-cli monitor
