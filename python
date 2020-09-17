@@ -55,6 +55,15 @@ pip install psycopg2-binary # for postgresql
 sandman2ctl -d sqlite:////home/user_name/projects/test/users.db
 sandman2ctl 'postgresql://user_name:password@host_name.com/db_name'
 
+# selenium
+sudo apt-get update
+sudo apt-get install libsqlite3-dev chromium-driver google-chrome-stable
+from selenium import webdriver
+driver = webdriver.Chrome()
+    OR with custom download => webdriver.Chrome('./chromedriver')
+driver.get(url)
+html = self.driver.page_source
+
 # vim
 https://www.tabnine.com/
 pip3 install python-language-server
