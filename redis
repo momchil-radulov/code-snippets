@@ -8,6 +8,8 @@ redis-cli -h localhost -p 6379 -a mypassword
 redis-cli -h localhost -p 6379 -n 0 -a mypassword
 redis-cli -h localhost -p 6379 ping
 
+redis-cli -c #cluster mode support
+
 redis-cli KEYS "prefix:*" | xargs redis-cli DEL
 redis-cli KEYS "*" => get all keys in ALL databases
 redis-cli FLASHDB => delete all keys in current database
