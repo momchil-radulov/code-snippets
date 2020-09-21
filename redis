@@ -2,6 +2,12 @@ docker run --rm -p 6379:6379   --name redis -d redis
 docker run --rm --network net1 --name some-redis -d redis
 docker run --rm --network net1 -it redis redis-cli -h some-redis
 
+redis-cli -h localhost -p 6379
+redis-cli -h localhost -p 6379 -a mypassword
+          #host        #port   #db  #password
+redis-cli -h localhost -p 6379 -n 0 -a mypassword
+redis-cli -h localhost -p 6379 ping
+
 redis-cli KEYS "prefix:*" | xargs redis-cli DEL
 redis-cli KEYS "*" => get all keys in ALL databases
 redis-cli FLASHDB => delete all keys in current database
