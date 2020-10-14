@@ -1,8 +1,13 @@
 # read and set attributes from a module
-виж https://github.com/charlsagente/python-settings/blob/master/python_settings/__init__.py#L51
+# виж https://github.com/charlsagente/python-settings/blob/master/python_settings/__init__.py#L51
 import importlib
 mod = importlib.import_module(self.SETTINGS_MODULE)
 for setting in dir(mod):
   if setting.isupper():
     setting_value = getattr(mod, setting)
     setattr(self, setting, setting_value)
+
+# How to list all existing loggers using python.logging module
+# виж https://stackoverflow.com/questions/53249304/how-to-list-all-existing-loggers-using-python-logging-module
+import logging
+loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
