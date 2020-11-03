@@ -11,3 +11,13 @@ for setting in dir(mod):
 # виж https://stackoverflow.com/questions/53249304/how-to-list-all-existing-loggers-using-python-logging-module
 import logging
 loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
+
+class CustomHandler(logging.Handler):
+    def emit(self, record):
+        log_entry = self.format(record)
+        print('CustomHandler:', log_entry)
+
+_logger = logging.getLogger('uvicorn.access')
+fh = CustomHandler()
+fh.setLevel(logging.INFO)
+_logger.addHandler(fh)
