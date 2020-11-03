@@ -23,3 +23,7 @@ fh.setLevel(logging.INFO)
 _logger.addHandler(fh)
 
 logger.handlers => list of all handlers
+logger = logging.getLogger()
+for handler in logger.handlers:
+    if handler.get_name() == 'console':
+        handler.setLevel(logging.DEBUG)
