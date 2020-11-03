@@ -21,3 +21,5 @@ _logger = logging.getLogger('uvicorn.access')
 fh = CustomHandler()
 fh.setLevel(logging.INFO)
 _logger.addHandler(fh)
+
+logger.handlers => list of all handlers
