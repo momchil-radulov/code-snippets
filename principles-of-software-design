@@ -1,10 +1,22 @@
 DRY - Don't repeat yourself
+   Single source of truth.
+   Every data field with unique name. [TABLENAME_FIELDNAME, FK=PK, JOIN_TABLE:PK={TABLENAME_ID,TABLENAME2_ID,TYPE_JOIN,INDEX}]
+   Every data record with unique EVENT_ID, TRANSACTION_ID, TIMESTAMP, STATUS, [OWNER, GROUP, PERMISSIONS [Like Linux]]
 KISS - Keep it simple
-Use it or lose it. [Proverb]
-User Stories - names of functions and data structures
+   Use it or lose it.
+CQRS - Command Query Responsibility Segregation
+   Queries: Return a result and do not change the observable state of the system (are free of side effects).
+   Commands: Change the state of a system but do not return a value.
+USER STORY MAPPING - workflows, names of functions and data structures
+
+- global settings, logging and users with groups/roles
 - group similar functionality, functions and data in modules and classes
 - don't expose data, expose behavior
-- one function - make only one thing
+- one function - make only one thing [high Cohesion, loose Coupling]
+
+Function
+- pure functions [deterministic, no side effects], immutable data [result is only return data]
+- command - do not return a value, only Error Code [like C, BASH]
 1. five lines of code
 2. pass or call
 3. only one IF without else
