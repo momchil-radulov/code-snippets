@@ -1,0 +1,13 @@
+DRY - Don't repeat yourself
+KISS - Keep it simple
+Use it or lose it. [Proverb]
+User Stories - names of functions and data structures
+- group similar functionality, functions and data in modules and classes
+- don't expose data, expose behavior
+- one function - make only one thing
+1. five lines of code
+2. pass or call
+3. only one IF without else
+   exception: function to handle ENUM [e.g. return a sub function/sub class for this enum]
+   example: move = handleKeyToMove(key): if enum.LEFT return moveLeft
+            move(5)
