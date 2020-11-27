@@ -1,15 +1,23 @@
+USER STORY MAPPING - from here to extract workflows, names of functions and data structures
 DRY - Don't repeat yourself
-   Single source of truth.
-   Every data field with unique name. [TABLENAME_FIELDNAME, FK=PK, JOIN_TABLE:PK={TABLENAME_ID,TABLENAME2_ID,TYPE_JOIN,INDEX}]
-   Every data record with unique EVENT_ID, TRANSACTION_ID, TIMESTAMP, STATUS, [OWNER, GROUP, PERMISSIONS [Like Linux]]
+    Single source of truth.
+    Every data field with unique name. [TABLENAME_FIELDNAME, FK=PK, JOIN_TABLE:PK={TABLENAME_ID,TABLENAME2_ID,TYPE_JOIN,INDEX}]
+    Every data record with unique EVENT_ID, TRANSACTION_ID, TIMESTAMP, STATUS, [OWNER, GROUP, PERMISSIONS [Like Linux]]
 KISS - Keep it simple
-   Use it or lose it.
+    Use it or lose it.
+GLOBAL MODULES - every application must have
+    settings
+    logging
+    users with groups/roles
+TDD - Test Driven Development
+    First write test code and test after every change of code.
+EVENT SOURCING - Capture all changes to an application state as a sequence of events.
 CQRS - Command Query Responsibility Segregation
-   Queries: Return a result and do not change the observable state of the system (are free of side effects).
-   Commands: Change the state of a system but do not return a value.
-USER STORY MAPPING - workflows, names of functions and data structures
+    Queries: Return a result and do not change the observable state of the system (are free of side effects).
+    Commands: Change the state of a system but do not return a value.
+RESTFULL API with JSON - basic public API for every application
+MICROSERVICE ARCHITECTURE with API GATEWAY - composition over inheritance
 
-- global settings, logging and users with groups/roles
 - group similar functionality, functions and data in modules and classes
 - don't expose data, expose behavior
 - one function - make only one thing [high Cohesion, loose Coupling]
