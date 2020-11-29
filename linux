@@ -12,4 +12,4 @@ add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the fi
 
 sudo apt install iproute2     =>  ip         =>  ip a
 sudo apt install net-tools    =>  netstat    =>  netstat -lt
-sudo apt install redis-tools  =>  redis-cli  =>  redis-cli [ip_address]
+sudo apt install redis-tools  =>  redis-cli  =>  redis-cli -h ip_address
