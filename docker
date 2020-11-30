@@ -1,11 +1,23 @@
 docker version
 docker-compose version
 
+# docker commands
+docker inspect
+docker image
+docker images
+docker build
+docker run
+docker container
+docker exec
+docker network
+
+#docker image
 docker image ls -qf
 docker image rm image_id
 docker image rm -f image_id
 docker images -a
 
+#docker container
 docker container ls -aq
 docker container ps
 docker container ps -a
@@ -16,6 +28,14 @@ docker container run diamol/ch02-hello-diamol
 docker container run --rm --detach --publish 8088:80 --workdir=/var/www diamol/ch02-hello-diamol-web
 docker container run -p 1880:1880 -it -p 1883:1883 eclipse-mosquitto
 
+#docker build
+docker build -t hello-python-microservice .
+
+#docker network
+docker network create net1
+--name kibana => hostname kibana, in the network net1 dns kibana
+
+#docker use
 docker pull nodered/node-red:latest
 docker run -it -p 1880:1880 -v /home/pi/.node-red:/data --name nodered nodered/node-red:latest
 docker run -it -p 1880:1880 -e TZ=Europe/London --name nodered -u node-red:dialout --device=/dev/ttyACM0 nodered/node-red
@@ -29,11 +49,7 @@ docker container rm nodered
 docker update --restart always nodered
 docker container logs nodered
 
-docker build -t hello-python-microservice .
-
-docker network create net1
---name kibana => hostname kibana, in the network net1 dns kibana
-
+#docker run
 docker run --rm -p 6379:6379   --name redis -d redis
 docker run --rm --network net1 --name some-redis -d redis
 docker run --rm --network net1 -it redis redis-cli -h some-redis
@@ -46,7 +62,10 @@ docker run --rm --network net1 -it redis redis-cli -h some-redis
 5        docker.elastic.co/elasticsearch/elasticsearch:7.8.0
 6 docker run --rm -d --name kibana --net net1 -p 5601:5601 kibana:7.8.1
 
+#docker inspect
 docker inspect kibana
+
+#docker exec
 docker exec -it -u root kibana /bin/bash
 
 # docker python wiht wheel
