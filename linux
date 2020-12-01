@@ -1,3 +1,4 @@
+sudo apt update && upgrade OR update-manager => for graphical use
 sudo adduser user_name
 sudo deluser user_name
 id -u # get user id
