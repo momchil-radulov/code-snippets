@@ -1,6 +1,8 @@
-#libs:
+#libs
 logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, 
-#bash::
+#db
+dataset, records, pugsql, sqlalchemy, sqlobject
+#bash
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
 
 #work with virtual environment:
