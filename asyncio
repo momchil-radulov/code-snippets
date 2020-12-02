@@ -1,0 +1,7 @@
+asyncio, aiohttp, aiosqlite, databases
+
+
+https://github.com/python/cpython/blob/master/Doc/library/asyncio.rst
+https://github.com/aio-libs/aiohttp
+https://github.com/omnilib/aiosqlite
+https://pypi.org/project/databases/
