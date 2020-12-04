@@ -1,4 +1,4 @@
-asyncio, aiofile, aiohttp, aiosqlite, databases
+asyncio, aiofile, aiohttp, aiosqlite, databases, fastapi
 
 
 https://github.com/python/cpython/blob/master/Doc/library/asyncio.rst
