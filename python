@@ -1,5 +1,5 @@
 #libs
-logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, hug
+logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, bottle, hug
 #db
 dataset, records, pugsql, sqlalchemy, sqlobject
 #bash
