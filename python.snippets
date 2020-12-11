@@ -7,6 +7,16 @@ for setting in dir(mod):
     setting_value = getattr(mod, setting)
     setattr(self, setting, setting_value)
 
+# DateTime
+NY = pytz.timezone('America/New_York')
+datetime_NY = datetime.now(NY)
+print(datetime_NY.strftime("%d/%m/%Y, %H:%M:%S"))
+# 02/12/2020, 18:56:01
+
+last_week_day = now - timedelta(weeks=1)
+print(last_week_day)
+# 2020-11-25 23:45:03.248391
+
 # How to list all existing loggers using python.logging module
 # виж https://stackoverflow.com/questions/53249304/how-to-list-all-existing-loggers-using-python-logging-module
 import logging
