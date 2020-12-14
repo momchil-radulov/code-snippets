@@ -49,6 +49,9 @@ docker run --rm --network net1 -it redis redis-cli -h some-redis
 #docker attach
 docker attach nodered # to show logs; Ctrl + P, Ctrl + Q to detach; Ctrl + C to stop the container
 
+#docker cp
+docker cp  nodered_container:/data  /your/backup/directory
+
 #docker inspect
 docker inspect kibana
 
