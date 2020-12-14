@@ -1,7 +1,7 @@
 #libs
 logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, bottle, hug
 #db
-sqlalchemy, peewee, dataset, records, pugsql, sqlobject
+pugsql, sqlalchemy, peewee, dataset, records, sqlobject
 https://jam-py.com/ , https://buildmedia.readthedocs.org/media/pdf/jam-py/latest/jam-py.pdf
 #bash
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
