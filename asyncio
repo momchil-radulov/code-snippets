@@ -1,4 +1,4 @@
-asyncio, aiofile, aiohttp, aiosqlite, databases, fastapi, httpx
+asyncio, aiofile, aiohttp, aiosqlite, sqlalchemy, databases, fastapi, httpx
 
 
 https://github.com/python/cpython/blob/master/Doc/library/asyncio.rst
