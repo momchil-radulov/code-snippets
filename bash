@@ -108,6 +108,9 @@ cd ~/projects/tags
 ctags -R --languages=python -f pl.tags ../pylib
 :set tags=~/projects/tags/pl.tags,~/projects/tags/project_name.tags
 
+#xargs
+cat tonus.txt | xargs -I% youtube-dl %
+
 #useful
 certbot renew --dry-run
 cd ~/bin && wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py && chmod a+x ps_mem.py && cd ~ && source .profile,
