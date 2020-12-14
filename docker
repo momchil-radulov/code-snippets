@@ -11,6 +11,7 @@ docker build
 docker run
 docker start
 docker stop
+docker attach
 docker container
 docker exec
 docker network
@@ -44,6 +45,9 @@ docker network create net1
 docker run --rm -p 6379:6379   --name redis -d redis
 docker run --rm --network net1 --name some-redis -d redis
 docker run --rm --network net1 -it redis redis-cli -h some-redis
+
+#docker attach
+docker attach nodered # to show logs
 
 #docker inspect
 docker inspect kibana
