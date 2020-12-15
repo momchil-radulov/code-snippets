@@ -28,6 +28,8 @@ Function
 1. five lines of code
 2. pass or call
 3. only one IF without else
-   exception: function to handle ENUM [e.g. return a sub function/sub class for this enum]
-   example: move = handleKeyToMove(key): if enum.LEFT return moveLeft
+   example: function assert_not_null(arg)
+            function to handle ENUM [e.g. a array to return a sub function/sub class for this enum]
+            move = handleKeyToMove(key): return move_functions_to_key[enum.LEFT] # (moveLeft)
             move(5)
+            commandbus to handle ENUM [e.g. multiple handlers for different values of this enum]
