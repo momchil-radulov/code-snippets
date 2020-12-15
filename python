@@ -1,6 +1,8 @@
 #libs
 logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, bottle, hug
 googlemaps, geopy
+commandbus
+https://github.com/psincraian/commandbus
 #db
 pugsql, sqlalchemy, peewee, dataset, records, sqlobject
 redis, pottery
