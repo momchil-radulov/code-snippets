@@ -6,16 +6,26 @@ DRY - Don't repeat yourself
 KISS - Keep it simple
     Use it or lose it.
 GLOBAL MODULES - every application must have
-    settings
-    logging
-    users with groups/roles
+    app instance: ctx.app, ctx.major_version, ctx.minor_version, ctx.patch_version => application name and version
+    settings:     ctx.config => file (for default values) -> url -> env -> args (overload previous)
+    logging:      ctx.log
+    persistents:
+        database: ctx.db
+        cache:    ctx.cache
+    current user: ctx.user, ctx.role, ctx.roles
+    How to use: ctx.config.get('port') => return string value or None
+                ctx.config.set('port', '8080') => to set a string value or string JSON value
 TDD - Test Driven Development
     First write test code and test after every change of code.
 EVENT SOURCING - Capture all changes to an application state as a sequence of events.
 CQRS - Command Query Responsibility Segregation
-    Queries: Return a result and do not change the observable state of the system (are free of side effects).
+    Queries:  Return a result and do not change the observable state of the system (are free of side effects), use DAL.
     Commands: Change the state of a system but do not return a value.
+        CommandBus: must have exactly one handler for each command, for DATABASE TRANSACTIONS.
+        EventBus:   can have 0 or many handlers subscribed to every event.
 RESTFULL API with JSON - basic public API for every application
+                       - one resource - only one entry point in whole API
+                       - list of roles with full access, list of roles with limited access (e.g. only records of the user) 
 MICROSERVICE ARCHITECTURE with API GATEWAY - composition over inheritance
 
 - group similar functionality, functions and data in modules and classes
