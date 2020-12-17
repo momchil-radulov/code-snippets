@@ -83,3 +83,4 @@ set rtp+=~/.vim/tabnine-vim
 
 #os
 full_path = os.path.expanduser('~/file1.txt')
+env_var = os.getenv('HOME','/home/mom')
