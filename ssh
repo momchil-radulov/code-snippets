@@ -1,0 +1,22 @@
+sudo apt install openssh-client
+man ssh
+ssh-keygen
+ssh-copy-id
+add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
+
+file ~/.ssh/.config
+Host lightsail
+    HostName lightsail.com
+    Port 1022
+    User ubuntu
+file /etc/hosts
+192.168.0.1   lightsail
+
+ssh -L 8000:localhost:8000 -p 1022 ubuntu@host
+ssh -i ~/.ssh/.old/LightsailDefaultKey-eu-central-1.pem ubuntu@lightsail
+
+
+# install aws cli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
