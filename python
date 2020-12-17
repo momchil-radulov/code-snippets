@@ -80,3 +80,6 @@ git clone --depth 1 https://github.com/zxqfl/tabnine-vim
 [.vimrc]
 set rtp+=~/.vim/tabnine-vim
 # in vim write TabNine::sem OR TabNine::version
+
+#os
+full_path = os.path.expanduser('~/file1.txt')
