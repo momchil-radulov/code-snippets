@@ -12,6 +12,7 @@ Host lightsail
 file /etc/hosts
 192.168.0.1   lightsail
 
+ssh lightsail
 ssh -L 8000:localhost:8000 -p 1022 ubuntu@host
 ssh -i ~/.ssh/.old/LightsailDefaultKey-eu-central-1.pem ubuntu@lightsail
 
