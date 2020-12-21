@@ -21,4 +21,4 @@ sudo apt-get install alsa alsa-tools
 sudo adduser yourusername audio
 alsamixer
 sudo apt-get install moc
-mocp
+mocp  # command line player
