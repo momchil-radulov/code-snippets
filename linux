@@ -14,3 +14,11 @@ sudo apt install iproute2              =>  ip          =>  ip a
 sudo apt install net-tools             =>  netstat     =>  netstat -lt
 sudo apt install redis-tools           =>  redis-cli   =>  redis-cli -h ip_address
 sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
+
+# audio
+виж http://howto.blbosti.com/2010/03/ubuntu-server-install-alsa-sound-and-moc-music-on-console/
+sudo apt-get install alsa alsa-tools
+sudo adduser yourusername audio
+alsamixer
+sudo apt-get install moc
+mocp
