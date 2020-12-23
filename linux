@@ -1,19 +1,33 @@
+# update and upgrade
 sudo apt update && upgrade OR update-manager => for graphical use
+
+# users
 sudo adduser user_name
 sudo deluser user_name
 id -u # get user id
 id -g # get group id
+sudo su user_name
+
 # generate password
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
-sudo su user_name
+
+# ssh
 ssh-keygen
 ssh-copy-id
 add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
 
+# networking
 sudo apt install iproute2              =>  ip          =>  ip a
 sudo apt install net-tools             =>  netstat     =>  netstat -lt
 sudo apt install redis-tools           =>  redis-cli   =>  redis-cli -h ip_address
 sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
+
+# files
+touch file_name #create a file
+sudo su user_name
+rename    's/2020-12-21/2020-12-23/' * # multiple files rename
+rename -n 's/2020-12-21/2020-12-23/' * # check output whitout real rename
+mmv '*abc*' '#1xyz#2' # multiple files mv/cp/link
 
 # viber
 виж https://linuxhint.com/install_viber_linux/
