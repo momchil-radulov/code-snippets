@@ -12,8 +12,8 @@ redis-cli -c #cluster mode support
 
 redis-cli KEYS "prefix:*" | xargs redis-cli DEL
 redis-cli KEYS "*" => get all keys in ALL databases
-redis-cli FLASHDB => delete all keys in current database
-redis-cli FLASHALL => delete all keys in ALL databases
+redis-cli FLUSHDB => delete all keys in current database
+redis-cli FLUSHALL => delete all keys in ALL databases
 redis-cli --stat
 redis-cli --scan # get ALL keys
 redis-cli --scan --pattern 'user:*' | wc -l
