@@ -22,6 +22,9 @@ sudo apt install net-tools             =>  netstat     =>  netstat -lt
 sudo apt install redis-tools           =>  redis-cli   =>  redis-cli -h ip_address
 sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
 
+# tunneling
+socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
+
 # files
 touch file_name #create a file
 sudo su user_name
