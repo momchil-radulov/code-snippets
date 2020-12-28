@@ -24,6 +24,9 @@ sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
 
 # tunneling
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
+ssh -g -L 8001:remote-ip<e.g.:localhost|192.168.0.3>:8000 -f -N user@remote-server.com # -g global clients -N without a shell -f fork
+apt install rinetd
+file /etc/rinetd.conf: # bindadress    bindport  connectaddress  connectport
 
 # files
 touch file_name #create a file
