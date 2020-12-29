@@ -52,6 +52,8 @@ cat movies.json | jq .title[] => get attribute values from a object
 2 /usr/bin/curl -H"Content-Type: application/json" "$@"
 chmod +x bin/curlj
 
+curl -d @session.json -H 'Content-Type: application/json' localhost:8000/session
+
 # pipe
 ## read stdin pipe with buffer from python:
 [readstdio.py]
