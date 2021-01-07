@@ -113,7 +113,7 @@ ctags -R --languages=python -f pl.tags ../pylib
 #xargs
 cat tonus.txt | xargs -I% youtube-dl %
 find . | grep py$ | xargs black
-find . | grep py$ | xargs pylint
+find . | grep py$ | xargs pylint | less
 
 #useful
 certbot renew --dry-run
