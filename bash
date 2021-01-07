@@ -1,3 +1,5 @@
+Ctrl + Shift + V -> paste in console
+
 lsb_release -a
 # open file with GUI
 xdg-open mydoc.pdf
