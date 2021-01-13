@@ -53,5 +53,5 @@ ___
 1. ordered list 2
     1. ordered list 2.1
     1. ordered list 2.2
-    ![Tux, the Linux mascot image](/assets/images/tux.png)
-1. ordered list 2
+    ![Tux, the Linux mascot image](./tux.svg)
+1. ordered list 3
