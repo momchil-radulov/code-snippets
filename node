@@ -26,8 +26,32 @@ file: article-15.pug
 # H1 Heading
 First line with **bold**.
 ## H2 Heading
-Second line with _italics_.
+Second line with _italics_ or *italics*.
 ### H3 Heading
-Third line with `code` and [link](http://www.example.com).
+Third line with `code` or ``code with ` chars ``
+and [link](http://www.example.com)
+[internal link `code`](#code)
+<http://www.example.com>
+<mail@example.com>
 #### H4 Heading
-Fourth line with **_bold italics_**.
+Fourth line with **_bold italics_** or ***bold italics***.
+- unordered list 1
+    > text of a blcokquote
+- unordered list 2
+* or unordered list 3
+* or unordered list 4
+\* escape a character
++ or unordered list 5
++ or unordered list 6
+
+to make <hr>
+---
+___
+***
+
+1. ordered list 1
+1. ordered list 2
+    1. ordered list 2.1
+    1. ordered list 2.2
+    ![Tux, the Linux mascot image](/assets/images/tux.png)
+1. ordered list 2
