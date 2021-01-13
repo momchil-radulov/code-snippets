@@ -1,0 +1,33 @@
+$ npm install pug
+$ npm install --save jstransformer-coffee-script
+$ npm install --save jstransformer-markdown-it
+
+file: pug.js 
+const pug = require('pug');
+const fs = require('fs')
+args = process.argv.slice(2);
+for (arg of args) {
+    fs.writeFile(arg + ".html", pug.renderFile(arg),
+                 function (err){if(err)console.log(err)})
+    console.log(arg + ".html")
+}
+
+$ node pug.js article-15.pug
+
+file: article-15.pug
+doctype html
+html
+  head
+    title An Article
+  body
+    include:markdown-it article-15.md
+
+file: article-15.pug
+# H1 Heading
+First line with **bold**.
+## H2 Heading
+Second line with _italics_.
+### H3 Heading
+Third line with `code` and [link](http://www.example.com).
+#### H4 Heading
+Fourth line with **_bold italics_**.
