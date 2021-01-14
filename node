@@ -43,8 +43,23 @@ new line with two spaces on end
 Fourth line with **_bold italics_** or ***bold italics***.
 - unordered list 1
     > text of a blcokquote
+    > with some example text
 - unordered list 2
 * or unordered list 3
+```python
+def hello():
+    print('Hello world.')
+```
+Task Lists
+- [x] @mentions, #refs, [links](), **formatting**, and <del>tags</del> supported
+- [x] list syntax required (any unordered or ordered list supported)
+- [x] this is a complete item
+- [ ] this is an incomplete item
+Table
+First Header | Second Header
+------------ | -------------
+Content from cell 1 | Content from cell 2
+Content in the first column | Content in the second column
 * or unordered list 4
 \* escape a character
 + or unordered list 5
