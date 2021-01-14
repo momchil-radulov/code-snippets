@@ -29,10 +29,10 @@ First line with **bold**.
 Second line with _italics_ or *italics*.
 ### H3 Heading
 Third line with `code` or ``code with ` chars ``
-and [link](http://www.example.com)
 
-[internal link `code`](#code)<br>
-or new line with two spaces on end
+[link](http://www.example.com)
+[internal link `code`](#code)
+new line with two spaces on end  
 <http://www.example.com>  
 <mail@example.com>
 #### H4 Heading
