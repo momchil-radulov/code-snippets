@@ -30,8 +30,10 @@ Second line with _italics_ or *italics*.
 ### H3 Heading
 Third line with `code` or ``code with ` chars ``
 and [link](http://www.example.com)
-[internal link `code`](#code)
-<http://www.example.com>
+
+[internal link `code`](#code)<br>
+or new line with two spaces on end
+<http://www.example.com>  
 <mail@example.com>
 #### H4 Heading
 Fourth line with **_bold italics_** or ***bold italics***.
