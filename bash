@@ -46,6 +46,8 @@ cat movies.json | jq -C | less -R
  OR cat movies.json | jq -C .title | less -R
  OR cat movies.json | jq -C . | less -R
 cat movies.json | jq keys[] => get top level keys
+jq keys; jq '.title | keys'; jq '.title | length'; jq '.title[0] | length'; jq '.title[0] | .first_name';
+jq '.title[-1] | .first_name' => get the last element
 cat movies.json | jq .title[] => get attribute values from a object
 
 # overload a command
