@@ -103,7 +103,14 @@ tail -f nc.log | /bin/bash -i 2>&1 | nc -l localhost 7777 > nc.log
 ## client
 nc localhost 7777
 
+# files
 tail -f === less +F (see https://www.brianstorti.com/stop-using-tail/)
+# rename files
+touch file_name #create a file
+sudo su user_name
+rename    's/2020-12-21/2020-12-23/' * # multiple files rename
+rename -n 's/2020-12-21/2020-12-23/' * # check output whitout real rename
+mmv '*abc*' '#1xyz#2' # multiple files mv/cp/link
 
 #zsh
 sudo apt instal zsh
