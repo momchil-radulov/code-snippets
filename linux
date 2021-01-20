@@ -28,13 +28,6 @@ ssh -g -L 8001:remote-ip<e.g.:localhost|192.168.0.3>:8000 -f -N user@remote-serv
 apt install rinetd
 file /etc/rinetd.conf: # bindadress    bindport  connectaddress  connectport
 
-# files
-touch file_name #create a file
-sudo su user_name
-rename    's/2020-12-21/2020-12-23/' * # multiple files rename
-rename -n 's/2020-12-21/2020-12-23/' * # check output whitout real rename
-mmv '*abc*' '#1xyz#2' # multiple files mv/cp/link
-
 # viber
 виж https://linuxhint.com/install_viber_linux/
 wget http://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
