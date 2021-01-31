@@ -127,6 +127,8 @@ find . | grep py$ | xargs black
 find . | grep py$ | xargs -I% pylint %
 find . | grep py$ | xargs pylint | less
 
+grep -r --include '*.py' open *
+
 #useful
 certbot renew --dry-run
 cd ~/bin && wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py && chmod a+x ps_mem.py && cd ~ && source .profile,
