@@ -10,3 +10,8 @@ ctags -R --languages=python -f pl.tags ../pylib
 :w | !python %
 # append output of an external command
 :read !date
+
+# working with tabs
+:tabe file_name
+gt     => 
+C-W gf => Edit existing file under cursor in new tabpage
