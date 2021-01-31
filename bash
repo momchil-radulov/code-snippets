@@ -127,7 +127,7 @@ find . | grep py$ | xargs black
 find . | grep py$ | xargs -I% pylint %
 find . | grep py$ | xargs pylint | less
 
-grep -r --include '*.py' open *
+grep -inr --include '*.py' open ./
 
 #useful
 certbot renew --dry-run
