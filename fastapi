@@ -1,0 +1,37 @@
+# middleware
+
+app = FastAPI()
+# see https://fastapi.tiangolo.com/tutorial/middleware/
+@app.middleware("http") OR app.middleware("http")(add_process_time_header)
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
+
+# see https://github.com/tiangolo/fastapi/issues/1501
+app.add_middleware(MyMiddleware)
+class MyMiddleware:
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] == "http":
+            ...
+            await self.app(scope, receive, send)
+            ...
+        else:
+            await self.app(scope, receive, send)
+
+# mixed version, dbanty commented on Jun 2, 2020
+import uvicorn
+from fastapi import FastAPI
+from starlette.requests import Request
+class MyMiddleware:
+    async def __call__(self, request: Request, call_next):
+        response = await call_next(request)
+        print("I've been called!")
+        return response
+my_middleware = MyMiddleware()  # Do whatever you need the class for here
+app.middleware("http")(my_middleware)
