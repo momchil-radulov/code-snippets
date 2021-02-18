@@ -3,7 +3,9 @@ Ctrl + Shift + V -> paste in console
 lsb_release -a
 # open file with GUI
 xdg-open mydoc.pdf
-export => show env vars
+export => show exported env vars
+export env_name=$env_name => export a env var
+unset env_name => remove exported env var
 #network
 ss, nmcli
 
