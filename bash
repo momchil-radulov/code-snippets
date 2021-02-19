@@ -11,6 +11,7 @@ ss, nmcli
 
 #debug bash script
 /bin/bash -x scrpt.sh
+$cmd &> log => redirect both stderr and stdout 
 
 # !!! Use Bash Strict Mode !!!
 see http://redsymbol.net/articles/unofficial-bash-strict-mode/
