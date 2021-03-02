@@ -73,6 +73,18 @@ git push # push changes to the server
 git branch # show branches
 git branch -d <branch_name> # delete a branch
 git checkout <branch_name> # get code of a branch
+# branch changes
+git log master..branchName
+git log master..branchName -p
+git log master..branchName --oneline
+git log master..branchName --name-only --oneline
+git log master..branchName --stat --oneline
+git log master..branchName --pretty="format:" --name-only
+git show master..branchName --pretty="format:" --name-only
+git diff master..branchName
+git diff master:dir/file_name dir/file_name
+git log master..browsfarm-ci --pretty="" --name-only | sort | uniq
+$git log master..browsfarm-ci --pretty="" --name-only | sort | uniq | xargs -I% git --no-pager diff master:% % &> changes.log
 
 # temporary undo changes in a file and after that, return changes
 git stash push project_name/appsettings.json  
