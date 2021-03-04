@@ -8,6 +8,10 @@ id -u # get user id
 id -g # get group id
 sudo su user_name
 
+# clear a image metadata
+apt install imagemagick
+mogrify -strip file_name.jpg
+
 # generate password
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 
