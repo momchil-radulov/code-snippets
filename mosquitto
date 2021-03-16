@@ -2,10 +2,16 @@ file: mosquitto.conf
 allow_anonymous false
 password_file /etc/mosquitto/passwd
 acl_file /etc/mosquitto/acl
+file: acl
+user mosquitto_user
+topic access_to_topic
 
 $mosquitto_passwd -b passwd user password
 $service mosquitto reload
 
+.w !bash
+$mosquitto_pub -h hostname -p 1883 -t topic_name -m 'message hello world' -u user_name -P password
+$mosquitto_sub -h hostname -p 1883 -t topic_name -u user_name -P password
 
 see https://stackoverflow.com/questions/52283671/mqtt-publish-multiple-topics-with-mosquitto-pub-from-stdin
     https://hub.docker.com/_/eclipse-mosquitto
