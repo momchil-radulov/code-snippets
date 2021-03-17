@@ -50,8 +50,10 @@ python3 -m pip install mypy
 python3 -m pip install black
 pylint *py
 pylint --output-format=colorized --reports=y *py | less -r
+find . | grep py$ | xargs pylint
 mypy *py
 black --check *py
+find . | grep py$ | xargs black
 
 #get current datetime with timezone ('2020-06-18 19:02:32.463950+03:00'):
 import arrow
