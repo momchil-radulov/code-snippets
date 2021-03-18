@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My first Vue app</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="app" style="width: 150px; margin: 0 auto;">
+    <h1>{{ message }}</h1>
+    <table>
+       <tr v-cloak v-for="log in log_messages">
+          <td><h2>{{log}}</h2></td>
+        </tr>
+    </table>
+  </div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Монети:',
+            log_messages: []
+        }
+    })
+</script>
+<script>
+// Create a client instance: Broker, Port, Websocket Path, Client ID
+client = new Paho.MQTT.Client("dev.kemsa.net", Number(1884), "/mqtt", ""); // only one connection for one Client ID
+
+var options_mqtt = {
+	userName : "mqtt_user",
+    password : "mqtt_password",
+	timeout: 10,
+	//useSSL: true,
+	cleanSession: true,
+	onSuccess: onConnect,
+	onFailure: function (message) {
+		console.log("Connection failed: " + message.errorMessage + "Retrying");
+		// setTimeout(function(){ location.reload(true); }, 5000);
+	}
+};
+
+// set callback handlers
+client.onConnectionLost = function (responseObject) {
+    console.log("Connection Lost: "+responseObject.errorMessage);
+    setTimeout(function(){ location.reload(true); }, 5000);
+    // setTimeout(MQTT_connect, 2000);
+}
+
+client.onMessageArrived = function (message) {
+  console.log("Message Arrived: " + message.destinationName + ' ' + message.payloadString);
+  app.log_messages.unshift (message.payloadString);
+}
+
+// Called when the connection is made
+function onConnect() {
+    console.log("Connected!");
+    client.subscribe("topic_name", {qos: 1});
+    
+    // Publish a Message
+    //var message = new Paho.MQTT.Message("Message Payload");
+    //message.destinationName = "topic_name";
+    //message.qos = 1;
+    //client.send(message);
+}
+
+function MQTT_connect() {
+	// Connect the client, providing an onConnect callback
+	client.connect(options_mqtt);
+}
+
+MQTT_connect(); // TODO
+
+</script>
+</body>
+</html>
