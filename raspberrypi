@@ -1,0 +1,46 @@
+sudo apt update
+sudo apt upgrade
+
+ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
+ssh-copy-id username@host
+
+sudo apt-get install mosquitto-clients
+
+ls /sys/class/net
+sudo vim /etc/netplan/50-cloud-init.yaml
+
+network:
+    ethernets:
+        eth0:
+            dhcp4: true
+            optional: true
+    version: 2
+    wifis:
+        wlan0: 
+            optional: true
+            access-points:
+                "WIFI":
+                    password: "pass"
+            dhcp4: true
+
+sudo netplan --debug apply
+ip a
+
+sudo vim /etc/wpa_supplicant/wpa_supplicant.conf
+
+network={
+    ssid="WIFI"
+    psk="pass"
+    id_str="home"
+}
+
+network={
+    ssid="WIFI"
+    psk="pass"
+    id_str="mobile"
+}
+
+
+sudo screen /dev/ttyUSB0 115200
+
+certbot renew --dry-run
