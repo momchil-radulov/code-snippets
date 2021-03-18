@@ -6,6 +6,11 @@ ssh-copy-id username@host
 
 sudo apt-get install mosquitto-clients
 
+sudo screen /dev/ttyUSB0 115200
+
+certbot renew --dry-run
+
+# network
 ls /sys/class/net
 sudo vim /etc/netplan/50-cloud-init.yaml
 
@@ -40,7 +45,27 @@ network={
     id_str="mobile"
 }
 
+# service
+sudo systemctl daemon-reload
+sudo systemctl enable test-py.service
+sudo systemctl start test-py.service
+sudo systemctl status test-py.service
+sudo systemctl stop test-py.service
+sudo systemctl restart test-py.service
+# file [/lib/systemd/system/test-py.service]
+[Unit]
+After=network.target
 
-sudo screen /dev/ttyUSB0 115200
-
-certbot renew --dry-run
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/python3 /home/ubuntu/al.py
+StandardInput=tty-force
+KillMode=process
+Restart=always
+TimeoutStartSec=10
+RestartSec=10
+    
+[Install]
+WantedBy=multi-user.target
