@@ -41,6 +41,8 @@ sudo dpkg-reconfigure ca-certificates
 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "webmail" -i /path_to/foo.crt # for chrome browser
 
 sudo socat -v tcp-listen:80,reuseaddr,fork tcp:localhost:8080
+https://stackoverflow.com/questions/22624653/create-a-virtual-serial-port-connection-over-tcp
+socat  pty,link=/dev/virtualcom0,raw  tcp:192.168.254.254:8080&
 python -m http.server 8080 --bind 127.0.0.1 --cgi
 
 # json
