@@ -10,3 +10,7 @@ ctags -R --languages=python -f pl.tags ../pylib
 :w | !python %
 # append output of an external command
 :read !date
+# open multiple files
+vim *py        => open mulitple files in vim
+:tab all       => open all open files in new tabs
+Ctrl-W Shift-T => open splitted window in a new tab
