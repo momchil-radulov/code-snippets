@@ -1,0 +1,2 @@
+Gabs
+=SUBSTITUTE(SUBSTITUTE($B1;"(";")");")";"(";1)
