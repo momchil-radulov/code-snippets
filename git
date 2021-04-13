@@ -20,6 +20,7 @@ git clone <url_of_a_project> [path_for_project]
 7     excludesFile = /home/momchil/.gitignore
 [.gitignore]
 1 *.sess
+[.git/info/exclude] file has the same format as any .gitignore
 
 git checkout -b project_feature # create a new branch
 
