@@ -127,6 +127,7 @@ ctags -R --languages=python -f pl.tags ../pylib
 :set tags=~/projects/tags/pl.tags,~/projects/tags/project_name.tags
 
 #xargs
+python -m pip install youtube-dl
 cat tonus.txt | xargs -I% youtube-dl %
 cat music.txt | xargs -I% youtube-dl -f m4a %
 find . | grep py$ | xargs black
