@@ -11,6 +11,7 @@ from pydantic import BaseModel
 pugsql, sqlalchemy, peewee, dataset, records, sqlobject
 redis, pottery
 https://jam-py.com/ , https://buildmedia.readthedocs.org/media/pdf/jam-py/latest/jam-py.pdf
+TinyDB, MontyDB
 #bash
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
 
