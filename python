@@ -1,5 +1,7 @@
 #libs
-logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, bottle, hug, mkdocs, pypugjs
+logzero, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4
+bottle, fastapi, hug, mkdocs, pypugjs
+asyncio-nats-client
 googlemaps, geopy
 commandbus, pybuses
 https://github.com/psincraian/commandbus
@@ -12,6 +14,7 @@ pugsql, sqlalchemy, peewee, dataset, records, sqlobject
 redis, pottery
 https://jam-py.com/ , https://buildmedia.readthedocs.org/media/pdf/jam-py/latest/jam-py.pdf
 TinyDB, MontyDB
+sqlite3, sqlite_rx
 #bash
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
 
@@ -95,3 +98,4 @@ set rtp+=~/.vim/tabnine-vim
 #os
 full_path = os.path.expanduser('~/file1.txt')
 env_var = os.getenv('HOME','/home/mom')
+ 
