@@ -4,6 +4,9 @@ googlemaps, geopy
 commandbus, pybuses
 https://github.com/psincraian/commandbus
 https://github.com/Enforcer/pybuses
+from functools import partial
+from inspect import signature
+from pydantic import BaseModel
 #db
 pugsql, sqlalchemy, peewee, dataset, records, sqlobject
 redis, pottery
