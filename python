@@ -2,7 +2,7 @@
 logzero, simple-settings, easygui, pysimplegui, fire, arrow, requests, beautifulsoup4
 bottle, fastapi, hug, mkdocs, pypugjs
 asyncio-nats-client
-googlemaps, geopy
+googlemaps, geopy, networkx
 commandbus, pybuses
 https://github.com/psincraian/commandbus
 https://github.com/Enforcer/pybuses
