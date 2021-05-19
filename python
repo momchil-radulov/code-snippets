@@ -1,5 +1,5 @@
 #libs
-logzero, simple-settings, easygui, pysimplegui, fire, arrow, requests, beautifulsoup4
+logzero, loguru, simple-settings, easygui, pysimplegui, fire, arrow, requests, beautifulsoup4
 bottle, fastapi, hug, mkdocs, pypugjs
 asyncio-nats-client
 googlemaps, geopy, networkx
