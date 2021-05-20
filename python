@@ -34,6 +34,7 @@ vue create myvue
 cd myvue
 npm install axios
 npm install bulma
+https://fontawesome.com/
 npm run serve
 #bash
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
