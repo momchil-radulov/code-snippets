@@ -1,20 +1,26 @@
 #libs
 logzero, loguru, simple-settings, easygui, pysimplegui, fire, arrow, requests, beautifulsoup4, pudb
 bottle, fastapi, hug, mkdocs, pypugjs
-asyncio-nats-client
+asyncio-nats-client, commandbus, pybuses
 googlemaps, geopy, networkx
-commandbus, pybuses
+js2py, RapydScript, brython
 https://github.com/psincraian/commandbus
 https://github.com/Enforcer/pybuses
 from functools import partial
 from inspect import signature
 from pydantic import BaseModel
+python -m pip freeze > requirements.txt
+python -m pip install -r requirements.txt
 #db
 pugsql, sqlalchemy, peewee, dataset, records, sqlobject
 redis, pottery
 https://jam-py.com/ , https://buildmedia.readthedocs.org/media/pdf/jam-py/latest/jam-py.pdf
 TinyDB, MontyDB
 sqlite3, sqlite_rx
+#django
+wheel, django, django-rest-framework, django-cors-headers, djoser, pillow, stripe
+django-admin startproject mystore
+python manage.py make migrations
 #bash
 bashplotlib, prettytable, fuzzywuzzy, tqdm, colorama, 
 
