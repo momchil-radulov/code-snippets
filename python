@@ -11,6 +11,7 @@ from inspect import signature
 from pydantic import BaseModel
 python -m pip freeze > requirements.txt
 python -m pip install -r requirements.txt
+ipython3, bpython, ptpython
 #db
 pugsql, sqlalchemy, peewee, dataset, records, sqlobject
 redis, pottery
