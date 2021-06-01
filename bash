@@ -64,6 +64,10 @@ chmod +x bin/curlj
 curl -d @session.json -H 'Content-Type: application/json' localhost:8000/session
 
 # pipe
+## redirect stderr to stdout
+command 2>&1 | grep 'something'
+## redirect stderr to stdout and remove stdout
+command 2>&1 >/dev/null | grep 'something'
 ## read stdin pipe with buffer from python:
 [readstdio.py]
 1 #!/bin/env python
