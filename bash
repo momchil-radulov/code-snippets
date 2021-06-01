@@ -64,6 +64,8 @@ chmod +x bin/curlj
 curl -d @session.json -H 'Content-Type: application/json' localhost:8000/session
 
 # pipe
+## pipe stdout and stderr
+command |& grep 'something'
 ## redirect stderr to stdout
 command 2>&1 | grep 'something'
 ## redirect stderr to stdout and remove stdout
