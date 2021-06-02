@@ -1,5 +1,6 @@
 #libs
-logzero, loguru, poetry, simple-settings, easygui, pysimplegui, fire, arrow, requests, beautifulsoup4, pudb
+logzero, loguru, poetry, simple-settings, easygui, pysimplegui, arrow, requests, beautifulsoup4, pudb
+colout, fire
 bottle, fastapi, hug, mkdocs, pypugjs
 asyncio-nats-client, commandbus, pybuses
 googlemaps, geopy, networkx
