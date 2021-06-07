@@ -122,4 +122,4 @@ set rtp+=~/.vim/tabnine-vim
 #os
 full_path = os.path.expanduser('~/file1.txt')
 env_var = os.getenv('HOME','/home/mom')
- 
+python bin/main.py |& colout '(INFO)|(DEBUG)|(ERROR)' green,blue,red
