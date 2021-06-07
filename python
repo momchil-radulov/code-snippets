@@ -50,6 +50,7 @@ python -m pip install requests
 # save module dependencies
 python freeze > requirements.txt
 python -m pip install -r requirements.txt #[OR WITH WHEEL]# python -m pip wheel --wheel-dir=/wheels -r requirements.txt
+pip install git+https://github.com/vaab/colour@master ; optional: @branch/tag/commit
 :uninstall package:
 pip uninstall requests
 python freeze | xargs pip uninstall
