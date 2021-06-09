@@ -1,6 +1,6 @@
 #libs
 logzero, loguru, poetry, simple-settings, easygui, pysimplegui, requests, beautifulsoup4, pudb
-pydash, arrow
+pydash, pyrsistent, arrow
 colout, fire
 bottle, fastapi, hug, mkdocs, pypugjs
 asyncio-nats-client, commandbus, pybuses
@@ -9,6 +9,7 @@ js2py, RapydScript, brython
 https://github.com/psincraian/commandbus
 https://github.com/Enforcer/pybuses
 https://github.com/dgilland/pydash
+https://github.com/tobgu/pyrsistent
 from functools import partial
 from inspect import signature
 from pydantic import BaseModel
