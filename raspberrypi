@@ -1,7 +1,7 @@
 sudo apt update
 sudo apt upgrade
 
-.vimrc FILE
+[.vimrc] FILE
 " Настройки табов для Python, согласно рекоммендациям
 set tabstop=4
 set shiftwidth=4
@@ -13,7 +13,9 @@ syntax on "Включить подсветку синтаксиса
 set nu "Включаем нумерацию строк
 
 set rtp+=~/.vim/tabnine-vim
-.vimrc END
+[.vimrc] END
+mkdir .vim && cd .vim
+git clone --depth 1 https://github.com/codota/tabnine-vim
 
 ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
 ssh-copy-id username@host
