@@ -1,12 +1,27 @@
 sudo apt update
 sudo apt upgrade
 
+.vimrc FILE
+" Настройки табов для Python, согласно рекоммендациям
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab "Ставим табы пробелами
+set softtabstop=4 "4 пробела в табе
+
+syntax on "Включить подсветку синтаксиса
+set nu "Включаем нумерацию строк
+
+set rtp+=~/.vim/tabnine-vim
+.vimrc END
+
 ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
 ssh-copy-id username@host
 
 sudo apt-get install mosquitto-clients
 
 sudo screen /dev/ttyUSB0 115200
+ubuntu:ubuntu
 
 certbot renew --dry-run
 
