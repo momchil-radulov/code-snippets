@@ -5,6 +5,14 @@ sudo apt update
 sudo apt upgrade
 
 [.vimrc] FILE
+"Вырубаем режим совместимости с VI:
+set nocompatible
+
+"Включаем распознавание типов файлов и типо-специфичные плагины:
+filetype on
+filetype plugin on
+syntax on "Включить подсветку синтаксиса
+
 " Настройки табов для Python, согласно рекоммендациям
 set tabstop=4
 set shiftwidth=4
@@ -12,10 +20,25 @@ set smarttab
 set expandtab "Ставим табы пробелами
 set softtabstop=4 "4 пробела в табе
 
-syntax on "Включить подсветку синтаксиса
+" Вырубаем черточки на табах
+set showtabline=1
 set nu "Включаем нумерацию строк
 
-set rtp+=~/.vim/tabnine-vim
+"Автоотступ
+"set autoindent
+""Подсвечиваем все что можно подсвечивать
+let python_highlight_all = 1 
+"Включаем 256 цветов в терминале, мы ведь работаем из иксов?
+""Нужно во многих терминалах, например в gnome-terminal
+set t_Co=256
+
+"Настройка omnicomletion для Python (а так же для js, html и css)
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+
+"set rtp+=~/.vim/tabnine-vim
 [.vimrc] END
 mkdir .vim && cd .vim
 git clone --depth 1 https://github.com/codota/tabnine-vim
