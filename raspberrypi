@@ -1,3 +1,6 @@
+# setup Raspberry Pi image
+sudo apt install rpi-imager
+
 sudo apt update
 sudo apt upgrade
 
