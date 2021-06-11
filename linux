@@ -3,6 +3,7 @@ sudo apt update && upgrade OR update-manager => for graphical use
 
 # users
 sudo adduser user_name
+sudo adduser user_name --shell=/bin/false --no-create-home
 sudo deluser user_name
 id -u # get user id
 id -g # get group id
