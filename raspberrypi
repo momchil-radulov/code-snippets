@@ -4,6 +4,9 @@ sudo apt install rpi-imager
 sudo apt update
 sudo apt upgrade
 
+umount /dev/sda1 /dev/sda2
+dd if=/dev/sda of=rasp.img
+
 [.vimrc] FILE
 "Вырубаем режим совместимости с VI:
 set nocompatible
@@ -112,3 +115,24 @@ RestartSec=10
     
 [Install]
 WantedBy=multi-user.target
+
+# reverse shell, see: https://www.tunnelsup.com/raspberry-pi-phoning-home-using-a-reverse-remote-ssh-tunnel/
+crontab -e
+*/1 * * * * ~/create_ssh_tunnel.sh &> /dev/nul
+chmod 700 ~/create_ssh_tunnel.sh
+[create_ssh_tunnel.sh] FILE
+#!/bin/bash
+createTunnel() {
+  /usr/bin/ssh -N -R 2222:localhost:22 serverUser@25.25.25.25
+  if [[ $? -eq 0 ]]; then
+    echo Tunnel to jumpbox created successfully
+  else
+    echo An error occurred creating a tunnel to jumpbox. RC was $?
+  fi
+}
+/bin/pidof ssh
+if [[ $? -ne 0 ]]; then
+  echo Creating new tunnel connection
+  createTunnel
+fi
+[] END
