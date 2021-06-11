@@ -7,6 +7,7 @@ sudo apt upgrade
 dmesg | grep -i attached
 umount /dev/sda1 /dev/sda2
 dd if=/dev/sda of=rasp.img bs=4M status=progress
+dd if=rasp.img of=/dev/sda bs=4M status=progress
 
 [.vimrc] FILE
 "Вырубаем режим совместимости с VI:
