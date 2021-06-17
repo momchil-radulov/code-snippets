@@ -148,3 +148,6 @@ certbot renew --dry-run
 cd ~/bin && wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py && chmod a+x ps_mem.py && cd ~ && source .profile,
 bzip2, ca-certificates, curl, git, gnupg,gzip, locales, mercurial, net-tools,
 netcat, openssh-client, parallel, sudo, tar, unzip, wget, xvfb, zip
+
+#tooltip, pop up
+notify-send msg
