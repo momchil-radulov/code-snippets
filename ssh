@@ -21,3 +21,54 @@ ssh -i ~/.ssh/.old/LightsailDefaultKey-eu-central-1.pem ubuntu@lightsail
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
+
+# tunneling
+socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
+## -g global clients -N without a shell -f fork
+ssh -g -L 8001:remote-ip<e.g.:localhost|192.168.0.3>:8000 -f -N user@remote-server.com
+apt install rinetd
+file /etc/rinetd.conf: # bindadress    bindport  connectaddress  connectport
+sudo socat -v tcp-listen:80,reuseaddr,fork tcp:localhost:8080
+https://stackoverflow.com/questions/22624653/create-a-virtual-serial-port-connection-over-tcp
+socat  pty,link=/dev/virtualcom0,raw  tcp:192.168.254.254:8080&
+python -m http.server 8080 --bind 127.0.0.1 --cgi
+
+# reverse shell
+## server
+tail -f nc.log | /bin/bash -i 2>&1 | nc -l localhost 7777 > nc.log
+## client
+nc localhost 7777
+
+# reverse shell, tunneling, automated
+## server
+cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1 # generate password
+sudo adduser user_name --shell=/bin/false --no-create-home     #sudo deluser user_name
+## client
+ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
+ssh-copy-id username@host
+add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
+## server (and client)
+file /etc/ssh/sshd_config
+ClientAliveInterval 60
+ClientAliveCountMax 2
+## client, reverse shell, see: https://www.tunnelsup.com/raspberry-pi-phoning-home-using-a-reverse-remote-ssh-tunnel/
+     crontab -e => for local user
+sudo crontab -e => for root user
+*/1 * * * * ~/create_ssh_tunnel.sh &> /dev/nul
+chmod 700 ~/create_ssh_tunnel.sh
+[create_ssh_tunnel.sh] FILE
+#!/bin/bash
+createTunnel() {
+  /usr/bin/ssh -N -R 2222:localhost:22 serverUser@25.25.25.25
+  if [[ $? -eq 0 ]]; then
+    echo Tunnel to jumpbox created successfully
+  else
+    echo An error occurred creating a tunnel to jumpbox. RC was $?
+  fi
+}
+/bin/pidof ssh
+if [[ $? -ne 0 ]]; then
+  echo Creating new tunnel connection
+  createTunnel
+fi
+[] END
