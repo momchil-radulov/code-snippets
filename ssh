@@ -47,7 +47,17 @@ sudo adduser user_name --shell=/bin/false --no-create-home     #sudo deluser use
 ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
 ssh-copy-id username@host
 add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
-## server (and client)
+## client to avoid broken pipe error
+file /etc/ssh/ssh_config
+ServerAliveInterval 60
+ServerAliveCountMax 2
+file .ssh/config
+Host myhost_shortcut
+     HostName myhost.com
+     User user_name
+     ServerAliveInterval 60
+     ServerAliveCountMax 2
+## server to avoid broken pipe error
 file /etc/ssh/sshd_config
 ClientAliveInterval 60
 ClientAliveCountMax 2
