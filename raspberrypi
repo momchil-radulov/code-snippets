@@ -4,6 +4,7 @@ sudo apt install rpi-imager
 sudo apt update
 sudo apt upgrade
 sudo apt install python3-pip
+sudo apt install nginx
 
 dmesg | grep -i attached
 umount /dev/sda1 /dev/sda2
