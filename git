@@ -98,3 +98,17 @@ git stash clear
 git reset --soft HEAD~1
 # undo last add command
 git reset
+
+# How to keep a branch synchronized/updated with master? #
+виж https://stackoverflow.com/questions/16329776/how-to-keep-a-branch-synchronized-updated-with-master
+git checkout master
+git pull
+git checkout mobiledevicesupport
+git merge master
+to keep mobiledevicesupport in sync with master
+
+then when you're ready to put mobiledevicesupport into master, first merge in master like above, then ...
+git checkout master
+git merge mobiledevicesupport
+git push origin master
+# # #
