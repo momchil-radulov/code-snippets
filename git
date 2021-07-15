@@ -72,7 +72,8 @@ git pull # get last changes before merge
 git merge <branch_name> # merge branch to master
 git push # push changes to the server
 git branch # show branches
-git branch -d <branch_name> # delete a branch
+git fetch -p # get deleted branches from server/origin
+git branch -d <branch_name> # delete a branch localy
 git push origin --delete <branch_name> # delete a branch remotely
 git checkout <branch_name> # get code of a branch
 # branch changes
