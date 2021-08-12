@@ -63,6 +63,14 @@ chmod +x bin/curlj
 
 curl -d @session.json -H 'Content-Type: application/json' localhost:8000/session
 
+# bash auto complete
+[.myprogram_cli_autocomplete]
+_myprogram_cli_argcomplete() {
+    COMPREPLY=( $(./complete_myprogram_cli.py "${COMP_WORDS[@]}") )
+}
+complete -o nospace -o default -o bashdefault -F _myprogram_cli_argcomplete myprogram_cli.py
+complete -o nospace -o default -o bashdefault -F _myprogram_cli_argcomplete ./myprogram_cli.py
+
 # pipeline
 ## pipe stdout and stderr
 command |& grep 'something'
