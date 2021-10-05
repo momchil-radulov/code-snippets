@@ -43,3 +43,25 @@ StandardError=syslog
 WantedBy=multi-user.target
 ;alias must be different from default file name
 ;Alias=mqtt2db.service
+
+see https://stackoverflow.com/questions/1603109/how-to-make-a-python-script-run-like-a-service-or-daemon-in-linux
+file[/etc/systemd/system/service_name.service]
+[Unit]
+Description = <Your service description here>
+After = network.target # Assuming you want to start after network interfaces are made available
+[Service]
+Type = simple
+ExecStart = python <Path of the script you want to run>
+User = # User to run the script as
+Group = # Group to run the script as
+Restart = on-failure # Restart when there are errors
+SyslogIdentifier = <Name of logs for the service>
+RestartSec = 5
+TimeoutStartSec = infinity
+[Install]
+WantedBy = multi-user.target # Make it accessible to other users
+
+$ systemctl enable <service file name without .service extension>
+$ systemctl daemon-reload
+$ systemctl start <service file name without .service extension>
+end see
