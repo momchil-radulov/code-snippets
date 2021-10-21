@@ -91,6 +91,10 @@ python bin/main.py |& colout '(INFO)|(DEBUG)|(ERROR)' green,blue,red #pip instal
 sudo apt install mosquitto-clients
 mosquitto_sub -h host_name.com -p 8883 --cafile ca.crt --insecure -u user_name -P password -i user_id -t topic_name/# | ./readstdio.py
 
+# read arduino serial
+stty 9600 -F /dev/ttyUSB0 raw -echo
+cat /dev/ttyUSB0
+
 ## Line buffered stdin. Note use stdbuf -o0 if your data is not line oriented.
    see http://www.pixelbeat.org/programming/stdio_buffering/
 tail -f access.log | stdbuf -oL cut -d ' ' -f1 | uniq
