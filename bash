@@ -90,6 +90,11 @@ python bin/main.py |& colout '(INFO)|(DEBUG)|(ERROR)' green,blue,red #pip instal
 6     print(line)
 sudo apt install mosquitto-clients
 mosquitto_sub -h host_name.com -p 8883 --cafile ca.crt --insecure -u user_name -P password -i user_id -t topic_name/# | ./readstdio.py
+mosquitto_sub -t /sensors/temps/# -F "UPDATE Temperatures(%t, %p)" | mysqlcli
+stty 9600 -F /dev/ttyUSB0 raw -echo # Arduino
+cat /dev/ttyUSB0 >> temperature.pool
+tail temperature.pool | mosquitto_pub -l --topic /sensors/temp/outside
+OR cat /dev/ttyUSB0 | mosquitto_pub -l --topic /sensors/temp/outside
 
 # read arduino serial
 stty 9600 -F /dev/ttyUSB0 raw -echo
