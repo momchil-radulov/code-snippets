@@ -33,7 +33,8 @@ ls -al /var/run/docker.sock
 sudo setfacl -m user:$USER:rw /var/run/docker.sock
 
 /etc/ca-certificates.conf
-openssl s_client -connect google.com:443 -CApath /etc/ssl/certs
+openssl s_client              -connect google.com:443        -CApath /etc/ssl/certs
+openssl s_client  -showcerts  -connect iot.eclipse.org:8883
 curl https://google.com:443
 # install a certificate to ubuntu
 sudo cp foo.crt /usr/share/ca-certificates/extra/foo.crt
