@@ -22,6 +22,11 @@ ssh-copy-id
 add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
 
 # certbot
+apt-get update
+sudo apt-get install certbot
+apt-get install python3-certbot-nginx
+sudo certbot --nginx -d example.com -d www.example.com
+
 sudo snap install core; sudo snap refresh core
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
