@@ -1,5 +1,7 @@
 # update and upgrade
 sudo apt update && upgrade OR update-manager => for graphical use
+lsb_release -a => get the version of ubuntu os
+sudo dmidecode -s system-serial-number => get laptop serial number
 
 # users
 sudo adduser user_name
