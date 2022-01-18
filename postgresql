@@ -8,6 +8,12 @@ CREATE DATABASE websitedb ENCODING 'UTF8' OWNER dbuser;
 $sudo -u postgres createuser dbuser
 $sudo -u postgres createdb websitedb
 
+# docker
+docker run --name postgres_main -p 5432:5432 -e POSTGRES_PASSWORD=123456789 -d postgres
+docker stop postgres_main
+docker start postgres_main
+docker container rm postgres_main
+
 sudo apt install -y postgresql-client-common
 sudo apt install -y postgresql-client
 # install psql v.12
@@ -15,6 +21,10 @@ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-
 echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
 sudo apt update
 sudo apt -y install postgresql-client-12 [OR] sudo apt install -y postgresql-client
+
+psql postgresql://postgres:123456789@host.com:5432/development_db
+psql 'postgresql://postgres:123456789@host.com:5432/development_db' -c 'COPY (SELECT * FROM public.jobs) TO STDOUT;' > jobs.csv
+cat jobs.csv | psql postgresql://postgres:123456789@localhost:5432/development_db -c "COPY public.jobs FROM STDIN;"
 
 psql -V [OR] psql --version
 [~/.pgpass]
