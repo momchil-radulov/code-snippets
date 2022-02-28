@@ -16,4 +16,4 @@ cd iot
 ./manage.py makemigrations
 ./manage.py migrate
 
-gunicorn iot.asgi:application
+gunicorn iot.wsgi:application
