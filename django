@@ -1,0 +1,19 @@
+python3 -m venv venv
+. venv/bin/activate
+
+pip install --upgrade pip
+pip install wheel
+pip install Django
+pip install gunicorn
+
+django-admin startproject iot
+cd iot
+./manage.py startapp mc
+./manage.py runserver
+
+./manage.py inspectdb --include-views > inspectdb.txt
+./manage.py dbshell
+./manage.py makemigrations
+./manage.py migrate
+
+gunicorn iot.asgi:application
