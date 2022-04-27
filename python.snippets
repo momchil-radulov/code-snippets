@@ -1,3 +1,9 @@
+# Return output (stdout and stderr) of executing cmd in a shell
+import subprocess
+cmd = 'ls /bin/ls'
+cmd_exit_code, cmd_out = subprocess.getstatusoutput(cmd)
+cmd_out_lines = cmd_out.splitlines()
+
 # read and set attributes from a module
 # виж https://github.com/charlsagente/python-settings/blob/master/python_settings/__init__.py#L51
 import importlib
