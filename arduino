@@ -1,0 +1,43 @@
+# Button: setup
+void setup() {
+  //configure pin 2 as an input and enable the internal pull-up resistor
+  pinMode(2, INPUT_PULLUP);
+}
+
+# Loop: constant run time of a loop
+const unsigned long loopPeriod = 5; //milliseconds
+static unsigned long lastLoop;
+void loop() {
+  check_button();
+  
+  if (millis()-lastLoop < loopPeriod) {
+    delay(loopPeriod - (millis()-lastLoop));
+  }
+  lastLoop = millis();
+}
+
+# Button: detect button input
+is_button_pressed = false;
+button_counter = 0;
+void check_button() {
+  int button_status = digitalRead(2);
+  if (button_status == HIGH) {
+    button_counter = button_counter - 1;
+    if (button_counter < 0) {
+      button_counter = 0;
+      if (is_button_pressed) {
+        is_button_pressed = false;
+        // ... button is pressed ...
+      }
+    }
+  }
+  else {
+    button_counter = button_counter + 1;
+    if (button_counter > 10) {
+      button_counter = 10;
+      if (!is_button_pressed) {
+        is_button_pressed = true;
+      }
+    }
+  }
+}
