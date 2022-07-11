@@ -134,6 +134,9 @@ tail -f nc.log | /bin/bash -i 2>&1 | nc -l localhost 7777 > nc.log
 ## client
 nc localhost 7777
 
+mkfifo reply
+ncat -kl 9200 < reply | tee log-es-in | ncat elasticsearch.com 9200 | tee log-es-out > reply
+
 # files
 tail -f === less +F (see https://www.brianstorti.com/stop-using-tail/)
 # rename files
