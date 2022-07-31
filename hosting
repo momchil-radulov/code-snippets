@@ -1,3 +1,8 @@
+[update and upgrade ubuntu]
+sudo apt update
+sudo apt upgrade
+sudo reboot && exit
+
 [install: webmin]
 sudo -s
 cd /root
