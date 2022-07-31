@@ -19,7 +19,11 @@ sudo apt upgrade
 
 [install: docker]
 sudo snap install docker
+sudo snap [stop|start|restart] docker
 sudo docker exec -it niki_ispconfig_1 /bin/bash
+
+sudo systemctl disable systemd-resolved.service
+sudo systemctl stop systemd-resolved
 
 sudo docker-compose up
 [file: compose.yml]
