@@ -2,6 +2,7 @@
 sudo apt update
 sudo apt upgrade
 sudo reboot && exit
+Ctrl + D => exit from broken pipe
 
 [install: webmin]
 sudo -s
