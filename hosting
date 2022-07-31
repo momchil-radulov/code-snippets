@@ -23,8 +23,9 @@ sudo snap install docker
 sudo snap [stop|start|restart] docker
 sudo docker exec -it niki_ispconfig_1 /bin/bash
 
-sudo systemctl disable systemd-resolved.service
-sudo systemctl stop systemd-resolved
+# sudo systemctl disable systemd-resolved.service
+# sudo systemctl stop systemd-resolved
+# vim /var/snap/docker/common/var-lib-docker/containers/[id]/hostconfig.json
 
 sudo docker-compose up
 [file: compose.yml]
