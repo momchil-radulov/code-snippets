@@ -26,6 +26,8 @@ sudo docker exec -it niki_ispconfig_1 /bin/bash
 # sudo systemctl disable systemd-resolved.service
 # sudo systemctl stop systemd-resolved
 # vim /var/snap/docker/common/var-lib-docker/containers/[id]/hostconfig.json
+# expose local dns to public ip/interface
+sudo socat UDP-LISTEN:53,fork,reuseaddr,bind=192.168.9.77 UDP:127.0.0.53:53
 
 sudo docker-compose up
 [file: compose.yml]
