@@ -1,0 +1,33 @@
+[install: webmin]
+sudo -s
+cd /root
+wget https://download.webmin.com/jcameron-key.asc
+cat jcameron-key.asc | gpg --dearmor >/usr/share/keyrings/jcameron-key.gpg
+apt-key add jcameron-key.asc
+exit
+
+sudo apt install apt-transport-https
+sudo apt update
+sudo apt upgrade
+sudo apt install webmin
+sudo apt upgrade
+
+[install: docker]
+sudo snap install docker
+
+sudo docker-compose up
+[file: compose.yml]
+version: '3.1'
+
+services:
+
+  ispconfig:
+    image: bodfish/hostingserver
+    restart: always
+    ports:
+      - 20:20
+      - 21:21
+      - 2222:22
+      - 80:80
+      - 443:443
+      - 8080:8080
