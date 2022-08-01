@@ -47,3 +47,7 @@ services:
       - 8080:8080
       - 8081:8081
       - 3306:3306
+
+[mysql]
+mysqldump --host=localhost --user=dbuser -P 1883 -p dbname > dbname.sql
+mysql --password='dbpassword' -u dbuser -P 3306 dbname < dbname.sql
