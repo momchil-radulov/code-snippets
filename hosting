@@ -38,6 +38,10 @@ services:
   ispconfig:
     image: bodfish/hostingserver
     restart: always
+    volumes:
+      - $(pwd)/mysql:/var/lib/mysql
+      - $(pwd)/www:/var/www
+      - $(pwd)/mail:/var/mail
     ports:
       - 20:20
       - 21:21
