@@ -51,10 +51,12 @@ network={
 }
 
 network={
-    ssid="WIFI"
+    ssid="network_name"
     psk="pass"
     id_str="mobile"
 }
+
+nmap -sP 192.168.43.0/24
 
 # service
 sudo systemctl daemon-reload
