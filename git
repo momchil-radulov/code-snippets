@@ -7,7 +7,8 @@ git mv <file_name> <file_name_new> # rename git file
 git status
 git diff
 git diff --staged
-git commit -a
+git add path/file_name OR git commit -a
+git reset HEAD -- path/to/file => remove file from staging area
 OR
 git clone <url_of_a_project> [path_for_project]
 [.gitconfig]
