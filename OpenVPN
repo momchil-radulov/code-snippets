@@ -6,3 +6,5 @@ sudo bash openvpn-install.sh
 
 # client
 sudo openvpn --config rasp_1.ovpn
+cp rasp_1.ovpn /etc/openvpn/
+sudo openvpn client.ovpn
