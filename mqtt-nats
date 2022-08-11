@@ -1,0 +1,4 @@
+nats sub -s 'nats://localhost:4222' '>' |& ts "%d-%m-%Y %H:%M:%S" | tee nats_2022-08-11.log
+nats pub topic 'message'
+nats request topic 'message'
+nats reply topic 'message'
