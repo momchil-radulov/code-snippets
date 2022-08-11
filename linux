@@ -3,6 +3,9 @@ sudo apt update && upgrade OR update-manager => for graphical use
 lsb_release -a => get the version of ubuntu os
 sudo dmidecode -s system-serial-number => get laptop serial number
 
+sudo dpkg -i /absolute/path/to/deb/package_file_for_install
+sudo apt-get install -f
+
 # users
 sudo adduser user_name
 sudo adduser user_name --shell=/bin/false --no-create-home
