@@ -55,3 +55,9 @@ services:
 [mysql]
 mysqldump --host=localhost --user=dbuser -P 1883 -p dbname > dbname.sql
 mysql --password='dbpassword' -u dbuser -P 3306 dbname < dbname.sql
+
+# CentOS
+yum check-update
+curl -fsSL https://get.docker.com/ | sh
+systemctl start docker
+systemctl enable docker
