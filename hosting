@@ -72,9 +72,11 @@ pure-pw mkdb -F /etc/pure-ftpd/pureftpd.pdb
 groupadd pureftpgroup
 useradd -g pureftpgroup pureftpuser
 pure-pw useradd ftpuser -u pureftpuser -d /home/www/domain.com
-chown -R pureftpuser.pureftpgroup /home/www/domain.com
+setfacl -R -m u:pureftpuser:rwx /home/www/domain.com
+    OR chown -R pureftpuser.pureftpgroup /home/www/domain.com
 pure-pw mkdb
-usermod -a -G anothergroup pureftpuser => if needed
+usermod -a -G anothergroup pureftpuser => add to a group, if needed
+gpasswd -d pureftpuser anothergroup => or remove from a group, if needed
 
 # ispprotect.com
 mkdir ispp_scan && cd ispp_scan
