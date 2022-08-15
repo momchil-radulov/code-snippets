@@ -62,3 +62,16 @@ yum check-update
 curl -fsSL https://get.docker.com/ | sh
 systemctl start docker
 systemctl enable docker
+
+# pure-ftpd
+[/etc/pure-ftpd/pure-ftpd.conf]
+#PureDB                        /etc/pure-ftpd/pureftpd.pdb => uncomment
+touch /etc/pure-ftpd/pureftpd.passwd
+pure-pw mkdb -F /etc/pure-ftpd/pureftpd.pdb
+## add a ftp user
+groupadd pureftpgroup
+useradd -g pureftpgroup pureftpuser
+pure-pw useradd ftpuser -u pureftpuser -d /home/www/domain.com
+chown -R pureftpuser.pureftpgroup /home/www/domain.com
+pure-pw mkdb
+usermod -a -G anothergroup pureftpuser => if needed
