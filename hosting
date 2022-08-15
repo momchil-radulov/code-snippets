@@ -75,3 +75,9 @@ pure-pw useradd ftpuser -u pureftpuser -d /home/www/domain.com
 chown -R pureftpuser.pureftpgroup /home/www/domain.com
 pure-pw mkdb
 usermod -a -G anothergroup pureftpuser => if needed
+
+# ispprotect.com
+mkdir ispp_scan && cd ispp_scan
+wget https://www.ispprotect.com/download/ispp_scan.tar.gz
+tar xzf ispp_scan.tar.gz
+./ispp_scan
