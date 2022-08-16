@@ -26,6 +26,21 @@ ssh-keygen
 ssh-copy-id
 add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
 
+# tunneling
+socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
+socat TCP4-LISTEN:10123,fork TCP4:localhost:8080
+## tunnel remote-server.com:80 to localhost:8080
+[/etc/ssh/sshd_config]
+AllowTcpForwarding yes
+GatewayPorts yes
+[/etc/ssh/sshd_config] end
+systemctl restart sshd
+service sshd restart
+ssh -g -f -N user@remote-server.com -L 8080:ip-remote-server:80 # -g global clients -N without a shell -f fork
+ssh user@remote-server.com -L 8080:localhost:80 => local:8080 (сочи към)=> remote:80
+apt install rinetd
+file /etc/rinetd.conf: # bindadress    bindport  connectaddress  connectport
+
 # certbot
 apt-get update
 sudo apt-get install certbot
@@ -47,19 +62,6 @@ sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
 
 # real time show logging
 journalctl -f
-
-# tunneling
-socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
-socat TCP4-LISTEN:10123,fork TCP4:localhost:8080
-## tunnel remote-server.com:80 to localhost:8080
-[/etc/ssh/sshd_config]
-AllowTcpForwarding yes
-GatewayPorts yes
-[/etc/ssh/sshd_config] end
-ssh -g -f -N user@remote-server.com -L 8080:ip-remote-server:80 # -g global clients -N without a shell -f fork
-ssh user@remote-server.com -L 8080:localhost:80 => local:8080 (сочи към)=> remote:80
-apt install rinetd
-file /etc/rinetd.conf: # bindadress    bindport  connectaddress  connectport
 
 # viber
 виж https://linuxhint.com/install_viber_linux/
