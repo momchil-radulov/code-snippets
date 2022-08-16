@@ -50,6 +50,7 @@ journalctl -f
 
 # tunneling
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
+socat TCP4-LISTEN:10123,fork TCP4:localhost:8080
 ## tunnel remote-server.com:80 to localhost:8080
 ssh -g -f user@remote-server.com -L 8080:remote-server.com:80 # -g global clients -N without a shell -f fork
 apt install rinetd
