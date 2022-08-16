@@ -21,6 +21,9 @@ ubuntu:ubuntu
 
 certbot renew --dry-run
 
+# nodered
+bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+
 # network
 ls /sys/class/net
 sudo vim /etc/netplan/50-cloud-init.yaml
