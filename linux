@@ -63,6 +63,9 @@ sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
 # real time show logging
 journalctl -f
 
+# ubuntu gui add ovpn client
+nmcli connection import type openvpn file client_config.ovpn => without sudo !
+
 # viber
 виж https://linuxhint.com/install_viber_linux/
 wget http://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
