@@ -45,10 +45,13 @@ sudo apt install net-tools             =>  netstat     =>  netstat -lt
 sudo apt install redis-tools           =>  redis-cli   =>  redis-cli -h ip_address
 sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
 
+# real time show logging
+journalctl -f
+
 # tunneling
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
 ## tunnel remote-server.com:80 to localhost:8080
-ssh -g -N -f user@remote-server.com -L 8080:remote-server.com:80 # -g global clients -N without a shell -f fork
+ssh -g -f user@remote-server.com -L 8080:remote-server.com:80 # -g global clients -N without a shell -f fork
 apt install rinetd
 file /etc/rinetd.conf: # bindadress    bindport  connectaddress  connectport
 
