@@ -29,6 +29,8 @@ add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the fi
 # tunneling
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>,<rport> &
 socat TCP4-LISTEN:10123,fork TCP4:localhost:8080
+ncat -l -k -p 8080 -c "nc 127.0.0.1 80"
+nc -l -k -p 8080 -c "nc 127.0.0.1 80"
 ## tunnel remote-server.com:80 to localhost:8080
 [/etc/ssh/sshd_config]
 AllowTcpForwarding yes
