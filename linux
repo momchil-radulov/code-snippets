@@ -86,3 +86,9 @@ sudo adduser yourusername audio
 alsamixer
 sudo apt-get install moc
 mocp  # command line player
+
+# pdf to png
+sudo apt install poppler-utils
+## 1 page -f (first) -l (last)
+pdftoppm -png -f 1 -l 1 document.pdf doc_1_page.png
+pdftoppm -png -f 2 -l 2 document.pdf doc_2_page.png
