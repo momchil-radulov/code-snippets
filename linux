@@ -70,7 +70,10 @@ nmcli connection import type openvpn file client_config.ovpn => without sudo !
 
 # clone and restore a linux disk
 lsblk
-dd if=/dev/sdX of=/dev/sdY bs=64
+fdisk -l
+dd if=/dev/sdX of=/dev/sdY bs=64 status=progress # clone a disk
+dd if=/dev/sdX2 of=/dev/sdY2 bs=64 status=progress # clone a partition
+dd if=/dev/sdb status=progress | ssh root@172.20.10.10 dd of=/dev/sdc # clone a disk to a remote machine
 OR
 dd if=/dev/sdX of=path/to/your-backup.img
 dd if=path/to/your-backup.img of=/dev/sdX
