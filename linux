@@ -83,6 +83,11 @@ OR
 dd if=/dev/sdX | gzip -c > path/to/your-backup.img.gz
 gunzip -c /path/to/your-backup.img.gz | dd of=/dev/sdX
 
+# extract zip file
+unzip file.zip
+sudo apt install p7zip-full
+7z x file.7z
+
 # viber
 виж https://linuxhint.com/install_viber_linux/
 wget http://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
