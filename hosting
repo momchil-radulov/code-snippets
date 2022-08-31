@@ -1,3 +1,5 @@
+lsb_release -a => get the version of ubuntu os
+
 [update and upgrade ubuntu]
 sudo apt update
 sudo apt upgrade
@@ -84,3 +86,11 @@ mkdir ispp_scan && cd ispp_scan
 wget https://www.ispprotect.com/download/ispp_scan.tar.gz
 tar xzf ispp_scan.tar.gz
 ./ispp_scan
+
+# virtualization
+egrep -c '(vmx|svm)' /proc/cpuinfo => check kvm, must be > 0
+kvm-ok => install with $sudo apt install cpu-checker
+https://packages.ubuntu.com/ => check package where is
+sudo add-apt-repository universe multiverse
+sudo apt update
+sudo apt install virtualbox
