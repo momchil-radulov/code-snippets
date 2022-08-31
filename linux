@@ -74,6 +74,8 @@ fdisk -l
 dd if=/dev/sdX of=/dev/sdY bs=64 status=progress # clone a disk
 dd if=/dev/sdX2 of=/dev/sdY2 bs=64 status=progress # clone a partition
 dd if=/dev/sdb status=progress | ssh root@172.20.10.10 dd of=/dev/sdc # clone a disk to a remote machine
+cat file | ssh ajw@dogmatix "cat > remote" # only a file
+ssh ajw@dogmatix "cat remote" > file # only a file
 OR
 dd if=/dev/sdX of=path/to/your-backup.img
 dd if=path/to/your-backup.img of=/dev/sdX
