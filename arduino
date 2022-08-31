@@ -1,4 +1,5 @@
 # Button: setup
+## don't have high voltage on input line
 void setup() {
   //configure pin 2 as an input and enable the internal pull-up resistor
   pinMode(2, INPUT_PULLUP);
@@ -41,3 +42,17 @@ void check_button() {
     }
   }
 }
+
+// io_array
+const int BUTTON_OK = 0;
+const int LED_1 = 1;
+const int LED_2 = 2;
+value => on input, 1 if value_counter = value_threshold, 0 if value_counter = 0
+value_counter => on input, value from 0 to value_threshold, =+1 on cicle if high value measurment, =-1 on cicle if low value measurment
+value_counter = 10 => on output, 10 cicles voltage, different from default value, on every cicle =-1 to 0
+value = 0 => on output, lower default value; 1 => high default value;
+
+//                       is_output, var_const, pin_number, value, value_counter, value_threshold
+int io_array[3][6] = { { 0,         0,         3,          0,     0,             10              },
+                       { 1,         1,         4,          0,     0,             0               },
+                       { 1,         1,         4,          0,     0,             0               } };
