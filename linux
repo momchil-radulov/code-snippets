@@ -68,6 +68,16 @@ journalctl -f
 # ubuntu gui add ovpn client
 nmcli connection import type openvpn file client_config.ovpn => without sudo !
 
+# clone and restore a linux disk
+lsblk
+dd if=/dev/sdX of=/dev/sdY bs=64
+OR
+dd if=/dev/sdX of=path/to/your-backup.img
+dd if=path/to/your-backup.img of=/dev/sdX
+OR
+dd if=/dev/sdX | gzip -c > path/to/your-backup.img.gz
+gunzip -c /path/to/your-backup.img.gz | dd of=/dev/sdX
+
 # viber
 виж https://linuxhint.com/install_viber_linux/
 wget http://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
