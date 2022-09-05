@@ -1,0 +1,16 @@
+https://jsoncrack.com/editor
+https://blog.kellybrazil.com/2022/08/29/tutorial-rapid-script-development-with-bash-jc-and-jq/
+https://jsontochart.com/
+pip3 install jc
+apt-get install jc
+pip3 install jtbl
+pip3 install jellex
+sudo apt install jq
+sudo apt install xclip
+jc ls -l | xclip -sel clip  # copy to clipboard
+xclip -sel clip -o          # print from clipboard
+jc -p dig google.com        # -p => pretty format
+jc git log | jq -r '.[].message' # -r => raw output format, not JSON e.g. double quotes
+jc ls -l | jq '[.[] | {filename, flags}]' | jtbl
+jellex <(git log | jc --git-log) OR jellex <(jc git log) # jellex get a filename
+jc git log | jello '[i.message for i in _]' OR jc git log | jq '[.[].message]'
