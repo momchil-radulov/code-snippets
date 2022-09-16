@@ -49,22 +49,6 @@ git diff master:dir/file_name dir/file_name
 # REMOVE!! changes
 git reset --hard section-3.1
 
-# tags
-git tag # show tags
-git tag -a v1.4 -m "my version 1.4" # git create annotated tag
-git tag v1.4-lw # git create lightweight tag (basically the commit)
-git log --pretty=oneline # show commits
-git tag -a v1.2 9fceb02 # add tag from a commit
-git push origin --tags # push tags to server
-git show v1.2 # show info for tag "v1.2"
-git checkout v2.0.0 # git checkout a tag version of git
-git checkout -b <branch_name> # create a new branch from current code
-git tag -d v1.4-lw # delete a tag
-git checkout master # return to master/main branch
-git pull # get last changes before merge
-git merge <branch_name> # merge branch to master
-git push # push changes to the server
-
 # branch
 git checkout -b <branch_name> # create a new branch from current code
 git commit -a # commit branch changes
@@ -73,6 +57,7 @@ git checkout master # return to master/main branch
 git pull # get last changes before merge
 git merge <branch_name> # merge branch to master
 git push # push changes to the server
+
 git branch # show branches
 git fetch -p # get deleted branches from server/origin
 git branch -d <branch_name> # delete a branch localy
@@ -90,6 +75,17 @@ git diff master..branchName
 git diff master:dir/file_name dir/file_name
 git log master..browsfarm-ci --pretty="" --name-only | sort | uniq
 $git log master..browsfarm-ci --pretty="" --name-only | sort | uniq | xargs -I% git --no-pager diff master:% % &> changes.log
+
+# tags
+git tag # show tags
+git tag -a v1.4 -m "my version 1.4" # git create annotated tag
+git tag v1.4-lw # git create lightweight tag (basically the commit)
+git log --pretty=oneline # show commits
+git tag -a v1.2 9fceb02 # add tag from a commit
+git push origin --tags # push tags to server
+git show v1.2 # show info for tag "v1.2"
+git checkout v2.0.0 # git checkout a tag version of git
+git tag -d v1.4-lw # delete a tag
 
 # temporary undo changes in a file and after that, return changes
 git stash push project_name/appsettings.json  
