@@ -53,6 +53,11 @@ GET /shirts/_search
   }
 }
 
+# python
+import elasticsearch
+es_logger = elasticsearch.logger
+es_logger.setLevel(elasticsearch.logging.DEBUG)
+
 # mappings
 curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {"year": {"type":"date"}}}}'
 # keyword => no text analyzer, "fields": { "raw": {"type": "keyword"} } => copy of the field without text analyzer for sorting
