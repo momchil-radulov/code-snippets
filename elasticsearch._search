@@ -53,6 +53,47 @@ GET /shirts/_search
   }
 }
 
+## with paging
+curl -H 'Content-Type: application/json' -XPOST 'http://localhost:9200/shirts/_search?pretty' -d '{
+  "_source": [
+    "title",
+    "description"
+  ],
+  "query": {
+    "range": {
+      "updated_at": {
+        "gte": "now-1d"
+      }
+    }
+  },
+  "size": 9000,
+  "sort": [
+    "_id"
+  ]
+}'
+
+curl -H 'Content-Type: application/json' -XPOST 'http://localhost:9200/shirts/_search?pretty' -d '{
+  "_source": [
+    "title",
+    "description"
+  ],
+  "query": {
+    "range": {
+      "updated_at": {
+        "gte": "now-1d"
+      }
+    }
+  },
+  "search_after": [
+    "1653c421acf4023a9fe6aaaa05f08a62b7c393fc"
+  ],
+  "size": 9000,
+  "sort": [
+    "_id"
+  ]
+}'
+
+
 # python
 import logging
 es_trace_logger = logging.getLogger('elasticsearch.trace')
