@@ -57,8 +57,8 @@ GET /shirts/_search
 import logging
 es_trace_logger = logging.getLogger('elasticsearch.trace')
 es_trace_logger.setLevel(logging.DEBUG)
-handler = logging.StreamHandler()
-es_trace_logger.addHandler(handler)
+es_trace_logger.addHandler(logging.FileHandler('es_json.json'))
+es_trace_logger.addHandler(logging.StreamHandler())
 
 import elasticsearch
 es_logger = elasticsearch.logger
