@@ -7,6 +7,52 @@ curl -X GET 'localhost:9200/_cluster/health?pretty'
 1 #!/bin/bash
 2 /usr/bin/curl -H"Content-Type: application/json" "$@"
 
+# basic workflow
+PUT /shirts
+{
+  "mappings": {
+    "properties": {
+      "brand": { "type": "keyword"},
+      "color": { "type": "keyword"},
+      "model": { "type": "keyword"},
+      "title": { "type": "text"},
+      "description": { "type": "text"}
+    }
+  }
+}
+PUT /shirts/_doc/1?refresh
+{
+  "brand": "gucci",
+  "color": "red",
+  "model": "slim",
+  "title": "Modern red shirt",
+  "description": "Very nice and slim.",
+}
+GET /shirts/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        { "term": { "color": "red"   }},
+        { "term": { "brand": "gucci" }}
+      ],
+      "must": [
+        {"match": {"title":       "modern" }},
+        {"match": {"description": "nice"   }}
+      ]
+    }
+  }
+}
+GET /shirts/_search?q=description:nice
+GET /shirts/_search
+{
+  "query" : {
+    "match" : {
+      "description" : "nice"
+    }
+  }
+}
+
 # mappings
 curl -XPUT -H"Content-Type: application/json" 127.0.0.1:9200/movies -d '{"mappings": {"properties": {"year": {"type":"date"}}}}'
 # keyword => no text analyzer, "fields": { "raw": {"type": "keyword"} } => copy of the field without text analyzer for sorting
