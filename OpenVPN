@@ -33,3 +33,7 @@ npm install node-red-node-serialport
 
 # arduino
 sudo apt install arduino
+
+# anydesk
+sudo dpkg -i anydesk_6.2.0-1_amd64.deb
+sudo dpkg --remove anydesk
