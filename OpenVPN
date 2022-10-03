@@ -6,8 +6,9 @@ sudo bash openvpn-install.sh
 1 => rasp_1 => /root/rasp_1.ovpn
 
 # client
+sudo apt install openvpn
 sudo openvpn --config rasp_1.ovpn
-cp rasp_1.ovpn /etc/openvpn/
+sudo cp rasp_1.ovpn /etc/openvpn/
 sudo openvpn rasp_1.ovpn
 # start at reboot
 crontab -e
