@@ -26,3 +26,7 @@ remmina -> vnc
 bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
 sudo systemctl enable nodered.service
 node-red admin init -> /home/linaro/.node-red/settings.js
+npm install node-red-node-serialport
+
+# arduino
+sudo apt install arduino
