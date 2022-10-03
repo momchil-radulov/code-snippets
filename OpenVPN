@@ -16,4 +16,8 @@ crontab -e
 
 # remote desktop
 apt install xrdp
-remmina
+remmina -> rdp
+## tinkerboard
+sudo tinker-config
+Interfacing Options -> VNC -> enable
+remmina -> vnc
