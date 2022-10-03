@@ -3,6 +3,7 @@
 wget https://git.io/vpn -O openvpn-install.sh
 sudo chmod +x openvpn-install.sh
 sudo bash openvpn-install.sh
+1 => rasp_1 => /root/rasp_1.ovpn
 
 # client
 sudo openvpn --config rasp_1.ovpn
