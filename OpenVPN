@@ -21,3 +21,7 @@ remmina -> rdp
 sudo tinker-config
 Interfacing Options -> VNC -> enable
 remmina -> vnc
+
+# nodered
+bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+sudo systemctl enable nodered.service
