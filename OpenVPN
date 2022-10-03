@@ -13,3 +13,7 @@ sudo openvpn rasp_1.ovpn
 # start at reboot
 crontab -e
 @reboot sudo openvpn rasp_1.ovpn
+
+# remote desktop
+apt install xrdp
+remmina
