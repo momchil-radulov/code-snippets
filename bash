@@ -1,5 +1,8 @@
 Ctrl + Shift + V -> paste in console
 
+# bash scripts
+https://blog.kellybrazil.com/2022/08/29/tutorial-rapid-script-development-with-bash-jc-and-jq/
+
 lsb_release -a
 # open file with GUI
 xdg-open mydoc.pdf
