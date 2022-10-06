@@ -1,7 +1,12 @@
 docker version
 docker-compose version
 
-## install
+
+# for web hosting
+https://techsch.com/tutorials/multiple-websites-jwilder-nginx-proxy-letsencrypt
+
+
+# install
 # remove old
 sudo apt-get remove docker docker-engine docker.io containerd runc
 # prerequest
@@ -23,6 +28,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 # test
 sudo docker run hello-world
 
+
 # docker commands
 docker help
 docker inspect
@@ -39,11 +45,13 @@ docker exec
 docker network
 docker cp
 
+
 #docker image
 docker image ls -qf
 docker image rm image_id
 docker image rm -f image_id
 docker images -a
+
 
 #docker container
 docker container ls -aq
@@ -55,6 +63,7 @@ docker container run diamol/ch02-hello-diamol
 # --workdir OR -w
 docker container run --rm --detach --publish 8088:80 --workdir=/var/www diamol/ch02-hello-diamol-web
 docker container run -p 1880:1880 -it -p 1883:1883 eclipse-mosquitto
+
 
 #docker build
 docker build -t hello-python-microservice .
@@ -80,8 +89,10 @@ docker inspect kibana
 #docker exec
 docker exec -it -u root kibana /bin/bash
 
+
 # docker python with wheel
 docker run --rm -v $PWD/wheels:/wheels docker-python-wheel python -m pip wheel --wheel-dir=/wheels -r requirements.txt
+
 
 #docker use
 docker pull nodered/node-red:latest
@@ -97,6 +108,7 @@ docker container rm nodered
 docker update --restart always nodered
 docker container logs nodered
 
+
 [run.sh]
 1 #!/bin/bash
 2 docker run --rm -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 \
@@ -104,6 +116,7 @@ docker container logs nodered
 4        -e "discovery.type=single-node" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
 5        docker.elastic.co/elasticsearch/elasticsearch:7.8.0
 6 docker run --rm -d --name kibana --net net1 -p 5601:5601 kibana:7.8.1
+
 
 # Copy an index from production to staging with mappings:
 docker run --rm -ti elasticdump/elasticsearch-dump \
@@ -114,6 +127,7 @@ docker run --rm -ti elasticdump/elasticsearch-dump \
   --input=http://production.es.com:9200/my_index \
   --output=http://staging.es.com:9200/my_index \
   --type=data
+
 
 # Backup index data to a file:
 docker run --rm -ti -v /data:/tmp elasticdump/elasticsearch-dump \
