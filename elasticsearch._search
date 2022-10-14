@@ -1,3 +1,55 @@
+# basic search
+"query": {
+  "bool": {
+    "must_not": [
+      {
+        "terms": {
+          "product.keyword": [
+            "_NONE_", "_NULL_"
+          ]
+        }
+      }
+    ],
+    "must": [
+      {
+        "wildcard": {
+          "title.keyword": {
+            "value": "*Lenovo*ThinkPad*",
+            "case_insensitive": true
+          }
+        }
+      },
+      {
+        "term": {
+          "product.keyword": {
+            "value": "laptop"
+          }
+        }
+      },
+      {
+        "query_string": {
+          "query": "*_products.csv OR *_clients.csv OR *_companies.csv",
+          "default_field": "filename"
+        }
+      },
+      {
+        "exists": {
+          "field": "price"
+        }
+      },
+      {
+        "range": {
+          "timestamp": {
+            "gte": "now-3d",
+            "lte": "now-1d"
+          }
+        }
+      }
+    ]
+  }
+}
+
+# curl
 curl -X GET 'localhost:9200/' OR curl -XGET 127.0.0.1:9200 OR curl 127.0.0.1:9200 OR curl localhost:9200
 curl -X GET 'localhost:9200/_cat/nodes?v&pretty'
 curl -X GET 'localhost:9200/_cat/indices?v&pretty'
