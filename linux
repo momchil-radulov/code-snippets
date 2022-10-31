@@ -2,6 +2,9 @@
 sudo apt update && upgrade OR update-manager => for graphical use
 lsb_release -a => get the version of ubuntu os
 sudo dmidecode -s system-serial-number => get laptop serial number
+sudo dmidecode -s system-version       => model name
+sudo dmidecode -s system-product-name  => product name
+sudo dmidecode -t system               => get ALL data
 
 sudo dpkg -i /absolute/path/to/deb/package_file_for_install
 sudo apt-get install -f
