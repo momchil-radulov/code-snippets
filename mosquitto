@@ -1,10 +1,25 @@
-file: mosquitto.conf
+sudo apt-get install mosquitto mosquitto-clients
+sudo systemctl status mosquitto
+sudo systemctl enable mosquitto
+sudo systemctl reload mosquitto
+sudo systemctl start mosquitto
+sudo systemctl stop mosquitto
+
+
+file: /etc/mosquitto/mosquitto.conf
 allow_anonymous false
 password_file /etc/mosquitto/passwd
 acl_file /etc/mosquitto/acl
 file: acl
 user mosquitto_user
 topic access_to_topic
+
+# websockets
+port 1883
+listener 9001
+protocol websockets
+socket_domain ipv4
+allow_anonymous true
 
 $mosquitto_passwd -b passwd user password
 $service mosquitto reload
