@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My first Vue app</title>
-  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 </head>
 <body>
@@ -18,13 +18,17 @@
   </div>
 
 <script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Монети:',
-            log_messages: []
-        }
-    })
+   const { createApp } = Vue
+
+   var app = createApp({
+	  data() {
+	    return {
+		    message: 'Монети:',
+		    log_messages: []
+	    }
+	  }
+	}).mount('#app')
+
 </script>
 <script>
 // Create a client instance: Broker, Port, Websocket Path, Client ID
