@@ -17,7 +17,7 @@ ssh-copy-id username@host
 sudo apt-get install mosquitto mosquitto-clients
 sudo systemctl status mosquitto
 sudo systemctl enable mosquitto
-sudo systemctl reload mosquitto
+sudo systemctl restart mosquitto
 sudo systemctl start mosquitto
 sudo systemctl stop mosquitto
 
