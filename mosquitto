@@ -17,7 +17,9 @@ topic access_to_topic
 
 # websockets
 port 1883
+#log_type all
 listener 9001
+#log_type all
 protocol websockets
 socket_domain ipv4
 allow_anonymous true
