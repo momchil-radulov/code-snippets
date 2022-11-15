@@ -10,11 +10,15 @@ dmesg | grep -i attached
 umount /dev/sda1 /dev/sda2
 sudo dd if=/dev/sda of=rasp.img bs=4M status=progress
 sudo dd if=rasp.img of=/dev/sda bs=4M status=progress
-
+ 
 ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
 ssh-copy-id username@host
 
-sudo apt-get install mosquitto-clients
+sudo apt-get install mosquitto mosquitto-clients
+sudo systemctl status mosquitto
+sudo systemctl enable mosquitto
+sudo systemctl start mosquitto
+sudo systemctl stop mosquitto
 
 sudo screen /dev/ttyUSB0 115200
 ubuntu:ubuntu
