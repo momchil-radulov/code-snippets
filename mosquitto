@@ -5,6 +5,7 @@ sudo systemctl restart mosquitto
 sudo systemctl start mosquitto
 sudo systemctl stop mosquitto
 
+sudo mosquitto -c /etc/mosquitto/mosquitto.conf
 
 file: /etc/mosquitto/mosquitto.conf
 allow_anonymous false
