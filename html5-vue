@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My first Vue app</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 </head>
 <body>
   <div id="app" style="width: 150px; margin: 0 auto;">
@@ -32,7 +32,7 @@
 </script>
 <script>
 // Create a client instance: Broker, Port, Websocket Path, Client ID
-client = new Paho.MQTT.Client("localhost", Number(9001), "/mqtt", ""); // only one connection for one Client ID
+client = new Paho.MQTT.Client("localhost", 9001, "/mqtt", "client_browser"); // only one connection for one Client ID
 
 var options_mqtt = {
 	userName : "",
@@ -62,7 +62,7 @@ client.onMessageArrived = function (message) {
 // Called when the connection is made
 function onConnect() {
     console.log("Connected!");
-    client.subscribe("topic_name", {qos: 1});
+    client.subscribe("mqtt", {qos: 1});
     
     // Publish a Message
     //var message = new Paho.MQTT.Message("Message Payload");
