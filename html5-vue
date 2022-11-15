@@ -28,7 +28,7 @@
 </script>
 <script>
 // Create a client instance: Broker, Port, Websocket Path, Client ID
-client = new Paho.MQTT.Client("dev.kemsa.net", Number(1884), "/mqtt", ""); // only one connection for one Client ID
+client = new Paho.MQTT.Client("localhost", Number(9001), "/mqtt", ""); // only one connection for one Client ID
 
 var options_mqtt = {
 	userName : "mqtt_user",
