@@ -6,7 +6,8 @@ sudo apt upgrade
 sudo apt install python3-pip
 sudo apt install nginx
 sudo apt install byobu
-sudo apt install google-chrome-stable
+
+chromium --kiosk start.html
 
 dmesg | grep -i attached
 umount /dev/sda1 /dev/sda2
