@@ -10,7 +10,7 @@ sudo dpkg -i /absolute/path/to/deb/package_file_for_install
 sudo apt-get install -f
 
 sudo apt install byobu
-sudo apt install google-chrome-stable
+chromium --kiosk start.html
 
 # users
 sudo adduser user_name
