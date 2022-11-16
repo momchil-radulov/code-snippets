@@ -9,6 +9,9 @@ sudo dmidecode -t system               => get ALL data
 sudo dpkg -i /absolute/path/to/deb/package_file_for_install
 sudo apt-get install -f
 
+sudo apt install byobu
+sudo apt install google-chrome-stable
+
 # users
 sudo adduser user_name
 sudo adduser user_name --shell=/bin/false --no-create-home
