@@ -6,11 +6,21 @@ void setup() {
 }
 
 # Loop: constant run time of a loop
+String cmd = "";
 const unsigned long loopPeriod = 5; //milliseconds
 static unsigned long lastLoop;
 void loop() {
   check_button();
-  
+
+  while (Serial.available() > 0) {
+    serial_read = (char)Serial.read();
+    cmd += serial_read;
+    if (serial_read == '\n') {
+        exec_cmd(cmd);
+        cmd = "";
+    }
+  }
+
   if (millis()-lastLoop < loopPeriod) {
     delay(loopPeriod - (millis()-lastLoop));
   }
