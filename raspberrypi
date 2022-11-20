@@ -99,6 +99,7 @@ WantedBy=multi-user.target
      crontab -e => for local user
 sudo crontab -e => for root user
 @reboot sudo openvpn rasp_2.ovpn
+@reboot /bin/bash /home/linaro/Desktop/mqtt_mc0001_in.sh
 */1 * * * * ~/create_ssh_tunnel.sh &> /dev/nul
 chmod 700 ~/create_ssh_tunnel.sh
 [create_ssh_tunnel.sh] FILE
