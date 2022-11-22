@@ -99,10 +99,54 @@ WantedBy=multi-user.target
      crontab -e => for local user
 sudo crontab -e => for root user
 
-@reboot sleep 10 && sudo openvpn rasp_2.ovpn
+@reboot sleep 10 && /bin/bash /home/linaro/Desktop/rasp_2.sh
 @reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_in.sh
 @reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_out.sh
 @reboot sleep 25 && chromium --kiosk /home/linaro/Desktop/start.html
+
+[rasp_2.sh]
+while true
+do
+    sudo openvpn /home/linaro/Desktop/rasp_2.ovpn
+    sleep 10
+done
+
+[mqtt_mc0003_in.sh]
+while true
+do
+    mosquitto_sub -h host.com -p 8883 \
+                  -t topic/subtopic \
+                  -u user_name -P 'password' \
+                  --cafile /home/linaro/Desktop/ca.crt --insecure \
+                  | \ 
+                  mosquitto_pub -l -h localhost -p 1883 -t device/in
+    sleep 10
+done
+
+[mqtt_mc0003_out.sh]
+while true
+do
+    mosquitto_sub -h localhost -p 1883 \
+                  -t device/out \
+                  | mosquitto_pub -l \
+                  -h host.com -p 8883 \
+                  -t topic/subtopic \
+                  -u user_name -P password \
+                  --cafile /home/linaro/Desktop/ca.crt --insecure
+    sleep 10
+done
+
+[start.html]
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="3; URL=http://localhost:1880/gui" />
+</head>
+<body>
+<a href="http://localhost:1880/gui">gui</a>
+</body>
+</html>
+
 
 */1 * * * * ~/create_ssh_tunnel.sh &> /dev/nul
 chmod 700 ~/create_ssh_tunnel.sh
