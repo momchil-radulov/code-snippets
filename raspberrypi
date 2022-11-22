@@ -98,9 +98,12 @@ WantedBy=multi-user.target
 # reverse shell, see: https://www.tunnelsup.com/raspberry-pi-phoning-home-using-a-reverse-remote-ssh-tunnel/
      crontab -e => for local user
 sudo crontab -e => for root user
-@reboot sudo openvpn rasp_2.ovpn
-@reboot sleep 30 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_in.sh
-@reboot sleep 30 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_out.sh
+
+@reboot sleep 10 && sudo openvpn rasp_2.ovpn
+@reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_in.sh
+@reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_out.sh
+@reboot sleep 30 && chromium --kiosk /home/linaro/Desktop/start.html
+
 */1 * * * * ~/create_ssh_tunnel.sh &> /dev/nul
 chmod 700 ~/create_ssh_tunnel.sh
 [create_ssh_tunnel.sh] FILE
