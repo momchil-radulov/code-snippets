@@ -98,10 +98,11 @@ WantedBy=multi-user.target
 # reverse shell, see: https://www.tunnelsup.com/raspberry-pi-phoning-home-using-a-reverse-remote-ssh-tunnel/
 sudo crontab -e => for root user
      crontab -e => for local user
-
-@reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_in.sh
-@reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_out.sh
-@reboot sleep 25 && chromium --kiosk /home/linaro/Desktop/start.html
+chmod +x /home/linaro/Desktop/mqtt_mc0003_in.sh
+chmod +x /home/linaro/Desktop/mqtt_mc0003_out.sh
+*/2 * * * * pgrep mqtt_mc0003_in || /home/linaro/Desktop/mqtt_mc0003_in.sh
+*/2 * * * * pgrep mqtt_mc0003_out || /home/linaro/Desktop/mqtt_mc0003_out.sh
+@reboot sleep 15 && chromium --kiosk /home/linaro/Desktop/start.html
 
 # manual
 sudo openvpn /home/linaro/Desktop/rasp_2.ovpn
@@ -113,29 +114,23 @@ cp /home/linaro/Desktop/rasp_2.ovpn /etc/openvpn/rasp_2.conf  # .ovpn => .conf
 AUTOSTART="rasp_2"
 
 [mqtt_mc0003_in.sh]
-while true
-do
-    mosquitto_sub -h host.com -p 8883 \
-                  -t topic/subtopic \
-                  -u user_name -P 'password' \
-                  --cafile /home/linaro/Desktop/ca.crt --insecure \
-                  | \ 
-                  mosquitto_pub -l -h localhost -p 1883 -t device/in
-    sleep 10
-done
+#!/bin/bash
+mosquitto_sub -h host.com -p 8883 \
+              -t topic/subtopic \
+              -u user_name -P 'password' \
+              --cafile /home/linaro/Desktop/ca.crt --insecure \
+              | \ 
+              mosquitto_pub -l -h localhost -p 1883 -t device/in
 
 [mqtt_mc0003_out.sh]
-while true
-do
-    mosquitto_sub -h localhost -p 1883 \
-                  -t device/out \
-                  | mosquitto_pub -l \
-                  -h host.com -p 8883 \
-                  -t topic/subtopic \
-                  -u user_name -P password \
-                  --cafile /home/linaro/Desktop/ca.crt --insecure
-    sleep 10
-done
+#!/bin/bash
+mosquitto_sub -h localhost -p 1883 \
+              -t device/out \
+              | mosquitto_pub -l \
+              -h host.com -p 8883 \
+              -t topic/subtopic \
+              -u user_name -P password \
+              --cafile /home/linaro/Desktop/ca.crt --insecure
 
 [start.html]
 <!DOCTYPE html>
