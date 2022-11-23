@@ -96,20 +96,21 @@ RestartSec=10
 WantedBy=multi-user.target
 
 # reverse shell, see: https://www.tunnelsup.com/raspberry-pi-phoning-home-using-a-reverse-remote-ssh-tunnel/
-     crontab -e => for local user
 sudo crontab -e => for root user
+     crontab -e => for local user
 
-@reboot sleep 10 && /bin/bash /home/linaro/Desktop/rasp_2.sh
 @reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_in.sh
 @reboot sleep 20 && /bin/bash /home/linaro/Desktop/mqtt_mc0003_out.sh
 @reboot sleep 25 && chromium --kiosk /home/linaro/Desktop/start.html
 
-[rasp_2.sh]
-while true
-do
-    sudo openvpn /home/linaro/Desktop/rasp_2.ovpn
-    sleep 10
-done
+# manual
+sudo openvpn /home/linaro/Desktop/rasp_2.ovpn
+# auto
+sudo apt install openvpn
+sudo systemctl enable openvpn
+cp /home/linaro/Desktop/rasp_2.ovpn /etc/openvpn/rasp_2.conf  # .ovpn => .conf
+[/etc/default/openvpn]
+AUTOSTART="rasp_2"
 
 [mqtt_mc0003_in.sh]
 while true
