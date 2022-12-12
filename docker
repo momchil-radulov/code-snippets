@@ -1,6 +1,11 @@
 docker version
 docker-compose version
 
+# running docker commands without sudo
+sudo groupadd docker  # usually not needed
+sudo usermod -aG docker $USER
+newgrp docker  # to activate the changes to the group
+groups  # check changes
 
 # for web hosting
 https://techsch.com/tutorials/multiple-websites-jwilder-nginx-proxy-letsencrypt
