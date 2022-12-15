@@ -2,3 +2,6 @@ https://www.sqlite.org/index.html
 https://github.com/coleifer/sqlite-web
 
 https://unqlite.org/
+
+# custom defined function  #name of the function   #args number #python function
+connection.create_function("hello",                2,            hello_sql)
