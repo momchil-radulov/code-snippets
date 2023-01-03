@@ -56,6 +56,7 @@ git push # push branch changes
 git checkout master # return to master/main branch
 git pull # get last changes before merge
 git diff $(git merge-base master <branch_name>)  # show diff made in <branch_name>
+git log master..<branch_name>)  # show commits made in <branch_name>
 git merge <branch_name> # merge branch to master
 git push # push changes to the server
 
