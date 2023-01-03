@@ -55,6 +55,7 @@ git commit -a # commit branch changes
 git push # push branch changes
 git checkout master # return to master/main branch
 git pull # get last changes before merge
+git diff $(git merge-base master <branch_name>)  # show diff made in <branch_name>
 git merge <branch_name> # merge branch to master
 git push # push changes to the server
 
@@ -64,6 +65,7 @@ git branch -d <branch_name> # delete a branch localy
 git push origin --delete <branch_name> # delete a branch remotely
 git checkout <branch_name> # get code of a branch
 # branch changes
+git diff $(git merge-base master branch_name)  # show diff made in branch_name
 git log master..branchName
 git log master..branchName -p
 git log master..branchName --oneline
