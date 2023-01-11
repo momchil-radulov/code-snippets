@@ -10,4 +10,5 @@ c-b c  # create a new window
 c-b ,  # rename the current window
 c-b index_of_a_window  # go to a window (like virtual desktop)
 c-b t  # show a big clock
+c-b ?  # show the help
 c-b d  # detach from the tmux
