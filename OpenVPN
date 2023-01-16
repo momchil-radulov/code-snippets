@@ -17,6 +17,9 @@ sudo openvpn rasp_1.ovpn
 crontab -e
 @reboot sudo openvpn rasp_1.ovpn
 
+# ubuntu gui add ovpn client
+nmcli connection import type openvpn file client_config.ovpn => without sudo !
+
 # remote desktop
 apt install xrdp
 remmina -> rdp
