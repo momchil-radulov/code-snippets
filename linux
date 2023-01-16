@@ -18,7 +18,9 @@ sudo adduser user_name --shell=/bin/false --no-create-home
 sudo deluser user_name
 id -u # get user id
 id -g # get group id
-sudo su user_name
+sudo su user_name  # login as user_name
+sudo su            # login as root
+sudo -s            # login as root
 
 # clear a image metadata
 apt install imagemagick
