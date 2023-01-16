@@ -30,6 +30,10 @@ echo \
 # install
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
+# install curl
+curl -fsSL https://get.docker.com -o get-docker.sh
+DRY_RUN=1 sudo sh ./get-docker.sh  # test
+sudo sh ./get-docker.sh  # test
 # test
 sudo docker run hello-world
 
