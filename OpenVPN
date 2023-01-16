@@ -5,7 +5,7 @@ sudo apt upgrade
 # server
 wget https://git.io/vpn -O openvpn-install.sh
 sudo chmod +x openvpn-install.sh
-sudo bash openvpn-install.sh
+sudo bash openvpn-install.sh  # auto generate client
 1 => rasp_1 => /root/rasp_1.ovpn
 
 # client
@@ -13,9 +13,16 @@ sudo apt install openvpn
 sudo openvpn --config rasp_1.ovpn
 sudo cp rasp_1.ovpn /etc/openvpn/
 sudo openvpn rasp_1.ovpn
-# start at reboot
-crontab -e
-@reboot sudo openvpn rasp_1.ovpn
+
+# start
+# manual
+sudo openvpn /home/linaro/Desktop/rasp_2.ovpn
+# auto
+sudo apt install openvpn
+sudo systemctl enable openvpn
+cp /home/linaro/Desktop/rasp_2.ovpn /etc/openvpn/rasp_2.conf  # .ovpn => .conf
+[/etc/default/openvpn] (file)
+AUTOSTART="rasp_2"
 
 # ubuntu gui add ovpn client
 nmcli connection import type openvpn file client_config.ovpn => without sudo !
