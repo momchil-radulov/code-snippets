@@ -117,3 +117,13 @@ git checkout master
 git merge mobiledevicesupport
 git push origin master
 # # #
+
+# git: first rebase locally
+git fetch origin                    # Updates origin/master
+git rebase origin/master            # Rebases current branch onto origin/master
+OR git pull --rebase origin master  # Upper two commands in one more new command
+After that, hint:
+  Resolve all conflicts manually, mark them as resolved with
+  "git add/rm <conflicted_files>", then run "git rebase --continue".
+  You can instead skip this commit: run "git rebase --skip".
+  To abort and get back to the state before "git rebase", run "git rebase --abort".
