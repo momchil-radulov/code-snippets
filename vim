@@ -14,7 +14,13 @@ ctags -R --languages=python -f pl.tags ../pylib
 vim *py                  => open mulitple files in vim
 :tab all                 => open all open files in new tabs
 Ctrl-W Shift-T OR tabe % => open splitted window in a new tab
+vim -p $(ls | grep '.py$')
+vim -p $(cat search | cut -f1 -d: | uniq)
 
+# sessions
+:mksession ~/mysession.vim
+:source ~/mysession.vim
+vim -S ~/mysession.vim
 
 [.vimrc] FILE
 "Вырубаем режим совместимости с VI:
