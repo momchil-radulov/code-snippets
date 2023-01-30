@@ -1,3 +1,10 @@
+# prettier (code formatter)
+npm install --save-dev --save-exact prettier  # install prettier
+npx prettier --check .  # only check
+npx prettier --write .  # write formatting
+npx prettier --write `git diff --name-only master...`  # format files on you branch
+
+
 # OAK - middleware framework for Deno's http server, including a router middleware
 https://github.com/oakserver/oak - за deno
 
