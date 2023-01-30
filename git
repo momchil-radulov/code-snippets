@@ -81,6 +81,7 @@ git diff master..branchName
 git diff master:dir/file_name dir/file_name
 git log master..browsfarm-ci --pretty="" --name-only | sort | uniq
 $git log master..browsfarm-ci --pretty="" --name-only | sort | uniq | xargs -I% git --no-pager diff master:% % &> changes.log
+git diff --name-only branch_name $(git merge-base branch_name main)  # show branch changed files 
 
 # tags
 git tag # show tags
