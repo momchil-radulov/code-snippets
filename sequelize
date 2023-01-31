@@ -1,5 +1,9 @@
+# generate migration
+yarn run migration:generate --name="your-migration-name"
+
 yarn migrate                       # migrate
 npx sequelize-cli db:migrate:undo  # undo last migrate
-# migrate, undo migrate concrete migration
+
+# migrate(undo migrate) concrete migration
 npx sequelize-cli db:migrate --name 20230123133113-users-add-permissions.js
 npx sequelize-cli db:migrate:undo --name 20230123133113-users-add-permissions.js
