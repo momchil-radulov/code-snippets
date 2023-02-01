@@ -48,6 +48,7 @@ psql -h host_name.com -U user_name db_name
 >\q         # quit/exit
 >\x         # set Expanded display to On/Off
 >select "Column" from "Table" where "Column" = 'string';
+>\i file_name.sql  # execute commands/sql from external file
 
 # python
 pip install sandman2
