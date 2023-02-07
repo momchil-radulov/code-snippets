@@ -1,88 +1,28 @@
-$ npm install pug
-$ npm install --save jstransformer-coffee-script
-$ npm install --save jstransformer-markdown-it
+sudo apt update
+sudo apt install nodejs
+sudo apt install npm
 
-file: pug.js 
-const pug = require('pug');
-const fs = require('fs')
-args = process.argv.slice(2);
-for (arg of args) {
-    fs.writeFile(arg + ".html", pug.renderFile(arg),
-                 function (err){if(err)console.log(err)})
-    console.log(arg + ".html")
-}
+mkdir project_name
+cd project_name
+npm init
+[file: package.json]
+[add:]
+"types": "module",
+"start": "node index.js",
+[end file]
+npm install express
+[file: index.js]
+[create:]
+var express = require('express');
+var app = express();
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+app.listen(8000, function () {
+  console.log('Listening to Port 8000');
+});
+[end file]
+npm start
 
-$ node pug.js article-15.pug
-
-file: article-15.pug
-doctype html
-html
-  head
-    title An Article
-  body
-    include:markdown-it article-15.md
-
-file: article-15.md
-# H1 Heading
-H1 Heading
-==========
-First line with **bold**.
-## H2 Heading
-H2 Heading
-----------
-Second line with _italics_ or *italics*.
-### H3 Heading
-Third line with `code` or ``code with ` chars ``
-
-[link](http://www.example.com)
-[internal link `code`](#code)
-new line with two spaces on end  
-<http://www.example.com>  
-<mail@example.com>
-#### H4 Heading
-Fourth line with **_bold italics_** or ***bold italics***.
-- unordered list 1
-
-    > text of a blcokquote
-    > with some example text
-
-- unordered list 2
-* or unordered list 3
-* or unordered list 4
-\* escape a character
-+ or unordered list 5
-+ or unordered list 6
-
-to make <hr>
-___
-***
-
-1. ordered list 1
-1. ordered list 2
-    1. ordered list 2.1
-    1. ordered list 2.2
-    ![Tux, the Linux mascot image](./tux.svg)
-1. ordered list 3
-
-I get 10 times more traffic from [Google][1] than from
-[Yahoo][2] or [MSN][3].
-![alt text][4]
-
-
-[1]: http://google.com/        "Google"
-[2]: http://search.yahoo.com/  "Yahoo Search"
-[3]: http://search.msn.com/    "MSN Search"
-[4]: /path/to/img.jpg "Title"
-
-Table
-| Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
-
-Code
-```python
-def hello():
-    print('Hello world.')
-```
+console.time('sql execute =>');
+console.timeEnd('sql execute =>');
