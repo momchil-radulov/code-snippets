@@ -28,3 +28,17 @@ app.use(async (ctx, next) => {
     //Resolve error here
   }
 });
+
+# javascript
+const generateUrl = function() {
+    let url = new URL(window.location);
+    let params = new URLSearchParams();
+    params.set('fromDate', fromDate.value);
+    params.set('toDate', toDate.value);
+    if (details.checked) params.set('details', '');
+    for (const uid of document.querySelectorAll("[name^='uid#']:checked")) {
+        params.set(uid.name, '');
+    }
+    url.search = params;
+    window.location = url.toString();
+}   
