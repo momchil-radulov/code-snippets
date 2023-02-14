@@ -42,3 +42,7 @@ const generateUrl = function() {
     url.search = params;
     window.location = url.toString();
 }   
+
+function camelCaseToText(text) {
+  return text.replace(/([A-Z])/g, " $1");
+}
