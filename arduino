@@ -82,6 +82,7 @@ int pin_read(int pin, int *count, int *level) {
         count = 0;
         level = LOW;
     }
+    return 0;
 }
 
 int pins_read() {
