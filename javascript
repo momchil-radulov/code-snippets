@@ -30,7 +30,7 @@ app.use(async (ctx, next) => {
 });
 
 # javascript
-const generateUrl = function() {
+const generateUrl = () => {
     let url = new URL(window.location);
     let params = new URLSearchParams();
     let users = [];
