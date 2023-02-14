@@ -1,57 +1,102 @@
+~~~ Sketch Example ~~~
+
 # Button: setup
+const int BUTTON_OK = 4;
+int BUTTON_OK_COUNT = 0;
+int BUTTON_OK_LEVEL = 0;
+
+const int BUTTON_UP = 2;
+int BUTTON_UP_COUNT = 0;
+int BUTTON_UP_LEVEL = 0;
+
+const int LEVEL_HIGH_TRESHOLD = 8;
+String cmd = "";
+
 ## don't have high voltage on input line
 void setup() {
-  //configure pin 2 as an input and enable the internal pull-up resistor
-  pinMode(2, INPUT_PULLUP);
+    Serial.begin(9600);
+    //configure pin 2 as an input and enable the internal pull-up resistor
+    pinMode(BUTTON_OK, INPUT_PULLUP);
+    pinMode(BUTTON_UP, INPUT_PULLUP);
+    delay(2500);
 }
 
 # Loop: constant run time of a loop
-String cmd = "";
-const unsigned long loopPeriod = 5; //milliseconds
-static unsigned long lastLoop;
+unsigned long start_time;
+int delay_time;
+int delay_time_old = 0;
+char serial_read;
+
 void loop() {
-  check_button();
-
-  while (Serial.available() > 0) {
-    serial_read = (char)Serial.read();
-    cmd += serial_read;
-    if (serial_read == '\n') {
-        exec_cmd(cmd);
-        cmd = "";
+    start_time = millis();
+    while (Serial.available() > 0) {
+      serial_read = (char)Serial.read();
+      cmd += serial_read;
+      if (serial_read == '\n') {
+          exec_cmd();
+          cmd = "";
+          // Serial.flush();
+      }
     }
-  }
+    
+    pins_read();
 
-  if (millis()-lastLoop < loopPeriod) {
-    delay(loopPeriod - (millis()-lastLoop));
-  }
-  lastLoop = millis();
+    delay_time = 5 - int(millis() - start_time);
+    if (delay_time > 0 and delay_time <= 5) {
+        delay(delay_time);
+        if (delay_time != delay_time_old) {
+            delay_time_old = delay_time;
+        }
+    }
 }
 
 # Button: detect button input
-is_button_pressed = false;
-button_counter = 0;
-void check_button() {
-  int button_status = digitalRead(2);
-  if (button_status == HIGH) {
-    button_counter = button_counter - 1;
-    if (button_counter < 0) {
-      button_counter = 0;
-      if (is_button_pressed) {
-        is_button_pressed = false;
-        // ... button is pressed ...
-      }
+void exec_cmd() {
+    if (cmd == "coin\n") {
+        coin();
+        Serial.println("coin");
     }
-  }
-  else {
-    button_counter = button_counter + 1;
-    if (button_counter > 10) {
-      button_counter = 10;
-      if (!is_button_pressed) {
-        is_button_pressed = true;
-      }
+    else if (cmd == "token\n") {
+        token();
+        Serial.println("token");
     }
-  }
 }
+
+int level_read = 0;
+int read(int pin) {
+    level_read = digitalRead(pin);
+    if (level_read == LOW)
+        return -1;
+    return 1;
+}
+
+int pin_read(int pin, int *count, int *level) {
+    count += digitalRead(pin);
+    if (count > LEVEL_HIGH_TRESHOLD) {
+        count = LEVEL_HIGH_TRESHOLD;
+        if (level == LOW) {
+            level = HIGH;
+                return 1;
+        }
+    } else if (count < 0) {
+        count = 0;
+        level = LOW;
+    }
+}
+
+int pins_read() {
+    if (pin_read(BUTTON_OK, &BUTTON_OK_COUNT, &BUTTON_OK_LEVEL)) {
+        btn_OK();
+    }
+
+    if (pin_read(BUTTON_UP, &BUTTON_UP_COUNT, &BUTTON_UP_LEVEL)) {
+        TOKENS_DOWN--;
+        if (TOKENS_DOWN < 0)
+            TOKENS_DOWN = 0;
+        // Serial.println("btn UP");  // DEBUG
+    }
+}
+~~~ End Sketch Example ~~~
 
 // io_array
 const int BUTTON_OK = 0;
