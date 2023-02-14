@@ -33,12 +33,17 @@ app.use(async (ctx, next) => {
 const generateUrl = function() {
     let url = new URL(window.location);
     let params = new URLSearchParams();
+    let users = [];
     params.set('fromDate', fromDate.value);
     params.set('toDate', toDate.value);
     if (details.checked) params.set('details', '');
-    for (const uid of document.querySelectorAll("[name^='uid#']:checked")) {
-        params.set(uid.name, '');
+    // for (const uid of document.querySelectorAll("[name^='uid.']:checked")) {
+    //     params.set(uid.name, '');
+    // }
+    for (const uid of document.querySelectorAll("[data-user-id]:checked")) {
+        users.push(uid.dataset.userId);
     }
+    params.set('users', users.join('-'));
     url.search = params;
     window.location = url.toString();
 }   
