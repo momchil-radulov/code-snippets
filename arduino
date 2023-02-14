@@ -71,7 +71,7 @@ int read(int pin) {
 }
 
 int pin_read(int pin, int *count, int *level) {
-    count += digitalRead(pin);
+    count += read(pin);
     if (count > LEVEL_HIGH_TRESHOLD) {
         count = LEVEL_HIGH_TRESHOLD;
         if (level == LOW) {
