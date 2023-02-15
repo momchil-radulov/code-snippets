@@ -7,3 +7,19 @@ npx sequelize-cli db:migrate:undo  # undo last migrate
 # migrate(undo migrate) concrete migration
 npx sequelize-cli db:migrate --name 20230123133113-users-add-permissions.js
 npx sequelize-cli db:migrate:undo --name 20230123133113-users-add-permissions.js
+
+# Declaration #
+@Scopes(() => ({
+	defaultScope: {
+		attributes: {
+			exclude: ["password_hash", "passwordResetToken"]
+		}
+	},
+}))
+@Table
+export default class User extends Model {
+	declare id: number;
+  ...
+// User.findOne()
+// User.unscoped().findOne()
+# End Declaration #
