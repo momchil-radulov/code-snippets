@@ -10,6 +10,7 @@ git mv <file_name> <file_name_new> # rename git file
 git status
 git diff
 git diff --staged
+git diff -U5  # show 5 context lines OR git config --global diff.context 5
 git add path/file_name OR git commit -a
 git reset HEAD -- path/to/file => remove file from staging area
 OR
@@ -131,3 +132,12 @@ After that, hint:
   "git add/rm <conflicted_files>", then run "git rebase --continue".
   You can instead skip this commit: run "git rebase --skip".
   To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+# config
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+git config --global diff.context 5
+OR localy for this repository only
+git config user.name "John Doe"
+git config user.email johndoe@example.com
+git config diff.context 5
