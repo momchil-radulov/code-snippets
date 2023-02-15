@@ -29,6 +29,7 @@ char serial_read;
 
 void loop() {
     start_time = millis();
+    
     while (Serial.available() > 0) {
       serial_read = (char)Serial.read();
       cmd += serial_read;
@@ -63,15 +64,15 @@ void exec_cmd() {
 }
 
 int level_read = 0;
-int read(int pin) {
+int pin_read(int pin) {
     level_read = digitalRead(pin);
     if (level_read == LOW)
         return -1;
     return 1;
 }
 
-int pin_read(int pin, int *count, int *level) {
-    count += read(pin);
+int pin_check(int pin, int *count, int *level) {
+    count += pin_read(pin);
     if (count > LEVEL_COUNT_TRESHOLD) {
         count = LEVEL_COUNT_TRESHOLD;
         if (level == LOW) {
@@ -88,11 +89,11 @@ int pin_read(int pin, int *count, int *level) {
 }
 
 int pins_read() {
-    if (pin_read(BUTTON_OK, &BUTTON_OK_COUNT, &BUTTON_OK_LEVEL)) {
+    if (pin_check(BUTTON_OK, &BUTTON_OK_COUNT, &BUTTON_OK_LEVEL)) {
         btn_OK();
     }
 
-    if (pin_read(BUTTON_UP, &BUTTON_UP_COUNT, &BUTTON_UP_LEVEL)) {
+    if (pin_check(BUTTON_UP, &BUTTON_UP_COUNT, &BUTTON_UP_LEVEL)) {
         TOKENS_DOWN--;
         if (TOKENS_DOWN < 0)
             TOKENS_DOWN = 0;
