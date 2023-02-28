@@ -55,3 +55,41 @@ pip install sandman2
 pip install psycopg2-binary # for postgresql
 sandman2ctl -d sqlite:////home/user_name/projects/test/users.db
 sandman2ctl 'postgresql://user_name:password@host_name.com/db_name'
+
+# SQL
+=> groups by "column_name" and return first rows of the group, based on ordering by some_columns !!
+SELECT DISTINCT ON ("column_name") column_aliases, another_column ORDER BY some_columns;
+
+=> window function, return ALL ROWS,
+=>     GROUP FUNCTIONS woriking on grouping by PARTITION BY and ordering by ORDER BY !!
+SELECT
+  FIRST_VALUE("column_name") OVER (
+		PARTITION BY group_name
+		ORDER BY
+			price
+	),
+  -- from previous row (OR with n-previous row, if LAG("column_name", n)
+  LAG("column_name") OVER (
+		PARTITION BY another_column_name
+		ORDER BY
+			price
+	),
+  LAST_VALUE("column_name") OVER (
+		PARTITION BY group_name
+		ORDER BY
+			price
+	),
+  -- rows with the same values will get the same rank 
+  RANK() OVER (
+		PARTITION BY group_name
+		ORDER BY
+			price
+	),
+  ROW_NUMBER() OVER (
+		PARTITION BY group_name
+		ORDER BY
+			price
+	) AS ROW_NUMBER
+  another_column
+  ORDER BY some_columns;
+
