@@ -81,8 +81,9 @@ git show master..branchName --pretty="format:" --name-only
 git diff master..branchName
 git diff master:dir/file_name dir/file_name
 git log master..browsfarm-ci --pretty="" --name-only | sort | uniq
-$git log master..browsfarm-ci --pretty="" --name-only | sort | uniq | xargs -I% git --no-pager diff master:% % &> changes.log
-## show branch changed files
+git log master..browsfarm-ci --pretty="" --name-only | sort | uniq | xargs -I% git --no-pager diff master:% % &> changes.log
+git log --name-only --oneline  # show file names only, list files
+## show branch changed files, list files
 git diff --name-only main...
 git diff --name-only master...
 git diff --name-only branch_name $(git merge-base branch_name main) 
@@ -99,7 +100,8 @@ git checkout v2.0.0 # git checkout a tag version of git
 git tag -d v1.4-lw # delete a tag
 
 # temporary undo changes in a file and after that, return changes
-git stash push project_name/appsettings.json  
+git stash push project_name/appsettings.json  # for a individual file
+git stash  # for all local changes
 git stash pop
 # show and clear stash stack
 git stash list  
