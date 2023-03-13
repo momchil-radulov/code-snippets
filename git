@@ -50,8 +50,12 @@ git log -S function_name # to find the last commit that changed the number of oc
 # show diff with
 git diff section-3.1
 git diff master:dir/file_name dir/file_name
+
 # REMOVE!! changes
 git reset --hard section-3.1
+git reset --hard origin
+
+git reset --soft origin  # keep the changes, remove commits
 
 # branch
 git checkout -b <branch_name> # create a new branch from current code
