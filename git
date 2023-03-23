@@ -43,6 +43,8 @@ git log
 git log -2 # show only two commits
 git log --pretty=oneline # show one line for a commit
 git log stat
+git log --stat
+git log -p -- path/file
 git log -p [--patch] # shows the difference (the patch output) introduced in each commit
 git log -p <file_name> # show changes only for <file_name>
 git blame <file_name> # show file row by row with who and when created this row
