@@ -151,3 +151,8 @@ OR localy for this repository only
 git config user.name "John Doe"
 git config user.email johndoe@example.com
 git config diff.context 5
+
+# alias
+git config --global alias.ll 'log --oneline'  # create a alias
+git ll                                        # use a alias
+git config --global -l                        # list aliases
