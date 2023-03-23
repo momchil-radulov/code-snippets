@@ -18,9 +18,17 @@ vim -p $(ls | grep '.py$')
 vim -p $(cat search | cut -f1 -d: | uniq)
 
 # sessions
+see https://www.redhat.com/sysadmin/vim-abbreviations
 :mksession ~/mysession.vim
 :source ~/mysession.vim
 vim -S ~/mysession.vim
+
+# abbreviations (in .vimrc)
+:ab os operating system  # create
+some text os[Space bar or Enter]
+To prevent an abbreviation from expanding, type Ctrl+V before entering the abbreviated word
+:ab teh the  # autocorrect  mistakes
+:iab p <p></p><esc>3hi  # code snippets, after <esc> normal/command mode, cursor movement and return to insert mode
 
 [.vimrc] FILE
 "Вырубаем режим совместимости с VI:
