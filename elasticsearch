@@ -26,6 +26,10 @@ sudo systemctl start opensearch
 sudo systemctl status opensearch
 ## test
 curl -X GET https://localhost:9200 -u 'admin:admin' --insecure
+## urls
+curl -X GET https://localhost:9200/_cat/plugins?v -u 'admin:admin' --insecure  # get plugins
+
+
 
 
 docker network create net1
