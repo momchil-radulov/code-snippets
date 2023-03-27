@@ -28,8 +28,11 @@ sudo systemctl status opensearch
 curl -X GET https://localhost:9200 -u 'admin:admin' --insecure
 ## urls
 curl -X GET https://localhost:9200/_cat/plugins?v -u 'admin:admin' --insecure  # get plugins
-
-
+## settings
+[/etc/opensearch/opensearch.yml]
+network.host: 0.0.0.0
+discovery.type: single-node
+plugins.security.disabled: true
 
 
 docker network create net1
