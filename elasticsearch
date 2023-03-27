@@ -34,6 +34,10 @@ curl -X GET https://localhost:9200/_cat/plugins?v -u 'admin:admin' --insecure  #
 network.host: 0.0.0.0
 discovery.type: single-node
 plugins.security.disabled: true
+## test
+curl http://localhost:9200
+## urls
+curl http://localhost:9200/_cat/plugins?v
 
 
 docker network create net1
