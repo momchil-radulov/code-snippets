@@ -1,3 +1,33 @@
+# install elasticsearch
+## install
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+sudo apt-get install apt-transport-https
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+sudo apt-get update && sudo apt-get install elasticsearch
+## enable and run
+sudo systemctl enable elasticsearch.service
+sudo systemctl start elasticsearch.service
+sudo systemctl status elasticsearch.service
+curl --insecure https://localhost:9200/
+## remove
+sudo apt-get remove elasticsearch
+sudo apt autoremove
+
+# install opensearch
+## install
+curl -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp | sudo apt-key add -
+echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/opensearch-2.x.list
+sudo apt-get update
+sudo apt list -a opensearch
+sudo apt-get install opensearch
+## enable and run
+sudo systemctl enable opensearch
+sudo systemctl start opensearch
+sudo systemctl status opensearch
+## test
+curl -X GET https://localhost:9200 -u 'admin:admin' --insecure
+
+
 docker network create net1
 docker network ls
 docker run -d --name elasticsearch --net net1 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" ecurlasticsearch:7.8.0
