@@ -17,14 +17,21 @@ sudo apt autoremove
 ## install
 curl -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp | sudo apt-key add -
 echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/opensearch-2.x.list
+echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/opensearch-dashboards-2.x.list
 sudo apt-get update
 sudo apt list -a opensearch
+sudo apt list -a opensearch-dashboards
 sudo apt-get install opensearch
+sudo apt-get install opensearch-dashboards
 sudo apt-get upgrade opensearch
+sudo apt-get upgrade opensearch-dashboards
 ## enable and run
 sudo systemctl enable opensearch
 sudo systemctl start opensearch
 sudo systemctl status opensearch
+sudo systemctl enable opensearch-dashboards
+sudo systemctl start opensearch-dashboards
+sudo systemctl status opensearch-dashboards
 ## test
 curl -X GET https://localhost:9200 -u 'admin:admin' --insecure
 ## urls
@@ -34,8 +41,15 @@ curl -X GET https://localhost:9200/_cat/plugins?v -u 'admin:admin' --insecure  #
 network.host: 0.0.0.0
 discovery.type: single-node
 plugins.security.disabled: true
+[/etc/opensearch-dashboards/opensearch_dashboards.yml]
+server.host: 0.0.0.0
+opensearch.hosts: [http://localhost:9200]
+## restart
+sudo systemctl restart opensearch
+sudo systemctl restart opensearch-dashboards
 ## test
 curl http://localhost:9200
+curl http://localhost:5601 -u 'admin:admin'
 ## urls
 curl http://localhost:9200/_cat/plugins?v
 
