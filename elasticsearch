@@ -20,6 +20,7 @@ echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt st
 sudo apt-get update
 sudo apt list -a opensearch
 sudo apt-get install opensearch
+sudo apt-get upgrade opensearch
 ## enable and run
 sudo systemctl enable opensearch
 sudo systemctl start opensearch
