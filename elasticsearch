@@ -47,7 +47,7 @@ opensearch.hosts: [http://localhost:9200]
 ## disable opensearch-dashboards security plugin
 cd /usr/share/opensearch-dashboards
 bin/opensearch-dashboards-plugin list
-bin/opensearch-dashboards-plugin remove securityDashboards securityDashboards
+sudo bin/opensearch-dashboards-plugin remove --allow-root securityDashboards
 ## restart
 sudo systemctl restart opensearch
 sudo systemctl restart opensearch-dashboards
