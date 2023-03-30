@@ -58,6 +58,8 @@ git diff master:dir/file_name dir/file_name
 # REMOVE!! changes
 git reset --hard section-3.1
 git reset --hard origin
+git reset --hard
+git clean -fxd  # remove untracked files !!!
 
 git reset --soft origin  # keep the changes, remove commits
 
