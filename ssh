@@ -18,6 +18,8 @@ ssh lightsail
 ssh -L 8000:localhost:8000 -p 1022 ubuntu@host
 ssh -i ~/.ssh/.old/LightsailDefaultKey-eu-central-1.pem ubuntu@lightsail
 
+# Convert a .ppk private key (Putty) to a base64/pem private key for OpenSSH or OpenSSL
+puttygen my.ppk -O private-openssh -o my.key
 
 # install aws cli
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
