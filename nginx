@@ -1,0 +1,8 @@
+# proxy pass example
+location /api/Device/GetDeviceInfo {
+        proxy_pass http://localhost:8080;
+        proxy_pass_request_headers on;
+}
+# url rewrite example
+location / {
+        rewrite ^/api/v1/Device/GetDeviceInfo(.*)$ /api/v2/Device/GetDeviceInfo$1 last;
