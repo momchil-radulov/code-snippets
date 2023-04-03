@@ -1,0 +1,15 @@
+# nginx proxy, 216.58.212.14 => replace with your ip
+sudo systemctl stop nginx
+sudo systemctl status nginx
+sudo systemctl start nginx
+sudo systemctl reload nginx.service
+#log
+$systemctl status nginx.service
+$journalctl -xe
+[sudo vim /etc/nginx/sites-enabled/default]
+server {
+        listen 216.58.212.14:9200;
+        location / {
+                proxy_pass http://localhost:9200;
+        }
+}
