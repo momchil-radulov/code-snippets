@@ -1,0 +1,20 @@
+const doSQL = async (sql, replacements = {}) => {
+	try {
+		return await sequelize.query(sql, {
+			type: QueryTypes.SELECT,
+			logging: false,
+			replacements: replacements,
+		});
+	} catch (err) {
+		console.error(err);
+		return {};
+	}
+};
+
+router.get("/user/:userId/", async (req, res) => {
+	const user = (await doSQL(
+		'select id, name, email from "Users" where id = :userId;',
+		{ userId: req.params.userId }
+	)) as { id: number; name: string; email: string }[];
+	res.json(user);
+});
