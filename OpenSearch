@@ -1,3 +1,16 @@
+# Install
+# Import the public GPG key
+curl -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp | sudo apt-key add -
+# Create an APT repository for OpenSearch:
+echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/opensearch-2.x.list
+# Verify that the repository was created successfully.
+sudo apt update
+sudo apt list -a opensearch
+sudo apt install opensearch
+sudo systemctl enable opensearch
+sudo systemctl start opensearch
+sudo systemctl status opensearch
+
 # nginx proxy, 216.58.212.14 => replace with your ip
 sudo systemctl stop nginx
 sudo systemctl status nginx
@@ -12,4 +25,45 @@ server {
         location / {
                 proxy_pass http://localhost:9200;
         }
+}
+
+# schema
+PUT /documents
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "fileName": {
+        "type": "keyword"
+      },
+      "id": {
+        "type": "integer"
+      },
+      "hash": {
+        "type": "keyword"
+      },
+      "content": {
+        "type": "text"
+      }
+    }
+  },
+  "settings" : {
+    "index" : {
+      "number_of_shards": 2,
+      "number_of_replicas": 2
+    }
+  }
+}
+
+# query
+GET documents/_search
+{ "query": {
+    "bool": {
+      "must": [
+        {"match": {"content": "hello world"}},
+        {"term": {"id": 8787}},
+        {"wildcard": {"fileName": {"value": "*note*"}}}
+      ] 
+    } 
+  }
 }
