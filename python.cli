@@ -1,0 +1,18 @@
+python3 -m pip install --upgrade pip
+python3 -m pip install wheel
+python3 -m pip install --user pipx
+
+python3 -m pipx ensurepath
+# /home/momchil/.local/bin is already in PATH.
+[~/.bashrc]
+export PATH="$PATH:/home/momchil/.local/bin"
+eval "$(register-python-argcomplete pipx)"
+
+sudo apt update
+sudo apt install bash-completion
+pipx completions  # bash: eval "$(register-python-argcomplete pipx)"
+
+pipx upgrade-all
+
+pipx install pylint
+pipx install black  # /home/momchil/.local/bin/black
