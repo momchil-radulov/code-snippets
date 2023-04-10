@@ -14,5 +14,8 @@ pipx completions  # bash: eval "$(register-python-argcomplete pipx)"
 
 pipx upgrade-all
 
+pipx install shell-functools
 pipx install pylint
 pipx install black  # /home/momchil/.local/bin/black
+pipx install jc  # dig mom2000.com | jc --dig | jq -r '.[].answer[].data'
+sudo apt install jq  # jq '.data[1].name' test.json OR cat test.json | jq '.data[1].name'
