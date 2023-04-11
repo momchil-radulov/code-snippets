@@ -22,3 +22,30 @@ sudo apt install jq  # jq '.data[1].name' test.json OR cat test.json | jq '.data
 
 # cli ui
 pip install cli-ui  # https://github.com/your-tools/python-cli-ui
+
+# gui automation
+pip install pyautogui
+sudo apt-get install python3-tk python3-dev
+import pyautogui
+pyautogui.moveRel(0, 50, duration = 1)  # move down relativly
+pyautogui.moveTo(100, 100, duration = 1)  # move absolutely
+pyautogui.click(100, 100)  # click on this position
+pyautogui.doubleClick()  # click on current position
+pyautogui.typewrite("hello Geeks !")
+pyautogui.hotkey("ctrlleft", "a")
+time.sleep(2)
+
+curl host.com
+
+pip install webbrowser
+import webbrowser
+url = 'http://docs.python.org/'
+webbrowser.open(url)  # with default web browser
+# with chrome
+# MacOS
+chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
+# Windows
+chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+# Linux
+chrome_path = '/usr/bin/google-chrome %s'
+webbrowser.get(chrome_path).open(url)
