@@ -99,7 +99,9 @@ PUT /documents
 
 # query
 GET documents/_search
-{ "query": {
+{ "size": 1000,
+  "_source": ["fileName"],
+  "query": {
     "bool": {
       "must": [
         {"match": {"content": "hello world"}},
