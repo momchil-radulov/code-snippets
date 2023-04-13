@@ -106,7 +106,7 @@ GET documents/_search
       "must": [
         {"match": {"content": "hello world"}},
         {"term": {"id": 8787}},
-        {"wildcard": {"fileName": {"value": "*note*"}}}
+        {"wildcard": {"fileName": {"value": "*note*", "case_insensitive": true}}}
       ] 
     } 
   }
