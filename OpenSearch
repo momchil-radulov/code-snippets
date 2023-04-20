@@ -86,6 +86,10 @@ PUT /documents
       },
       "content": {
         "type": "text"
+      },
+      "content_raw": {
+        "type": "text",
+        "index": false
       }
     }
   },
