@@ -26,3 +26,35 @@ npm start
 
 console.time('sql execute =>');
 console.timeEnd('sql execute =>');
+
+
+# TypeScript
+npm install -g ts-node typescript @types/node
+npm init
+npm install express @types/express
+npm install dotenv
+ts-node app.ts
+
+[app.ts]
+import express, { Express, Request, Response, NextFunction } from 'express';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const app: Express = express();
+const port = process.env.PORT ?? 3000;
+
+const logRequestStart = (req: Request, res: Response, next: NextFunction) => {
+    console.info(`${req.method} ${req.originalUrl}`)
+    next()
+}
+app.use(logRequestStart)
+
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello world.');
+});
+
+app.listen(port, () => {
+    console.log(`⚡️[server]: Server listening on http://localhost:${port}`);
+});
+[app.ts end]
