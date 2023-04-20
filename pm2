@@ -1,0 +1,6 @@
+npm install pm2@latest -g
+pm2 start app.js --name app_name # Name process
+pm2 restart app_name
+pm2 reload app_name
+pm2 stop app_name
+pm2 delete app_name
