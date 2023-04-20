@@ -1,5 +1,7 @@
 npm install pm2@latest -g
 
+pm2 startup
+
 pm2 start app.js --name app_name # Name process
 
 pm2 start app_name
