@@ -33,6 +33,7 @@ git show --oneline -s  # show current commit which is currently checked out in G
 # remote
 git remote -v
 git remote show origin
+git fetch --prune OR git remote prune origin  # remove tracking branches no longer on remote
 
 # How to ignore new files
 .gitignore # globally
