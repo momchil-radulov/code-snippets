@@ -1,0 +1,13 @@
+sudo apt install tesseract-ocr
+ 
+sudo vim /etc/ImageMagick-6/policy.xml
+change:
+<policy domain="coder" rights="none" pattern="PDF" />
+to:
+<policy domain="coder" rights="read|write" pattern="PDF" />
+
+[requirements.txt]
+pytesseract
+opencv-python
+opensearch-py
+ocrmypdf
