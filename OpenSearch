@@ -115,3 +115,16 @@ GET documents/_search
     } 
   }
 }
+
+# update fileName, replace \ (windows style) with / (linux style), hello\world -> hello/world
+POST documents/_update_by_query
+{
+  "script":
+  {
+      "lang": "painless",
+      "inline": "ctx._source.fileName = ctx._source.fileName.replace('\\\\', '/')"
+  },
+  "query": {
+    "term": {"_id": "HEkbvIcBjRPuocKgbDkv"}
+  }
+}
