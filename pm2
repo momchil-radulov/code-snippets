@@ -5,6 +5,7 @@ pm2 startup  # generate auto start up script
 pm2 start app.js --name app_name # Name process
 pm2 save  # auto start loaded jobs in file [~/.pm2/dump.pm2]
 vim ~/.pm2/dump.pm2  # to view jobs
+pm2 show app_name
 
 pm2 start app_name
 pm2 stop app_name
