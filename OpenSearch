@@ -130,6 +130,7 @@ POST documents/_update_by_query
 
 # search for hello\world\file_name, \\\\ json escape -> \\ escape for opensearch
 GET documents/_count
+GET documents/_search
 { "query":
     {"wildcard": {"fileName": {"value": "*\\\\*"}}}
 }
