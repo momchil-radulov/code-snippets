@@ -124,12 +124,12 @@ POST documents/_update_by_query
       "lang": "painless",
       "inline": "ctx._source.fileName = ctx._source.fileName.replace('\\\\', '/')"
   },
-  "query": {
-    "term": {"_id": "HEkbvIcBjRPuocKgbDkv"}
-  }
+  "query":
+        {"wildcard": {"fileName": {"value": "*\\\\*"}}}
 }
+
 # search for hello\world\file_name, \\\\ json escape -> \\ escape for opensearch
-GET documents/_search
+GET documents/_count
 { "query":
     {"wildcard": {"fileName": {"value": "*\\\\*"}}}
 }
