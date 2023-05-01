@@ -2,7 +2,7 @@ sudo apt update
 sudo apt upgrade
 sudo apt install npm
 
-npm install pm2@latest -g
+sudo npm install pm2@latest -g
 
 pm2 startup  # generate auto start up script
 
