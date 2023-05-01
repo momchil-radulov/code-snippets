@@ -1,3 +1,4 @@
+sudo apt install python3-pip
 python3 -m pip install --upgrade pip
 python3 -m pip install wheel
 python3 -m pip install --user pipx
@@ -26,6 +27,11 @@ sudo apt install jq  # jq '.data[1].name' test.json OR cat test.json | jq '.data
 
 # cli ui
 pip install cli-ui  # https://github.com/your-tools/python-cli-ui
+
+# gui ui
+sudo apt-get install python-guizero
+pip install guizero
+sudo pip3 install guizero[images]
 
 # gui automation
 pip install pyautogui
