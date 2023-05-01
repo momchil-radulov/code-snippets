@@ -4,10 +4,11 @@ sudo apt install npm
 
 sudo npm install pm2@latest -g
 
-pm2 startup  # generate auto start up script
+pm2 startup  # generate a command to setup the startup script
 
 pm2 start app.js --name app_name # Name process
 pm2 save  # auto start loaded jobs in file [~/.pm2/dump.pm2]
+
 vim ~/.pm2/dump.pm2  # to view jobs
 pm2 show app_name
 
