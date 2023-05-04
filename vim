@@ -1,3 +1,10 @@
+Ctrl - d -> complete suggestions
+:set ruler
+:set ruler! OR :set noruler
+:set wildmenu
+:h -> help, :h command, Ctrl - ], Ctrl - o, Ctrl - w Ctrl - w
+
+
 # execute current line in bash from vim
 :.w !bash
 # ctags
