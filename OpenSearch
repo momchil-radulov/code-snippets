@@ -35,7 +35,7 @@ bin/opensearch-dashboards-plugin list
 sudo bin/opensearch-dashboards-plugin remove --allow-root securityDashboards
 
 [/etc/opensearch-dashboards/opensearch_dashboards.yml]
-server.host: 0.0.0.0
+server.host: 0.0.0.0 OR server.host: localhost
 opensearch.hosts: [http://localhost:9200]
 #opensearch_security.multitenancy.enabled: true
 #opensearch_security.multitenancy.tenants.preferred: [Private, Global]
@@ -52,6 +52,7 @@ curl http://localhost:5601 -u 'admin:admin' --insecure
 ## urls
 curl http://localhost:9200/_cat/plugins?v
 
+sudo netstat -ltnp
 
 # nginx proxy, 216.58.212.14 => replace with your ip
 sudo systemctl stop nginx
@@ -64,6 +65,7 @@ $journalctl -xe
 [sudo vim /etc/nginx/sites-enabled/default]
 server {
         listen 216.58.212.14:9200;
+        client_max_body_size 10M;
         location / {
                 proxy_pass http://localhost:9200;
         }
