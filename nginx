@@ -31,3 +31,7 @@ server_tokens off;
 # test nginx configuration
 $ sudo nginx -t
 $ sudo systemctl reload nginx
+
+# basic authorization
+sudo apt install apache2-utils
+sudo htpasswd -c /etc/apache2/.htpasswd user1
