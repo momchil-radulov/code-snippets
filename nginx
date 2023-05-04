@@ -4,6 +4,11 @@ location /api/Device/GetDeviceInfo {
         proxy_pass_request_headers on;
 }
 
+location /api {
+    auth_basic           "Administrator’s Area";
+    auth_basic_user_file /etc/apache2/.htpasswd; 
+}
+
 # url rewrite example
 location / {
         rewrite ^/api/v1/Device/GetDeviceInfo(.*)$ /api/v2/Device/GetDeviceInfo$1 last;
