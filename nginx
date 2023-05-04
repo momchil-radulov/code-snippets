@@ -3,6 +3,29 @@ location /api/Device/GetDeviceInfo {
         proxy_pass http://localhost:8080;
         proxy_pass_request_headers on;
 }
+
 # url rewrite example
 location / {
         rewrite ^/api/v1/Device/GetDeviceInfo(.*)$ /api/v2/Device/GetDeviceInfo$1 last;
+
+# poxy opensearch
+[sudo vim /etc/nginx/sites-enabled/default]
+server {
+        listen you_public_ip_address:9200;
+        location / {
+                proxy_pass http://localhost:9200;
+        }
+}
+
+# remove nginx server version from headers
+curl --head you_site.com
+...
+Server: nginx/1.18.0
+...
+[/etc/nginx/nginx.conf]
+[/etc/nginx/sites-enabled/*]
+add this to a http, server, or location context
+server_tokens off;
+
+# test nginx configuration
+$ nginx -t
