@@ -29,4 +29,4 @@ server_tokens off;
 
 # test nginx configuration
 $ sudo nginx -t
-$ sudo systemclt reload nginx
+$ sudo systemctl reload nginx
