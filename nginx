@@ -28,4 +28,5 @@ add this to a http, server, or location context
 server_tokens off;
 
 # test nginx configuration
-$ nginx -t
+$ sudo nginx -t
+$ sudo systemclt reload nginx
