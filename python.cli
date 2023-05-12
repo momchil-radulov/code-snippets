@@ -50,6 +50,7 @@ curl host.com
 (trap 'kill 0' SIGINT; sleep 4 & sleep 2 & wait)  # easily run and kill multiple process with ctrl-c
 parallel -j 10 ./app.sh < args.txt
 bmon
+tinyproxy
 
 pip install webbrowser
 import webbrowser
