@@ -12,6 +12,11 @@ zt - move top
 zz - move middle
 zb - move bottom
 
+# split
+Ctrl - ws - split
+Ctrl - wv - vertically split
+Ctrl - ww - move between window
+
 # execute current line in bash from vim
 :.w !bash
 # ctags
