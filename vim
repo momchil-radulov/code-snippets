@@ -4,6 +4,13 @@ Ctrl - d -> complete suggestions
 :set wildmenu
 :h -> help, :h command, Ctrl - ], Ctrl - o, Ctrl - w Ctrl - w
 
+# position
+H - top
+M - middle
+L - botttom
+zt - move top
+zz - move middle
+zb - move bottom
 
 # execute current line in bash from vim
 :.w !bash
