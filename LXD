@@ -4,6 +4,7 @@ sudo apt upgrade
 sudo snap install lxd
 lxd init
 sudo vim /etc/lxc/default.conf
+lxc-checkconfig
 sudo snap install distrobuilder --classic
 sudo apt install libwin-hivex-perl
 sudo apt install wimtoolslx
@@ -39,6 +40,7 @@ ip link
 nm-connection-editor
 netstat -ltn
 sudo netstat -ltnp
+bmon
 
 sudo apt install tinyproxy
 sudo vim /etc/tinyproxy/tinyproxy.conf
