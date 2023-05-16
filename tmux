@@ -6,6 +6,7 @@ tmux a -t index_of_a_session  # append to a session
 c-b "  # Ctrl + b, " => split a pane horizontally
 c-b %  # split a pane vertically
 c-b [arrow key]  # move between panes
+c-b, c-[arrow key]  # to increase window width/height
 c-b c  # create a new window
 c-b ,  # rename the current window
 c-b index_of_a_window  # go to a window (like virtual desktop)
