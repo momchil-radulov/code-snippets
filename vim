@@ -16,7 +16,6 @@ zb - move bottom
 Ctrl - ws - split
 Ctrl - wv - vertically split
 Ctrl - ww - move between window
-Ctrl -b, Ctrl - Arrow key - to increase window width/height
 
 # execute current line in bash from vim
 :.w !bash
