@@ -51,6 +51,8 @@ curl host.com
 parallel -j 10 ./app.sh < args.txt
 bmon
 tinyproxy
+sshfs lightsail:/home/lightsail/documents /mnt/documents -o ro
+ssh lightsail -N -L 1234:[remote.ip]:445  # by samba sharing
 
 pip install webbrowser
 import webbrowser
