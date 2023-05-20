@@ -58,6 +58,7 @@ git log -S function_name # to find the last commit that changed the number of oc
 # show diff with
 git diff section-3.1
 git diff master:dir/file_name dir/file_name
+git diff master  # diff branches, diff with master
 
 # REMOVE!! changes
 git reset --hard section-3.1
