@@ -15,10 +15,14 @@ lxc config set win11 limits.cpu=4 limits.memory=8GiB
 lxc config device add win11 vtpm tpm path=/dev/tpm0
 lxc config device add win11 install disk source=/home/mionaalex/Downloads/win11.lxd.iso boot.priority=10
 sudo apt install virt-viewer
+
 lxc start win11 --console=vga  # start
 lxc restart win11              # restart
 lxc console win11 --type=vga   # open a console to win11
 lxc config show win11 --expanded
+
+lxc delete -f win11            # destroy container
+
 sudo apt install lxc-utils
 lxc info --show-log win11      # shwo log of a cont/vm
 lxc list                       # show containers/vms
