@@ -11,6 +11,13 @@ L - botttom
 zt - move top
 zz - move middle
 zb - move bottom
+Ctrl - f, ^f - page down
+Ctrl - b     - page up
+
+# insert mode
+80i* - insert 80 *
+:reg
+"0p - insert from 0 register, yy - register
 
 # split
 Ctrl - ws - split
