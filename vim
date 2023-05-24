@@ -15,7 +15,9 @@ Ctrl - f, ^f - page down
 Ctrl - b     - page up
 
 # insert mode
-80i* - insert 80 *
+80i*       - insert 80 *
+5osometext - 5 new lines with sometext
+Shift + r  - replace mode
 :reg
 "0p - insert from 0 register, yy - register
 
