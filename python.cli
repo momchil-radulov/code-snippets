@@ -56,6 +56,7 @@ ssh lightsail -N -L 1234:[remote.ip]:445  # by samba sharing
 sudo apt install default-jre
 sudo apt install default-jdk
 sudo apt install libtika-java
+pip install textract
 
 pip install webbrowser
 import webbrowser
