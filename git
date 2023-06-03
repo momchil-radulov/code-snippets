@@ -14,6 +14,7 @@ git status
 git diff
 git diff --staged
 git diff -U5  # show 5 context lines OR git config --global diff.context 5
+git diff -W   # show whole function as context lines for each change
 git add path/file_name OR git commit -a
 git reset HEAD -- path/to/file => remove file from staging area
 OR
