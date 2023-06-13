@@ -49,6 +49,8 @@ time.sleep(2)
 curl host.com
 (trap 'kill 0' SIGINT; sleep 4 & sleep 2 & wait)  # easily run and kill multiple process with ctrl-c
 parallel -j 10 ./app.sh < args.txt
+sh script.sh |& tee script.log  # send all (stdin and stderror) to screen and script.log
+sh script.sh &> script.log  # send all (stdin and stderror) to script.log
 bmon
 tinyproxy
 sshfs lightsail:/home/lightsail/documents /mnt/documents -o ro
