@@ -7,6 +7,7 @@ pip3 install jtbl
 pip3 install jellex
 sudo apt install jq
 sudo apt install xclip
+curl url-json | jq '. | lenght'  # lenght of a JSON array
 jc ls -l | xclip -sel clip  # copy to clipboard
 xclip -sel clip -o          # print from clipboard
 jc -p dig google.com        # -p => pretty format
