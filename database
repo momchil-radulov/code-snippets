@@ -1,0 +1,15 @@
+# naming convention
+  - table name: user, order2position
+    one word i.e. user, if need more words, use 2 as delimiter i.e. order2position
+  - table name connecting: table2one_table2two_relation2name i.e. user_car_have
+  - column names:
+    table2name_id for primary key i.e. user_id
+    table2name_key for logical key i.e. user_key
+    table2name_column2name i.e. user_name
+    table2name_column2name_foreign2key2table2name_foreign2key2column2name for foreign key
+        i.e. user_birth_town_id (town_id is a column name)
+json:
+    {user_id: 123, user_key: "123456789" user_name: "John Smith", user_last2name: "Smith",
+     user_birth_town_id: 12, user_live_town_id: 12, user_egn: "123456789",
+     user_car_have_ids: [{car_id: 12, car_key:12, car_name: "audi"}, {car_id: 18, car_key:18, car_name: "bmw"}]
+    }
