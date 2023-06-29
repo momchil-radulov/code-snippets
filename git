@@ -4,6 +4,10 @@ https://github.com/k88hudson/git-flight-rules
 # fix if broken
 git remote prune origin
 
+# remove commits from a branch
+git reset --hard CommitId  # last commit to stay
+git push -f
+
 # basic workflow
 git init
 git add . OR git add <file_name> # add all files or a file to the git 
