@@ -45,6 +45,16 @@ pyautogui.typewrite("hello Geeks !")
 pyautogui.hotkey("ctrlleft", "a")
 time.sleep(2)
 
+# apt
+apt update
+apt upgrade
+apt install package_name
+apt remove package_name
+apt autoremove  # remove unused packages
+apt search package_name
+apt list
+apt show package_name  # info for a package_name
+
 # bash
 set -o vi    => cli vim mode
 set -o emacs => return to default
