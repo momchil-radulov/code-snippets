@@ -136,3 +136,32 @@ GET documents/_search
 { "query":
     {"wildcard": {"fileName": {"value": "*\\\\*"}}}
 }
+
+# opensearch to csv, see https://stackoverflow.com/questions/18892560/is-there-any-way-in-elasticsearch-to-get-results-as-csv-file-in-curl-api
+curl -X GET 'http://localhost:9200/myindex/item/_search?from=0&size=0' -d '
+    {"from": 0,
+    "size": 0,
+    "facets": {
+      "sourceResource.subject.name": {
+        "global": true,
+        "terms": {
+          "order": "count",
+          "size": 20,
+          "all_terms": true,
+          "field": "sourceResource.subject.name.not_analyzed"
+        }
+      }
+    },
+    "sort": [
+      {
+        "_score": "desc"
+      }
+    ],
+    "query": {
+      "filtered": {
+        "query": {
+          "match_all": {}
+        }
+      }
+    }
+  }' | jq -r '.facets["subject"].terms[] | [.term, .count] | @csv'
