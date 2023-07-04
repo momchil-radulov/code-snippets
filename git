@@ -168,3 +168,8 @@ git config diff.context 5
 git config --global alias.ll 'log --oneline'  # create a alias
 git ll                                        # use a alias
 git config --global -l                        # list aliases
+
+# razni
+git log --format="%an" | sort -u  # show users
+git log --format="%ae" | sort -u  # show emails
+git log --format="%an - %ae" | sort -u  # users with emails
