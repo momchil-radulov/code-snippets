@@ -31,6 +31,7 @@ pip install cli-ui  # https://github.com/your-tools/python-cli-ui
 # .bashrc
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+    # git branch 2> /dev/null | grep '*' | sed -e 's/* //'
 }
 export PS1="\[\033[92m\]\$(date +%T) \[\033[93m\]\W\[\033[91m\]\$(parse_git_branch)\[\033[00m\]$ "
 
