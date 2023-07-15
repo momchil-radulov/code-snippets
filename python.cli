@@ -17,6 +17,7 @@ pipx upgrade-all
 
 pipx list
 pipx install shell-functools
+pipx install mitmproxy
 pipx install bpytop
 pipx install pylint
 pipx install mypy
@@ -73,6 +74,7 @@ sh script.sh |& tee script.log  # send all (stdin and stderror) to screen and sc
 sh script.sh &> script.log  # send all (stdin and stderror) to script.log
 bmon
 tinyproxy
+mitmproxy --mode reverse:http://localhost:5000 -p 4000  # listen 4000 send 5000
 sshfs lightsail:/home/lightsail/documents /mnt/documents -o ro
 ssh lightsail -N -L 1234:[remote.ip]:445  # by samba sharing
 sudo apt install default-jre
