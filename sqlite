@@ -5,3 +5,19 @@ https://unqlite.org/
 
 # custom defined function  #name of the function   #args number #python function
 connection.create_function("hello",                2,            hello_sql)
+
+[custom_function.py]
+import sqlite3
+def _customFun(name, dept):
+    result = 'Welcome ' + name + ' your dept is ' + dept
+    return result
+connection = sqlite3.connect('student.db')
+cursor = connection.cursor()
+connection.create_function("WELCOME", 2, _customFun)
+sqlQuery = "select WELCOME(first_name, department) from \
+student where student_id = 1"
+cursor.execute(sqlQuery)
+print(*cursor.fetchone())
+# close cursor and connection
+cursor.close()
+connection.close()
