@@ -94,3 +94,31 @@ chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 # Linux
 chrome_path = '/usr/bin/google-chrome %s'
 webbrowser.get(chrome_path).open(url)
+
+### sleep ###
+[notes]
+https://super-unix.com/ubuntu/ubuntu-how-to-keep-the-computer-awake-depending-on-activity/
+sudo apt install xprintidle xdotool
+[caf.py]
+#!/usr/bin/env python3
+import subprocess
+import time
+seconds = 120 # number of seconds to start preventing blank screen / suspend
+while True:
+    curr_idle = subprocess.check_output(["xprintidle"]).decode("utf-8").strip()
+    if int(curr_idle) > seconds*1000:
+        subprocess.call(["xdotool", "key", "Control_L"])
+    time.sleep(10)
+[insomnia.py]
+#!/usr/bin/env python3
+import os
+import subprocess
+script_dir = os.path.dirname(os.path.abspath(__file__))
+try:
+    pid = subprocess.check_output(["pgrep", "-f", "caf.py"]).decode("utf-8").strip()
+    subprocess.Popen(["kill", pid])
+    subprocess.Popen(["notify-send", "Computer doesn't stay awake..."])
+except:
+    subprocess.Popen(["/bin/bash", "-c", script_dir+"/"+"caf.py"])
+    subprocess.Popen(["notify-send", "Computer stays awake..."])
+### end sleep ###
