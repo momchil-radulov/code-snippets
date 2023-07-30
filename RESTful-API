@@ -1,10 +1,10 @@
-# Naming convention
-user  - e.g. table name
-12    - e.g. table id
+user - e.g. table name
+12 - e.g. table id
 gixrt - e.g. random security code
 /v1/users/user-12-gixrt
-GET    -> get a resource, idempotent
-POST   -> create a resource
-PATCH  -> update a resource, only sended fields
-DELETE -> delete a resource, not idempotent, if not exists return 404 code
-PUT    -> replace a resource as a whole, if not exists - create
+
+GET -> retrieve a resource, idempotent
+POST -> create a resource
+PATCH -> update a resource, only with the sent fields
+DELETE -> delete a resource, not idempotent, returns 404 if the resource doesn't exist
+PUT -> replace a resource as a whole, creates if it doesn't exist
