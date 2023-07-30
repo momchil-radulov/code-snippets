@@ -1,10 +1,18 @@
+# RESTful, Resource oriented WEB API with standard methods/verbs
+
+http, json
+
 user - e.g. table name
 12 - e.g. table id
 gixrt - e.g. random security code
 /v1/users/user-12-gixrt
 
+ALL string are "UTF-8" encoded using "Normalization Form C"
+
 numbers in the json are encoded as a string,
 e.g. 12 -> "12", 123.54 -> "123.54"
+
+enums, filters ... are sended as a simple string and is parsed on the server side
 
 GET -> retrieve a resource, idempotent
 POST -> create a resource
