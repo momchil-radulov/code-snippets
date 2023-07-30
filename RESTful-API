@@ -3,6 +3,9 @@ user - e.g. table name
 gixrt - e.g. random security code
 /v1/users/user-12-gixrt
 
+numbers in the json are encoded as a string,
+e.g. 12 -> "12", 123.54 -> "123.54"
+
 GET -> retrieve a resource, idempotent
 POST -> create a resource
 PATCH -> update a resource, only with the sent fields
