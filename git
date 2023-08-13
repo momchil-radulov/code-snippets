@@ -7,6 +7,8 @@ git remote prune origin
 # remove commits from a branch
 git reset --hard CommitId  # last commit to stay
 git push -f
+# remove files from stage/staging area
+git reset
 
 # basic workflow
 git init
