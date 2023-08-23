@@ -1,0 +1,13 @@
+[upload_files.sh]
+#!/bin/bash
+
+SERVER="host.com"
+USERNAME="user_name"
+PASSWORD="password"
+REMOTE_DIR=""
+
+while IFS= read -r file
+do
+    echo $file
+    lftp -e "set ftp:ssl-allow no; put $file -o $REMOTE_DIR/$file; bye" -u $USERNAME,$PASSWORD $SERVER
+done < files2upload.txt
