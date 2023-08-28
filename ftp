@@ -11,3 +11,52 @@ do
     echo $file
     lftp -e "set ftp:ssl-allow no; put $file -o $REMOTE_DIR/$file; bye" -u $USERNAME,$PASSWORD $SERVER
 done < files2upload.txt
+
+[upload_files.py]
+from ftplib import FTP
+import os
+from datetime import datetime
+
+# Настройки на сървъра
+SERVER="host.com"
+USERNAME="user_name"
+PASSWORD="password"
+REMOTE_DIR=""
+
+# Инициализация на FTP връзка
+ftp = FTP(SERVER)
+ftp.login(USERNAME, PASSWORD)
+
+# Четене на файловете за качване от текстов файл
+with open("files2upload.txt", "r") as f:
+    files_to_upload = f.readlines()
+
+# Обхождане на всеки файл
+for file in files_to_upload:
+    file = file.strip()
+    print(f"    {file}")
+
+    # Вземане на времето на последна модификация на локалния файл
+    local_mtime = int(os.path.getmtime(file))
+
+    # Опит за вземане на времето на последна модификация на отдалечения файл
+    try:
+        remote_mtime = ftp.sendcmd(f"MDTM {REMOTE_DIR}/{file}").split()[-1]
+        remote_mtime = datetime.strptime(remote_mtime, "%Y%m%d%H%M%S").timestamp()
+
+        # Корекция на времето с 3 часа (10800 секунди)
+        remote_mtime += 10800
+
+        if local_mtime > remote_mtime:
+            print(">>> Local file is newer. Uploading...")
+            ftp.storbinary(f"STOR {REMOTE_DIR}/{file}", open(file, "rb"))
+
+        else:
+            pass
+
+    except:
+        print(">>> Remote file does not exist. Uploading...")
+        ftp.storbinary(f"STOR {REMOTE_DIR}/{file}", open(file, "rb"))
+
+# Затваряне на FTP връзката
+ftp.quit()
