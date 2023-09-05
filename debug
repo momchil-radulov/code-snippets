@@ -1,0 +1,32 @@
+# MySQL
+SET GLOBAL general_log = 'ON';
+SET GLOBAL general_log_file = '/var/lib/mysql/logfile.log';
+[/etc/mysql/my.cnf]
+[/etc/mysql/mysql.conf.d/mysqld.cnf]
+[mysqld]
+skip-grant-tables
+general_log = 1
+general_log_file = /var/lib/mysql/host_name.log
+
+SHOW VARIABLES LIKE 'general_log%';
+
+which mysqld
+/usr/sbin/mysqld --verbose --help | grep -A 1 "Default options"
+sudo systemctl restart mysql
+sudo service mysql restart
+
+
+# CodeIgniter ver.3
+[application/config/config.php]
+$config['log_threshold'] = 4;
+0 = Без
+1 = Грешки само
+2 = Грешки и предупреждения
+3 = Грешки, предупреждения и debug
+4 = Всички съобщения
+
+[application/config/database.php]
+'save_queries' => TRUE,
+
+$last_query = $this->db->last_query();
+log_message('debug', 'Last Query: ' . $last_query);
