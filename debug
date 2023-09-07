@@ -26,7 +26,12 @@ $config['log_threshold'] = 4;
 4 = Всички съобщения
 
 [application/config/database.php]
-'save_queries' => TRUE,
+$db['default'] = array(
+    ...
+    'save_queries' => TRUE,
+);
 
 $last_query = $this->db->last_query();
 log_message('debug', 'Last Query: ' . $last_query);
+OR all
+print_r($this->db->queries);
