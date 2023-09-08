@@ -1,0 +1,13 @@
+# fast open code file
+Ctrl + P
+
+# fold/unfold all
+Ctrl + K, [
+Ctrl + K, ]
+
+# fold/unfold
+Ctrl + Shift + [
+Ctrl + Shift + ]
+
+# terminal/code
+Ctrl + J
