@@ -1,7 +1,7 @@
 # fast open code file
 Ctrl + P
 
-# fold/unfold all
+# fold/unfold recursive
 Ctrl + K, [
 Ctrl + K, ]
 
