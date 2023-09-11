@@ -1,6 +1,9 @@
 # fast open code file
 Ctrl + P
 
+# format the file
+Ctrl + Shift + I
+
 # fold/unfold recursive
 Ctrl + K, [
 Ctrl + K, ]
