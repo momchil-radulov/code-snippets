@@ -12,5 +12,12 @@ Ctrl + K, ]
 Ctrl + Shift + [
 Ctrl + Shift + ]
 
+# bookmars
+Ctrl + Alt + K  # toggle a bookmark
+Ctrl + Alt + L  # locate a bookmark
+
+# delete a row
+Ctrl + Shift + K
+
 # terminal/code
 Ctrl + J
