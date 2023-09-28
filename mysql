@@ -1,0 +1,6 @@
+SHOW VARIABLES LIKE 'sql_mode';
+SET sql_mode = '';  -- only for current session
+ALTER TABLE users
+    ADD COLUMN wage DECIMAL(5,2),
+    ADD COLUMN salary DECIMAL(7,2);
+SET sql_mode = '<original value>';  -- OR disconnect session
