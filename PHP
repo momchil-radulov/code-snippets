@@ -1,0 +1,12 @@
+public function debug_trace() {
+    $backtrace = debug_backtrace();
+    
+    echo "<pre>";
+    foreach ($backtrace as $entry) {
+        echo "Файл: " . ($entry['file'] ?? 'N/A') . "\n";
+        echo "Ред: " . ($entry['line'] ?? 'N/A') . "\n";
+        echo "Функция: " . $entry['function'] . "\n";
+        echo "---------------------\n";
+    }
+    echo "</pre>";
+}
