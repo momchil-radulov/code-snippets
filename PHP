@@ -1,3 +1,4 @@
+<?php
 public function debug_trace() {
     $backtrace = debug_backtrace();
     
@@ -9,4 +10,35 @@ public function debug_trace() {
         echo "---------------------\n";
     }
     echo "</pre>";
+}
+
+// helper functions
+<?php
+
+if ( ! function_exists('arr_get') )                                                                                                
+{
+    function arr_get($array, $key, $default = null) {
+        return (array_key_exists($key, $array) && !empty($array[$key])) ? $array[$key] : $default;
+    }
+}
+
+if ( ! function_exists('arr_init_key') )
+{
+    function arr_init_key(&$array, $key, $default) {
+        if ( ! array_key_exists($key, $array)) {
+            $array[$key] = $default;
+        }
+        return $array[$key];
+    }
+}
+
+if ( ! function_exists('obj_get') )
+{   
+    function obj_get($object, $property, $default = null)
+    {   
+        if (property_exists($object, $property)) {
+            return empty($object->$property) ? $default : $object->$property;
+        }
+        return $default;
+    }
 }
