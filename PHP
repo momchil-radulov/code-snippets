@@ -3,8 +3,7 @@
 function debug_print($data, $exit = false, $logToFile = false)
 {
     $backtrace = debug_backtrace();
-    echo "debug_print from: " . $backtrace[0]['file'] . " on line " . $backtrace[0]['line'] .
-          " function " . $backtrace[0]['function'] . "\n\n";
+    echo "function " . $backtrace[0]['function'] . " file " . $backtrace[0]['file'] . " line " . $backtrace[0]['line'] . "\n\n";
 
     echo '<pre style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; font-size: 14px;">';
     print_r($data);
