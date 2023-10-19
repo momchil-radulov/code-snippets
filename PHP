@@ -1,3 +1,13 @@
+useful functions
+htmlspecialchars
+array_sum
+
+
+custom useful functions
+arr_get
+fmt_bgn
+
+
 <?php
 
 function debug_print($data, $exit = false, $logToFile = false)
