@@ -1,5 +1,5 @@
 # sync with a usb / make a backup
-rsync -av --progress /home/momchil/projects/my_project/ /media/momchil/DataTravel/
+rsync -av --progress /home/momchil/projects/my_project/ /media/momchil/DataTravel/my_project/
 
 sudo apt install python3-pip
 python3 -m pip install --upgrade pip
