@@ -51,3 +51,33 @@ const generateUrl = () => {
 function camelCaseToText(text) {
   return text.replace(/([A-Z])/g, " $1");
 }
+
+# export a html table to csv
+function downloadCSV(csv, filename) {
+    var csvFile = new Blob([csv], {type: "text/csv"});
+    var downloadLink = $('<a></a>').attr({
+        'download': filename,
+        'href': window.URL.createObjectURL(csvFile),
+        'target': '_blank',
+        'style': 'display:none'
+    }).appendTo('body');
+    
+    downloadLink[0].click();
+    downloadLink.remove();
+}
+
+function exportTableToCSV(filename) {
+    var csv = [];
+    $("table tr").each(function() {
+        var row = [];
+        $(this).find('td, th').each(function() {
+            row.push($(this).text());
+        });
+        csv.push(row.join(","));
+    });
+
+    downloadCSV(csv.join("\n"), filename);
+}
+
+// Бутон или линк:
+// <button onclick="exportTableToCSV('filename.csv')">Export to CSV</button>
