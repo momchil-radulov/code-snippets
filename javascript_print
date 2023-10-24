@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестова страница за печат на таблица</title>
+    <style>
+        /* Основни стилове за таблицата */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<table id="printableTable">
+    <thead>
+        <tr>
+            <th>Име</th>
+            <th>Фамилия</th>
+            <th>Възраст</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Петър</td>
+            <td>Петров</td>
+            <td>30</td>
+        </tr>
+        <tr>
+            <td>Мария</td>
+            <td>Иванова</td>
+            <td>25</td>
+        </tr>
+    </tbody>
+</table>
+
+<button onclick="printTable()">Разпечатай таблицата</button>
+
+<script>
+    function printTable() {
+        var divToPrint = document.getElementById("printableTable");
+        var newWin = window.open("", "Print-Window");
+        
+        newWin.document.open();
+        newWin.document.write('<html><head><title>Разпечатай таблицата</title>');
+        newWin.document.write('<style>@page { size: A4; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid black; padding: 8px; text-align: left; }</style>');
+        newWin.document.write('</head><body onload="window.print()">');
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.document.write('</body></html>');
+        
+        newWin.document.close();
+        setTimeout(function() { newWin.close(); }, 10);
+    }
+</script>
+
+</body>
+</html>
