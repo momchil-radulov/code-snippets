@@ -132,6 +132,7 @@ pdftoppm -png -f 2 -l 2 document.pdf doc_2_page.png
    Пример:
    ```bash
    sudo setfacl -m u:www-data:rwx /path/to/your/directory
+   sudo setfacl -R -m u:www-data:rwx /path/to/your/directory
    getfacl /path/to/your/directory
    ```
 
