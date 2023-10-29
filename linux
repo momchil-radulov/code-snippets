@@ -72,6 +72,10 @@ sudo apt install iproute2              =>  ip          =>  ip a
 sudo apt install net-tools             =>  netstat     =>  netstat -lt
 sudo apt install redis-tools           =>  redis-cli   =>  redis-cli -h ip_address
 sudo apt install inetutils-traceroute  =>  traceroute  =>  traceroute ip_address
+## second ip address to loopback interface
+sudo ip addr add 127.0.0.2/8 dev lo
+sudo ip addr add 192.168.0.2/24 dev lo
+ip addr show lo
 
 # real time show logging
 journalctl -f
