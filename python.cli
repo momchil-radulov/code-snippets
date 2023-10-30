@@ -88,6 +88,10 @@ pip install textract
 sudo ip addr add 127.0.0.2/8 dev lo
 sudo ip addr add 192.168.0.2/24 dev lo
 ip addr show lo
+## acl rights
+sudo setfacl -m u:www-data:rwx /path/to/your/directory
+sudo setfacl -R -m u:www-data:rwx /path/to/your/directory
+getfacl /path/to/your/directory
 
 pip install webbrowser
 import webbrowser
