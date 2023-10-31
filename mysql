@@ -1,3 +1,14 @@
+# премахване на аутентикацията
+sudo vim [mysql.conf.d/mysqld.cnf]
+[mysqld]
+skip-grant-tables
+# после fix ако пропадне update
+sudo apt update
+#skip-grant-tables
+sudo dpkg --configure -a
+sudo apt upgrade
+tail -f /var/log/mysql/error.log
+
 SHOW VARIABLES LIKE 'sql_mode';
 SET sql_mode = '';  -- only for current session
 ALTER TABLE users
