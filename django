@@ -3,13 +3,16 @@ python3 -m venv venv
 
 pip install --upgrade pip
 pip install wheel
-pip install Django
+pip install django
 pip install gunicorn
 
 django-admin startproject iot
 cd iot
 ./manage.py startapp mc
 ./manage.py runserver
+
+complete -f -d -W "runserver createsuperuser test shell dbshell \
+migrate makemigrations loaddata dumpdata" ./manage.py
 
 ./manage.py inspectdb --include-views > inspectdb.txt
 ./manage.py dbshell
