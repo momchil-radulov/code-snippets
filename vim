@@ -30,6 +30,7 @@ Ctrl - ww - move between window
 :.w !bash
 # code reformat
 gg=G
+:%!black -q -
 # ctags
 cd ~/projects/tags
 ctags -R --languages=python -f pl.tags ../pylib
