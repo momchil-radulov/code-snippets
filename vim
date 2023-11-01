@@ -28,6 +28,8 @@ Ctrl - ww - move between window
 
 # execute current line in bash from vim
 :.w !bash
+# reformat code
+:%=
 # ctags
 cd ~/projects/tags
 ctags -R --languages=python -f pl.tags ../pylib
