@@ -39,3 +39,37 @@ array_walk() - Прилага зададена функция към всеки 
 array_walk_recursive() - Прилага зададена функция рекурсивно към всеки елемент на масива.
 arsort() - Сортира масив и поддържа асоциациите на индексите.
 asort() - Сортира масив и поддържа асоциациите на индексите (запазва ключовете).
+
+# Example
+<?php
+// Първоначален масив с хора
+$people = [
+    ['name' => 'Alice', 'age' => 34],
+    ['name' => 'Bob Jr.', 'age' => 15],
+    ['name' => 'Charlie', 'age' => 23],
+    ['name' => 'Alice', 'age' => 26],
+    ['name' => 'Bob', 'age' => 37],
+];
+
+// 1. Филтриране на хората, които са на възраст над 18
+$adults = array_filter($people, function ($person) {
+    return $person['age'] >= 18;
+});
+
+// 2. Сортиране на масива по възраст
+usort($adults, function ($a, $b) {
+    return $a['age'] <=> $b['age'];
+});
+
+// 3. Извличане на колоната с имената
+$names = array_column($adults, 'name');
+
+// 4. Преброяване колко пъти се среща всяко име
+$nameCount = array_count_values($names);
+
+echo "Пълнолетни сортирани по възраст:\n";
+print_r($names);
+
+echo "Брой на срещанията на всяко име:\n";
+print_r($nameCount);
+?>
