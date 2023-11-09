@@ -17,3 +17,29 @@
         margin: 0 auto; /* Центриране */
     }
 }
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Форматиране на подпис</title>
+<style>
+  .signature-line {
+    border-bottom: 1px solid black; /* създава линия за подпис */
+    width: 300px; /* фиксирана ширина достатъчна за подпис */
+    width: 100mm; /* ПЕЧАТ ширина на линията за подпис в милиметри */
+    display: inline-block; /* прави елемента в реда с текста */
+  }
+
+  .signature-text {
+    font-size: 0.8em; /* прави текста "подпис" по-малък */
+  }
+</style>
+</head>
+<body>
+
+<p>С уважение <span class="signature-text">(подпис):</span>
+<span class="signature-line">&nbsp;</span></p> <!-- &nbsp; е използван, за да задържи линията видима дори когато няма текст -->
+
+</body>
+</html>
