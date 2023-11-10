@@ -1,6 +1,12 @@
 # fast open code file
 Ctrl + P
 
+# open console
+Ctrl + Shift + C
+
+# browse methods within a code file
+Ctrl + Shift + \ (char "<" долу вляво)
+
 # format the file
 Ctrl + Shift + I
 
