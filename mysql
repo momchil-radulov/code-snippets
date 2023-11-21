@@ -1,7 +1,8 @@
 # премахване на аутентикацията
-sudo vim [mysql.conf.d/mysqld.cnf]
+sudo vim [/etc/mysql/mysql.conf.d/mysqld.cnf]
 [mysqld]
 skip-grant-tables
+sql_mode = "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
 # после fix ако пропадне update
 sudo apt update
 #skip-grant-tables
@@ -9,6 +10,9 @@ sudo dpkg --configure -a
 sudo apt upgrade
 tail -f /var/log/mysql/error.log
 
+sudo systemctl restart mysql.service
+
+SELECT @@sql_mode;
 SHOW VARIABLES LIKE 'sql_mode';
 SET sql_mode = '';  -- only for current session
 ALTER TABLE users
