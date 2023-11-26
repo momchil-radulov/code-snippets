@@ -29,24 +29,16 @@ table tr td:nth-child(2), table tr th:nth-child(2) {
 
 /* Печат на таблицата */
 @media print {
+  page {
+    size: A4 landscape;
+  }
   body, html {
     width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  /* Скрива всички елементи, освен таблицата */
-  body * {
-    visibility: hidden;
+    padding: 0mm 0mm 0mm 10mm;
   }
   /* Стил за таблицата при печат */
   table {
-    visibility: visible;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
+    width: calc(100% - 25mm);
   }
 }
 
