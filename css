@@ -27,6 +27,29 @@ table tr td:nth-child(2), table tr th:nth-child(2) {
     text-overflow: ellipsis; /* Показва многоточие, ако текстът е по-дълъг */
 }
 
+/* Печат на таблицата */
+@media print {
+  body, html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  /* Скрива всички елементи, освен таблицата */
+  body * {
+    visibility: hidden;
+  }
+  /* Стил за таблицата при печат */
+  table {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
 <!DOCTYPE html>
 <html lang="bg">
 <head>
