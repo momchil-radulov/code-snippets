@@ -1,3 +1,10 @@
+[/etc/php/8.2/fpm/php.ini] или вашата конкретна версия
+upload_max_filesize = 100M
+post_max_size = 100M
+# след това
+sudo systemctl restart nginx.service
+sudo systemctl restart php8.2-fpm.service
+
 useful functions
 htmlspecialchars
 array_sum
