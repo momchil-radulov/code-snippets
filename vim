@@ -56,3 +56,7 @@ vim -S ~/mysession.vim
 
 mkdir .vim && cd .vim
 git clone --depth 1 https://github.com/codota/tabnine-vim
+
+# search and replace
+# int(10) => int ; smallint(6) => smallint
+:%s/int([0-9]\+)/int/g
