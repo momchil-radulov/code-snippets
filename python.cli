@@ -144,4 +144,4 @@ sudo vim /etc/ImageMagick-6/policy.xml
 <policy domain="coder" rights="none" pattern="PDF" />
 =>
 <policy domain="coder" rights="read|write" pattern="PDF" />
-convert file_name.pdf file_name.png
+convert -density 300 file_name.pdf -quality 100 file_name.png
