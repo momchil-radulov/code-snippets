@@ -137,3 +137,11 @@ except:
 // see https://creatomate.com/blog/how-to-change-the-volume-of-a-media-file-using-ffmpeg
 // увеличаване на звука на медиен клип, loud audio
 ffmpeg -i input.mp4 -af "volume=1.5" -c:v copy output.mp4
+
+# convert pdf to image, конвертиране на pdf към картинка
+sudo apt install imagemagick
+sudo vim /etc/ImageMagick-6/policy.xml
+<policy domain="coder" rights="none" pattern="PDF" />
+=>
+<policy domain="coder" rights="read|write" pattern="PDF" />
+convert file_name.pdf file_name.png
