@@ -134,7 +134,6 @@ except:
     subprocess.Popen(["notify-send", "Computer stays awake..."])
 ### end sleep ###
 
-// see https://stackoverflow.com/questions/24911402/increasing-a-files-volume-using-vlc-cli
-ffmpeg.exe -i test.mp3 -af volume=1.5 loud.mp3
-                 ^            ^         ^
-               input  new volume level  output name
+// see https://creatomate.com/blog/how-to-change-the-volume-of-a-media-file-using-ffmpeg
+// увеличаване на звука на медиен клип, loud audio
+ffmpeg -i input.mp4 -af "volume=1.5" -c:v copy output.mp4
