@@ -14,6 +14,18 @@ custom useful functions
 arr_get
 fmt_bgn
 
+в даден клас да проверим:
+if (method_exists($this, $methodName)) {
+    echo "Методът '$methodName' съществува в класа.\n";
+    $this->$methodName(); // Извикваме метода, ако съществува
+}
+$reflectionMethod = new ReflectionMethod($this, 'validate');
+echo "Методът 'validate' има " . $reflectionMethod->getNumberOfParameters() . " аргумента.\n";
+извън класът
+if (method_exists($obj, 'exampleMethod')) {
+    $obj->exampleMethod(); // Извикваме метода, ако съществува
+}
+$reflectionMethod = new ReflectionMethod('ClassName', 'methodName');
 
 <?php
 
