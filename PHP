@@ -90,3 +90,12 @@ if ( ! function_exists('obj_get') )
         return $default;
     }
 }
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Специално правило за /privacy-policy
+    RewriteCond %{REQUEST_URI} ^/privacy-policy/?$
+    RewriteRule ^privacy-policy/?$ /privacy-policy.txt [L]
+
+</IfModule>
