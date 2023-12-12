@@ -31,7 +31,8 @@ $service mosquitto reload
 $mosquitto_pub -h hostname -p 1883 -t topic_name -m 'message hello world' -u user_name -P password
 $mosquitto_sub -h hostname -p 1883 -t topic_name -u user_name -P password
 # with ssl
-openssl s_client -connect host.com:8883 => copy Server certificate to ca.crt
+openssl s_client -connect host.com:8883 -showcerts => copy Server certificate to ca.crt
+
 mosquitto_sub -h host.com -p 8883 -t topic/topic -u user_name -P password --cafile ca.crt --insecure
 
 see https://stackoverflow.com/questions/52283671/mqtt-publish-multiple-topics-with-mosquitto-pub-from-stdin
