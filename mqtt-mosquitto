@@ -27,6 +27,13 @@ allow_anonymous true
 $mosquitto_passwd -b passwd user password
 $service mosquitto reload
 
+[/etc/mosquitto/mosquitto.acl]
+user root
+topic readwrite #
+# anonymouse users and all other not matched upper !!!
+pattern readwrite public/#
+
+
 .w !bash
 $mosquitto_pub -h hostname -p 1883 -t topic_name -m 'message hello world' -u user_name -P password
 $mosquitto_sub -h hostname -p 1883 -t topic_name -u user_name -P password
