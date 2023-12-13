@@ -24,7 +24,7 @@ protocol websockets
 socket_domain ipv4
 allow_anonymous true
 
-$mosquitto_passwd -b passwd user password
+$mosquitto_passwd -b /etc/mosquitto/mosquitto_passwd user password
 $service mosquitto reload
 
 [/etc/mosquitto/mosquitto.acl]
