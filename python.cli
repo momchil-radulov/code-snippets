@@ -1,6 +1,9 @@
 # sync with a usb / make a backup
 rsync -av --size-only --progress /home/momchil/projects/my_project/ /media/momchil/DataTravel/my_project/
 
+wget url/file.iso
+sudo dd if=file.iso of=/dev/sda bs=4M status=progress oflag=sync
+
 sudo apt install python3-pip
 python3 -m pip install --upgrade pip
 python3 -m pip install wheel
