@@ -11,11 +11,15 @@ cd iot
 ./manage.py startapp mc
 ./manage.py runserver
 
+django-admin makemessages -l en
+django-admin compilemessages
+
 complete -f -d -W "runserver createsuperuser test shell dbshell \
 migrate makemigrations loaddata dumpdata" ./manage.py
 
 ./manage.py inspectdb --include-views > inspectdb.txt
 ./manage.py dbshell
+
 ./manage.py makemigrations
 ./manage.py migrate
 
