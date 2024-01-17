@@ -24,3 +24,5 @@ migrate makemigrations loaddata dumpdata" ./manage.py
 ./manage.py migrate
 
 gunicorn iot.wsgi:application
+python -m gunicorn kemsa.asgi:application -k uvicorn.workers.UvicornWorker
+
