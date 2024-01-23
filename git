@@ -70,6 +70,9 @@ git diff master:dir/file_name dir/file_name
 git diff master  # diff branches, diff with master
 git diff --name-only master  # show names of modified files
 git diff master -- ./**/file_name  # diff only file_name
+# разликите в текущия бранч спрямо master бранча от момента, в който е бил разклонен
+git merge-base HEAD master  # последния общ къмит (от който са се разделили)
+git diff [SHA-идентификатор] HEAD
 
 # REMOVE!! changes
 git reset --hard section-3.1
