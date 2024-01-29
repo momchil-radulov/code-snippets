@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/privacy-policy$
+RewriteRule .* /privacy-policy.txt [NC,L]
