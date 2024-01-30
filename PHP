@@ -47,6 +47,27 @@ function debug_print($data, $exit = false, $logToFile = false)
     }
 }
 
+function print_stack_trace($is_args=false) {
+    $stack = debug_backtrace();
+    echo "<pre>";
+    foreach ($stack as $frame) {
+        if (isset($frame['file'])) {
+            echo "Файл: " . $frame['file'] . "\n";
+        }
+        if (isset($frame['line'])) {
+            echo "Ред: " . $frame['line'] . "\n";
+        }
+        echo "Функция: " . $frame['function'] . "\n";
+        if ($is_args && isset($frame['args'])) {
+            echo "Аргументи: ";
+            print_r($frame['args']);
+            echo "\n";
+        }
+        echo "\n";
+    }
+    echo "</pre>";
+}
+
 public function debug_trace() {
     $backtrace = debug_backtrace();
     
