@@ -71,14 +71,11 @@ function print_stack_trace($is_args=false) {
 public function debug_trace() {
     $backtrace = debug_backtrace();
     
-    echo "<pre>";
+    echo "<pre>debug_trace:\n";
     foreach ($backtrace as $entry) {
-        echo "Файл: " . ($entry['file'] ?? 'N/A') . "\n";
-        echo "Ред: " . ($entry['line'] ?? 'N/A') . "\n";
-        echo "Функция: " . $entry['function'] . "\n";
-        echo "---------------------\n";
+        echo $entry['function'] . " < " . ($entry['file'] ?? 'N/A') . " : " . ($entry['line'] ?? 'N/A') . "\n";
     }
-    echo "</pre>";
+    echo "---------------------\n</pre>";
 }
 
 // helper functions
