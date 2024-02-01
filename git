@@ -37,6 +37,10 @@ git clone <url_of_a_project> [path_for_project]
 1 *.sess
 [.git/info/exclude] file has the same format as any .gitignore
 
+# За да накарате git status да не показва определен променен файл
+git update-index --assume-unchanged път/до/вашето/файл
+git update-index --no-assume-unchanged път/до/вашето/файл  # обратно да се показва
+
 git checkout -b project_feature  # create a new branch
 git show --oneline -s  # show last/current commit which is currently checked out in Git (-s => suppress diff output)
 git show               # show last commit diff
