@@ -77,6 +77,8 @@ git diff master -- ./**/file_name  # diff only file_name
 # разликите в текущия бранч спрямо master бранча от момента, в който е бил разклонен
 git merge-base HEAD master  # последния общ къмит (от който са се разделили)
 git diff [SHA-идентификатор] HEAD
+# разликите от последния къмит
+git diff HEAD^ HEAD
 
 # REMOVE!! changes
 git reset --hard section-3.1
