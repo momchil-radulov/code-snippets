@@ -4,6 +4,11 @@ rsync -av --size-only --progress /home/momchil/projects/my_project/ /media/momch
 wget url/file.iso
 sudo dd if=file.iso of=/dev/sda bs=4M status=progress oflag=sync
 
+python -m venv venv
+. venv/bin/activate
+echo $VIRTUAL_ENV
+deactivate
+
 sudo apt install python3-pip
 python3 -m pip install --upgrade pip
 python3 -m pip install wheel
