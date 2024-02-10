@@ -6,7 +6,7 @@ sudo dd if=file.iso of=/dev/sda bs=4M status=progress oflag=sync
 
 python -m venv venv
 . venv/bin/activate
-echo $VIRTUAL_ENV
+echo $VIRTUAL_ENV OR sys.prefix
 deactivate
 
 sudo apt install python3-pip
