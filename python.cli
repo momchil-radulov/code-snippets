@@ -101,6 +101,10 @@ ip addr show lo
 sudo setfacl -m u:www-data:rwx /path/to/your/directory
 sudo setfacl -R -m u:www-data:rwx /path/to/your/directory
 getfacl /path/to/your/directory
+# comp info
+hostname, lsb_release -a, uname -a
+lsblk, lscpu, lspci | grep VGA, sudo lshw
+df -h, free -h, htop
 
 pip install webbrowser
 import webbrowser
