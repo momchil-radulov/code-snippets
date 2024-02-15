@@ -27,3 +27,35 @@ migrate makemigrations loaddata dumpdata" ./manage.py
 gunicorn iot.wsgi:application
 python -m gunicorn kemsa.asgi:application -k uvicorn.workers.UvicornWorker
 
+# clear database
+rm db.sqlite3
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc"  -delete
+./manage.py makemigrations
+./manage.py migrate
+./manage.py createsuperuser
+
+# multilanguages
+[settings.py]
+LANGUAGE_CODE = 'en-us'  # По подразбиране език
+LANGUAGES = [
+    ('en', _('English')),
+    ('bg', _('Bulgarian')),
+    # Добави други езици тук
+]
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'),]
+$ django-admin makemessages -l bg
+$ vim locale/bg/LC_MESSAGES/*.po
+$ django-admin compilemessages
+## използване
+from django.utils.translation import gettext_lazy as _
+[models.py]
+class Country(models.Model):
+    name = models.CharField(max_length=100, verbose_name=_("Държава"))
+
+    class Meta:
+        verbose_name = _("Държава")
+        verbose_name_plural = _("Държави")
+
+    def __str__(self):
+        return self.name
