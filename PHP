@@ -9,6 +9,9 @@ useful functions
 htmlspecialchars
 array_sum
 
+# composer
+https://getcomposer.org/download/
+php5.6 composer.phar update
 
 custom useful functions
 arr_get
