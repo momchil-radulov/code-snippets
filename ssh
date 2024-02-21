@@ -6,6 +6,11 @@ add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the fi
 public key (.pub file): 644 (-rw-r--r--)  # chmod 644 id_rsa.pub
 private key (id_rsa):   600 (-rw-------)  # chmod 600 id_rsa
 
+ssh -X user@host   # run remote GUI app localy
+OR
+export DISPLAY=:0  # run remote GUI app on remote computer
+export DISPLAY=:1  # run remote GUI app on remote computer
+
 sshfs lightsail:/home/lightsail/documents /mnt/documents -o ro
 sudo umount /mnt/documents
 
