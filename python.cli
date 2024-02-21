@@ -106,6 +106,10 @@ hostname, lsb_release -a, uname -a
 lsblk, lscpu, lspci | grep VGA, sudo lshw
 df -h, free -h, htop
 
+sudo apt install zoxide
+~/.bashrc
+eval "$(zoxide init bash)"
+
 pip install webbrowser
 import webbrowser
 url = 'http://docs.python.org/'
