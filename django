@@ -59,3 +59,22 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+
+# systemd service
+[/etc/systemd/system/my_service.service]
+[Unit]
+Description=My service
+After=network.target
+
+[Service]
+User=<youruser>
+Group=<yourgroup>
+WorkingDirectory=/path/to/your/kemsa/project
+ExecStart=/path/to/your/venv/bin/gunicorn my_app.asgi:application -k uvicorn.workers.UvicornWorker
+Restart=on-failure
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
