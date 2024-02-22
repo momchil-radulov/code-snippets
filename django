@@ -78,3 +78,9 @@ NotifyAccess=all
 
 [Install]
 WantedBy=multi-user.target
+
+# systemd cli
+sudo systemctl start my_service.service
+sudo systemctl enable my_service.service
+sudo systemctl status my_service.service
+journalctl -u my_service.service
