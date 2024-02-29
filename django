@@ -27,7 +27,7 @@ migrate makemigrations loaddata dumpdata" ./manage.py
 gunicorn iot.wsgi:application
 python -m gunicorn kemsa.asgi:application -k uvicorn.workers.UvicornWorker
 
-# clear database
+# clear migrations
 ./manage.py dumpdata > backup_db.json
 rm db.sqlite3
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
