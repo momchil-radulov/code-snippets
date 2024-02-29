@@ -34,7 +34,7 @@ find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc"  -delete
 ./manage.py makemigrations
 ./manage.py migrate
-./manage.py createsuperuser
+# ./manage.py createsuperuser
 ./manage.py loaddata backup_db.json
 
 # multilanguages
