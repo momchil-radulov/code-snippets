@@ -27,7 +27,7 @@ migrate makemigrations loaddata dumpdata" ./manage.py
 gunicorn iot.wsgi:application
 python -m gunicorn kemsa.asgi:application -k uvicorn.workers.UvicornWorker
 
-# clear migrations
+# clean migrations
 ./manage.py dumpdata > backup_db.json
 rm db.sqlite3
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
@@ -36,6 +36,12 @@ find . -path "*/migrations/*.pyc"  -delete
 ./manage.py migrate
 # ./manage.py createsuperuser
 ./manage.py loaddata backup_db.json
+
+# fix clean migrations
+./manage.py shell
+from django.contrib.contenttypes.models import ContentType
+ContentType.objects.all().delete()
+./manage.py loaddata backup_db.json --ignorenonexistent
 
 # multilanguages
 [settings.py]
