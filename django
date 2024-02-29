@@ -27,15 +27,17 @@ migrate makemigrations loaddata dumpdata" ./manage.py
 gunicorn iot.wsgi:application
 python -m gunicorn kemsa.asgi:application -k uvicorn.workers.UvicornWorker
 
-# clean migrations
+[clean_migrations.sh]
+source /home/ubuntu/venv/bin/activate
 ./manage.py dumpdata > backup_db.json
 rm db.sqlite3
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc"  -delete
 ./manage.py makemigrations
 ./manage.py migrate
-# ./manage.py createsuperuser
+#./manage.py createsuperuser
 ./manage.py loaddata backup_db.json
+deactivate
 
 # fix clean migrations
 ./manage.py shell
