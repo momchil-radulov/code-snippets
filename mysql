@@ -23,3 +23,6 @@ ALTER TABLE users
 SET sql_mode = '<original value>';  -- OR disconnect session
 
 mysql -u root -ppassword123 database_name < /path/to/dumpfile.sql
+$mysql
+>connect db_name
+
