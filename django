@@ -1,6 +1,9 @@
 python3 -m venv venv
 . venv/bin/activate
 
+sudo apt install pipx
+pipx install sqlparse
+
 pip install --upgrade pip
 pip install wheel
 pip install django
@@ -44,6 +47,7 @@ deactivate
 from django.contrib.contenttypes.models import ContentType
 ContentType.objects.all().delete()
 ./manage.py loaddata backup_db.json --ignorenonexistent
+./manage.py sqlmigrate iot 0001 | sqlformat -
 
 # multilanguages
 [settings.py]
