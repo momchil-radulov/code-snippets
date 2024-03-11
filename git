@@ -173,10 +173,12 @@ After that, hint:
 # config
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
+git config --global core.editor vim
 git config --global diff.context 5
 OR localy for this repository only
 git config user.name "John Doe"
 git config user.email johndoe@example.com
+git config core.editor vim
 git config diff.context 5
 
 # alias
