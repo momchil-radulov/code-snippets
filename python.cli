@@ -20,11 +20,6 @@ python3 -m pipx ensurepath
 export PATH="$PATH:~/.local/bin" # OR export PATH="$PATH:/home/momchil/.local/bin"
 eval "$(register-python-argcomplete pipx)"
 
-eval "$(zoxide init bash)"
-complete -f -d -W "runserver createsuperuser test shell dbshell \
-migrate makemigrations loaddata dumpdata" ./manage.py
-complete -f -d -W "notebook" jupiter
-
 sudo apt update
 sudo apt install bash-completion
 pipx completions  # bash: eval "$(register-python-argcomplete pipx)"
@@ -44,14 +39,6 @@ sudo apt install jq  # jq '.data[1].name' test.json OR cat test.json | jq '.data
 
 # cli ui
 pip install cli-ui  # https://github.com/your-tools/python-cli-ui
-
-# .bashrc
-parse_git_branch() {
-    git branch 2> /dev/null | grep '*' | sed -e 's/*//'
-    # git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-export PS1="\[\033[92m\]\$(date +%T) \[\033[93m\]\W\[\033[91m\]\$(parse_git_branch)\[\033[00m\]$ "
-PS1="\[\e]0;\u@\h: \w\a\]\[\033[92m\]$(date +%T) \[\033[93m\]\W\[\033[00m\] $ "  # dont show branch in current session
 
 # gui ui
 sudo apt-get install python-guizero
@@ -110,6 +97,20 @@ getfacl /path/to/your/directory
 hostname, lsb_release -a, uname -a
 lsblk, lscpu, lspci | grep VGA, sudo lshw
 df -h, free -h, htop
+
+# .bashrc
+parse_git_branch() {
+    git branch 2> /dev/null | grep '*' | sed -e 's/*//'
+    # git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1="\[\033[92m\]\$(date +%T) \[\033[93m\]\W\[\033[91m\]\$(parse_git_branch)\[\033[00m\]$ "
+PS1="\[\e]0;\u@\h: \w\a\]\[\033[92m\]$(date +%T) \[\033[93m\]\W\[\033[00m\] $ "  # dont show branch in current session
+eval "$(zoxide init bash)"
+export PATH="$PATH:~/.local/bin" # OR export PATH="$PATH:/home/momchil/.local/bin"
+eval "$(register-python-argcomplete pipx)"
+complete -f -d -W "runserver createsuperuser test shell dbshell \
+migrate makemigrations loaddata dumpdata" ./manage.py
+complete -f -d -W "notebook" jupiter
 
 # z, cd replacement
 sudo apt install zoxide
