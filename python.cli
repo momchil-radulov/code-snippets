@@ -17,8 +17,13 @@ python3 -m pip install --user pipx
 python3 -m pipx ensurepath
 # /home/momchil/.local/bin is already in PATH.
 [~/.bashrc]
-export PATH="$PATH:/home/momchil/.local/bin"
+export PATH="$PATH:~/.local/bin" # OR export PATH="$PATH:/home/momchil/.local/bin"
 eval "$(register-python-argcomplete pipx)"
+
+eval "$(zoxide init bash)"
+complete -f -d -W "runserver createsuperuser test shell dbshell \
+migrate makemigrations loaddata dumpdata" ./manage.py
+complete -f -d -W "notebook" jupiter
 
 sudo apt update
 sudo apt install bash-completion
