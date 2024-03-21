@@ -1,3 +1,10 @@
+eval "$(zoxide init bash)"
+eval "$(register-python-argcomplete pipx)"
+export PATH="$PATH:~/.local/bin"
+complete -f -d -W "runserver createsuperuser test shell dbshell \
+migrate makemigrations loaddata dumpdata" ./manage.py
+complete -f -d -W "notebook" jupiter
+
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
