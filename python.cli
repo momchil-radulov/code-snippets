@@ -110,7 +110,7 @@ export PATH="$PATH:~/.local/bin" # OR export PATH="$PATH:/home/momchil/.local/bi
 eval "$(register-python-argcomplete pipx)"
 complete -f -d -W "runserver createsuperuser test shell dbshell \
 migrate makemigrations loaddata dumpdata" ./manage.py
-complete -f -d -W "notebook" jupiter
+complete -f -d -W "notebook" jupyter
 
 # z, cd replacement
 sudo apt install zoxide
