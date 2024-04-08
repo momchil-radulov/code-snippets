@@ -35,3 +35,7 @@ class MyMiddleware:
         return response
 my_middleware = MyMiddleware()  # Do whatever you need the class for here
 app.middleware("http")(my_middleware)
+
+# redirect fastapi
+ssh -R 8000:localhost:8000 hostname  # remote localhost:8000 to local localhost:8000
+socat TCP-LISTEN:8000,bind=public_ip_address,reuseaddr,fork TCP:localhost:8000  # remote public_ip_address:8000 to remote localhost:8000
