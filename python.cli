@@ -81,6 +81,10 @@ tinyproxy
 mitmproxy --mode reverse:http://localhost:5000 -p 4000  # listen 4000 send 5000
 sshfs lightsail:/home/lightsail/documents /mnt/documents -o ro
 ssh lightsail -N -L 1234:[remote.ip]:445  # by samba sharing
+# redirect fastapi
+ssh -R 8000:localhost:8000 hostname  # remote localhost:8000 to local localhost:8000
+socat TCP-LISTEN:8000,bind=public_ip_address,reuseaddr,fork TCP:localhost:8000  # remote public_ip_address:8000 to remote localhost:8000
+
 sudo apt install default-jre
 sudo apt install default-jdk
 sudo apt install libtika-java
