@@ -169,6 +169,15 @@ find . | grep py$ | xargs pylint | less
 grep -inr --include '*.py' open ./
 grep -l SOME_TEXT * => only show file names
 
+# upload files
+[upload_files.sh] 
+#!/bin/bash
+sftp host_name << EOF
+cd fastapi
+put README.md
+put fastapi_app.py
+EOF
+
 #useful
 certbot renew --dry-run
 cd ~/bin && wget https://raw.githubusercontent.com/pixelb/ps_mem/master/ps_mem.py && chmod a+x ps_mem.py && cd ~ && source .profile,
