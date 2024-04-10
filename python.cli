@@ -134,6 +134,15 @@ chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 chrome_path = '/usr/bin/google-chrome %s'
 webbrowser.get(chrome_path).open(url)
 
+# upload files
+[upload_files.sh] 
+#!/bin/bash
+sftp host_name << EOF
+cd fastapi
+put README.md
+put fastapi_app.py
+EOF
+
 ### sleep ###
 [notes]
 https://super-unix.com/ubuntu/ubuntu-how-to-keep-the-computer-awake-depending-on-activity/
