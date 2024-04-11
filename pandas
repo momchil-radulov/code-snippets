@@ -18,6 +18,7 @@ df.drop(df.tail(1).index, inplace=True) # Изтриваме последния 
 # или на първия
 df['counts'] = df['counts'].shift(1)
 df['FREQUENCY'] = df['FREQUENCY'].shift(1)
-df.drop(df.index[0])  # Изтриваме първия ред
+# Изтриваме първия ред
+df = df.iloc[1:]  OR  df = df.drop(df.index[0])
 
 print(df.head())  # Показваме първите няколко реда за проверка
