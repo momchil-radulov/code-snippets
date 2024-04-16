@@ -80,6 +80,12 @@ git diff [SHA-идентификатор] HEAD
 # разликите от последния къмит
 git diff HEAD^ HEAD
 
+# apply RAW changes (for safety merge)
+git diff --binary feature/some_branch > offer.patch
+git checkout -b feature/new_branch
+git apply offer.patch
+git diff -> check changes
+
 # REMOVE!! changes
 git reset --hard section-3.1
 git reset --hard origin
