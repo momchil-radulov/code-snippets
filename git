@@ -85,6 +85,8 @@ git diff --binary feature/some_branch > offer.patch
 git checkout -b feature/new_branch
 git apply offer.patch
 git diff -> check changes
+# A стои за "added" (добавени файлове) C стои за "copied" (копирани файлове) M стои за "modified" (модифицирани файлове)
+git diff master --diff-filter=ACM --name-only > files2upload.txt
 
 # REMOVE!! changes
 git reset --hard section-3.1
