@@ -146,3 +146,7 @@ python3.9 -m pip install --upgrade pip
 # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
 # sudo update-alternatives --config python3
 # END don't do this ! #
+
+# logging
+logging.basicConfig(filename='myapp.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')  # в началото в main файла
+logging.getLogger().setLevel(logging.DEBUG)  # в кода някъде
