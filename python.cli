@@ -183,3 +183,7 @@ sudo vim /etc/ImageMagick-6/policy.xml
 =>
 <policy domain="coder" rights="read|write" pattern="PDF" />
 convert -density 300 file_name.pdf -quality 100 file_name.png
+
+# logging
+logging.basicConfig(filename='myapp.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')  # в началото в main файла
+logging.getLogger().setLevel(logging.DEBUG)  # в кода някъде
