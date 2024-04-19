@@ -41,6 +41,9 @@ ssh -R 8000:localhost:8000 hostname  # remote localhost:8000 to local localhost:
 socat TCP-LISTEN:8000,bind=public_ip_address,reuseaddr,fork TCP:localhost:8000  # remote public_ip_address:8000 to remote localhost:8000
 pkill socat
 
+
+### DEVOPS ###
+
 # systemd add service
 sudo adduser --system --group --no-create-home fastapi
 cd ~; mkdir fastapi
@@ -51,12 +54,34 @@ groups
 sudo usermod -a -G fastapi user_name
 git init
 git config --global --add safe.directory /home/user_name/fastapi
+git config user.email "you@example.com"
+git config user.name "momchil"
+
 [.gitignore]
 .gitignore
 venv
-[endfile]
+[:endfile]
 python3 -m venv venv
 . venv/bin/activate
+
+# ssh
+ssh-keygen -t rsa -b 4096
+ssh-copy-id -i ~/.ssh/id_rsa.pub username@hostname
+
+# files
+sudo apt update
+sudo apt install sshpass
+git ls-files
+
+[upload_files.sh]
+#!/bin/bash
+sftp username@hostname << EOF
+#sshpass -p "your_password" sftp username@hostname << EOF
+cd fastapi
+put README.md
+put fastapi_app.py
+EOF
+[:endfile]
 
 # systemd service file
 # [/etc/systemd/system/fastapi.service]
@@ -73,4 +98,4 @@ ExecStart=/home/user_name/fastapi/venv/bin/uvicorn fastapi_app:app --host 0.0.0.
 
 [Install]
 WantedBy=multi-user.target
-
+[:endfile]
