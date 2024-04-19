@@ -54,8 +54,9 @@ groups
 sudo usermod -a -G fastapi user_name
 git init
 git config --global --add safe.directory /home/user_name/fastapi
-git config user.email "you@example.com"
-git config user.name "momchil"
+git config user.email "you@example.com"  # optional --global
+git config user.name "momchil"  # optional --global
+git config core.editor "vim"  # optional --global
 
 [.gitignore]
 .gitignore
