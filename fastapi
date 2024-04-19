@@ -57,6 +57,7 @@ git config --global --add safe.directory /home/user_name/fastapi
 git config user.email "you@example.com"  # optional --global
 git config user.name "momchil"  # optional --global
 git config core.editor "vim"  # optional --global
+#sudo apt install python3-apt --reinstall
 
 [.gitignore]
 .gitignore
