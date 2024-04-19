@@ -85,6 +85,7 @@ EOF
 [:endfile]
 
 # systemd service file
+sudo systemctl daemon-reload
 sudo systemctl enable fastapi.service
 sudo systemctl [start|stop|restart] fastapi.service
 sudo systemctl status fastapi.service
