@@ -88,6 +88,7 @@ EOF
 sudo systemctl enable fastapi.service
 sudo systemctl [start|stop|restart] fastapi.service
 sudo systemctl status fastapi.service
+sudo journalctl -u fastapi.service
 
 # [/etc/systemd/system/fastapi.service]
 [Unit]
