@@ -173,10 +173,35 @@ grep -l SOME_TEXT * => only show file names
 [upload_files.sh] 
 #!/bin/bash
 sftp host_name << EOF
+#sshpass -p "password" sftp host_name << EOF
 cd fastapi
 put README.md
 put fastapi_app.py
 EOF
+[:endfile]
+
+# upload files
+[upload_files_2.sh] 
+#!/usr/bin/expect
+set timeout 20
+set host "hostname"
+set username "username"
+set password "your_password"
+set directory "fastapi"
+
+spawn sftp $username@$host
+expect "password:"
+send "$password\r"
+expect "sftp>"
+send "cd $directory\r"
+expect "sftp>"
+send "put README.md\r"
+expect "sftp>"
+send "put fastapi_app.py\r"
+expect "sftp>"
+send "bye\r"
+interact
+[:endfile]
 
 #useful
 certbot renew --dry-run
