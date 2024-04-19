@@ -41,3 +41,36 @@ ssh -R 8000:localhost:8000 hostname  # remote localhost:8000 to local localhost:
 socat TCP-LISTEN:8000,bind=public_ip_address,reuseaddr,fork TCP:localhost:8000  # remote public_ip_address:8000 to remote localhost:8000
 pkill socat
 
+# systemd add service
+sudo adduser --system --group --no-create-home fastapi
+cd ~; mkdir fastapi
+sudo chown -R fastapi:fastapi /home/user_name/fastapi
+# 2 в началото (setgid бит) гарантира, че всички нови файлове и директории, създадени в /home/kamen/fastapi, ще наследяват групата на родителската директория (fastapi).
+sudo chmod 2770 /home/user_name/fastapi
+groups
+sudo usermod -a -G fastapi user_name
+git init
+git config --global --add safe.directory /home/user_name/fastapi
+[.gitignore]
+.gitignore
+venv
+[endfile]
+python3 -m venv venv
+. venv/bin/activate
+
+# systemd service file
+# [/etc/systemd/system/fastapi.service]
+[Unit]
+Description=FastAPI Service
+After=network.target
+
+[Service]
+User=fastapi
+Group=fastapi
+WorkingDirectory=/home/user_name/fastapi
+Environment="PATH=/home/user_name/fastapi/venv/bin"
+ExecStart=/home/user_name/fastapi/venv/bin/uvicorn fastapi_app:app --host 0.0.0.0 --port 8000
+
+[Install]
+WantedBy=multi-user.target
+
