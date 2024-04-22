@@ -85,6 +85,9 @@ git checkout some_branch
 git log  => find last merged branch
 git diff --binary feature/last_merged_branch > offer.patch
 git checkout -b feature/new_branch
+cat laisne.patch | colordiff | less -R  # view in color
+git apply --stat --summary --color laisne.patch  # preview, before apply
+git apply --check laisne.patch
 git apply offer.patch
 git diff -> check changes
 # A стои за "added" (добавени файлове) C стои за "copied" (копирани файлове) M стои за "modified" (модифицирани файлове)
