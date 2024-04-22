@@ -81,7 +81,9 @@ git diff [SHA-идентификатор] HEAD
 git diff HEAD^ HEAD
 
 # apply RAW changes (for safety merge)
-git diff --binary feature/some_branch > offer.patch
+git checkout some_branch
+git log  => find last merged branch
+git diff --binary feature/last_merged_branch > offer.patch
 git checkout -b feature/new_branch
 git apply offer.patch
 git diff -> check changes
