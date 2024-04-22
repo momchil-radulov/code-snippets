@@ -86,7 +86,7 @@ git log  => find last merged branch
 git diff --binary feature/last_merged_branch > offer.patch
 git checkout -b feature/new_branch
 cat offer.patch | colordiff | less -R  # view in color
-git apply --stat --summary --color offer.patch  # preview, before apply
+git apply --stat --summary offer.patch  # preview, before apply
 git apply --check offer.patch
 git apply offer.patch
 git diff -> check changes
