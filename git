@@ -10,6 +10,8 @@ git push -f
 # remove files from stage/staging area
 git reset
 
+git ls-files  # show files in a git repository
+
 # basic workflow
 git init
 git add . OR git add <file_name> # add all files or a file to the git 
