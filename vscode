@@ -1,6 +1,12 @@
 # fast open code file
 Ctrl + P
 
+# fast open function/method
+Ctrl + T
+
+# fast open function/method in current file
+Ctrl + Shift + O
+
 # open console
 Ctrl + Shift + C
 
