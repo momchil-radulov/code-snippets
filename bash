@@ -1,5 +1,8 @@
 Ctrl + Shift + V -> paste in console
 
+# copy to clipboard
+cat file_name.txt | xclip -sel clip
+
 # bash scripts
 https://blog.kellybrazil.com/2022/08/29/tutorial-rapid-script-development-with-bash-jc-and-jq/
 
