@@ -57,6 +57,9 @@ pyautogui.typewrite("hello Geeks !")
 pyautogui.hotkey("ctrlleft", "a")
 time.sleep(2)
 
+# copy to clipboard
+cat file_name.txt | xclip -sel clip
+
 # apt
 apt update
 apt upgrade
