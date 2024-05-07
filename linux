@@ -85,6 +85,9 @@ journalctl -f
 # ubuntu gui add ovpn client
 nmcli connection import type openvpn file client_config.ovpn => without sudo !
 
+# copy to clipboard
+cat file_name.txt | xclip -sel clip
+
 # clone and restore a linux disk
 lsblk
 fdisk -l
