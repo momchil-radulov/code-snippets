@@ -1,0 +1,4 @@
+# копираме всички .php файлове от new във old, като запазваме файловата структура (презаписваме, ако ги има)
+rsync -av --include '*/' --include '*.php' --exclude '*' new/ old/
+# sync usb устройство със компа
+rsync -av --size-only --progress /home/momchil/projects/[app_name]/application/ /media/momchil/DataTravel/[app_name]
