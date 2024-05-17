@@ -63,6 +63,6 @@ git clone --depth 1 https://github.com/codota/tabnine-vim
 
 # delete
 # които не завършват на .php
-:g/\.php$/!d
+:v/\.php$/d
 # които завършват на .doc
 :g/\.doc$/d
