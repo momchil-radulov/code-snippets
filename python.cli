@@ -190,3 +190,29 @@ convert -density 300 file_name.pdf -quality 100 file_name.png
 # logging
 logging.basicConfig(filename='myapp.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')  # в началото в main файла
 logging.getLogger().setLevel(logging.DEBUG)  # в кода някъде
+
+
+# SCRIPTS
+
+#*** генерира рекурсивен списък на файловете в текущата директория ***#
+[generate_file_list.py]
+import os
+import argparse
+
+def generate_file_list(local_dir, output_file):
+    with open(output_file, 'w') as f:
+        for root, _, files in os.walk(local_dir):
+            for file in files:
+                file_path = os.path.join(root, file)
+                f.write(f"{file_path}\n")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Генериране на списък с файлове')
+    parser.add_argument('-l', '--local-dir', type=str, default='.', help='Базова локална директория (по подразбиране: текущата директория)')
+    parser.add_argument('-o', '--output-file', type=str, default='file_list.txt', help='Изходен файл за списъка с файлове (по подразбиране: file_list.txt)')
+    
+    args = parser.parse_args()
+    local_dir = args.local_dir
+    output_file = args.output_file
+
+    generate_file_list(local_dir, output_file)
