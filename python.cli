@@ -194,7 +194,7 @@ logging.getLogger().setLevel(logging.DEBUG)  # в кода някъде
 
 # SCRIPTS
 
-#*** генерира рекурсивен списък на файловете в текущата директория ***#
+#***======= генерира рекурсивен списък на файловете в текущата директория =======***#
 [generate_file_list.py]
 import os
 import argparse
@@ -216,3 +216,128 @@ if __name__ == "__main__":
     output_file = args.output_file
 
     generate_file_list(local_dir, output_file)
+
+
+#***======= сваля файловете от текстовия списък =======***#
+[client-name_download_sync.py]
+import os
+from ftplib import FTP
+import hashlib
+import argparse
+import configparser
+
+FTP_SECTION = "client-name"
+FILE_EXT = [".php"]
+
+
+def load_config(config_file):
+    config = configparser.ConfigParser()
+    config.read(config_file)
+    return config
+
+
+def connect_ftp(host, user, password):
+    ftp = FTP(host)
+    ftp.login(user, password)
+    return ftp
+
+
+def compute_md5(file_path):
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+
+def get_remote_md5(ftp, remote_file_path):
+    try:
+        ftp.voidcmd("TYPE I")
+        remote_hash = hashlib.md5()
+        ftp.retrbinary(f"RETR {remote_file_path}", remote_hash.update)
+        return remote_hash.hexdigest()
+    except:
+        return None
+
+
+def download_file(ftp, remote_file_path, local_file_path, dry_run):
+    local_dir_path = os.path.dirname(local_file_path)
+    if not os.path.exists(local_dir_path):
+        if dry_run:
+            print(f"\n[DRY-RUN] Would create directory {local_dir_path}")
+        else:
+            os.makedirs(local_dir_path)
+            print(f"\nCreated directory {local_dir_path}")
+    if dry_run:
+        print(f"\n[DRY-RUN] Would copy {local_file_path}")
+    else:
+        with open(local_file_path, "wb") as f:
+            ftp.retrbinary(f"RETR {remote_file_path}", f.write)
+
+
+def sync_files(ftp, file_list, remote_dir, dry_run):
+    with open(file_list, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            _, ext = os.path.splitext(line)
+            ext = ext.lower()
+            if ext not in FILE_EXT:
+                continue
+            print(".", end="", flush=True)
+            local_file_path = line.strip()
+            relative_path = os.path.relpath(local_file_path, os.path.dirname(file_list))
+            remote_file_path = os.path.join(remote_dir, relative_path)
+
+            if os.path.isfile(local_file_path):
+                local_md5 = compute_md5(local_file_path)
+                remote_md5 = get_remote_md5(ftp, remote_file_path)
+                if not remote_md5:
+                    print(f"\nMissing remote file {remote_file_path}")
+
+                if remote_md5 and local_md5 != remote_md5:
+                    if dry_run:
+                        print(f"\n[DRY-RUN] Would copy {local_file_path}")
+                    else:
+                        download_file(ftp, remote_file_path, local_file_path, dry_run)
+                        print(f"\nCopied {local_file_path}")
+            else:
+                print(f"\nMissing local file {local_file_path}")
+        print("")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Синхронизация на файлове през FTP")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Симулиране на синхронизацията без реално копиране на файлове",
+    )
+    parser.add_argument(
+        "--file-list",
+        type=str,
+        default="file_list.txt",
+        help="Файл със списъка на файловете за синхронизация (по подразбиране: file_list.txt)",
+    )
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="config.ini",
+        help="Път до конфигурационния файл (по подразбиране: config.ini)",
+    )
+
+    args = parser.parse_args()
+    dry_run = args.dry_run
+    file_list = args.file_list
+    config_file = args.config
+
+    config = load_config(config_file)
+    FTP_HOST = config[FTP_SECTION]["host"]
+    FTP_USER = config[FTP_SECTION]["username"]
+    FTP_PASS = config[FTP_SECTION]["password"]
+    remote_dir = config[FTP_SECTION]["remote_dir"]
+
+    ftp = connect_ftp(FTP_HOST, FTP_USER, FTP_PASS)
+    sync_files(ftp, file_list, remote_dir, dry_run)
+    ftp.quit()
