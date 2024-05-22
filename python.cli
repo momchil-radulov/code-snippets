@@ -281,6 +281,8 @@ def sync_files(ftp, file_list, remote_dir, dry_run):
             line = line.strip()
             if not line:
                 continue
+            if line[0] == '#':
+                continue
             _, ext = os.path.splitext(line)
             ext = ext.lower()
             if ext not in FILE_EXT:
@@ -321,7 +323,7 @@ if __name__ == "__main__":
         help="Файл със списъка на файловете за синхронизация (по подразбиране: file_list.txt)",
     )
     parser.add_argument(
-        "--config",
+        "-c", "--config",
         type=str,
         default="config.ini",
         help="Път до конфигурационния файл (по подразбиране: config.ini)",
@@ -423,6 +425,8 @@ def sync_files(ftp, file_list, remote_dir, dry_run):
             line = line.strip()
             if not line:
                 continue
+            if line[0] == '#':
+                continue
             _, ext = os.path.splitext(line)
             ext = ext.lower()
             if ext not in FILE_EXT:
@@ -461,7 +465,7 @@ if __name__ == "__main__":
         help="Файл със списъка на файловете за синхронизация (по подразбиране: file_list.txt)",
     )
     parser.add_argument(
-        "--config",
+        "-c", "--config",
         type=str,
         default="config.ini",
         help="Път до конфигурационния файл (по подразбиране: config.ini)",
