@@ -6,6 +6,11 @@ multipass shell vpn
 multipass launch focal --name vpn
 multipass mount /home/ubuntu/vpn my-instance:/home/ubuntu/vpn
 multipass mount vpn vpn:/home/ubuntu/vpn  # монтира папката vpn в текущата директория към /home/ubuntu/vp на virt machine
+multipass mount . vpn:/home/ubuntu/web  # монтира текущата папка от хоста към vpn вирт.машина, папка /home/ubuntu/web
+sudo lsof -i :80
+sudo netstat -tulnp | grep :80
+sudo systemctl stop apache2
+sudo apt remove apache2
 multipass info vpn  # view mounts
 
 # socat/openvpn
@@ -22,8 +27,8 @@ sudo socat TCP-LISTEN:80,bind=192.168.1.88,reuseaddr,fork TCP:10.125.184.190:80
 
 # php
 sudo apt install php
-php -S localhost:8000  # current dir
-php -S localhost:8000 -t /path/to/your/project
+php -S 0.0.0.0:80  # current dir
+php -S 192.168.1.88:80 -t /path/to/your/project
 multipass mount . vpn:/home/ubuntu/web
 
 # remote mounted file system fs
