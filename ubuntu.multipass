@@ -1,0 +1,19 @@
+multipass list
+multipass help
+# create
+multipass launch focal --name vpn
+multipass mount vpn vpn:/home/ubuntu/vpn
+multipass info vpn
+multipass shell vpn
+# socat
+sudo apt install socat
+# remote mounted file system fs
+mkdir -p ~/vpn
+sshfs ubuntu@vpn:/home/ubuntu/vpn ~/vpn
+[/etc/fstab]
+ubuntu@vpn:/home/ubuntu/vpn /home/твоето_потребителско_име/vpn fuse.sshfs defaults,_netdev,allow_other,IdentityFile=/път_до_ssh_ключа 0 0
+# delete
+multipass delete virt-machine-name
+multipass purge
+OR
+multipass delete virt-machine-name --purge
