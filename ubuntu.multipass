@@ -1,3 +1,10 @@
+# install/remove
+sudo apt update
+sudo apt install snapd
+sudo snap install multipass
+multipass version
+sudo snap remove multipass
+# razni
 multipass list
 multipass help
 # create
