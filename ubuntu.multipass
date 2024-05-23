@@ -32,6 +32,12 @@ sudo php -S 0.0.0.0:80  # current dir
 sudo php -S 192.168.1.88:80 -t /path/to/your/project
 multipass mount . vpn:/home/ubuntu/web
 
+# mysql
+sudo apt update
+sudo apt install mysql-server
+sudo apt install phpmyadmin
+sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+
 # remote mounted file system fs
 mkdir -p ~/vpn
 sshfs ubuntu@vpn:/home/ubuntu/vpn ~/vpn
