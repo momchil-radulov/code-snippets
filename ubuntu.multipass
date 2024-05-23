@@ -4,7 +4,7 @@ multipass shell vpn
 
 # create
 multipass launch focal --name vpn
-multipass mount vpn vpn:/home/ubuntu/vpn
+multipass mount vpn vpn:/home/ubuntu/vpn  # монтира папката vpn в текущата директория към /home/ubuntu/vp на virt machine
 multipass info vpn  # view mounts
 
 # socat
