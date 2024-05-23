@@ -4,11 +4,13 @@ multipass shell vpn
 
 # create
 multipass launch focal --name vpn
+multipass mount /home/ubuntu/vpn my-instance:/home/ubuntu/vpn
 multipass mount vpn vpn:/home/ubuntu/vpn  # монтира папката vpn в текущата директория към /home/ubuntu/vp на virt machine
 multipass info vpn  # view mounts
 
-# socat
+# socat/openvpn
 multipass shell vpn
+sudo apt install openvpn
 sudo apt install socat
 sudo openvpn --config client.ovpn
 ip a
@@ -17,6 +19,12 @@ curl -v 192.168.1.88
 # на хоста
 sudo ip addr add 192.168.1.88/24 dev lo
 sudo socat TCP-LISTEN:80,bind=192.168.1.88,reuseaddr,fork TCP:10.125.184.190:80
+
+# php
+sudo apt install php
+php -S localhost:8000  # current dir
+php -S localhost:8000 -t /path/to/your/project
+multipass mount . vpn:/home/ubuntu/web
 
 # remote mounted file system fs
 mkdir -p ~/vpn
