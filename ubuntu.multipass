@@ -1,26 +1,39 @@
-# install/remove
-sudo apt update
-sudo apt install snapd
-sudo snap install multipass
-multipass version
-sudo snap remove multipass
 # razni
 multipass list
-multipass help
+multipass shell vpn
+
 # create
 multipass launch focal --name vpn
 multipass mount vpn vpn:/home/ubuntu/vpn
-multipass info vpn
-multipass shell vpn
+multipass info vpn  # view mounts
+
 # socat
+multipass shell vpn
 sudo apt install socat
+sudo openvpn --config client.ovpn
+ip a
+sudo socat TCP-LISTEN:80,bind=10.125.184.190,reuseaddr,fork TCP:192.168.1.88:80
+curl -v 192.168.1.88
+# на хоста
+sudo ip addr add 192.168.1.88/24 dev lo
+sudo socat TCP-LISTEN:80,bind=192.168.1.88,reuseaddr,fork TCP:10.125.184.190:80
+
 # remote mounted file system fs
 mkdir -p ~/vpn
 sshfs ubuntu@vpn:/home/ubuntu/vpn ~/vpn
 [/etc/fstab]
 ubuntu@vpn:/home/ubuntu/vpn /home/твоето_потребителско_име/vpn fuse.sshfs defaults,_netdev,allow_other,IdentityFile=/път_до_ssh_ключа 0 0
+
 # delete
 multipass delete virt-machine-name
 multipass purge
 OR
 multipass delete virt-machine-name --purge
+
+# install/remove
+sudo apt update
+sudo apt install snapd
+sudo snap install multipass
+multipass version
+multipass help
+sudo snap remove multipass
