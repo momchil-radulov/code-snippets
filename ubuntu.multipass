@@ -27,8 +27,8 @@ sudo socat TCP-LISTEN:80,bind=192.168.1.88,reuseaddr,fork TCP:10.125.184.190:80
 
 # php
 sudo apt install php
-php -S 0.0.0.0:80  # current dir
-php -S 192.168.1.88:80 -t /path/to/your/project
+sudo php -S 0.0.0.0:80  # current dir
+sudo php -S 192.168.1.88:80 -t /path/to/your/project
 multipass mount . vpn:/home/ubuntu/web
 
 # remote mounted file system fs
