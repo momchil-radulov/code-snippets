@@ -36,3 +36,8 @@ public function get_leave_details() {
 
     return $query->result_array();
 }
+
+# Рутиране
+[application/config/routes.php]
+// от метода на един контролер към друг метод на друг контролер
+$route['product/delivery_product'] = 'info/delivery';
