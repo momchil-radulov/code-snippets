@@ -41,3 +41,19 @@ public function get_leave_details() {
 [application/config/routes.php]
 // от метода на един контролер към друг метод на друг контролер
 $route['product/delivery_product'] = 'info/delivery';
+
+# composer
+https://getcomposer.org/download/
+php5.6 composer.phar update
+# в папката на файла composer.jsonutoload.php
+composer install  # създава папка vendor с файл autoload.php
+require_once FCPATH . 'vendor/autoload.php';
+require_once APPPATH . '../vendor/autoload.php';  # APPPATH съдържа пътя до директорията application
+
+# включване на short_open_tag (<?) за стари сайтове
+php --ini
+phpinfo()
+# за да разберем къде се намира файла php.ini и там променяме
+short_open_tag = On
+
+
