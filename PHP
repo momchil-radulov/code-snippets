@@ -12,6 +12,14 @@ array_sum
 # composer
 https://getcomposer.org/download/
 php5.6 composer.phar update
+# в папката на файла composer.jsonutoload.php
+composer install  # създава папка vendor с файл autoload.php
+
+# включване на short_open_tag (<?) за стари сайтове
+php --ini
+phpinfo()
+# за да разберем къде се намира файла php.ini и там променяме
+short_open_tag = On
 
 custom useful functions
 arr_get
