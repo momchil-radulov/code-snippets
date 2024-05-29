@@ -1,0 +1,41 @@
+# phpMyAdmin
+
+sudo apt update
+sudo apt install mysql-server
+sudo apt install phpmyadmin
+sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+cd /var/www/html/phpmyadmin
+php -S localhost:8000
+
+След инсталиране на phpMyAdmin чрез командата sudo apt install phpmyadmin, по подразбиране няма зададени специфични потребителско име и парола за самия phpMyAdmin. Вместо това, phpMyAdmin използва MySQL потребителите и паролите за достъп до базата данни.
+
+По време на инсталацията ще бъдеш попитан да конфигурираш phpMyAdmin да работи с MySQL. Ще бъдеш подканен да зададеш парола за phpMyAdmin MySQL потребителя. Ако пропуснеш тази стъпка, можеш да използваш root потребителя на MySQL.
+
+За достъп до phpMyAdmin:
+
+Отвори браузър и отиди на http://localhost:8000/ или http://localhost/phpmyadmin
+Въведи MySQL потребителско име и парола. Ако използваш root потребителя на MySQL, потребителското име ще бъде root, а паролата ще бъде тази, която си задал при инсталацията на MySQL.
+Ако си забравил паролата на MySQL root потребителя, можеш да я смениш по следния начин:
+
+Спри MySQL сървъра:
+sudo systemctl stop mysql
+Стартирай MySQL в безопасен режим:
+sudo mkdir -p /var/run/mysqld  # ако не съществува
+sudo chown mysql:mysql /var/run/mysqld  # ако не съществува
+sudo chmod 755 /var/run/mysqld  # ако не съществува
+sudo mysqld_safe --skip-grant-tables &
+Влез в MySQL като root потребител без парола:
+mysql -u root
+В MySQL конзолата изпълни следните команди за смяна на паролата:
+USE mysql;
+FLUSH PRIVILEGES;
+UPDATE user SET plugin='mysql_native_password' WHERE User='root';
+FLUSH PRIVILEGES;
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'новата_парола';
+FLUSH PRIVILEGES;
+Излез от MySQL конзолата:
+exit;
+Стартирай MySQL сървъра отново:
+sudo systemctl start mysql
+
+Сега можеш да влезеш в phpMyAdmin с root потребителското име и новата парола, която зададе.
