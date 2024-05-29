@@ -47,3 +47,6 @@ FLUSH PRIVILEGES;
 exit;
 # Стартирай MySQL сървъра отново:
 sudo systemctl start mysql
+
+# socat
+sudo socat -v TCP-LISTEN:3306,reuseaddr,fork,bind=10.125.184.1 TCP:127.0.0.1:3306
