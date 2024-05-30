@@ -27,3 +27,7 @@ https://github.com/axllent/mailpit/releases
 download mailpit-linux-amd64.tar.gz
 sudo ~/bin/mailpit --smtp 0.0.0.0:587 --smtp-auth-accept-any --smtp-auth-allow-insecure
 xdg-open http://localhost:8025/ => web interface
+# test
+sudo apt install ssmtp
+/etc/ssmtp/ssmtp.conf => mailhub=localhost
+sendmail hello@world.com < test.mail
