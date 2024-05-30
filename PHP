@@ -8,14 +8,20 @@ sudo apt-get update
 sudo apt-get install php7.0 php7.0-cli php7.0-fpm php7.0-mysql
 sudo apt-get install php7.0-curl php7.0-json
 php -v
+
 # set short_open_tag On if needed
 php7.0 --ini  # find path to ini file
 sudo vim /etc/php/7.0/cli/php.ini
 [/etc/php/7.0/cli/php.ini]
 short_open_tag = Off => short_open_tag = On
+
 # composer
 sudo apt install composer
-composer install  # where is composer.json
+composer install  # where is composer.json of your project
+# if concrete version is needed
+which composer  # to find path to composer
+composer self-update --2.2  # if old version is needed
+php7.0 /usr/local/bin/composer install
 
 
 [/etc/php/8.2/fpm/php.ini] или вашата конкретна версия
