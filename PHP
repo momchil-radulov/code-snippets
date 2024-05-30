@@ -1,3 +1,14 @@
+# install
+
+# install v.7.0.33
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+sudo apt-get install php7.0 php7.0-cli php7.0-fpm php7.0-mysql
+sudo apt-get install php7.0-curl php7.0-json
+php -v
+
 [/etc/php/8.2/fpm/php.ini] или вашата конкретна версия
 upload_max_filesize = 100M
 post_max_size = 100M
