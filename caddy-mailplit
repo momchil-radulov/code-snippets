@@ -1,3 +1,4 @@
+# HTTPS caddy
 виж https://caddyserver.com/
 
 # install
@@ -17,3 +18,12 @@ you-domain.com {
 
 # simple tls localhost reverse proxy
 sudo caddy reverse-proxy --from you-domain.com --to localhost:8080
+
+
+# SMTP mailplit
+виж https://mailpit.axllent.org/
+# install
+https://github.com/axllent/mailpit/releases
+download mailpit-linux-amd64.tar.gz
+sudo ~/bin/mailpit --smtp 0.0.0.0:587 --smtp-auth-accept-any --smtp-auth-allow-insecure
+xdg-open http://localhost:8025/ => web interface
