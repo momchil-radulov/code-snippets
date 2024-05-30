@@ -1,6 +1,6 @@
 # install
 
-# install v.7.0.33
+# install v.7
 sudo apt-get update
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:ondrej/php
@@ -8,6 +8,15 @@ sudo apt-get update
 sudo apt-get install php7.0 php7.0-cli php7.0-fpm php7.0-mysql
 sudo apt-get install php7.0-curl php7.0-json
 php -v
+# set short_open_tag On if needed
+php7.0 --ini  # find path to ini file
+sudo vim /etc/php/7.0/cli/php.ini
+[/etc/php/7.0/cli/php.ini]
+short_open_tag = Off => short_open_tag = On
+# composer
+sudo apt install composer
+composer install  # where is composer.json
+
 
 [/etc/php/8.2/fpm/php.ini] или вашата конкретна версия
 upload_max_filesize = 100M
