@@ -1,3 +1,39 @@
+# install
+sudo apt update
+sudo apt install nginx
+# uninstall apache
+sudo systemctl stop apache2
+sudo apt purge apache2 apache2-utils apache2-bin apache2.2-common
+sudo apt autoremove
+
+# mysite
+sudo vim /etc/nginx/sites-available/my_site
+[my_site]
+server {
+    listen 80;
+    server_name my_site.com;
+    root /var/www/my_site;
+    index index.html index.htm;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+    # Конфигурация за обратен прокси
+    location /proxy/ {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass_request_headers on;
+        # Премахване на /proxy от URL
+        rewrite ^/proxy/(.*) /$1 break;
+    }
+}
+[end my_site]
+sudo ln -s /etc/nginx/sites-available/my_site /etc/nginx/sites-enabled/
+sudo nginx -t  # test configuration
+sudo systemctl restart nginx
+
 # proxy pass example
 location /api/Device/GetDeviceInfo {
         proxy_pass http://localhost:8080;
