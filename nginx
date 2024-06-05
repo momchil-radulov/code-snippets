@@ -6,6 +6,16 @@ sudo systemctl stop apache2
 sudo apt purge apache2 apache2-utils apache2-bin apache2.2-common
 sudo apt autoremove
 
+# enable/disable
+sudo systemctl enable nginx
+sudo systemctl disable nginx
+sudo systemctl is-enabled nginx
+# start/stop/restart
+sudo systemctl start nginx
+sudo systemctl stop nginx
+sudo systemctl restart nginx
+sudo systemctl status nginx
+
 # mysite
 sudo vim /etc/nginx/sites-available/my_site
 [my_site]
