@@ -37,6 +37,35 @@ public function get_leave_details() {
     return $query->result_array();
 }
 
+# Custom Log
+<?php
+function write_log($file_name, $log_type, $message) {
+    // Форматиране на времето за лога
+    $timestamp = date('Y-m-d H:i:s');
+    // Форматиране на съобщението
+    $formatted_message = "[{$timestamp}] {$log_type}: " . PHP_EOL . $message . PHP_EOL;
+    // Записване на съобщението в лог файл
+    file_put_contents($file_name, $formatted_message, FILE_APPEND);
+}
+
+try {
+    // Вашият код, който може да хвърли изключение
+} catch (Throwable $tr) {
+    $input_data = $this->CI->input->post(); // общи входни данни ИЛИ подайте параметрите на виканата функция 
+    write_log(
+        'database_error.log', 
+        'ERROR', 
+        $this->CI->input->ip_address() . " function_name: " .
+        $tr->__toString() . PHP_EOL . print_r($input_data, true)
+    );
+}
+?>
+
+catch (Throwable $tr) {
+    write_log('database_error.log', 'ERROR', $this->CI->input->ip_address() . " function_name: " .
+              $tr->__toString() . PHP_EOL . print_r($input_data, true));
+}
+
 # Рутиране
 [application/config/routes.php]
 // от метода на един контролер към друг метод на друг контролер
