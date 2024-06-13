@@ -9,3 +9,8 @@
 8. За GUI в реално време се използва MQTT сървис, който зарежда url в браузъра
 9. За комуникация в реално време се използва MQTT to HTTP gateway
 10. В случай на високо натоварване се използват опашки и кеширане с REDIS
+11. Комуникационен протокол:
+    [{"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
+      "data": "json_serialized_data", "hash": "hash_data_with_secret_key"} ,]
+    "json_serialized_data" => {"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
+                               "data": {"unique_key": "value", ...}}
