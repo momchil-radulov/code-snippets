@@ -85,4 +85,8 @@ phpinfo()
 # за да разберем къде се намира файла php.ini и там променяме
 short_open_tag = On
 
+#cron job
+/usr/local/bin/php /home/you-client-name/public_html/index.php  controler_name method_name param_1
+
+ >/dev/null 2>&1
 
