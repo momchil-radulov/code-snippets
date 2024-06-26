@@ -85,8 +85,7 @@ phpinfo()
 # за да разберем къде се намира файла php.ini и там променяме
 short_open_tag = On
 
-#cron job
-/usr/local/bin/php /home/you-client-name/public_html/index.php  controler_name method_name param_1
-
+#cron job superhosting
+/opt/cpanel/ea-php72/root/usr/bin/php /home/client-name/public_html/index.php controller_name method_name param_value
+# ако не искаме email от cron job, анулираме изход от командата
  >/dev/null 2>&1
-
