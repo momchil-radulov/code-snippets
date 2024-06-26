@@ -158,7 +158,8 @@ git tag -d v1.4-lw # delete a tag
 # temporary undo changes in a file and after that, return changes
 git stash push project_name/appsettings.json  # for a individual file
 git stash  # for all local changes
-git stash pop
+git stash push -m "message_description"
+git stash pop  # return changes
 # show and clear stash stack
 git stash list  
 git stash clear
