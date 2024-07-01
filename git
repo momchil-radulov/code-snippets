@@ -109,6 +109,8 @@ git clean -fxd  # remove untracked files !!!
 
 git reset --soft origin  # keep the changes, remove commits
 
+git checkout -- .  # връща обратно само променените файлове (не commit-нати)
+
 # branch
 git checkout -b <branch_name> # create a new branch from current code
 git commit -a # commit branch changes
