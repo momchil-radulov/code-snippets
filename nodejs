@@ -27,6 +27,11 @@ npm start
 console.time('sql execute =>');
 console.timeEnd('sql execute =>');
 
+# gulp
+npm instal  # в директорията на проекта
+npm install gulp
+npm install gulp-cli
+npx gulp buildYouSiteName
 
 # TypeScript
 npm install -g ts-node typescript @types/node
