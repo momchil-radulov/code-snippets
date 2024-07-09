@@ -14,3 +14,4 @@
       "data": "json_serialized_data", "hash": "hash_data_with_secret_key"} ,]
     "json_serialized_data" => {"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
                                "data": {"unique_key": "value", ...}}
+12. iot хардуера работи на принципа на Краен автомат / Finite-state machine, т.е. винаги е в строго определено състояние
