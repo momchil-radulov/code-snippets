@@ -1,9 +1,11 @@
-# iot
+# iot, базирано на тънък клиент
 1. В обекта има централен компютър, който управлява системата
 2. EMERGENCY STOP / АВАРИЙНИЯ БУТОН е независим и комуникира по отделна линия която е PULL UP в работно състояние
 3. Централното управление е достъпно като web сайт и url ресурси, които могат да са и в QR code формат
 4. iot нещата са тънки клиенти
-5. iot командите за включване задължително имат зададен timeout след който автоматично се връщат в default състояние
+5. iot командите за включване задължително имат зададен timeout след който автоматично се връщат в default състояние,
+   тези състояния или верига от състояния са част от Краен автомат / Finite-state machine,
+   т.е. предварително определени и описани
 6. iot нещата работят по LAN и/или WiFi
 7. iot нещата работят със 7 сегментен дисплей и/или LED подсветка
 8. За GUI в реално време се използва MQTT сървис, който зарежда url в браузъра
@@ -13,7 +15,8 @@
     [{"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
       "data": "json_serialized_data", "hash": "hash_data_with_secret_key"} ,]
     "json_serialized_data" => {"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
-                               "data": {"finit-state": number, "pin_number": "value", ...}}
+                               "data": {"finit-state": number, "pin_number": "value", "unique_kye": "value" ...}}
 12. iot хардуера работи на принципа на Краен автомат / Finite-state machine, т.е. винаги е в строго определено състояние
-13. сървъра има mapping между "finit-state": number, "pin_number": "value" -> към -> unique key
-    за потребителско значение записвано в базата данни
+13. сървъра има mapping между "dev", "finit-state", "pin_number" / unique_key -> към -> unique key
+    за потребителско значение записвано в базата данни,
+    т.е. какво се включва / изключва, или какво се измерва от даден пин се съхранява във сървъра
