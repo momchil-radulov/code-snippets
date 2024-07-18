@@ -18,6 +18,9 @@ sudo dpkg --configure -a
 sudo apt upgrade
 tail -f /var/log/mysql/error.log
 
+# за стари клиенти
+default-authentication-plugin=mysql_native_password
+
 sudo systemctl restart mysql.service
 
 SELECT @@sql_mode;
