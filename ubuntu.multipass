@@ -14,6 +14,15 @@ sudo systemctl stop apache2
 sudo apt remove apache2
 multipass info vpn  # view mounts
 
+# разширяване на HDD
+multipass launch focal --name php --disk 11G
+multipass stop vpn
+multipass stop php
+cd /var/snap/multipass/common/data/multipassd/vault/instances
+sudo dd if=vpn/ubuntu-20.04-server-cloudimg-amd64.img of=php/ubuntu-20.04-server-cloudimg-amd64.img bs=4M status=progress
+multipass shell php
+sudo resize2fs /dev/sda1
+
 # socat/openvpn
 multipass shell vpn
 sudo apt install openvpn
