@@ -1,5 +1,10 @@
+# къде са конфигурационните файлове, обикновенно
+# /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
+mysqld --help --verbose | grep -A 1 'Default options are read from the following files'
+/etc/mysql/my.cnf обикновенно включва /etc/mysql/mysql.conf.d/mysqld.cnf
+
 # премахване на аутентикацията
-sudo vim [/etc/mysql/mysql.conf.d/mysqld.cnf]
+sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 [mysqld]
 skip-grant-tables
 sql_mode = "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
