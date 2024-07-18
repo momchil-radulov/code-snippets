@@ -58,3 +58,18 @@ sudo snap install multipass
 multipass version
 multipass help
 sudo snap remove multipass
+
+# install google-chrome
+multipass shell my-vm
+sudo apt update
+sudo apt install -y wget gnupg
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+sudo apt update
+sudo apt install -y google-chrome-stable
+google-chrome --version
+
+# connect to google-chrome
+copy your ~/.ssh/id_rsa.pub to multipass vm ~/.ssh/authorized_keys
+ssh -X ubuntu@10.125.184.190
+google-chrome
