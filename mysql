@@ -2,6 +2,7 @@
 # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
 mysqld --help --verbose | grep -A 1 'Default options are read from the following files'
 /etc/mysql/my.cnf обикновенно включва /etc/mysql/mysql.conf.d/mysqld.cnf
+ако имаме достъп до mysql конзолата: SHOW VARIABLES;
 
 # премахване на аутентикацията
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
