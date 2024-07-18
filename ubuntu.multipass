@@ -7,6 +7,7 @@ multipass launch focal --name vpn
 multipass mount /home/ubuntu/vpn my-instance:/home/ubuntu/vpn
 multipass mount vpn vpn:/home/ubuntu/vpn  # монтира папката vpn в текущата директория към /home/ubuntu/vp на virt machine
 multipass mount . vpn:/home/ubuntu/web  # монтира текущата папка от хоста към vpn вирт.машина, папка /home/ubuntu/web
+multipass umount vpn:/home/ubuntu/web   # unmount / демонтира папка
 sudo lsof -i :80
 sudo netstat -tulnp | grep :80
 sudo systemctl stop apache2
