@@ -15,7 +15,14 @@ sudo apt remove apache2
 multipass info vpn  # view mounts
 
 # разширяване на HDD
-multipass launch focal --name php --disk 11G
+sudo apt-get install qemu-utils
+multipass stop vpn
+cd /var/snap/multipass/common/data/multipassd/vault/instances
+qemu-img resize vpn/ubuntu-20.04-server-cloudimg-amd64.img 10G
+multipass start vpn
+
+# копиране на HDD (трябва да са с еднакви размери)
+multipass launch focal --name php --disk 10G
 multipass stop vpn
 multipass stop php
 cd /var/snap/multipass/common/data/multipassd/vault/instances
