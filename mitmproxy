@@ -5,7 +5,7 @@ mitmproxy --mode reverse:http://localhost:5000 -p 4000  # listen 4000 send 5000
 # web version
 https://downloads.mitmproxy.org/10.3.1/mitmproxy-10.3.1-linux-x86_64.tar.gz  # сваляме
 ./mitmweb  # стартираме
-Settings -> Network -> Proxy -> Manula => HTTPS Proxy, URL: localhost, Port: 8080
+Settings -> Network -> Proxy -> Manual => HTTPS Proxy, URL: localhost, Port: 8080
 google-chrome --ignore-certificate-errors  # стартираме браузъра в режим без проверка на сертификатите
 
 # добавяне на сертификат
