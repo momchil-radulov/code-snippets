@@ -1,0 +1,2 @@
+sudo apt install openssl
+openssl s_client -connect host_name.com:8883 -showcerts  => save sa.cert
