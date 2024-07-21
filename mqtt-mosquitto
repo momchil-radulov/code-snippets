@@ -7,6 +7,12 @@ sudo systemctl stop mosquitto
 
 sudo mosquitto -c /etc/mosquitto/mosquitto.conf
 
+# truncate a big log file
+# ще намали размера на файла до 0 байта, без да го изтрива или променя неговите файлови дескриптори,
+# което означава, че Mosquitto ще продължи да пише в същия файл
+sudo truncate -s 0 /var/log/mosquitto/mosquitto.log
+ls -lh /var/log/mosquitto/mosquitto.log
+
 file: /etc/mosquitto/mosquitto.conf
 allow_anonymous false
 password_file /etc/mosquitto/passwd
