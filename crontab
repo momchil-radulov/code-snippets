@@ -1,5 +1,7 @@
 run:
-$sudo crontab -e
+crontab -e => for local user
+sudo crontab -e => for root user
+
 add lines:
 # to run a job every 5 minutes
 */5 * * * * /bin/bash /root/git/db/restart_fpm.sh
