@@ -130,6 +130,11 @@ sudo apt install zoxide
 ~/.bashrc
 eval "$(zoxide init bash)"
 
+# truncate a big log file
+# ще намали размера на файла до 0 байта, без да го изтрива или променя неговите файлови дескриптори,
+# което означава, че Mosquitto ще продължи да пише в същия файл
+sudo truncate -s 0 /var/log/mosquitto/mosquitto.log
+
 pip install webbrowser
 import webbrowser
 url = 'http://docs.python.org/'
