@@ -29,11 +29,13 @@ composer install  # where is composer.json of your project
 # if concrete version is needed
 composer self-update --2.2  # if old version is needed
 which composer  # to find path to composer
+
 # composer old
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --version=1.10.17
 mv composer.phar composer
-php7.0 ./composer install
+php7.0 ./composer --version  # check version
+php7.0 ./composer install    # run composer
 
 [/etc/php/8.2/fpm/php.ini] или вашата конкретна версия
 upload_max_filesize = 100M
