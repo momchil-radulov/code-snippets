@@ -15,11 +15,20 @@ sudo systemctl stop apache2
 sudo apt remove apache2
 multipass info vpn  # view mounts
 
+# разширяване на RAM
+multipass stop vpn
+multipass set local.vpn.memory=2G
+multipass start vpn
+
 # разширяване на HDD
 sudo apt-get install qemu-utils
 multipass stop vpn
 cd /var/snap/multipass/common/data/multipassd/vault/instances
 qemu-img resize vpn/ubuntu-20.04-server-cloudimg-amd64.img 10G
+multipass start vpn
+OR/ИЛИ
+multipass stop vpn
+multipass set local.vpn.disk=10G
 multipass start vpn
 
 # копиране на HDD (трябва да са с еднакви размери)
