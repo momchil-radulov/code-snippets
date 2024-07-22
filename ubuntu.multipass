@@ -1,5 +1,6 @@
 # razni
 multipass list
+multipass info vpn
 multipass shell vpn
 
 # create
