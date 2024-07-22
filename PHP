@@ -27,10 +27,13 @@ short_open_tag = Off => short_open_tag = On
 sudo apt install composer
 composer install  # where is composer.json of your project
 # if concrete version is needed
-which composer  # to find path to composer
 composer self-update --2.2  # if old version is needed
-php7.0 /usr/local/bin/composer install
-
+which composer  # to find path to composer
+# composer old
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php --version=1.10.17
+mv composer.phar composer
+php7.0 ./composer install
 
 [/etc/php/8.2/fpm/php.ini] или вашата конкретна версия
 upload_max_filesize = 100M
