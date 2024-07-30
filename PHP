@@ -15,7 +15,7 @@ php -m | grep mbstring # check a module
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
 sudo apt install php5.6
-sudo apt install php5.6-mysql php5.6-xml php5.6-curl php5.6-mbstring php5.6-mcrypt
+sudo apt install php5.6-mysql php5.6-xml php5.6-curl php5.6-mbstring php5.6-mcrypt php5.6-gd
 php5.6 -v
 
 # set short_open_tag On if needed
