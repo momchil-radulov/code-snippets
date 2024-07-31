@@ -24,6 +24,66 @@ $final_query = $this->db->query($subquery1 . ' UNION ALL ' . $subquery2);
 // Извличане на резултатите
 $results = $final_query->result_array();
 
+// Заявка пример
+private function raw_sql() {
+        $user_filter = $this->input->post('user_filter', true);
+        $order_num_filter = $this->input->post('order_num_filter', true);
+        // Начало на CI селект заявката
+        $this->db->select('ord.id');
+        $this->db->from('orders ord');
+        // Добавяне на WHERE условията
+        $this->db->group_start();
+        $this->db->or_where('ord.status', 1);
+        $this->db->or_where('ord.status', 2);
+        $this->db->group_end();
+        // AND
+        $this->db->group_start();
+        $this->db->or_where('ord.type', 1);
+        $this->db->or_where('ord.type', 2);
+        $this->db->group_end();
+        // Добавяне на ORDER BY условията
+        // $this->db->order_by('ord.priority', 'DESC');
+        // $this->db->order_by('ord.order_num', 'ASC');
+        // Добавяне на филтъра за order_num
+        if(isset($order_num_filter) && $order_num_filter != '') {
+            $this->db->where('ord.order_num', $order_num_filter);
+        }
+        if($user_filter != '') {
+            $this->db->group_start();
+            // Добавяне на филтъра за Потребител
+            $this->db->join('users usr', 'usr.id = ord.user_id');
+            $this->db->or_group_start();
+            $this->db->like('usr.username', $user_filter);
+            $this->db->or_like('usr.name', $user_filter);
+            $this->db->or_like('usr.family', $user_filter);
+            $this->db->or_like('usr.phone', $user_filter);
+            $this->db->group_end();
+            // OR
+            // Добавяне на филтъра за Фирма
+            $this->db->join('invoices inv', 'inv.id = ord.invoice_id');
+            $this->db->or_group_start();
+            $this->db->like('inv.firmname', $user_filter);
+            $this->db->or_like('inv.firmBulstat', $user_filter);
+            $this->db->group_end();
+            // Добавяне на филтъра за Обект
+            $this->db->join('av_addresses adr', 'adr.id = ord.address_id');
+            $this->db->or_group_start();
+            $this->db->like('adr.area', $user_filter);
+            $this->db->or_like('adr.street', $user_filter);
+            $this->db->group_end();
+            $this->db->group_end();
+        }
+        // Ограничаване на резултатите
+        $this->db->limit(9999);
+        // Изпълнение на заявката
+        $query = $this->db->get();
+        $result = $query->result_array();
+        $result = array_column($result, 'id');
+        // Дебъг на заявката
+        // echo $this->db->last_query(); exit();
+        return $result ? $result : array(0);
+    }
+
 # Заявка
 // Във вашия модел
 public function get_leave_details() {
