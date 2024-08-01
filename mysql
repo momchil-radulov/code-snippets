@@ -23,6 +23,11 @@ default-authentication-plugin=mysql_native_password
 
 sudo systemctl restart mysql.service
 
+# sql backup
+mysqldump -u user -p --skip-comments --skip-extended-insert --skip-dump-date --compact --single-transaction --quick mydatabase > backup.sql
+# sql schema backup
+mysqldump -u user -p --no-data mydatabase > schema.sql
+
 SELECT @@sql_mode;
 SHOW VARIABLES LIKE 'sql_mode';
 SET sql_mode = '';  -- only for current session
