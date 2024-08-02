@@ -1,4 +1,8 @@
 <?php
+Console::log('Show this in php ci run console ...');
+?>
+
+<?php
 # Зареждане на модел
 // Зареждате модела, ако вече не е зареден
 $this->load->model('Your_model');
