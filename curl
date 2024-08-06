@@ -1,0 +1,27 @@
+# server
+python3 -m http.server
+
+tunnel_server.sh
+#!/bin/bash
+while true; do
+    if curl -sSN https://ppng.io/aaaRreohvuRvmor | sudo nc localhost 8000 | curl -sSNT - https://ppng.io/bbbRreohvuRvmor; then
+        echo "Tunnel ran successfully"
+    else
+        echo "Tunnel failed, retrying in 1 second..."
+    fi
+    sleep 1
+done
+
+# client
+tunnel_client.sh
+#!/bin/bash
+while true; do
+    if curl -sSN https://ppng.io/bbbRreohvuRvmor | sudo nc -lp 8000 | curl -sSNT - https://ppng.io/aaaRreohvuRvmor; then
+        echo "Tunnel ran successfully"
+    else
+        echo "Tunnel failed, retrying in 1 second..."
+    fi
+    sleep 1
+done
+
+browser: localhost:8000
