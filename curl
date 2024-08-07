@@ -6,6 +6,7 @@ curl е инструмент за изтегляне на данни от инт
 -L (location) следва редиректите, ако URL-то се пренасочи
 -N (no-buffer) използва се, за да предотврати буферирането на изхода
 -T (upload file) име на файла или "-" за четене от стандартния вход
+-k [--insecure] (insecure) не проверява за валидност на ssl сертификата
 
 *** install "z" alternative to "cd" ***
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
