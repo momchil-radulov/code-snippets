@@ -13,6 +13,9 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 или
 sudo apt install cargo
 cargo install zoxide --locked
+~/.bashrc
+  => export PATH="$HOME/.cargo/bin:$PATH"
+  => eval "$(zoxide init bash)"
 
 *** tunnel ***
 виж https://dev.to/nwtgck/secure-tcp-tunnel-from-anywhere-with-curl-and-nc-for-single-connection-2k5i
