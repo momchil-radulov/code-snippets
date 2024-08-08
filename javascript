@@ -58,3 +58,29 @@ function exportTableToCSV(filename) {
 
 // Бутон или линк:
 // <button onclick="exportTableToCSV('filename.csv')">Export to CSV</button>
+
+*** Паралелно изпълнение на js ***
+    // Използване на Promise.all за паралелно изпълнение на всички fetch операции
+    const results = await Promise.all(selectedData.map(item =>
+        fetch('/order/validate', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            body: JSON.stringify(item)
+        })
+    ));
+
+    // Обработване на всеки резултат
+    for (const result of results) {
+        const data = await result.json();
+        if (!data.success) {
+            isValid = false;
+            const errorValues = Object.values(data.errors);
+            const newErrorMessage = '<ul>' + errorValues.map(error => `<li>${error}</li>`).join('') + '</ul>';
+            if (!errorMessages.includes(newErrorMessage)) {
+                errorMessages.push(newErrorMessage);
+            }
+        }
+    }
