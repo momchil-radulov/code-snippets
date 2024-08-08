@@ -159,7 +159,7 @@ const reloadTable = async () => {
 
         // Добавяне на събития за клик и промяна на новите елементи в таблицата
         $("td, th").click(handleCellClick);
-        $('.trzTimesheetSelectColumn_action').change(selectColumn);
+        $('.productsSelectColumn_action').change(selectColumn);
     } catch (error) {
         console.error('Error loading link:', error);
         swal('Възникна грешка при зареждане на данните.', '', 'error');
