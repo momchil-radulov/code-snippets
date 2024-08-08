@@ -84,3 +84,84 @@ function exportTableToCSV(filename) {
             }
         }
     }
+
+*** save data ***
+const saveData = async (selectedData, button) => {
+    try {
+        // Заключване на бутона за да се предотврати повторно изпращане
+        button.disabled = true;
+        button.classList.add('loading');
+
+        const response = await fetch('/order/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: JSON.stringify(selectedData)
+        });
+
+        // Проверка за HTTP грешки
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Проверка за успешен отговор
+        if (data.success) {
+            clearCheckedCheckboxes();
+            displayMessage('success', "Успешно записахте данните.");
+            await reloadTable();
+        } else {
+            handleErrors(data.errors);
+        }
+    } catch (error) {
+        console.error('Save data:', error);
+        displayMessage('error', "Възникна грешка при обработката на заявката.");
+    } finally {
+        // Отключване на бутона
+        button.disabled = false;
+        button.classList.remove('loading');
+    }
+};
+
+const clearCheckedCheckboxes = () => {
+    const checkboxes = document.querySelectorAll('input[data-product-id]:checked');
+    checkboxes.forEach(checkbox => checkbox.checked = false);
+};
+
+const displayMessage = (type, message) => {
+    const messageTextElement = document.getElementById(`${type}MessageText`);
+    const messageElement = document.getElementById(`${type}Message`);
+    messageTextElement.textContent = message;
+    messageElement.style.display = "block";
+};
+
+const handleErrors = (errors) => {
+    if (errors && errors.hours) {
+        displayMessage('error', errors.hours);
+    } else {
+        displayMessage('error', "Възникна грешка при обработката на заявката.");
+    }
+};
+
+const reloadTable = async () => {
+    try {
+        const response = await fetch(current_table);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const html = await response.text();
+        document.getElementById('datatable_ajax').innerHTML = html;
+
+        // Добавяне на събития за клик и промяна на новите елементи в таблицата
+        $("td, th").click(handleCellClick);
+        $('.trzTimesheetSelectColumn_action').change(selectColumn);
+    } catch (error) {
+        console.error('Error loading link:', error);
+        swal('Възникна грешка при зареждане на данните.', '', 'error');
+    }
+};
