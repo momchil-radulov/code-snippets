@@ -165,3 +165,9 @@ const reloadTable = async () => {
         swal('Възникна грешка при зареждане на данните.', '', 'error');
     }
 };
+
+# css
+button.loading {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
