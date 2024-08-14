@@ -17,6 +17,10 @@ cargo install zoxide --locked
 ~/.bashrc
   => export PATH="$HOME/.cargo/bin:$PATH"
   => eval "$(zoxide init bash)"
+# инсталираме fzf за дописване с TAB
+git clone --branch 0.44.1 --depth 1 https://github.com/junegunn/fzf.git ~/.fzf  # ако искаме конкретна версия
+~/.fzf/install
+
 
 *** tunnel ***
 виж https://dev.to/nwtgck/secure-tcp-tunnel-from-anywhere-with-curl-and-nc-for-single-connection-2k5i
