@@ -23,6 +23,12 @@ default-authentication-plugin=mysql_native_password
 
 sudo systemctl restart mysql.service
 
+# phpmyadmin restore
+SHOW CREATE DATABASE database_name;
+DROP DATABASE database_name;
+CREATE DATABASE `database_name` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+mysql database_name < database_name.sql
+
 # sql backup
 mysqldump -u user -p --skip-comments --skip-extended-insert --skip-dump-date --compact --single-transaction --quick mydatabase > backup.sql
 # sql schema backup
