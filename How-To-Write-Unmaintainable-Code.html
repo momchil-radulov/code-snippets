@@ -1,0 +1,469 @@
+виж/see https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.html
+
+How To Write Unmaintainable Code
+
+Introduction
+
+Never ascribe to malice, that which can be explained by incompetence.
+
+Napoleon
+ 
+Because of the slashdot plug, hits peaked at 250 a second on this page, and the hit counters stopped kicking over. I am also getting a slew of email with suggestions for ever more subtle techniques of writing unmaintainable code. It will take a while for me to get back to you and to incorporate your suggestions. Please be patient. The essay has been like rock candy, seed the string with sugar, soak in sugar water, soon it grows out of control.
+
+In the interests of creating employment opportunities in the Java programming field, I am passing on these tips from the masters on how to write code that is so difficult to maintain, that the people who come after you will take years to make even the simplest changes. Further, if you follow all these rules religiously, you will even guarantee yourself a lifetime of employment, since no one but you has a hope in hell of maintaining the code. Then again, if you followed all these rules religiously, even you wouldn't be able to maintain the code!
+
+Как да пишете код, който не се поддържа
+Въведение
+"Никога не приписвайте на злоба това, което може да се обясни с некомпетентност."
+— Наполеон
+
+Поради популярността на страницата, посещенията достигнаха до 250 в секунда и броячите спряха да работят. Получавам множество имейли с предложения за още по-изтънчени техники за писане на код, който не се поддържа. Ще ми отнеме известно време да ви отговоря и да включа вашите предложения. Моля, бъдете търпеливи. Есето се развива като захарен кристал: посейте струна със захар, накиснете я в захарен разтвор и скоро ще израсне неконтролируемо.
+
+В интерес на създаването на нови работни места в полето на Java програмирането, ще ви споделя тези съвети от майсторите за това как да пишете код, който е толкова труден за поддръжка, че хората, които ще дойдат след вас, ще се нуждаят от години, за да направят дори и най-простите промени. Още повече, ако следвате тези правила стриктно, ще си осигурите доживотна работа, защото никой освен вас няма да има никакъв шанс да поддържа кода. Но ако следвате всички тези правила стриктно, дори и вие няма да можете да поддържате кода!
+
+General Principles
+
+To foil the maintenance programmer, you have to understand how he thinks. He has your giant program. He has no time to read it all, much less understand it. He wants to rapidly find the place to make his change, make it and get out and have no unexpected side effects from the change.
+
+He views your code through a tube taken from the centre of a roll of toilet paper. He can only see a tiny piece of your program at a time. You want to make sure he can never get the big picture from doing that. You want to make it as hard as possible for him to find the code he is looking for. But even more important, you want to make it as awkward as possible for him to safely ignore anything.
+
+You might get the idea that every language feature makes code unmaintainable - not so, only if properly misused.
+
+Общи принципи
+За да осуетите опитите на програмиста по поддръжката, трябва да разберете как той мисли. Той има вашата огромна програма. Той няма време да я прочете цялата, още по-малко да я разбере. Иска бързо да намери мястото, където да направи промяната си, да я направи и да се измъкне, без да има неочаквани странични ефекти.
+
+Той разглежда вашия код през тръба, взета от средата на ролка тоалетна хартия. Може да вижда само малка част от програмата ви в даден момент. Вие искате да сте сигурни, че той никога няма да получи цялостната картина по този начин. Искате да направите възможно най-трудно за него да намери кода, който търси. Но дори по-важно, искате да направите невъзможно за него да пренебрегне каквото и да било безопасно.
+
+Може да си помислите, че всяка функция на езика прави кода неподдържан — не е така, само ако е правилно злоупотребено.
+
+Specific Techniques
+
+1.    Lie in the comments. You don't have to actively lie, just fail to keep comments as up to date with the code.
+
+2.    Pepper the code with comments like /* add 1 to i */ however, never document wooly stuff like the overall purpose of the package or method.
+
+3.    Make sure that every method does a little bit more (or less) than its name suggests. As a simple example, a method named isValid(x) should as a side effect convert x to binary and store the result in a database.
+
+4.    Use acronyms to keep the code terse. Real men never define acronyms; they understand them genetically.
+
+5.    In the interests of efficiency, avoid encapsulation. Callers of a method need all the external clues they can get to remind them how the method works inside.
+
+6.    If, for example, you were writing an airline reservation system, make sure there are at least 25 places in the code that need to be modified if you were to add another airline. Never document where they are. People who come after you have no business modifying your code without thoroughly understanding every line of it.
+
+7.    In the name of efficiency, use cut/paste/clone/modify. This works much faster than using many small reusable modules.
+
+8.    Never put a comment on a variable. Facts about how the variable is used, its bounds, its legal values, its implied/displayed number of decimal points, its units of measure, its display format, its data entry rules (e.g. total fill, must enter), when its value can be trusted etc. should be gleaned from the procedural code. If your boss forces you to write comments, lard method bodies with them, but never comment a variable, not even a temporary!
+
+9.    Try to pack as much as possible into a single line. This saves the overhead of temporary variables, and makes source files shorter by eliminating new line characters and white space. Tip: remove all white space around operators. Good programmers can often hit the 255 character line length limit imposed by some editors. The bonus of long lines is that programmers who cannot read 6 point type must scroll to view them.
+
+10.Cd wrttn wtht vwls s mch trsr. When using abbreviations inside variable or method names, break the boredom with several variants for the same word, and even spell it out longhand once in while. This helps defeat those lazy bums who use text search to understand only some aspect of your program. Consider variant spellings as a variant on the ploy, e.g. mixing International colour, with American color and dude-speak kulerz. If you spell out names in full, there is only one possible way to spell each name. These are too easy for the maintenance programmer to remember. Because there are so many different ways to abbreviate a word, with abbreviations, you can have several different variables that all have the same apparent purpose. As an added bonus, the maintenance programmer might not even notice they are separate variables.
+
+Специфични техники
+1 Лъжете в коментарите. Не е нужно активно да лъжете, просто не поддържайте коментарите актуални спрямо кода.
+2 Посипвайте кода с коментари като "добави 1 към i", но никога не документирайте важни неща като общата цел на пакета или метода.
+3 Уверете се, че всеки метод прави малко повече (или по-малко) от това, което името му предполага. Например, метод, наречен isValid(x), трябва като страничен ефект да конвертира x в двоичен формат и да запише резултата в база данни.
+4 Използвайте съкращения, за да поддържате кода кратък. Истинските мъже никога не дефинират съкращения; те ги разбират генетично.
+5 В интерес на ефективността избягвайте инкапсулацията. Обаждащите се на метода се нуждаят от всички външни улики, които могат да получат, за да им напомнят как работи методът отвътре.
+6 Ако например пишете система за резервации на полети, уверете се, че има поне 25 места в кода, които трябва да бъдат модифицирани, ако трябва да добавите още една авиокомпания. Никога не документирайте къде са тези места. Хората, които идват след вас, нямат работа да модифицират кода ви, без да разбират напълно всяка линия от него.
+7 В името на ефективността използвайте копиране/поставяне/клониране/модификация. Това работи много по-бързо от използването на множество малки преизползваеми модули.
+8 Никога не поставяйте коментар на променлива. Факти за това как се използва променливата, нейните граници, законни стойности, брой на десетични точки, мерни единици, формат на показване, правила за въвеждане (например пълно запълване, задължително въвеждане) и т.н., трябва да се извлекат от процедурния код. Ако шефът ви принуди да напишете коментари, напълнете телата на методите с тях, но никога не коментирайте променлива, дори временна!
+9 Опитайте се да съберете възможно най-много в един ред. Това спестява времето за създаване на временни променливи и прави файловете със сорс кода по-кратки чрез елиминиране на новите редове и празни интервали. Съвет: премахнете всички празни интервали около операторите. Добрите програмисти често могат да достигнат лимита от 255 символа на ред, наложен от някои редактори. Бонусът от дългите редове е, че програмистите, които не могат да четат шрифт с размер 6 пункта, трябва да скролват, за да ги видят.
+10 Писането на код без гласни е много по-интересно. Когато използвате съкращения в имената на променливи или методи, разнообразявайте ги с различни варианти за едно и също понятие, а понякога дори изписвайте пълното име. Това ще затрудни мързеливите, които използват текстово търсене, за да разберат само някои аспекти на вашата програма. Помислете за вариации в правописа, например, смесване на международния правопис „colour“ с американския „color“ и жаргонния „kulerz“. Ако изписвате имената изцяло, има само един възможен начин да изписвате всяко име. Това е твърде лесно за запомняне от програмиста по поддръжката. Тъй като има толкова много различни начини за съкращаване на една дума, с помощта на съкращения можете да имате няколко различни променливи, които очевидно имат едно и също предназначение. Като допълнителен бонус програмистът по поддръжката може дори да не забележи, че са отделни променливи.
+
+11.Never use an automated source code tidier (beautifier) to keep your code aligned. Lobby to have them banned them from your company on the grounds they create false deltas in PVCS (version control tracking) or that every programmer should have his own indenting style held forever sacrosanct for any module he wrote. Insist that other programmers observe those idiosyncratic conventions in "his " modules. Banning beautifiers is quite easy, even though they save the millions of keystrokes doing manual alignment and days wasted misinterpreting poorly aligned code. Just insist that everyone use the same tidied format, not just for storing in the common repository, but also while they are editing. This starts an RWAR and the boss, to keep the peace, will ban automated tidying. Without automated tidying, you are now free to accidentally misalign the code to give the optical illusion that bodies of loops and ifs are longer or shorter than they really are, or that else clauses match a different if than they really do. e.g.
+
+if(a)
+
+  if(b)x = y;
+
+else x = z;
+
+12.Never underestimate how much havoc you can create by indenting with tabs instead of spaces, especially when there is no corporate standard on how much indenting a tab represents. Embed tabs inside string literals, or use a tool to convert spaces to tabs that will do that for you.
+
+13.Never put in any { } surrounding your if/else blocks unless they are syntactically obligatory. If you have a deeply nested mixture of if/else statements and blocks, especially with misleading indentation, you can trip up even an expert maintenance programmer.
+
+14.Rigidly follow the guidelines about no goto, no early returns, and no labelled breaks especially when you can increase the if/else nesting depth by at least 5 levels.
+
+15.Use very long variable names or class names that differ from each other by only one character, or only in upper/lower case. An ideal variable name pair is swimmer and swimner. Exploit the failure of most fonts to clearly discriminate between ilI1| or oO08 with identifier pairs like parselnt and parseInt or D0Calc and DOCalc. l is an exceptionally fine choice for a variable name since it will, to the casual glance, masquerade as the constant 1. Create variable names that differ from each other only in case e.g. HashTable and Hashtable.
+
+16.Wherever scope rules permit, reuse existing unrelated variable names. Similarly, use the same temporary variable for two unrelated purposes (purporting to save stack slots). For a fiendish variant, morph the variable, for example, assign a value to a variable at the top of a very long method, and then somewhere in the middle, change the meaning of the variable in a subtle way, such as converting it from a 0-based coordinate to a 1-based coordinate. Be certain not to document this change in meaning.
+
+17.Use lower case l to indicate long constants. e.g. 10l is more likely to be mistaken for 101 that 10L is.
+
+18.Ignore the conventions in Java for where to use upper case in variable and class names i.e. Classes start with upper case, variables with lower case, constants are all upper case, with internal words capitalised. After all, Sun does (e.g. instanceof vs isInstanceOf, Hashtable). Not to worry, the compiler won't even issue a warning to give you away. If your boss forces you to use the conventions, when there is any doubt about whether an internal word should be capitalised, avoid capitalising or make a random choice, e.g. use both inputFileName and outputfilename. You can of course drive your team members insane by inventing your own insanely complex naming conventions then berate others for not following them. The ultimate technique is to create as many variable names as possible that differ subtlely from each other only in case.
+
+19.Never use i for the innermost loop variable. Use anything but. Use i liberally for any other purpose especially for non-int variables. Similarly use n as a loop index.
+
+11 Никога не използвайте автоматичен инструмент за подреждане на код (beautifier), за да поддържате кода си подравнен. Лобирайте за тяхната забрана във вашата компания под предлог, че създават фалшиви разлики във версионния контрол (например в PVCS) или че всеки програмист трябва да има свой собствен стил на подравняване, който да остане свещен за всеки модул, който е написал. Настоявайте, че другите програмисти трябва да спазват тези ексцентрични конвенции в „неговите“ модули. Забраната на тези инструменти е доста лесна, въпреки че те спестяват милиони натискания на клавиши при ръчно подравняване и дни, загубени в погрешно тълкуване на лошо подравнен код. Просто настоявайте всеки да използва същия подреден формат, не само за съхраняване в общото хранилище, но и докато редактират. Това ще предизвика война, а шефът, за да запази мира, ще забрани автоматичното подреждане. Без автоматично подреждане, вече сте свободни случайно да изместите кода, за да създадете оптическата илюзия, че телата на цикли и условни конструкции са по-дълги или по-къси, отколкото всъщност са, или че else клауза съответства на различно if, отколкото е реално. Например:
+
+cpp
+Копиране на код
+if(a)
+  if(b) x = y;
+else x = z;
+12 Никога не подценявайте колко хаос може да създадете, като използвате табулации вместо интервали за отстъп, особено когато няма корпоративен стандарт за това колко интервала представлява една табулация. Вградете табулации в стрингови литерали или използвайте инструмент за преобразуване на интервали в табулации, който ще го направи вместо вас.
+
+13 Никога не използвайте { } около вашите if/else блокове, освен ако не са синтактично задължителни. Ако имате дълбоко вложена смес от if/else конструкции и блокове, особено с подвеждащо подравняване, можете да излъжете дори експертен програмист по поддръжката.
+
+14 Строго следвайте насоките за това да не използвате goto, ранни return изявления и етикетирани break изявления, особено когато можете да увеличите дълбочината на вложените if/else конструкции с поне 5 нива.
+
+15 Използвайте много дълги имена на променливи или класове, които се различават една от друга само с един символ или само по отношение на главни/малки букви. Идеален пример за двойка имена на променливи са swimmer и swimner. Възползвайте се от провала на повечето шрифтове да разграничат ясно ilI1| или oO08 с двойки идентификатори като parselnt и parseInt или D0Calc и DOCalc. l е изключително подходящ избор за име на променлива, тъй като на пръв поглед може да се маскира като константата 1. Създавайте имена на променливи, които се различават само по отношение на главни и малки букви, например HashTable и Hashtable.
+
+16 Където позволяват правилата за обхват, преизползвайте съществуващи несвързани имена на променливи. По същия начин използвайте една и съща временна променлива за две несвързани цели (с цел икономия на стека). За по-злобен вариант променете значението на променливата, например, присвоете стойност на променлива в началото на много дълъг метод и след това някъде по средата променете значението на променливата по някакъв неуловим начин, като например преобразуване от 0-базирана координата към 1-базирана координата. Бъдете сигурни, че не документирате тази промяна в значението.
+
+17 Използвайте малка буква l, за да обозначите дълги константи. Например 10l е по-вероятно да бъде объркано с 101, отколкото 10L.
+
+18 Игнорирайте конвенциите в Java за използването на главни букви в имената на променливи и класове, т.е. класовете започват с главна буква, променливите с малка буква, а константите са изцяло с главни букви, като вътрешните думи са с главни букви. В крайна сметка, Sun го прави (например instanceof срещу isInstanceOf, Hashtable). Не се тревожете, компилаторът дори няма да издаде предупреждение, за да ви издаде. Ако шефът ви принуди да използвате конвенциите, когато има съмнение дали вътрешната дума трябва да бъде с главна буква, избягвайте да използвате главни букви или направете случаен избор, например използвайте както inputFileName, така и outputfilename. Можете, разбира се, да подлудите членовете на екипа си, като измислите свои собствени безумно сложни правила за именуване и след това ги упрекнете, че не ги спазват. Крайната техника е да създадете колкото се може повече имена на променливи, които се различават съвсем леко само по отношение на главни и малки букви.
+
+19 Никога не използвайте 'i' за променлива в най-вътрешния цикъл. Използвайте каквото и да е друго, но не 'i'. Използвайте 'i' широко за всякакви други цели, особено за нецелочислени променливи. По същия начин използвайте 'n' като индекс в цикъл.
+
+20.Never use local variables. Whenever you feel the temptation to use one, make it into an instance or static variable instead to unselfishly share it with all the other methods of the class. This will save you work later when other methods need similar declarations. C++ programmers can go a step further by making all variables global.
+
+21.Never document gotchas in the code. If you suspect there may be a bug in a class, keep it to yourself. If you have ideas about how the code should be reorganised or rewritten, for heaven's sake, do not write them down. Remember the words of Thumper "If you can't say anything nice, don't say anything at all". What if the programmer who wrote that code saw your comments? What if the owner of the company saw them? What if a customer did? You could get yourself fired.
+
+22.To break the boredom, use a thesaurus to look up as much alternate vocabulary as possible to refer to the same action, e.g. display, show, present. Vaguely hint there is some subtle difference, where none exists. However, if there are two similar functions that have a crucial difference, always use the same word in describing both functions (e.g. print to mean write to a file, and to a print on a laser, and to display on the screen). Under no circumstances, succumb to demands to write a glossary with the special purpose project vocabulary unambiguously defined. Doing so would be unprofessional breach of the structured design principle of information hiding.
+
+23.In naming functions, make heavy use of abstract words like it, everything, data, handle, stuff, do, routine, perform and the digits e.g. routineX48, PerformDataFunction, DoIt, HandleStuff and do_args_method.
+
+24.In Java, all primitives passed as parameters are effectively read-only because they are passed by value. The callee can modify the parameters, but that has no effect on the caller's variables. In contrast all objects passed are read-write. The reference is passed by value, which means the object itself is effectively passed by reference. The callee can do whatever it wants to the fields in your object. Never document whether a method actually modifies the fields in each of the passed parameters. Name your methods to suggest they only look at the fields when they actually change them.
+
+25.Never document the units of measure of any variable, input, output or parameter. e.g. feet, metres, cartons. This is not so important in bean counting, but it is very important in engineering work. As a corollary, never document the units of measure of any conversion constants, or how the values were derived. It is mild cheating, but very effective, to salt the code with some incorrect units of measure in the comments. If you are feeling particularly malicious, make up your own unit of measure; name it after yourself or some obscure person and never define it. If somebody challenges you, tell them you did so that you could use integer rather than floating point arithmetic.
+
+26.In engineering work there are two ways to code. One is to convert all inputs to S.I. (metric) units of measure, then do your calculations then convert back to various civil units of measure for output. The other is to maintain the various mixed measure systems throughout. Always choose the second. It's the American way!
+
+27.I am going to let you in on a little-known coding secret. Exceptions are a pain in the behind. Properly-written code never fails, so exceptions are actually unnecessary. Don't waste time on them. Subclassing exceptions is for incompetents who know their code will fail. You can greatly simplify your program by having only a single try/catch in the entire application (in main) that calls System.exit(). Just stick a perfectly standard set of throws on every method header whether they could throw any exceptions or not.
+
+28.C compilers transform myArray[i] into *(myArray + i), which is equivalent to *(i + myArray) which is equivalent to i[myArray]. Experts know to put this to good use. Unfortunately, this technique can only be used in native classes.
+
+29.If you have an array with 100 elements in it, hard code the literal 100 in as many places in the program as possible. Never use a static final named constant for the 100, or refer to it as myArray.length. To make changing this constant even more difficult, use the literal 50 instead of 100/2, or 99 instead of 100-1. You can futher disguise the 100 by checking for a == 101 instead of a > 100 or a > 99 instead of a >= 100.
+
+Consider things like page sizes, where the lines consisting of x header, y body, and z footer lines, you can apply the obfuscations independently to each of these and to their partial or total sums.
+
+These time-honoured techniques are especially effective in a program with two unrelated arrays that just accidentally happen to both have 100 elements. There are even more fiendish variants. To lull the maintenance programmer into a false sense of security, dutifully create the named constant, but very occasionally "accidentally" use the literal 100 value instead of the named constant. Most fiendish of all, in place of the literal 100 or the correct named constant, sporadically use some other unrelated named constant that just accidentally happens to have the value 100, for now. It almost goes without saying that you should avoid any consistent naming scheme that would associate an array name with its size constant.
+
+20 Никога не използвайте локални променливи. Всеки път, когато почувствате изкушение да използвате такава, направете я инстанционна или статична променлива, за да я споделите великодушно с всички други методи на класа. Това ще ви спести работа по-късно, когато други методи имат нужда от подобни декларации. Програмистите на C++ могат да отидат още по-далеч, като направят всички променливи глобални.
+
+21 Никога не документирайте „клопки“ в кода. Ако подозирате, че може да има бъг в класа, запазете го за себе си. Ако имате идеи за това как кодът трябва да бъде реорганизиран или пренаписан, в никакъв случай не ги записвайте. Помнете думите на Зайчето Тампер: „Ако не можеш да кажеш нищо хубаво, по-добре не казвай нищо“. Какво би станало, ако програмистът, написал този код, види вашите коментари? Какво би станало, ако собствениците на компанията ги видят? Какво би станало, ако клиентите ги видят? Можете да загубите работата си.
+
+22 За да разчупите монотонността, използвайте синонимен речник, за да намерите възможно най-много различни думи за една и съща операция, например display, show, present. Загатнете, че има някаква фина разлика, когато такава на практика не съществува. Въпреки това, ако има две подобни функции, които имат съществена разлика, винаги използвайте една и съща дума, за да ги опишете (например print за писане във файл, на лазерен принтер и за показване на екрана). В никакъв случай не се поддавайте на натиск да напишете глосарий със специализираната проектна терминология, ясно дефинирана. Това би било непрофесионално нарушаване на принципа на структурирания дизайн за скриване на информация.
+
+23 При именуване на функции използвайте широко абстрактни думи като it, everything, data, handle, stuff, do, routine, perform и цифри, например routineX48, PerformDataFunction, DoIt, HandleStuff и do_args_method.
+
+24 В Java всички примитиви, предавани като параметри, са ефективно само за четене, защото се предават по стойност. Приемникът може да модифицира параметрите, но това няма никакъв ефект върху променливите на подателя. Обратно, всички обекти, предавани като параметри, са четимо-записваеми. Референцията се предава по стойност, което означава, че самият обект се предава ефективно по референция. Приемникът може да прави каквото си иска с полетата в обекта ви. Никога не документирайте дали методът всъщност променя полетата във всеки от предадените параметри. Именувайте методите си така, че да подсказват, че само разглеждат полетата, когато всъщност ги променят.
+
+25 Никога не документирайте единиците на мярка на променливи, входни данни, изходни данни или параметри, например фута, метра, кашони. Това не е толкова важно в счетоводството, но е много важно в инженерната работа. Като следствие, никога не документирайте единиците на мярка на константите за преобразуване или как са получени стойностите. Това е леко измамно, но много ефективно - посолете кода с някои неверни единици на мярка в коментарите. Ако се чувствате особено злобно, измислете своя собствена единица за мярка, наречете я на себе си или на някой неизвестен човек и никога не я дефинирайте. Ако някой ви оспори, кажете му, че сте го направили, за да можете да използвате целочислена, а не дробна аритметика.
+
+26 В инженерната работа има два начина за кодиране. Единият е да конвертирате всички входни данни в SI (метрични) единици, след това да направите изчисленията и след това да конвертирате обратно в различни граждански единици за изход. Другият начин е да поддържате различните смесени системи за измерване през целия процес. Винаги избирайте втория начин. Това е американският начин!
+
+27 Ще ви споделя една малко известна тайна за програмиране. Изключенията са болка в задника. Правилно написаният код никога не се проваля, така че изключенията са всъщност ненужни. Не си губете времето с тях. Наследяването на изключения е за некадърници, които знаят, че техният код ще се провали. Можете значително да опростите програмата си, като имате само едно try/catch в цялото приложение (в main), което да извиква System.exit(). Просто добавете перфектно стандартен набор от throws на всяко заглавие на метод, независимо дали могат да хвърлят изключения или не.
+
+28 C компилаторите трансформират myArray[i] в *(myArray + i), което е еквивалентно на *(i + myArray), което е еквивалентно на i[myArray]. Експертите знаят как да използват това. За съжаление, тази техника може да се използва само в родни класове.
+
+29 Ако имате масив със 100 елемента, хардкодирайте буквалното 100 на колкото се може повече места в програмата. Никога не използвайте статична константа final за 100, нито се обръщайте към нея като myArray.length. За да направите промяната на тази константа още по-трудна, използвайте буквалното 50 вместо 100/2 или 99 вместо 100-1. Можете още повече да прикриете 100, като проверите за a == 101 вместо a > 100 или a > 99 вместо a >= 100.
+
+30.Eschew any form of table-driven logic. It starts out innocently enough, but soon leads to end users proofreading and then shudder, even modifying the tables for themselves.
+
+31.Nest as deeply as you can. Good coders can get up to 10 levels of ( ) on a single line and 20 { } in a single method. C++ coders have the additional powerful option of preprocessor nesting totally independent of the nest structure of the underlying code. You earn extra Brownie points whenever the beginning and end of a block appear on separate pages in a printed listing. Wherever possible, convert nested ifs into nested [? :] ternaries.
+
+32.Join a computer book of the month club. Select authors who appear to be too busy writing books to have had any time to actually write any code themselves. Browse the local bookstore for titles with lots of cloud diagrams in them and no coding examples. Skim these books to learn obscure pedantic words you can use to intimidate the whippersnappers that come after you. Your code should impress. If people can't understand your vocabulary, they must assume that you are very intelligent and that your algorithms are very deep. Avoid any sort of homely analogies in your algorithm explanations.
+
+33.Make "improvements" to your code often, and force users to upgrade often - after all, no one wants to be running an outdated version. Just because they think they're happy with the program as it is, just think how much happier they will be after you've "fixed" it! Don't tell anyone what the differences between versions are unless you are forced to - after all, why tell someone about bugs in the old version they might never have noticed otherwise?
+
+34.The About Box should contain only the name of the program, the names of the coders and a copyright notice written in legalese. Ideally it should link to several megs of code that produce an entertaining animated display. However, it should never contain a description of what the program is for, its minor version number, or the date of the most recent code revision, or the website where to get the updates, or the author's email address. This way all the users will soon all be running on different versions, and will attempt to install version N+2 before installing version N+1.
+
+35.The more changes you can make between versions the better, you don't want users to become bored with the same old API or user interface year after year. Finally, if you can make this change without the users noticing, this is better still - it will keep them on their toes, and keep them from becoming complacent.
+
+36.If you have to write classes for some other programmer to use, put environment-checking code (getenv() in C++ / System.getProperty() in Java) in your classes' nameless static initializers, and pass all your arguments to the classes this way, rather than in the constructor methods. The advantage is that the initializer methods get called as soon as the class program binaries get loaded, even before any of the classes get instantiated, so they will usually get executed before the program main(). In other words, there will be no way for the rest of the program to modify these parameters before they get read into your classes - the users better have set up all their environment variables just the way you had them!
+
+37.Choose your variable names to have absolutely no relation to the labels used when such variables are displayed on the screen. E.g. on the screen label the field "Postal Code" but in the code call the associated variable "zip".
+
+38.Java lets you create methods that have the same name as the class, but that are not constructors. Exploit this to sow confusion.
+
+39.Never use layouts. That way when the maintenance programmer adds one more field he will have to manually adjust the absolute co-ordinates of every other thing displayed on the screen. If your boss forces you to use a layout, use a single giant GridBagLayout, and hard code in absolute grid co-ordinates.
+
+30 Избягвайте всякаква форма на таблично управлявана логика. Тя започва невинно, но скоро води до това крайните потребители да редактират таблиците сами, а след това - ужас, дори да ги модифицират.
+
+31 Вложете колкото се може повече. Добрите програмисти могат да достигнат до 10 нива на () на един ред и 20 {} в един метод. Програмистите на C++ имат допълнителната мощна опция за предпроцесорни вложения, напълно независими от структурата на основния код. Ще спечелите допълнителни точки, когато началото и краят на блок се появяват на различни страници в отпечатан списък. Където е възможно, преобразувайте вложените if в вложени тернарни оператори ? :.
+
+32 Присъединете се към клуб за книги за компютърни програмисти на месец. Избирайте автори, които изглежда са твърде заети с писане на книги, за да имат време да напишат реален код. Разглеждайте местната книжарница за заглавия с много диаграми на облаци и без кодови примери. Преглеждайте тези книги, за да научите сложни педантични думи, които можете да използвате, за да впечатлите новаците, които идват след вас. Вашият код трябва да бъде впечатляващ. Ако хората не могат да разберат вашия речник, те трябва да приемат, че сте много интелигентни и че вашите алгоритми са много дълбоки. Избягвайте всякакви домашни аналогии в обясненията на алгоритмите си.
+
+33 Правете „подобрения“ на кода си често и принуждавайте потребителите да се актуализират често - в края на краищата, никой не иска да използва остаряла версия. Само защото те мислят, че са доволни от програмата такава, каквато е, помислете колко по-щастливи ще бъдат, след като сте я „поправили“! Не казвайте на никого какви са разликите между версиите, освен ако не сте принудени - в края на краищата, защо да казвате на някого за грешки в старата версия, които може никога да не е забелязал?
+
+34 Кутията „За програмата“ трябва да съдържа само името на програмата, имената на програмистите и известие за авторските права, написано на юридически език. Идеално е, ако тя се свързва с няколко мегабайта код, който произвежда забавен анимиран дисплей. Въпреки това, тя никога не трябва да съдържа описание на предназначението на програмата, нейната малка версия или датата на последната ревизия на кода, или уебсайта, откъдето могат да се получат актуализации, или имейл адреса на автора. По този начин всички потребители скоро ще използват различни версии и ще се опитат да инсталират версия N+2, преди да са инсталирали версия N+1.
+
+35 Колкото повече промени можете да направите между версиите, толкова по-добре, вие не искате потребителите да се отегчават със същия стар API или потребителски интерфейс година след година. И накрая, ако можете да направите тези промени, без потребителите да ги забележат, това е още по-добре - това ще ги държи нащрек и ще ги предпази от самодоволство.
+
+36 Ако трябва да пишете класове за използване от други програмисти, поставете код за проверка на средата (например getenv() в C++ или System.getProperty() в Java) в неименуваните статични инициализатори на класовете си и предавайте всички аргументи на класовете по този начин, вместо в конструкторите. Предимството е, че инициализаторите се извикват веднага след зареждането на бинарните файлове на класа, дори преди някой от класовете да бъде инстанциран, така че обикновено те ще се изпълнят преди main() на програмата. С други думи, няма начин останалата част от програмата да модифицира тези параметри преди да бъдат прочетени в класовете ви - потребителите по-добре да са настроили всички свои променливи на околната среда точно както вие сте ги задали!
+
+37 Избирайте имена на променливи, които нямат абсолютно никаква връзка с етикетите, използвани при показване на тези променливи на екрана. Например, на екрана наречете полето „Postal Code“, но в кода свързаната с него променлива наречете „zip“.
+
+38 Java ви позволява да създавате методи, които имат същото име като класа, но не са конструктори. Използвайте това, за да сеете объркване.
+
+39 Никога не използвайте оформления (layouts). Така, когато програмистът по поддръжката добави още едно поле, той ще трябва ръчно да коригира абсолютните координати на всички останали неща, показвани на екрана. Ако шефът ви принуди да използвате оформление, използвайте един огромен GridBagLayout и твърдо кодирайте абсолютните координати в решетката.
+
+40.In Java, disdain the interface. If your supervisors complain, tell them that Java interfaces force you to "cut-and-paste" code between different classes that implement the same interface the same way, and they know how hard that would be to maintain. Instead, do as the Java AWT designers did - put lots of functionality in your classes that can only be used by classes that inherit from them, and use lots of "instanceof" checks in your methods. This way, if someone wants to reuse your code, they have to extend your classes. If they want to reuse your code from two different classes - tough luck, they can't extend both of them at once!
+
+41.Make all of your leaf classes final. After all, you're done with the project - certainly no one else could possibly improve on your work by extending your classes. And it might even be a security flaw - after all, isn't java.lang.String final for just this reason? If other coders in your project complain, tell them about the execution speed improvement you're getting.
+
+42.Make as many of your variables as possible static. If you don't need more than one instance of the class in this program, no one else ever will either. Again, if other coders in the project complain, tell them about the execution speed improvement you're getting.
+
+43.Keep all of your unused and outdated methods and variables around in your code. After all - if you needed to use it once in 1976, who knows if you will want to use it again sometime? Sure the program's changed since then, but it might just as easily change back, you "don't want to have to reinvent the wheel" (supervisors love talk like that). If you have left the comments on those methods and variables untouched, and sufficiently cryptic, anyone maintaining the code will be too scared to touch them.
+
+44.On a method called makeSnafucated insert only the comment /* make snafucated */. Never define what snafucated means anywhere. Only a fool does not already know, with complete certainty, what snafucated means.
+
+45.Reverse the parameters on a method called drawRectangle(height, width) to drawRectangle(width, height) without making any change whatsoever to the name of the method. Then a few releases later, reverse it back again. The maintenance programmers can't tell by quickly looking at any call if it has been adjusted yet. Generalisations are left as an exercise for the reader.
+
+46.Instead of using a parameters to a single method, create as many separate methods as you can. For example instead of setAlignment(int alignment) where alignment is an enumerated constant, for left, right, center, create three methods: setLeftAlignment, setRightAlignment, and setCenterAlignment. Of course, for the full effect, you must clone the common logic to make it hard to keep in sync.
+
+47.The Kama Sutra technique has the added advantage of driving any users or documenters of the package to distraction as well as the maintenance programmers. Create a dozen overloaded variants of the same method that differ in only the most minute detail. I think it was Oscar Wilde who observed that positions 47 and 115 of the Kama Sutra were the same except in 115 the woman had her fingers crossed. Users of the package then have to carefully peruse the long list of methods to figure out just which variant to use. The technique also balloons the documentation and thus ensures it will more likely be out of date. If the boss asks why you are doing this, explain it is solely for the convenience of the users. Again for the full effect, clone any common logic.
+
+48.Declare every method and variable public. After all, somebody, sometime might want to use it. Once a method has been declared public, it can't very well be retracted, now can it? This makes it very difficult to later change the way anything works under the covers. It also has the delightful side effect of obscuring what a class is for. If the boss asks if you are out of your mind, tell him you are following the classic principles of transparent interfaces.
+
+49.In C++, overload library functions by using #define. That way it looks like you are using a familiar library function where in actuality you are using something totally different.
+
+40 В Java пренебрегвайте интерфейсите. Ако вашите ръководители се оплакват, кажете им, че интерфейсите в Java ви принуждават да „копирате и поставите“ код между различни класове, които имплементират един и същ интерфейс по същия начин, и те знаят колко трудно би било това за поддръжка. Вместо това, направете както дизайнерите на Java AWT - вкарайте много функционалност в класовете си, която може да бъде използвана само от класове, които ги наследяват, и използвайте много проверки instanceof в методите си. По този начин, ако някой иска да преизползва вашия код, той трябва да разшири вашите класове. Ако иска да преизползва вашия код от два различни класа - жалко, не може да разшири и двата едновременно!
+
+41 Направете всичките си крайни класове final. В края на краищата, проектът ви е завършен - със сигурност никой друг не би могъл да подобри работата ви, като разшири класовете ви. И може би това дори ще бъде проблем със сигурността - в края на краищата, не е ли java.lang.String final точно по тази причина? Ако други програмисти във вашия проект се оплакват, кажете им за подобрението в скоростта на изпълнение, което постигате.
+
+42 Направете колкото се може повече от вашите променливи static. Ако не ви е нужна повече от една инстанция на класа в тази програма, никой друг също няма да има нужда от това. Отново, ако други програмисти в проекта се оплакват, кажете им за подобрението в скоростта на изпълнение, което постигате.
+
+43 Запазете всички свои неизползвани и остарели методи и променливи в кода си. В края на краищата, ако веднъж сте ги използвали през 1976 г., кой знае дали няма да искате да ги използвате отново някога? Разбира се, програмата се е променила оттогава, но може също толкова лесно да се промени обратно - вие не искате да „преоткривате колелото“ (шефовете обичат такива фрази). Ако сте оставили коментарите на тези методи и променливи непокътнати и достатъчно криптични, всеки програмист по поддръжката ще се страхува да ги пипне.
+
+44 В метод, наречен makeSnafucated, въведете само коментара „/* направи snafucated */“. Никога не дефинирайте какво означава snafucated никъде. Само глупак не знае, с пълна увереност, какво означава snafucated.
+
+45 Разменете параметрите на метод, наречен drawRectangle(height, width), така че да стане drawRectangle(width, height) без да правите каквато и да е промяна в името на метода. След това, няколко версии по-късно, разменете ги обратно. Програмистите по поддръжката не могат да разберат с един бърз поглед дали извикването е било коригирано вече или не. Обобщенията са оставени като упражнение за читателя.
+
+46 Вместо да използвате параметри за един метод, създайте възможно най-много отделни методи. Например, вместо да използвате setAlignment(int alignment), където alignment е изброена константа за ляво, дясно, центрирано, създайте три метода: setLeftAlignment, setRightAlignment и setCenterAlignment. Разбира се, за пълния ефект, клонирайте общата логика, за да е трудно да се поддържа синхронизацията.
+
+47 Техниката Kama Sutra има допълнителното предимство да подлудява както потребителите, така и документаторите на пакета, освен програмистите по поддръжката. Създайте дузина претоварени варианти на същия метод, които се различават само в най-малките детайли. Мисля, че Оскар Уайлд беше наблюдавал, че позиции 47 и 115 от Кама Сутра са същите, с изключение на това, че в 115 жената е с кръстосани пръсти. Потребителите на пакета след това трябва внимателно да прегледат дългия списък от методи, за да разберат точно кой вариант да използват. Техниката също така увеличава обема на документацията и така гарантира, че тя ще бъде по-вероятно остаряла. Ако шефът ви попита защо го правите, обяснете, че го правите единствено за удобство на потребителите. Отново, за пълния ефект, клонирайте всяка обща логика.
+
+48 Обявете всеки метод и променлива за публични (public). В края на краищата, някой, някога, може да иска да ги използва. След като метод бъде обявен за публичен, вече не можете да го оттеглите, нали? Това прави много трудно по-късно да се промени начинът, по който нещо работи под повърхността. Това също има прекрасния страничен ефект да замъгли предназначението на класа. Ако шефът ви попита дали сте полудели, кажете му, че следвате класическите принципи на прозрачните интерфейси.
+
+49 В C++ претоварвайте библиотечни функции, като използвате #define. Така изглежда, че използвате позната библиотечна функция, докато в действителност използвате нещо съвсем различно.
+
+50.In C++, overload +,-,*,/ to do things totally unrelated to addition, subtraction etc. After all, if the Stroustroup can use the shift operator to do I/O, why should you not be equally creative? If you overload +, make sure you do it in a way that i = i + 5; has a totally different meaning from i += 5;
+
+51.When documenting, and you need an arbitrary name to represent a filename use "file ". Never use an obviously arbitrary name like "Charlie.dat" or "Frodo.txt". In general, in your examples, use arbitrary names that sound as much like reserved keywords as possible. For example, good names for parameters or variables would be: "bank", "blank", "class", "const ", "constant", "input", "key", "keyword", "kind", "output", "parameter" "parm", "system", "type", "value", "var" and "variable ". If you use actual reserved words for your arbitrary names, which would be rejected by your command processor or compiler, so much the better. If you do this well, the users will be hopelessly confused between reserved keywords and arbitrary names in your example, but you can look innocent, claiming you did it to help them associate the appropriate purpose with each variable.
+
+52.Always document your command syntax with your own, unique, undocumented brand of BNF notation. Never explain the syntax by providing a suite of annotated sample valid and invalid commands. That would demonstrate a complete lack of academic rigour. Railway diagrams are almost as gauche. Make sure there is no obvious way of telling a terminal symbol (something you would actually type) from an intermediate one -- something that represents a phrase in the syntax. Never use typeface, colour, caps, or any other visual clues to help the reader distinguish the two. Use the exact same punctuation glyphs in your BNF notation that you use in the command language itself, so the reader can never tell if a (...), [...], {...} or "..." is something you actually type as part of the command, or is intended to give clues about which syntax elements are obligatory, repeatable or optional in your BNF notation. After all, if they are too stupid to figure out your variant of BNF, they have no business using your program.
+
+53.The macro preprocessor offers great opportunities for obfuscation. The key technique is to nest macro expansions several layers deep so that you have to discover all the various parts in many different *.hpp files. Placing executable code into macros then including those macros in every *.cpp file (even those that never use those macros) will maximize the amount of recompilation necessary if ever that code changes.
+
+54.Java is schizophrenic about array declarations. You can do them the old C, way String x[], (which uses mixed pre-postfix notation) or the new way String[] x, which uses pure prefix notation. If you want to really confuse people, mix the notations: e.g.
+
+byte[] rowvector, colvector, matrix[];
+
+which is equivalent to:
+
+byte[] rowvector;
+byte[] colvector;
+byte[][] matrix;
+
+55.Java offers great opportunity for obfuscation whenever you have to convert. As a simple example, if you have to convert a double to a String, go circuitously, via Double with new Double(d).toString() rather than the more direct Double.toString(d). You can, of course, be far more circuitous than that! Avoid any conversion techniques recommended by the Conversion Amanuensis. You get bonus points for every extra temporary object you leave littering the heap after your conversion.
+
+56.Use threads with abandon.
+
+57.Use exceptions for non-exceptional conditions. Routinely terminate loops with an ArrayIndexOutOfBoundsException. Pass return standard results from a method in an exception.
+
+58.Never check input data for any kind of correctness or discrepancies. It will demonstrate that you absolutely trust the company's equipment as well as that you are a perfect team player who trusts all project partners and system operators. Always return reasonable values even when data inputs are questionable or erroneous.
+
+59.If your boss thinks that his or her 20 year old FORTRAN experience is an excellent guide to contemporary programming, rigidly follow all his or her recommendations. As a result, the boss will trust you. That may help you in your career. You will learn many new methods to obfuscate program code.
+
+50 В C++ претоварвайте операторите +, -, *, /, за да правят неща, които нямат нищо общо със събирането, изваждането и т.н. В края на краищата, ако Строуструп може да използва оператора за изместване за извеждане/въвеждане, защо и вие да не бъдете също толкова креативни? Ако претоварвате +, уверете се, че го правите по начин, при който i = i + 5; има съвсем различно значение от i += 5;.
+
+51 Когато документирате и ви трябва произволно име за представяне на файл, използвайте "file". Никога не използвайте очевидно произволно име като "Charlie.dat" или "Frodo.txt". По принцип, в примерите си използвайте произволни имена, които звучат колкото се може повече като запазени ключови думи. Например, добри имена за параметри или променливи биха били: "bank", "blank", "class", "const", "constant", "input", "key", "keyword", "kind", "output", "parameter", "parm", "system", "type", "value", "var" и "variable". Ако използвате действителни запазени думи за вашите произволни имена, които биха били отхвърлени от вашия команден процесор или компилатор, толкова по-добре. Ако го направите добре, потребителите ще бъдат напълно объркани между запазени ключови думи и произволни имена във вашия пример, но вие можете да изглеждате невинни, твърдейки, че сте го направили, за да им помогнете да свържат съответната цел с всяка променлива.
+
+52 Винаги документирайте синтаксиса на командите си с вашия собствен, уникален, недокументиран вариант на BNF нотация. Никога не обяснявайте синтаксиса, като предоставите поредица от пояснени валидни и невалидни команди. Това би демонстрирало пълна липса на академична строгост. Железопътните диаграми са почти толкова неприемливи. Уверете се, че няма очевиден начин да се разграничи терминалният символ (нещо, което наистина ще въведете) от междинния - нещо, което представлява фраза в синтаксиса. Никога не използвайте шрифтове, цветове, главни букви или каквито и да било други визуални подсказки, които да помогнат на читателя да различи двете. Използвайте същите пунктуационни знаци в BNF нотацията, които използвате в командния език, така че читателят никога да не може да разбере дали (…), […], {…} или „…“ са неща, които наистина трябва да въведете като част от командата, или са предназначени да дадат подсказки за това кои синтактични елементи са задължителни, повторяеми или опционални в BNF нотацията. В края на краищата, ако са твърде глупави, за да разберат вашия вариант на BNF, нямат работа с вашата програма.
+
+53 Препроцесорът за макроси предлага страхотни възможности за объркване. Основната техника е да вложите разширенията на макросите в няколко слоя дълбочина, така че да се наложи да откриете всички различни части в много различни *.hpp файлове. Поставянето на изпълним код в макроси и след това включването на тези макроси във всеки *.cpp файл (дори тези, които никога не използват тези макроси) ще максимизира количеството прекомпилиране, необходимо, ако този код някога бъде променен.
+
+54 Java е шизофренична по отношение на декларациите на масиви. Можете да ги направите по стария начин като в C, например String x[], (което използва смесена префиксно-суфиксна нотация) или по новия начин String[] x, който използва чиста префиксна нотация. Ако искате наистина да объркате хората, смесвайте нотациите, например:
+
+java
+Копиране на код
+byte[] rowvector, colvector, matrix[];
+което е еквивалентно на:
+
+java
+Копиране на код
+byte[] rowvector;
+byte[] colvector;
+byte[][] matrix;
+
+55 Java предлага страхотни възможности за объркване, когато се налага конвертиране. Например, ако трябва да конвертирате double в String, използвайте заобиколен път чрез Double, като например new Double(d).toString(), вместо по-прекия Double.toString(d). Разбира се, можете да бъдете много по-завоалирани от това! Избягвайте всякакви техники за конвертиране, препоръчани от Conversion Amanuensis. Печелите допълнителни точки за всеки допълнителен временен обект, който оставяте в купчината след вашето конвертиране.
+
+56 Използвайте нишки (threads) безразсъдно.
+
+57 Използвайте изключения за не-изключителни условия. Завършвайте цикли с ArrayIndexOutOfBoundsException. Предавайте стандартни резултати от метод в изключение.
+
+58 Никога не проверявайте входни данни за какъвто и да е вид коректност или несъответствия. Това ще покаже, че абсолютно се доверявате на оборудването на компанията, както и че сте перфектен екипен играч, който се доверява на всички проектни партньори и системни оператори. Винаги връщайте разумни стойности, дори когато входните данни са съмнителни или погрешни.
+
+59 Ако шефът ви смята, че неговият 20-годишен опит с Fortran е отличен ориентир за съвременното програмиране, следвайте стриктно всички негови препоръки. В резултат шефът ще ви се довери. Това може да ви помогне в кариерата. Ще научите много нови методи за объркване на кода.
+
+60.Use octal constants. Smuggle them into a list of decimal numbers like this:
+
+array = new int []
+
+{
+111,
+120,
+013,
+121,
+};
+
+61.You don't need great skill to write unmaintainable code. Just leap in and start coding. Keep in mind that management still measures productivity in lines of code even if you have to delete most of it later.
+
+62.Stick with what you know and travel light; if you only carry a hammer then all problems are nails.
+
+63.Be never vigilant of the next Y2K. If you ever spot something that could sneak up on a fixed deadline and destroy all life in the western hemisphere then do not openly discuss it until we are under the critical 4 year till event window of panic and opportunity. Do not tell friends, coworkers, or other competent people of your discovery. Under no circumstances attempt to publish anything that might hint at this new and tremendously profitable threat. Do send one normal priority, jargon encrypted, memo to upper management to cover-your-a$$. If at all possible attach the jargon encrypted information as a rider on an otherwise unrelated plain-text memo pertaining to a more immediately pressing business concern. Rest assured that we all see the threat too. Sleep sound at night knowing that long after you've been forced into early retirement you will be begged to come back at a logarithmically increased hourly rate!
+
+64.Whenever possible ignore the coding standards currently in use by thousands of developers in your project's target language and environment. For example insist on STL style coding standards when writing an MFC based application.
+
+65.Include powerful third party libraries in your project and then don't use them. With practice you can remain completely ignorant of good tools and add the unused tools to your resume in your "Other Tools" section.
+
+66.Feign ignorance of libraries that are directly included with your development tool. If coding in Visual C++ ignore the presence of MFC or the STL and code all character strings and arrays by hand; this helps keep your pointer skills sharp and it automatically foils any attempts to extend the code.
+
+67.Always refuse to accept advances in the development environment arena. Disbelieve rumors that all functions and variables are never more than one click away and always assume that code developed in Visual Studio 6.0 will be maintained by someone using edlin or vi. To this end insist on Draconian commenting rules that bury the source code.
+
+68.Hungarian Notation is the tactical nuclear weapon of source code obfuscation techniques; use it! Due to the sheer volume of source code contaminated by this idiom nothing can kill a maintenance engineer faster than a well planned Hungarian Notation attack. The following tips will help you corrupt the original intent of Hungarian Notation:
+
+·         Insist on using "c" for const in C++ and other languages that directly enforce the const-ness of a variable.
+
+·         Seek out and use Hungarian warts that have meaning in languages other than your current language. For example insist on the PowerBuilder "l_" and "a_ " {local and argument} scoping prefixes and always use the VB-esque style of having a Hungarian wart for every control type when coding to C++. Try to stay ignorant of the fact that megs of plainly visible MFC source code does not use Hungarian warts for control types.
+
+·         Always violate the Hungarian principle that the most commonly used variables should carry the least extra information around with them. Achieve this end through the techniques outlined above and by insisting that each class type have a custom wart prefix. Never allow anyone to remind you that no wart tells you that something is a class. The importance of this rule cannot be overstated: if you fail to adhere to its principles the source code may become flooded with shorter variable names that have a higher vowel/consonant ratio. In the worst case scenario this can lead to a full collapse of obfuscation and the spontaneous reappearance of English Notation in code!
+
+·         Flagrantly violate the Hungarian-esque concept that function parameters and other high visibility symbols must be given meaningful names, but that Hungarian type warts all by themselves make excellent temporary variable names.
+
+·         Insist on carrying outright orthogonal information in your Hungarian warts. Consider this real world example: "a_crszkvc30LastNameCol". It took a team of maintenance engineers nearly 3 days to figure out that this whopper variable name described a const, reference, function argument that was holding information from a database column of type Varchar[30] named "LastName" which was part of the table's primary key. When properly combined with the principle that "all variables should be public" this technique has the power to render thousands of lines of source code obsolete instantly!
+
+·         Use to your advantage the principle that the human brain can only hold 7 pieces of information concurrently. For example code written to the above standard has the following properties:
+
+·         a single assignment statement carries 14 pieces of type and name information.
+
+·         a single function call that passes three parameters and assigns a result carries 29 pieces of type and name information.
+
+·         Seek to improve this excellent, but far too concise, standard. Impress management and coworkers by recommending a 5 letter day of the week prefix to help isolate code written on 'Monam' and 'FriPM'.
+
+·         It is easy to overwhelm the short term memory with even a moderately complex nesting structure, especially when the maintenance programmer can't see the start and end of each block on screen simultaneously.
+
+69.Create a build order that is so elaborate that no maintainer could ever get any of his or her fixes to compile. Keep secret SmartJ which renders make scripts almost obsolete. Similarly, keep secret that the javac compiler is also available as a class. On pain of death, never reveal how easy it is to write and maintain a speedy little custom java program to find the files and do the make.
+
+60 Използвайте осмични (octal) константи. Промъквайте ги в списък с десетични числа като този:
+
+cpp
+Копиране на код
+int array[] = {
+    111,
+    120,
+    013,
+    121
+};
+61 Не е необходимо да имате големи умения, за да пишете неподдържан код. Просто се хвърлете и започнете да кодирате. Имайте предвид, че ръководството все още измерва производителността в редове код, дори и да трябва да изтриете повечето от тях по-късно.
+
+62 Придържайте се към това, което знаете, и пътувайте леко; ако имате само чук, тогава всички проблеми са гвоздеи.
+
+63 Бъдете винаги нащрек за следващата Y2K криза. Ако някога забележите нещо, което може да се появи незабелязано до фиксиран краен срок и да унищожи целия живот в западното полукълбо, не го обсъждайте открито, докато не сме под критичното 4-годишно прозорче до събитието на паника и възможности. Не казвайте на приятели, колеги или други компетентни хора за вашето откритие. При никакви обстоятелства не се опитвайте да публикувате каквото и да било, което би намекнало за тази нова и изключително печеливша заплаха. Изпратете едно нормално приоритетно, шифровано с жаргон мемо до висшето ръководство, за да покриете задника си. Ако е възможно, прикачете шифрованата информация като прикачен файл към друго, несвързано мемо на обикновен текст, което се отнася за по-непосредствено бизнес загриженост. Уверете се, че всички виждаме заплахата също. Спете спокойно през нощта, знаейки, че дълго след като сте били принудени да се пенсионирате по-рано, ще бъдете молени да се върнете с логаритмично увеличена почасова ставка!
+
+64 Където е възможно, игнорирайте стандартите за кодиране, използвани от хиляди разработчици в целевия език и среда на вашия проект. Например настоявайте за стандарти за кодиране в стил STL, когато пишете приложение на базата на MFC.
+
+65 Включете мощни библиотеки от трети страни във вашия проект и след това не ги използвайте. С малко практика можете да останете напълно невежи относно добрите инструменти и да добавите неизползваните инструменти в автобиографията си в секцията "Други инструменти".
+
+66 Правете се на невежи за библиотеките, които са директно включени във вашия инструмент за разработка. Ако програмирате във Visual C++, игнорирайте присъствието на MFC или STL и кодирайте всички низове и масиви ръчно; това ще ви помогне да поддържате уменията си за указатели остри и автоматично ще осуети всякакви опити за разширяване на кода.
+
+67 Винаги отказвайте да приемате напредъка в областта на средите за разработка. Не вярвайте на слухове, че всички функции и променливи са винаги на не повече от един клик разстояние и винаги предполагайте, че кодът, разработен във Visual Studio 6.0, ще бъде поддържан от някой, използващ edlin или vi. С тази цел настоявайте за драконови правила за коментари, които затрупват изходния код.
+
+68 Унгарската нотация е тактическото ядрено оръжие на техниките за объркване на изходния код; използвайте го! Поради огромния обем изходен код, замърсен от тази идиома, нищо не може да убие поддръжника по-бързо от добре планирана атака с Унгарска нотация. Следващите съвети ще ви помогнат да корумпирате оригиналното намерение на Унгарската нотация:
+Настоявайте да използвате "c" за const в C++ и други езици, които директно налагат const-ността на променлива.
+Търсете и използвайте унгарски "брадавици" (warts), които имат значение в езици, различни от текущия ви език. Например настоявайте за използването на префикси "l_" и "a_" {локални и аргументни} от PowerBuilder и винаги използвайте VB-еск стил на унгарски брадавици за всеки тип контрол, когато кодирате към C++. Опитайте се да останете невежи за факта, че мегабайти явно видим MFC изходен код не използва унгарски брадавици за типове контроли.
+Винаги нарушавайте унгарския принцип, че най-често използваните променливи трябва да носят най-малко допълнителна информация около тях. Постигнете това чрез техниките, изложени по-горе, и като настоявате всеки тип клас да има персонализиран префикс за брадавици. Никога не позволявайте на никого да ви напомни, че никаква брадавица не указва, че нещо е клас. Значимостта на това правило не може да бъде надценена: ако не го спазвате, изходният код може да се наводни с по-кратки имена на променливи, които имат по-високо съотношение на гласни/съгласни. В най-лошия сценарий това може да доведе до пълен колапс на объркването и спонтанното появяване на английска нотация в кода!
+Грубо нарушавайте унгарската концепция, че параметрите на функции и други символи с висока видимост трябва да получават смислени имена, но че унгарските типови брадавици сами по себе си правят отлични временни имена на променливи.
+Настоявайте за носенето на напълно ортогонална информация в унгарските брадавици. Обмислете този пример от реалния свят: "a_crszkvc30LastNameCol". На екип от поддръжници им отне почти 3 дни, за да разберат, че тази огромна променлива описваше константна референция на аргумент на функция, който държи информация от колона в база данни от тип Varchar[30] на име "LastName", която е част от първичния ключ на таблицата. Когато е правилно комбинирано с принципа, че "всички променливи трябва да бъдат публични", тази техника има силата да направи хиляди редове изходен код незабавно остарели!
+
+69 Създайте толкова сложен ред на компилиране, че нито един поддържащ не може да накара каквото и да е от своите корекции да се компилира. Дръжте в тайна SmartJ, който почти премахва необходимостта от скриптове за компилиране. По същия начин, дръжте в тайна, че компилаторът javac е също така наличен като клас. На болка от смърт, никога не разкривайте колко лесно е да напишете и поддържате бърза малка Java програма, която намира файловете и извършва компилирането.
+
+70.This trick works especially well in Ada, a language immune to many of the standard obfuscation techniques. The people who originally named all the objects and packages you use were morons. Rather than try to convince them to change, just use renames and subtypes to rename everything to names of your own devising. Make sure to leave a few references to the old names in, as a trap for the unwary.
+
+71.Extended ASCII characters are perfectly valid as variable names, including ß, Ð, and ñ characters. They are quite impossible to type without copying/pasting.
+
+72.If you cannot find the right English word to convey the meaning of a temporary variable (and you ignore the other suggestions about not giving meaningful names to variables), you may use a foreign language word as the name of the variable. For example, instead of using variable "p" for a "point", you may use "punkt", which is the German word for it. Maintenance coders without your firm grasp of German will enjoy the multicultural experience of deciphering the meaning. It breaks the tedium of an otherwise tiring and thankless job.
+
+73.Some companies have a strict policy of no numeric literals; you must use named constants. It is fairly easy to foil the intent of this policy. For example, one clever C++ programmer wrote:
+
+#define K_ONE 1
+
+#define K_TWO 2
+
+#define K_THOUSAND 999
+
+74.#define in C++ deserves an entire essay on its own to explore its rich possibilities for obfuscation. Use lower case #define variables so they masquerade as ordinary variables. Never use parameters to your preprocessor functions. Do everything with global #defines. One of the most imaginative uses of the preprocessor I have heard of was requiring five passes through CPP before the code was ready to compile.
+
+75.Whenever you have to use methods in code you did not write, insulate your code from that other dirty code by at least one layer of wrapper. After all, the other author might some time in the future recklessly rename every method. Then where would you be? You could of course, if he did such a thing, insulate your code from the changes by writing a wrapper or you could let VAJ handle the global rename. However, this is the perfect excuse to preemptively cut him off at the pass with a wrapper layer of indirection, before he does anything idiotic. One of Java's main faults is that there is no way to solve many simple problems without dummy wrapper methods that do nothing but call another method of the same name, or a closely related name. This means it is possible to write wrappers four-levels deep that do absolutely nothing, and almost no one will notice. To maximise the obscuration, at each level, rename the methods, selecting random synonyms from a thesaurus. This gives the illusion something of note is happening. Further, the renaming helps ensure the lack of consistent project terminology. To ensure no one attempts to prune your levels back to a reasonable number, invoke your code at the application level via each of the levels.
+
+76.Follow the language lawyer discussions in the newsgroups about what various bits of tricky code should do e.g. a=a++; or f(a++,a++); then sprinkle your code liberally with the examples.
+
+70 Този трик работи особено добре в Ada, език, имунизиран срещу много от стандартните техники за объркване. Хората, които първоначално са именували всички обекти и пакети, които използвате, са били глупаци. Вместо да се опитвате да ги убедите да ги променят, просто използвайте преименувания и подтипове, за да преименувате всичко на имена, които сами сте измислили. Уверете се, че оставяте няколко препратки към старите имена, като капан за невнимателните.
+
+71 Разширените ASCII символи са напълно валидни като имена на променливи, включително символите ß, Ð и ñ. Те са почти невъзможни за въвеждане без копиране и поставяне.
+
+72 Ако не можете да намерите правилната английска дума, за да предадете значението на временна променлива (и игнорирате другите предложения за даване на смислени имена на променливи), може да използвате дума на чужд език като име на променливата. Например, вместо да използвате променливата "p" за "точка" (point), можете да използвате "punkt", което е немската дума за това. Програмистите по поддръжката, които нямат вашите задълбочени познания по немски, ще се насладят на мултикултурното преживяване при разгадаването на значението. Това разчупва монотонността на иначе изтощителна и неблагодарна работа.
+
+73 Някои компании имат строга политика за забрана на числови литерали; трябва да използвате именовани константи. Лесно е да се осуети намерението на тази политика. Например, един умен C++ програмист написа:
+
+cpp
+Копиране на код
+#define K_ONE 1
+#define K_TWO 2
+#define K_THOUSAND 999
+
+74 #define в C++ заслужава цяло есе, посветено на богатите му възможности за объркване. Използвайте малки букви за #define променливи, така че да се маскират като обикновени променливи. Никога не използвайте параметри за вашите предпроцесорни функции. Правете всичко с глобални #define. Една от най-имагинативните употреби на предпроцесора, за която съм чувал, беше изискването за пет преминавания през CPP, преди кодът да бъде готов за компилация.
+
+75 Когато трябва да използвате методи в код, който не сте написали, изолирайте своя код от този чужд код с поне един слой обвивки (wrappers). В края на краищата, другият автор може някога в бъдеще безразсъдно да преименува всеки метод. Къде ще сте тогава? Можете, разбира се, ако той направи такова нещо, да изолирате своя код от промените, като напишете обвивка, или да оставите VAJ да се справи с глобалното преименуване. Въпреки това, това е идеалното извинение да предотвратите превантивно неговите бъдещи идиотщини с обвивка на слой от индирекция, преди да направи нещо глупаво. Един от основните недостатъци на Java е, че няма начин да решите много прости проблеми, без да създадете обвивка за методи, които правят нищо друго, освен да извикват друг метод със същото име, или с тясно свързано име. Това означава, че можете да напишете обвивки на четири нива, които не правят абсолютно нищо, и почти никой няма да забележи. За да максимизирате объркването, на всяко ниво преименувайте методите, избирайки произволни синоними от тезауруса. Това дава илюзията, че нещо значимо се случва. Освен това, преименуването помага да се гарантира липсата на последователна проектна терминология. За да се уверите, че никой няма да се опита да съкрати нивата ви до разумен брой, извикайте своя код на ниво приложение чрез всяко от нивата.
+
+76 Следете дискусиите в новинарските групи, които обсъждат какво трябва да направи различен сложен код, например a=a++; или f(a++,a++);, след това щедро поръсете кода си с тези примери.
+
+Philosophy
+
+The people who design languages are the people who write the compilers and system classes. Quite naturally they design to make their work easy and mathematically elegant. However, there are 10,000 maintenance programmers to every compiler writer. The grunt maintenance programmers have absolutely no say in the design of languages. Yet the total amount of code they write dwarfs the code in the compilers.
+
+An example of the result of this sort of elitist thinking is the JDBC interface. It makes life easy for the JDBC implementor, but a nightmare for the maintenance programmer. It is far clumsier than the Fortran interface that came out with SQL three decades ago.
+
+Maintenance programmers, if somebody ever consulted them, would demand ways to hide the housekeeping details so they could see the forest for the trees. They would demand all sorts of shortcuts so they would not have to type so much and so they could see more of the program at once on the screen. They would complain loudly about the myriad petty time-wasting tasks the compilers demand of them.
+
+There are some efforts in this direction: NetRexx, Bali, and visual editors (e.g. IBM's Visual Age is a start) that can collapse detail irrelevant to the current purpose.
+
+Философия
+Хората, които проектират езици, са тези, които пишат компилаторите и системните класове. Естествено, те проектират така, че да направят своята работа лесна и математически елегантна. Въпреки това, на всеки автор на компилатор, се падат 10 000 поддържащи програмисти. Обикновените поддържащи програмисти нямат абсолютно никаква дума в проектирането на езици. И все пак общият обем код, който те пишат, надминава кода в компилаторите.
+
+Един пример за резултата от този вид елитарно мислене е интерфейсът JDBC. Той улеснява живота на реализатора на JDBC, но е кошмар за програмиста по поддръжката. Той е далеч по-тромав от интерфейса на Fortran, който се появи с SQL преди три десетилетия.
+
+Ако някой някога се консултира с поддържащи програмисти, те биха поискали начини за скриване на подробностите, така че да могат да виждат гората, а не дърветата. Те биха поискали всякакви преки пътища, за да не се налага да пишат толкова много и за да могат да виждат повече от програмата на екрана наведнъж. Те биха се оплакали силно от безбройните дребни задачи, които компилаторите им налагат.
+
+Има някои усилия в тази посока: NetRexx, Bali и визуални редактори (например IBM's Visual Age е начало), които могат да свият детайли, които са ирелевантни за текущата цел.
+
+The Shoemaker Has No Shoes
+
+Imagine having an accountant as a client who insisted on maintaining his general ledgers using a word processor. You would do you best to persuade him that his data should be structured. He needs validation with cross field checks. You would persuade him he could do so much more with that data when stored in a database, including controlled simultaneous update.
+
+Imagine taking on a software developer as a client. He insists on maintaining all his data with a text editor. He is not yet even exploiting the word processor's colour, type size or fonts.
+
+Think of what might happen if we started storing source code as structured data. We could view the same source code in many alternate ways, e.g. as Java, as NextRex, as a decision table, as a flow chart, as a loop structure skeleton (with the detail stripped off), as Java with various levels of detail or comments removed, as Java with highlights on the variables and method invocations of current interest, or as Java with generated comments about argument names and/or types. We could display complex arithmetic expressions in 2D, the way TeX and mathematicians do. You could see code with additional or fewer parentheses, (depending on how comfortable you feel with the precedence rules ). Parenthesis nests could use varying size and colour to help matching by eye. With changes as transparent overlay sets that you can optionally remove or apply, you could watch in real time as other programmers on your team, working in a different country, modified code in classes that you were working on too.
+
+You could use the full colour abilities of the modern screen to give subliminal clues, e.g. by automatically assigning a portion of the spectrum to each package/class using a pastel shades as the backgrounds to any references to methods or variables of that class. You could bold face the definition of any identifier to make it stand out.
+
+You could ask what methods/constructors will produce an object of type X? What methods will accept an object of type X as a parameter? What variables are accessible in this point in the code? By clicking on a method invocation or variable reference, you could see its definition, helping sort out which version of a given method will actually be invoked. You could ask to globally visit all references to a given method or variable, and tick them off once each was dealt with. You could do quite a bit of code writing by point and click.
+
+Some of these ideas would not pan out. But the best way to find out which would be valuable in practice is to try them. Once we had the basic tool, we could experiment with hundreds of similar ideas to make like easier for the maintenance programmer.
+
+Обущарят няма обувки
+Представете си, че имате клиент счетоводител, който настоява да поддържа своите основни счетоводни книги с текстов редактор. Вие ще направите всичко възможно да го убедите, че неговите данни трябва да бъдат структурирани. Той се нуждае от валидиране с кръстосани проверки на полета. Ще го убедите, че може да направи много повече с тези данни, когато те са съхранени в база данни, включително контролиран едновременен достъп.
+
+Представете си, че вземете за клиент разработчик на софтуер. Той настоява да поддържа всичките си данни с текстов редактор. Той все още не използва дори възможностите на текстовия редактор за цветове, размер на шрифта или шрифтове.
+
+Помислете какво може да се случи, ако започнем да съхраняваме изходния код като структурирани данни. Можем да прегледаме същия изходен код по много различни начини, например като Java, като NextRex, като таблица за вземане на решения, като блокова диаграма, като скелет на цикли (със свалени детайли), като Java с различни нива на детайли или коментари премахнати, като Java с акценти върху променливите и извикванията на методи, които са от текущ интерес, или като Java с генерирани коментари за имената и/или типовете на аргументите. Можем да показваме сложни аритметични изрази в 2D, по начина, по който TeX и математиците правят това. Можем да видим код с допълнителни или по-малко скоби, (в зависимост от това колко добре се чувствате с правилата за приоритет). Гнездата на скобите могат да използват различни размери и цветове, за да помогнат за съвпадението им по зрение. С промените като прозрачен слой, който можете да премахвате или прилагате по желание, можете да гледате в реално време, как други програмисти от вашия екип, работещи в различни страни, модифицират кода в класове, върху които и вие работите.
+
+Можете да използвате пълните цветови възможности на съвременния екран, за да предоставите подсъзнателни подсказки, например, като автоматично присвоявате част от спектъра на всеки пакет/клас, използвайки пастелни нюанси като фонове за всякакви препратки към методи или променливи на този клас. Можете да удебелите определението на всеки идентификатор, за да го откроите.
+
+Можете да попитате, кои методи/конструктори ще произведат обект от тип X? Кои методи ще приемат обект от тип X като параметър? Кои променливи са достъпни в тази точка от кода? С натискане върху извикване на метод или препратка към променлива можете да видите тяхното определение, което помага за разбирането, коя версия на даден метод ще бъде извикана. Можете да поискате глобално да посетите всички препратки към даден метод или променлива и да ги отмятате, след като всяка е обработена. Можете да направите доста код писане чрез кликвания с мишката.
+
+Някои от тези идеи може да не се окажат успешни. Но най-добрият начин да разберете, кои биха били ценни на практика, е да ги изпробвате. Веднъж след като имаме основния инструмент, можем да експериментираме със стотици подобни идеи, за да улесним живота на поддържащия програмист.
