@@ -1,3 +1,6 @@
+*** търсене в DOM  ***
+let quantity = $(this).closest('tr').find('a.updateProduct').attr('data-quantity');
+
 *** извличане на данните от селектирани чекбоксове ***
 const checkboxes = document.querySelectorAll('input[data-user-id]:checked');
 # създава масив от обекти, базиран на селектираните чекбоксове
