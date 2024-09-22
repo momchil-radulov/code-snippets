@@ -176,6 +176,9 @@ yq '.database.host = "new_host"' config.yml
 ```bash
 curl -s https://api.example.com/data | jq '.results[] | {name, id}'
 ```
+```bash
+jq '[.[] | {id, parent, name: (.name[] | select(.language_code == "bg") | .text)}]' categories.json
+```
 
 ### 4.3 Преобразуване на данни за автоматизация
 В DevOps често се налага да конвертираш и обработваш данни от различни формати, за да ги използваш в автоматизирани скриптове.
