@@ -1,3 +1,6 @@
+# python
+https://fastht.ml/
+
 # css
 https://bulma.io/
 https://watercss.kognise.dev/
@@ -7,3 +10,9 @@ https://shakrmedia.github.io/petal/
 https://htmx.org/
 https://alpinejs.dev/
 https://zeptojs.com/
+
+# git
+branch fix/2024-09-29-some-fix
+branch feature/2024-09-29-some-feature
+branch dev, test server
+branch main, production server
