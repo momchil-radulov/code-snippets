@@ -114,6 +114,7 @@ function write_log($file_name, $log_type, $message) {
 try {
     // Вашият код, който може да хвърли изключение
 } catch (Throwable $tr) {
+    $this->CI =& get_instance();
     $input_data = $this->CI->input->post(); // общи входни данни ИЛИ подайте параметрите на виканата функция 
     write_log(
         'database_error.log', 
