@@ -46,6 +46,11 @@ mysql -u root -ppassword123 database_name < /path/to/dumpfile.sql
 $mysql
 >connect db_name
 
+# дефрагментиране и оптимизация
+PostgresQL: VACUUM FULL; VACUUM ANALYZE;
+MySQL:      mysqlcheck -o my_database
+sqlite:     VACUUM;
+
 # смяна на паролата на root
 # Спри MySQL сървъра:
 sudo systemctl stop mysql
