@@ -1,3 +1,6 @@
+# минимална дължина на span 24 широчини на цифрата 0
+<span style="display: inline-block; min-width: 24ch;">
+
 # detect phone layout and change position
 @media only screen and ( max-device-width: 736px ) {
   div.class {
