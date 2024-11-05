@@ -1,3 +1,24 @@
+<?php
+/*
+Plugin Name: Hello World Plugin
+Description: Показва "Hello World!" на всяка страница на вашия сайт.
+Version: 1.0
+Author: Вашето име
+*/
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Предотвратява директен достъп
+}
+
+// Функция за показване на "Hello World!" в долната част на съдържанието
+function hello_world_display( $content ) {
+    return $content . '<p style="text-align: center;">Hello World!</p>';
+}
+
+// Закачане на функцията към филтъра 'the_content'
+add_filter( 'the_content', 'hello_world_display' );
+
+
 /*
 * Create a order on create customer or by web api - WooCommerce plugin.
 * https://codetrycatch.com/create-a-woocommerce-order-programatically/
