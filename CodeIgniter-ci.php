@@ -8,6 +8,13 @@ $this->load->model('Your_model');
 $data = $this->Your_model->methodToGetSomeData();
 
 # Заявка
+$this->db->select('p.id as product_id', false);
+$this->db->from('products p');
+$this->db->where('p.id = 1');
+$query = $this->db->get();
+$result = $query->row_array(); or result_array()
+
+# Заявка
 // Подготовка на подзаявка за полагаемия отпуск
 $this->db->select('user_id, SUM(days) as annual_leave, 0 as used_leave', false);
 $this->db->from('annual_leave');
