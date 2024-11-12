@@ -14,6 +14,13 @@ $this->db->where('p.id = 1');
 $query = $this->db->get();
 $result = $query->row_array(); or result_array()
 
+# UPDATE
+public function setDeleted($id) {
+        $this->db->where('id', $id);
+        $result = $this->db->update('table_name', ['deleted' => 1]);
+        return $result;
+}
+
 # Заявка
 // Подготовка на подзаявка за полагаемия отпуск
 $this->db->select('user_id, SUM(days) as annual_leave, 0 as used_leave', false);
