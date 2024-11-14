@@ -27,8 +27,10 @@ Ctrl + Shift + ]
 # bookmars
 # Install Ctrl+Shift+X -> Bookmarks / Alessandro Fragnani
 # Ctrl + , -> Settings / Optional if you want
-Ctrl + Alt + K  # toggle a bookmark
-Ctrl + Alt + L  # locate a bookmark
+Ctrl + Alt + J  - Previous Bookmark / Преминава към предишната отметка
+Ctrl + Alt + K  - Toggle Bookmark / Създава или премахва отметка
+Ctrl + Alt + L  - Next Bookmark / Преминава към следващата отметка
+
 
 # delete a row
 Ctrl + Shift + K
