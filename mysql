@@ -76,8 +76,15 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY 'новата_парола';
 FLUSH PRIVILEGES;
 # Излез от MySQL конзолата:
 exit;
-# Стартирай MySQL сървъра отново:
+# Стартирай MySQL сървъра отново:admin_muhtarov
 sudo systemctl start mysql
+
+# cli
+mysql -u USER -pPASSWORD -D database_name -Bse "SELECT products_json FROM orders where order_num = '123';" | ./decode_unicode.sh | jq
+[decode_unicode.sh]
+#!/bin/python3
+import sys
+print(sys.stdin.read().replace('\\\\', '\\').encode('utf-8').decode('unicode_escape'))
 
 # socat
 sudo socat -v TCP-LISTEN:3306,reuseaddr,fork,bind=10.125.184.1 TCP:127.0.0.1:3306
