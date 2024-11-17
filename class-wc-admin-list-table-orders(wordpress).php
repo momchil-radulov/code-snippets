@@ -1,3 +1,28 @@
+### product tabs ### 
+wp-content/plugins/woocommerce/templates/single-product/tabs/tabs.php
+
+# за да покажем атрибутите
+добавяме след: if ( ! empty( $product_tabs ) ) : ?>
+<?php
+if (count($product_tabs) == 2) {
+    $product_tabs['specification'] = [
+        'title'    => 'Specification',
+        'priority' => 15,
+        'callback' => 'display_specification_content'
+    ];
+}
+uasort($product_tabs, function ($a, $b) {
+    return $a['priority'] <=> $b['priority']; // Сравнява приоритетите
+});
+function display_specification_content() {
+    global $product;
+    echo wc_display_product_attributes($product); // Показва атрибутите
+}
+?>
+
+
+
+################################
 url (for edit in wordpress)
 https://you-site.com/wp-admin/plugin-editor.php?file=woocommerce%2Fincludes%2Fadmin%2Flist-tables%2Fclass-wc-admin-list-table-orders.php&plugin=woocommerce%2Fwoocommerce.php
 
