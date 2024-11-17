@@ -4,7 +4,16 @@ wp-content/plugins/woocommerce/templates/single-product/tabs/tabs.php
 # за да покажем атрибутите
 добавяме след: if ( ! empty( $product_tabs ) ) : ?>
 <?php
-if (count($product_tabs) == 2) {
+// Проверка дали таб с title "Specification" вече съществува
+$tab_exists = false;
+foreach ($product_tabs as $tab) {
+    if (isset($tab['title']) && $tab['title'] === 'Specification') {
+        $tab_exists = true;
+        break;
+    }
+}
+// Ако табът "Specification" не съществува, го добавяме
+if (!$tab_exists) {
     $product_tabs['specification'] = [
         'title'    => 'Specification',
         'priority' => 15,
@@ -19,7 +28,6 @@ function display_specification_content() {
     echo wc_display_product_attributes($product); // Показва атрибутите
 }
 ?>
-
 
 
 ################################
