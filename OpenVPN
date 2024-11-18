@@ -1,6 +1,23 @@
 sudo apt update
 sudo apt upgrade
 
+### стар вариант на openvpn
+## Ако сървърът използва по-стар TLS, добавете в client config:
+tls-version-min 1.0
+## Клиентът ще използва произволен локален порт
+nobind
+## За Debug увеличете нивото на логовете с:
+verb 5
+
+## Проверка на наличните версии, за да видите кои версии на OpenVPN са налични в текущите ви хранилища:
+apt-cache policy openvpn
+## После инсталираме конкретна версия
+sudo apt install openvpn=2.4.7-1ubuntu2
+## Блокиране на автоматичното обновяване
+sudo apt-mark hold openvpn
+
+
+
 виж https://www.cyberciti.biz/faq/howto-setup-openvpn-server-on-ubuntu-linux-14-04-or-16-04-lts/
 # server
 wget https://git.io/vpn -O openvpn-install.sh
