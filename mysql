@@ -49,8 +49,11 @@ ALTER TABLE users
 SET sql_mode = '<original value>';  -- OR disconnect session
 
 mysql -u root -ppassword123 database_name < /path/to/dumpfile.sql
-$mysql
->connect db_name
+$mysql db_name
+>SHOW DATABASES;
+>USE my_database;
+>SHOW TABLES;
+>DESCRIBE table_name;
 
 # дефрагментиране и оптимизация
 PostgresQL: VACUUM FULL; VACUUM ANALYZE;
