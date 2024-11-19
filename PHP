@@ -160,6 +160,10 @@ if ( ! function_exists('obj_get') )
     }
 }
 
+# create a dir
+umask ( 0 );
+mkdir ( 'path/to/dir', 0770, true );
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
