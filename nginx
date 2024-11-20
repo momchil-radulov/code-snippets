@@ -16,6 +16,46 @@ sudo systemctl stop nginx
 sudo systemctl restart nginx
 sudo systemctl status nginx
 
+sudo vim /etc/nginx/sites-available/your-site
+server {
+    listen 80;
+    server_name yourdomain.com;
+    root /var/www/your-site;
+
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php5.6-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/your-site /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+
+sudo vim [/etc/php/5.6/fpm/php.ini]
+display_errors = Off
+log_errors = On
+error_log = /var/log/php5.6-fpm.log
+memory_limit = 128M
+post_max_size = 8M
+upload_max_filesize = 2M
+max_execution_time = 30
+
+sudo systemctl restart php5.6-fpm
+
+
 # mysite
 sudo vim /etc/nginx/sites-available/my_site
 [my_site]
