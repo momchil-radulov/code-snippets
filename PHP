@@ -11,12 +11,22 @@ sudo apt install php7.0-mbstring php7.0-curl php7.0-json
 php -v  # view version
 php -m | grep mbstring # check a module
 
-# install v.5.6
+## install v.5.6
+# base install
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
 sudo apt install php5.6
 sudo apt install php5.6-mysql php5.6-xml php5.6-curl php5.6-mbstring php5.6-mcrypt php5.6-gd
 php5.6 -v
+# deployment
+sudo apt install php5.6-fpm php5.6-zip
+# composer
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+sudo php composer-setup.php --1
+sudo php ./composer.phar --version
+sudo php ./composer.phar install
+
 
 # set short_open_tag On if needed
 php7.0 --ini  # find path to ini file
