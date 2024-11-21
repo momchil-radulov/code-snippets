@@ -30,6 +30,7 @@ sudo pkill -9 uFTP
 
 ## auto start
 sudo vim /etc/systemd/system/uftpd.service
+
 [Unit]
 Description=uFTP Server
 After=network.target auditd.service
@@ -37,7 +38,6 @@ After=network.target auditd.service
 [Service]
 Type=forking
 ExecStart=/sbin/uFTP -c /etc/uftpd.cfg
-KillMode=process
 Restart=on-failure
 User=root
 Group=root
@@ -45,6 +45,7 @@ Group=root
 [Install]
 WantedBy=multi-user.target
 Alias=uftpd.service
+
 # управление
 sudo systemctl daemon-reload
 sudo systemctl enable uftpd
