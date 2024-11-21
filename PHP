@@ -32,6 +32,7 @@ sudo php ./composer.phar install
 php --ini
 sudo vim /etc/php/5.6/cli/php.ini
 short_open_tag = Off => short_open_tag = On
+memory_limit = 128M => memory_limit = 256M
 
 # php fpm производителни настройки
 sudo vim /etc/php/5.6/fpm/pool.d/www.conf
