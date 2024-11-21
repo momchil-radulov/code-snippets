@@ -1,0 +1,51 @@
+sudo apt install build-essential
+
+git clone https://github.com/kingk85/uFTP.git
+cd uFTP
+make
+
+sudo cp build/uFTP /sbin/uFTP
+sudo cp uftpd.cfg /etc/uftpd.cfg
+
+sudo vim /etc/uftpd.cfg
+USER_0 = user_name
+PASSWORD_0 = "user_password"
+HOME_0 = /var/www/html/site_name/
+GROUP_NAME_OWNER_0 = www-data
+USER_NAME_OWNER_0 = www-data
+
+sudo chown root:root /sbin/uFTP
+sudo chown root:root /etc/uftpd.cfg
+sudo chmod -rwx /etc/uftpd.cfg
+
+## manual start
+sudo uFTP
+ps aux | grep -i uftp
+# кой е баща процес, за да го спрем първо него
+sudo ps -o pid,ppid,cmd -p 12356,12384
+sudo kill 12356
+sudo kill 12384
+
+## auto start
+sudo vim /etc/systemd/system/uftpd.service
+[Unit]
+Description=uFTP Server
+After=network.target auditd.service
+
+[Service]
+Type=forking
+ExecStart=/sbin/uFTP -c /etc/uftpd.cfg
+KillMode=process
+Restart=on-failure
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
+Alias=uftpd.service
+# управление
+sudo systemctl daemon-reload
+sudo systemctl enable uftpd
+sudo systemctl start uftpd
+sudo systemctl restart uftpd
+sudo systemctl status uftpd
