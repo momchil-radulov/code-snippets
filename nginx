@@ -21,6 +21,7 @@ server {
     listen 80;
     server_name yourdomain.com;
     root /var/www/your-site;
+    client_max_body_size 50M;
 
     index index.php index.html index.htm;
 
