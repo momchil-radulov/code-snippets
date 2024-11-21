@@ -25,6 +25,8 @@ ps aux | grep -i uftp
 sudo ps -o pid,ppid,cmd -p 12356,12384
 sudo kill 12356
 sudo kill 12384
+# или по лесния начин
+sudo pkill -9 uFTP
 
 ## auto start
 sudo vim /etc/systemd/system/uftpd.service
