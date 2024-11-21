@@ -30,7 +30,7 @@ sudo php composer-setup.php --1
 sudo php ./composer.phar --version
 sudo php ./composer.phar install
 
-# php ini
+## php ini
 php --ini
 # short_open_tag
 sudo vim /etc/php/5.6/cli/php.ini
@@ -39,6 +39,13 @@ memory_limit = 128M => memory_limit = 256M
 # виж и nginx client_max_body_size 50M;
 post_max_size = 50M
 upload_max_filesize = 50M
+# opcache
+opcache.enable=1
+opcache.memory_consumption=128
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=10000
+opcache.validate_timestamps=1
+opcache.revalidate_freq=2
 
 # php fpm производителни настройки
 sudo vim /etc/php/5.6/fpm/pool.d/www.conf
