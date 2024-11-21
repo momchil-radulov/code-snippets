@@ -33,6 +33,15 @@ php --ini
 sudo vim /etc/php/5.6/cli/php.ini
 short_open_tag = Off => short_open_tag = On
 
+# php fpm производителни настройки
+sudo vim /etc/php/5.6/fpm/pool.d/www.conf
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 10
+pm.min_spare_servers = 5
+pm.max_spare_servers = 13
+pm.max_requests = 500
+sudo systemctl restart php5.6-fpm.service
 
 # set short_open_tag On if needed
 php7.0 --ini  # find path to ini file
