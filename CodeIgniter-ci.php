@@ -31,6 +31,34 @@ public function setDeleted($id) {
         return $result;
 }
 
+### transactions
+## auto transaction
+$this->db->trans_start();
+...
+ако възникне грешка някъде при db, се извършва auto rollback
+# Завършваме транзакцията
+$this->db->trans_complete();
+//Проверяваме дали транзакцията е успешна
+if ($this->db->trans_status() === FALSE) {
+    // Ако не е успешна, връщаме грешка или изпълняваме алтернативни действия
+    return false;
+}
+return true;
+## manual transaction
+$this->db->trans_begin();
+# ако се наложи
+$this->db->trans_rollback();
+# Завършваме транзакцията
+if ($this->db->trans_status() === FALSE)
+{
+        $this->db->trans_rollback();
+}
+else
+{
+        $this->db->trans_commit();
+}
+
+
 # Заявка
 // Подготовка на подзаявка за полагаемия отпуск
 $this->db->select('user_id, SUM(days) as annual_leave, 0 as used_leave', false);
