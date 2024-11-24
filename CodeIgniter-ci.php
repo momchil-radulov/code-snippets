@@ -10,9 +10,19 @@ $data = $this->Your_model->methodToGetSomeData();
 # Заявка
 $this->db->select('p.id as product_id', false);
 $this->db->from('products p');
-$this->db->where('p.id = 1');
+
+$this->db->where('p.id =', $id); or direct ('p.id = 1')
+
+$this->db->group_start(); // Започваме групиране на условията
+$this->db->where('p.color !=', $color);
+$this->db->or_where('p.color !=', $color_2);
+$this->db->group_end(); // Завършваме групиране
+
 $query = $this->db->get();
-$result = $query->row_array(); or result_array()
+if ($query->num_rows() === 0) {
+    // empty result
+}
+$result = $query->row_array(); or result_array() or single result ->row()->column_name
 
 # UPDATE
 public function setDeleted($id) {
