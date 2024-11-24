@@ -46,16 +46,14 @@ if ($this->db->trans_status() === FALSE) {
 return true;
 ## manual transaction
 $this->db->trans_begin();
-# ако се наложи
+# ако се наложи завършваме така
 $this->db->trans_rollback();
-# Завършваме транзакцията
-if ($this->db->trans_status() === FALSE)
-{
-        $this->db->trans_rollback();
+# ИЛИ завършваме транзакцията така
+if ($this->db->trans_status() === FALSE) {
+    $this->db->trans_rollback();
 }
-else
-{
-        $this->db->trans_commit();
+else {
+    $this->db->trans_commit();
 }
 
 
