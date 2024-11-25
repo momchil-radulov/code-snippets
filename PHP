@@ -30,10 +30,11 @@ sudo php composer-setup.php --1
 sudo php ./composer.phar --version
 sudo php ./composer.phar install
 
-## php ini
+## php ini виж phpinfo()
 php --ini
 # short_open_tag
 sudo vim /etc/php/5.6/cli/php.ini
+sudo vim /etc/php/5.6/fpm/php.ini
 short_open_tag = Off => short_open_tag = On
 memory_limit = 128M => memory_limit = 256M
 # виж и nginx client_max_body_size 50M;
@@ -80,6 +81,7 @@ php7.0 ./composer --version  # check version
 php7.0 ./composer install    # run composer
 
 [/etc/php/8.2/fpm/php.ini] или вашата конкретна версия
+sudo vim /etc/php/5.6/fpm/php.ini
 upload_max_filesize = 100M
 post_max_size = 100M
 # след това
