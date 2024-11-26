@@ -115,3 +115,8 @@ zcat db.sql.gz | tail -n 10
 
 DELETE FROM "DeviceLogs" WHERE "Time" < EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - INTERVAL '6 months'));
 DELETE FROM "ErrorLogs" WHERE "CreatedOn" < CURRENT_TIMESTAMP - INTERVAL '6 months';
+
+# дефрагментиране и оптимизация
+PostgresQL: VACUUM FULL; VACUUM ANALYZE;
+MySQL:      mysqlcheck -o my_database
+sqlite:     VACUUM;
