@@ -1,7 +1,9 @@
 # Принципи
-Data-Oriented programming
-    with 2 function abstraction
-
+1. Data-Oriented programming
+2. Two function abstraction, една глобална и една локална за модула
+3. Данните, Настройките се вземат със функция/getter (една глобална и една локална [виж т.2])
+4. Три нива на абстракция: Domain, Language, DAL генерира SQL
+5. Защитено програмиране, т.е. функциите валидират и входа си и изхода си
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
