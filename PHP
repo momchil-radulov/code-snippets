@@ -58,6 +58,8 @@ pm.min_spare_servers = 15  # core * 2
 pm.max_spare_servers = 32  # core * 4
 pm.max_requests = 500
 php_admin_value[memory_limit] = 512M
+slowlog = /var/log/php-fpm/slow.log
+request_slowlog_timeout = 10
 
 sudo systemctl restart php5.6-fpm.service
 
