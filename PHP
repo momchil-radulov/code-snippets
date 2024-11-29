@@ -254,6 +254,7 @@ $date_to   = new dateTime($date);
 $date_to->modify('+7 days');
 # to string
 $date_from->format('Y-m-d')
+date('Y-m-d')  # текущата дата като текст '2024-11-29'
 
 # create a dir
 umask ( 0 );
