@@ -246,6 +246,12 @@ if ( ! function_exists('obj_get') )
     }
 }
 
+# DateTime
+$date = '2024-11-29'; or $date = false;
+$date_from = new dateTime($date);
+$date_to   = new dateTime($date);
+$date_to->modify('+7 days');
+
 # create a dir
 umask ( 0 );
 mkdir ( 'path/to/dir', 0770, true );
