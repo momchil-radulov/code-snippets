@@ -41,7 +41,10 @@
                         }
                     },
                     error: function (xhr, status, error) {
-                        $('#result').html(`<p style="color: red;">Възникна проблем: ${xhr.status} - ${xhr.responseText}</p>`);
+                        $('#result').html(`<p style="color: red;">Възникна проблем: ${xhr.status} - ${xhr.responseText}
+                                               <br> OR
+                                               Грешка: ${status}
+                                           </p>`);
                     }
                 });
             });
