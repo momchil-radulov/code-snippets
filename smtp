@@ -8,3 +8,5 @@ swaks --to some_email@some_host.com \
       --auth-user noreply@your_domain.com \
       --auth-password 'your_password' \
       --tls
+
+https://mailtrap.io/
