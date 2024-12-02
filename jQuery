@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример за POST с jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>POST заявка с jQuery</h1>
+    <form id="myForm">
+        <input type="text" name="username" placeholder="Въведете потребителско име" required>
+        <input type="password" name="password" placeholder="Въведете парола" required>
+        <button type="submit">Изпрати</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function () {
+            // Когато формата бъде изпратена
+            $('#myForm').on('submit', function (e) {
+                e.preventDefault(); // Спира стандартното действие на формата
+
+                // Събиране на данните от формата
+                const formData = $(this).serialize();
+
+                // Изпращане на POST заявката
+                $.ajax({
+                    url: '/api/login', // Променете с реалния URL
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            $('#result').html(`<p style="color: green;">Успешно! Съобщение: ${data.message}</p>`);
+                        } else {
+                            $('#result').html(`<p style="color: red;">Грешка! Съобщение: ${data.message}</p>`);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#result').html(`<p style="color: red;">Възникна проблем: ${xhr.status} - ${xhr.responseText}</p>`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
