@@ -29,6 +29,9 @@
                     url: '/api/login', // Променете с реалния URL
                     type: 'POST',
                     data: formData,
+                    OR data: {
+                        'status': $('#order_status').val()
+                    }
                     dataType: 'json',
                     success: function (data) {
                         if (data.success) {
