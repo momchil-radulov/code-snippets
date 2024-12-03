@@ -2,14 +2,15 @@
 1. Data-Oriented programming
 2. Two function abstraction, една глобална и една локална за модула
 3. Данните, Настройките се вземат със функция/getter (една глобална и една локална [виж т.2])
-4. Ниво на абстракция Data Manipulation Functions, DAL който генерира SQL
-5. Данните са във формат Dictionary
-6. Данните имат статус (изтрити, активни, версия)
-7. Защитено програмиране, т.е. функциите валидират и входа и изхода си
-8. Всяка причина на промяна се капсулира в Event и се пропагандира по целия стек на промяна
-9. Правата се реализират: Subject(e.g.user), Action, Resource, Attributes
-   "resource:action", "resource:action_byowner" ...
-   Role => key "resource:action" value function (subject, resource) {check some attributes and return result}
+4. Ниво на абстракция Data Manipulation Functions
+5. DAL който генерира SQL, таблиците са със префикс, колоните са с уникално име за цялата база данни
+6. Данните са във формат Dictionary
+7. Данните имат статус (изтрити, активни, версия)
+8. Защитено програмиране, т.е. функциите валидират и входа и изхода си
+9. Всяка причина на промяна се капсулира в Event и се пропагандира по целия стек на промяна
+10. Правата се реализират: Subject(e.g.user), Action, Resource, Attributes
+    "resource:action", "resource:action_byowner" ...
+    Role => key "resource:action" value function (subject, resource) {check some attributes and return result}
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
