@@ -7,6 +7,9 @@
 6. Данните имат статус (изтрити, активни, версия)
 7. Защитено програмиране, т.е. функциите валидират и входа и изхода си
 8. Всяка причина на промяна се капсулира в Event и се пропагандира по целия стек на промяна
+9. Правата се реализират: Subject(e.g.user), Action, Resource, Attributes
+   "resource:action", "resource:action_byowner" ...
+   Role => key "resource:action" value function (subject, resource) {check some attributes and return result}
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
