@@ -25,7 +25,8 @@
     Attributes of resource: owner_user_id, owner_role_id, owner_role_action_ids (както в linux, групата може да има rwx маска), 
                             shared_role_ids, forbidden_role_ids
     Attributes of subject:  role_ids => right_ids (type_id.action_id) 
-    Attributes of right:    name: "resource:action", right_type_id, right_action_id, function_name
+    Attributes of right:    name: "resource:action", right_type_id, right_action_id,
+                            !!! function_name(user_id, resource_id) (return true or false) to check is_right !!!
     Attributes of role:     name: "Администратор", role_right_ids (type_id.action_id)
 
 # links
