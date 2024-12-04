@@ -33,6 +33,7 @@
                             type_id.action_id:function_false     => no right
                             type_id.action_id:function_forbidden => forbidden right, return no и спира процеса по проверка от други роли
                             type_id.action_id:function_yes       => yes right
+                                                                 => няма запис за даден type_id/resource => no right
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
