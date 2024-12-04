@@ -22,13 +22,16 @@
     Attributes of ALL:      tablename_id, type_id, event_id,
                             is_deleted, is_active, is_locked (забранен за промяна, освен за root)
                             created_user_id, created_at, updated_user_id, updated_at, deleted_user_id, deleted_at
-          of Resource:      owner_user_id,
-                         !! owner_role_id !!, owner_role_action_ids (както в linux, групата може да има rwx маска), 
+          of Resource:      user_ids (собствениците на ресурса с пълни права, освен ако не е заключен),
+                         !! role_ids !! (както в linux, ролята/групата може да има rwx права/маска), 
                             shared_role_ids, forbidden_role_ids
       of User/Subject:   !! role_ids !! => right_ids (type_id.action_id) 
              of Right:      name: "resource:action:function", right_type_id, right_action_id, function
                         !!! function ( user_id, resource_id ) { return true or false } to check is_right !!!
               of Role:      name: "Администратор", role_right_ids (type_id.action_id:function to check)
+                            type_id.action_id:function       => to check with function
+                            type_id.action_id:function_false => no right
+                            type_id.action_id:function_yes   => yes right
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
