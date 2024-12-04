@@ -16,18 +16,19 @@
         колона ключ (първичен или вторичен) може името да се повтаря
 10. Данните имат статус (изтрити, активни, версия)
 11. Защитено програмиране, т.е. функциите валидират и входа и изхода си
-12. Правата се реализират: Subject(e.g.user), Action, Resource, Attributes
-    "resource:action" ...
+12. Правата се реализират: Subject(e.g. User), Action, Resource, Attributes
+    "resource:action:function" ...
     Role => key "resource:action" value function (subject, resource) {check some attributes and return result}
     Attributes of ALL:      tablename_id, type_id, event_id,
                             is_deleted, is_active, is_locked (забранен за промяна, освен за root)
                             created_user_id, created_at, updated_user_id, updated_at, deleted_user_id, deleted_at
-    Attributes of resource: owner_user_id, owner_role_id, owner_role_action_ids (както в linux, групата може да има rwx маска), 
+          of Resource:      owner_user_id,
+                         !! owner_role_id !!, owner_role_action_ids (както в linux, групата може да има rwx маска), 
                             shared_role_ids, forbidden_role_ids
-    Attributes of subject:  role_ids => right_ids (type_id.action_id) 
-    Attributes of right:    name: "resource:action", right_type_id, right_action_id,
-                            !!! function_name(user_id, resource_id) (return true or false) to check is_right !!!
-    Attributes of role:     name: "Администратор", role_right_ids (type_id.action_id)
+      of User/Subject:   !! role_ids !! => right_ids (type_id.action_id) 
+             of Right:      name: "resource:action:function", right_type_id, right_action_id, function
+                        !!! function ( user_id, resource_id ) { return true or false } to check is_right !!!
+              of Role:      name: "Администратор", role_right_ids (type_id.action_id:function to check)
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
