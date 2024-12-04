@@ -29,9 +29,10 @@
              of Right:      name: "resource:action:function", right_type_id, right_action_id, function
                         !!! function ( user_id, resource_id ) { return true or false } to check is_right !!!
               of Role:      name: "Администратор", role_right_ids (type_id.action_id:function to check)
-                            type_id.action_id:function       => to check with function
-                            type_id.action_id:function_false => no right
-                            type_id.action_id:function_yes   => yes right
+                            type_id.action_id:function           => to check with function
+                            type_id.action_id:function_false     => no right
+                            type_id.action_id:function_forbidden => forbidden right, return no и спира процеса по проверка от други роли
+                            type_id.action_id:function_yes       => yes right
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
