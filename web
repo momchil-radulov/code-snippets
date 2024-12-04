@@ -34,7 +34,7 @@
                             type_id.action_id:function_forbidden => forbidden right, return no и спира процеса по проверка от други роли
                             type_id.action_id:function_yes       => yes right
                                                                  => няма запис за даден type_id/resource => no right
-            of Action:      is_create, is_view, is_update, is_delete, is_lock
+            of Action:      is_create, is_view, is_update, is_delete, is_active, is_lock
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
