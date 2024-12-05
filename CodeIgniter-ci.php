@@ -37,6 +37,15 @@ $result = $query->result()
 Връща една стойност от колонка от един ред 
 $result = $query->row()->column_name
 
+Обхождане и модифициране на резултата
+$order_comments = $query->result_array();
+foreach ($order_comments as &$comment) {
+    $user_obj = $this->User_manager->getObj($comment['user_id']);
+    $comment['user'] = $user_obj->getName();
+}
+// След цикъла трябва да премахнеш референцията
+unset($comment);
+    
 # UPDATE
 public function setDeleted($id) {
         $this->db->where('id', $id);
