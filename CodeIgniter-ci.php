@@ -57,7 +57,7 @@ public function setDeleted($id) {
 $data = array(
     'column1' => 'value1',
     'column2' => 'value2',
-    'column3' => 'value3'
+    'user_id' => $this->session->userdata('user_id');
 );
 if (   $this->db->insert('table_name', $data)   ) {
     echo "Записът е добавен успешно!";
