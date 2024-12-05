@@ -18,6 +18,9 @@ $this->db->where('p.color !=', $color);
 $this->db->or_where('p.color !=', $color_2);
 $this->db->group_end(); // Завършваме групиране
 
+$this->db->order_by('p.product_name', 'ASC');
+$this->db->order_by('p.product_name', 'DESC');
+
 $query = $this->db->get();
 if ($query->num_rows() === 0) {
     // empty result
