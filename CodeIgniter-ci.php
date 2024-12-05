@@ -22,7 +22,17 @@ $query = $this->db->get();
 if ($query->num_rows() === 0) {
     // empty result
 }
-$result = $query->row_array(); or result_array() or single result ->row()->column_name
+Връща един ред като асоциативен масив.
+$result = $query->row_array();
+Връща всички редове като асоциативен масив.
+$result = $query->result_array();
+
+Връща един ред като обект.
+$result = $query->row()
+Връща всички редове като обект.
+$result = $query->result()
+Връща една стойност от колонка от един ред 
+$result = $query->row()->column_name
 
 # UPDATE
 public function setDeleted($id) {
