@@ -45,7 +45,9 @@ foreach ($order_comments as &$comment) {
 }
 // След цикъла трябва да премахнеш референцията
 unset($comment);
-    
+// добавяне в началото на масива
+array_unshift($order_comments, ['user_id' => 0, 'user' => 'Анонимен потребител']);
+
 # UPDATE
 public function setDeleted($id) {
         $this->db->where('id', $id);
