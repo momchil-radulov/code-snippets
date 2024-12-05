@@ -44,6 +44,22 @@ public function setDeleted($id) {
         return $result;
 }
 
+# INSERT
+$data = array(
+    'column1' => 'value1',
+    'column2' => 'value2',
+    'column3' => 'value3'
+);
+if (   $this->db->insert('table_name', $data)   ) {
+    echo "Записът е добавен успешно!";
+} else {
+    echo "Грешка при добавяне на записа.";
+}
+# debug generated sql
+$this->db->set($data);
+$sql = $this->db->get_compiled_insert('table_name');
+echo $sql;
+
 ### transactions
 ## auto transaction
 $this->db->trans_start();
