@@ -3,9 +3,11 @@ ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"
 ssh-copy-id username@host
 ssh-copy-id -i ~/.ssh/id_rsa.pub username@host
 add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
+
 # user
 sudo adduser user_name --shell=/bin/false --no-create-home
 sudo deluser user_name
+
 # generate password
 cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
 openssl rand -base64 24
