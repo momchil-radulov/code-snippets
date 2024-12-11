@@ -7,7 +7,14 @@
 # arr_get, obj_get
 # fmt_bgn
 
-function safe_print($variable = null, $is_safe_html = false) {
+/**
+* Разпечатва дадена променлива без да предизвиква грешка
+* 
+* @param mixed &$variable Променлива за разпечатване
+*        Много е важно byref за да не предизвика exception защото не е дефинирана променливата
+* @param mixed $is_safe_html Дали да се прави html escape
+*/
+function safe_print(&$variable = null, $is_safe_html = false) {
     if (!isset($variable)) {
         print ''; // Ако променливата не е дефинирана, извежда празен стринг
         return;
