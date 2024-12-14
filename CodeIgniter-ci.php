@@ -215,6 +215,21 @@ try {
 }
 ?>
 
+<?php
+# Object oriented programming
+class Some_class extends Onother_class
+{
+    function __construct() {
+        parent::__construct();
+    }
+
+    public function page() {
+        // parent::page();
+        or some code that overload the parent
+    }
+}
+
+    
 catch (Throwable $tr) {
     write_log('database_error.log', 'ERROR', $this->CI->input->ip_address() . " function_name: " .
               $tr->__toString() . PHP_EOL . print_r($input_data, true));
