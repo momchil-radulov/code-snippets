@@ -61,14 +61,7 @@
     <title>AJAX File Upload</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        .upload-container {
+        #custom-upload-form {
             background: #ffffff;
             max-width: 500px;
             margin: 20px auto;
@@ -76,25 +69,27 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-
-        .upload-container h1 {
+        
+        #custom-upload-form h1 {
             text-align: center;
             margin-bottom: 20px;
             color: #333333;
         }
-
-        .form-group {
+        
+        #custom-upload-form .form-group {
             margin-bottom: 15px;
         }
-
-        label {
+        
+        #custom-upload-form label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
             color: #333;
         }
-
-        select, input[type="file"], button {
+        
+        #custom-upload-form select,
+        #custom-upload-form input[type="file"],
+        #custom-upload-form button {
             width: 100%;
             padding: 10px;
             font-size: 16px;
@@ -102,19 +97,19 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-
-        button {
+        
+        #custom-upload-form button {
             background-color: #4CAF50;
             color: white;
             font-weight: bold;
             cursor: pointer;
         }
-
-        button:hover {
+        
+        #custom-upload-form button:hover {
             background-color: #45a049;
         }
-
-        .progress-bar {
+        
+        #custom-upload-form .progress-bar {
             width: 100%;
             background: #e0e0e0;
             border-radius: 4px;
@@ -122,27 +117,28 @@
             margin-top: 10px;
             display: none;
         }
-
-        .progress-bar-fill {
+        
+        #custom-upload-form .progress-bar-fill {
             height: 10px;
             background: #4CAF50;
             width: 0%;
             transition: width 0.4s;
         }
-
-        .success-message, .error-message {
+        
+        #custom-upload-form .success-message,
+        #custom-upload-form .error-message {
             margin-top: 10px;
             padding: 10px;
             border-radius: 4px;
             text-align: center;
         }
-
-        .success-message {
+        
+        #custom-upload-form .success-message {
             background: #dff0d8;
             color: #3c763d;
         }
-
-        .error-message {
+        
+        #custom-upload-form .error-message {
             background: #f2dede;
             color: #a94442;
         }
@@ -150,14 +146,15 @@
 </head>
 <body>
 
-<div class="upload-container">
+<div id="custom-upload-form" class="upload-container">
     <h1>Качване на файл</h1>
     <form id="fileUploadForm">
         <div class="form-group">
             <label for="fileType">Тип на файла:</label>
             <select id="fileType" name="fileType" required>
-                <option value="invoice">Фактура</option>
-                <option value="image">Снимка</option>
+                <option value="Оферта">Оферта</option>
+                <option value="ППП">ППП</option>
+                <option value="Фактура">Фактура</option>
             </select>
         </div>
 
