@@ -1,15 +1,19 @@
-*** търсене в DOM  ***
+document.addEventListener("DOMContentLoaded", function() {
+    // Code to be executed when the DOM is ready
+});
+
+/*** търсене в DOM  ***/
 let quantity = $(this).closest('tr').find('a.updateProduct').attr('data-quantity');
 
-*** извличане на данните от селектирани чекбоксове ***
+/*** извличане на данните от селектирани чекбоксове ***/
 const checkboxes = document.querySelectorAll('input[data-user-id]:checked');
-# създава масив от обекти, базиран на селектираните чекбоксове
+//# създава масив от обекти, базиран на селектираните чекбоксове
 const selectedData = Array.from(checkboxes).map(checkbox => ({
     day: checkbox.getAttribute('data-day'),
     hours: document.querySelector('input[name="hours"]').value,
 }));
 
-*** keep restful url ***
+/*** keep restful url ***/
 const generateUrl = () => {
     let url = new URL(window.location);
     let params = new URLSearchParams();
@@ -32,7 +36,7 @@ function camelCaseToText(text) {
   return text.replace(/([A-Z])/g, " $1");
 }
 
-*** export a html table to csv ***
+/*** export a html table to csv ***/
 function downloadCSV(csv, filename) {
     var csvFile = new Blob([csv], {type: "text/csv"});
     var downloadLink = $('<a></a>').attr({
@@ -62,7 +66,7 @@ function exportTableToCSV(filename) {
 // Бутон или линк:
 // <button onclick="exportTableToCSV('filename.csv')">Export to CSV</button>
 
-*** Паралелно изпълнение на js ***
+/*** Паралелно изпълнение на js ***/
     // Използване на Promise.all за паралелно изпълнение на всички fetch операции
     const results = await Promise.all(selectedData.map(item =>
         fetch('/order/validate', {
@@ -88,7 +92,7 @@ function exportTableToCSV(filename) {
         }
     }
 
-*** save data ***
+/*** save data ***/
 const saveData = async (selectedData, button) => {
     try {
         // Заключване на бутона за да се предотврати повторно изпращане
@@ -169,7 +173,7 @@ const reloadTable = async () => {
     }
 };
 
-# css
+//# css
 button.loading {
     cursor: not-allowed;
     opacity: 0.5;
