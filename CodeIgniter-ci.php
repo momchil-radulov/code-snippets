@@ -235,6 +235,38 @@ catch (Throwable $tr) {
               $tr->__toString() . PHP_EOL . print_r($input_data, true));
 }
 
+########################
+### qrcode generator ###
+########################
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class QrcodeController extends CI_Controller {
+
+    public function index() {
+        $this->load->library('Ciqrcode'); // Зареждане на библиотеката
+
+        // Параметри за генериране на QR кода
+        $params['data'] = base_url('upload'); // Линк към страницата за качване
+        $params['size'] = 10; // Размер на QR кода
+        $params['level'] = 'H'; // Ниво на корекция на грешките (L, M, Q, H)
+        $params['savename'] = ''; // Без запис на файл
+
+        // Генериране на QR код в паметта
+        $qrCodeString = $this->ciqrcode->generate($params);
+
+        // Конвертиране на резултата в Base64 за изобразяване
+        $base64QRCode = 'data:image/png;base64,' . base64_encode($qrCodeString);
+
+        // Зареждане на изгледа с вграден QR код
+        $data['qrCode'] = $base64QRCode;
+        $this->load->view('qrcode_view', $data);
+    }
+}
+
+във view: <img src="<?= $qrCode ?>" alt="QR Code">
+
+
 # Рутиране
 [application/config/routes.php]
 // от метода на един контролер към друг метод на друг контролер
