@@ -251,16 +251,18 @@ class QrcodeController extends CI_Controller {
         $params['size'] = 10; // Размер на QR кода
         $params['level'] = 'H'; // Ниво на корекция на грешките (L, M, Q, H)
 
-        // Използваме изходен буфер, за да уловим директния изход
+        // ИЗХОДЕН буфер, за да уловим директния изход
         ob_start();
         $this->ciqrcode->generate($params);
         $qrCodeString = ob_get_clean(); // Съхраняваме изхода като string
-
         // Конвертиране на резултата в Base64 за изобразяване
         $base64QRCode = 'data:image/png;base64,' . base64_encode($qrCodeString);
-
         // Зареждане на изгледа с вграден QR код
         $this->data['qrCode'] = $base64QRCode;
+        // ИЛИ записваме във файл
+        $params['savename'] = QRCODES_FILE_PATH . $card_id . '.png';
+        $this->ciqrcode->generate($params);
+        $this->data['qrCode'] = QRCODES_FILE_PATH . $card_id . '.png';
 
         $this->load->view('qrcode_view', $this->data);
     }
