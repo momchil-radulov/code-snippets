@@ -160,7 +160,7 @@
 
         <div class="form-group">
             <label for="fileInput">Изберете файл:</label>
-            <input type="file" id="fileInput" name="file" required>
+            <input type="file" id="fileInput" name="files[]" required>
         </div>
 
         <button type="submit">Качи</button>
@@ -193,6 +193,7 @@
                 url: '/upload', // Замени с твоя бекенд ендпойнт
                 type: 'POST',
                 data: formData,
+                dataType: 'json',
                 contentType: false,
                 processData: false,
                 xhr: function () {
