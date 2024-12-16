@@ -1,6 +1,16 @@
 # минимална дължина на span 24 широчини на цифрата 0
 <span style="display: inline-block; min-width: 24ch;">
 
+# форматиране на падащ списък
+#id_select select {
+  width: 100%;
+  padding: 3px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 # detect phone layout and change position
 @media only screen and ( max-device-width: 736px ) {
   div.class {
