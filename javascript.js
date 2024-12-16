@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Code to be executed when the DOM is ready
 });
 
+readyFn( { title: '', message: data.message, result: 'success|error', time: '10' } );
+
 /*** търсене в DOM  ***/
 let quantity = $(this).closest('tr').find('a.updateProduct').attr('data-quantity');
 
