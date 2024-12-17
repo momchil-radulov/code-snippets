@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // Code to be executed when the DOM is ready
 });
 
+location.reload();
+location.href = location.href;
+window.location OR location
+
 readyFn( { title: '', message: data.message, result: 'success|error', time: '10' } );
 
 /*** търсене в DOM  ***/
