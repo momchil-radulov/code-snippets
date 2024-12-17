@@ -16,6 +16,7 @@ $this->db->where('p.id =', $id); or direct ('p.id = 1')
 $this->db->group_start(); // Започваме групиране на условията
 $this->db->where('p.color !=', $color);
 $this->db->or_where('p.color !=', $color_2);
+$this->db->where_in('p.color', [$color, $color_2]);
 $this->db->group_end(); // Завършваме групиране
 
 $this->db->order_by('p.product_name', 'ASC');
