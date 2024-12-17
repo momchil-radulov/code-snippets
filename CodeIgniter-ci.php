@@ -2,6 +2,8 @@
 # Използвай FCPATH за файлове и директории, а base_url() за URL адреси.
 # Печатаме в конзолата на php
 error_log('Some message ...');
+# Печатаме в error log на CodeIgniter
+log_message('error', 'Some message ...');
 
 # Зареждане на модел
 // Зареждате модела, ако вече не е зареден
