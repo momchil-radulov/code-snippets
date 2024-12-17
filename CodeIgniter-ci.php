@@ -1,4 +1,5 @@
 <?php
+# Използвай FCPATH за файлове и директории, а base_url() за URL адреси.
 # Печатаме в конзолата на php
 error_log('Some message ...');
 
