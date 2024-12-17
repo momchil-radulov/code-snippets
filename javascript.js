@@ -1,3 +1,6 @@
+$(document).ready(function() {
+    // Code to be executed when the DOM is ready
+});
 document.addEventListener("DOMContentLoaded", function() {
     // Code to be executed when the DOM is ready
 });
