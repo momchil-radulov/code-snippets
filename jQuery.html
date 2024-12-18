@@ -1,4 +1,59 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <form id="testForm" onsubmit="postData(); return false;">
+        <input type="text" id="username" placeholder="Username">
+        <input type="email" id="email" placeholder="Email">
+        <textarea id="message" placeholder="Your message"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+<script>
+function postData() { 
+    // Вземане на стойности от елементи
+    var username = $('#username').val(); // Входно поле за потребителско име
+    var email = $('#email').val();       // Входно поле за email
+    var message = $('#message').val();   // Текстово поле за съобщение
+
+    // AJAX заявка
+    $.ajax({
+        url: '/your-endpoint-url', // Замени с твоя URL
+        type: 'POST',
+        dataType: 'json',          // Указва, че очакваме JSON резултат
+        data: {
+            username: username,
+            email: email,
+            message: message
+        }
+    })
+    .done(function (response) {
+        if (response.success) {
+            console.log("Success:", response.message);
+        } else {
+            console.log("Fail:", response.message);
+        }
+    })
+    .fail(function (xhr) {
+        console.error("Error:", xhr.responseText);
+    })
+    .always(function () {
+        console.log("Request completed.");
+    });
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
