@@ -54,7 +54,7 @@ array_unshift($order_comments, ['user_id' => 0, 'user' => 'Анонимен по
 
 // Обединяване на бележките с интервал
 $this->db->select('GROUP_CONCAT(note SEPARATOR " ") AS combined_note');
-$this->db->from('av_order_offers');
+$this->db->from('orders');
 $this->db->where('order_num', $order_num);
 $query = $this->db->get();
 if ($query->num_rows() === 0) {
@@ -174,7 +174,7 @@ private function raw_sql() {
             $this->db->or_like('inv.firmBulstat', $user_filter);
             $this->db->group_end();
             // Добавяне на филтъра за Обект
-            $this->db->join('av_addresses adr', 'adr.id = ord.address_id');
+            $this->db->join('addresses adr', 'adr.id = ord.address_id');
             $this->db->or_group_start();
             $this->db->like('adr.area', $user_filter);
             $this->db->or_like('adr.street', $user_filter);
