@@ -52,6 +52,17 @@ unset($comment);
 // добавяне в началото на масива
 array_unshift($order_comments, ['user_id' => 0, 'user' => 'Анонимен потребител']);
 
+// Обединяване на бележките с интервал
+$this->db->select('GROUP_CONCAT(note SEPARATOR " ") AS combined_note');
+$this->db->from('av_order_offers');
+$this->db->where('order_num', $order_num);
+$query = $this->db->get();
+if ($query->num_rows() === 0) {
+    $order_note_2 = '';
+} else {
+    $order_note_2 = $query->row()->combined_note; // Връщаме обединените бележки
+}
+
 # UPDATE
 public function setDeleted($id) {
         $this->db->where('id', $id);
