@@ -348,7 +348,17 @@ Swal.fire({
       text: "Your file has been deleted.",
       icon: "success"
     });
+    OR
     Swal.fire('Грешка!', 'Възникна грешка при изтриването!', 'error');
+    // съобщение, което само се скрива след 3 секунди
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 3000
+    });
+
   }
 });
 </script>
