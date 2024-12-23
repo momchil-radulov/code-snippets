@@ -4,6 +4,14 @@
 "There are only two hard things in Computer Science: cache invalidation and naming things."
 -- Phil Karlton
 
+# Хумор
+"There are 2 hard problems in computer science: cache invalidation, naming things, and off-by-1 errors."
+-- Leon Bambrick
+"В компютърните науки има 2 трудни проблема: инвалидиране на кеша, именуване на нещата и грешки с изместване с 1."
+-- Леон Бамбрик
+https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.html
+-- How To Write Unmaintainable Code
+
 # Принципи
 1.  Data-Oriented programming
 2.  Данните са във формат Dictionary
