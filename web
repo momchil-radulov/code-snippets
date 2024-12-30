@@ -34,7 +34,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
 11. Защитено програмиране, т.е. функциите валидират и входа и изхода си
 12. Да ! не се подтискат грешките/ранните изходи !, а да се генерира подходящо съобщение
     и евентуално да се записва във error log при системен проблем
-13. EventSource => id, created_at, type_id, period_id, timestamp, data, entity_id, by_eventsource_id
+13. EventSource => id, created_at, type_id, period_id, timestamp, data (field:old_value:value,), entity_id, by_eventsource_id
     Entity      => id, created_at, type_id, period_id, timestamp, data,
     ! Кодът записва всяка една промяна по стейта в детайлен вид като eventsource предизвикан от главния by_eventsource_id предизвикан от UI/crontab !
 14. Правата се реализират RBAC(Role Based Access Control) with ABAC(Attribute Based Access Control):
