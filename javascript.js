@@ -12,6 +12,10 @@ window.location OR location
 readyFn( { title: '', message: data.message, result: 'success|error', time: '10' } );
 
 /*** търсене в DOM  ***/
+const textarea = document.getElementById('елемент–съсед-на-търсения');
+const iframe = textarea.parentElement.querySelector('iframe.wysihtml5-sandbox');
+const targetElement = iframe.contentDocument.querySelector('body.wysihtml5.form-control.input-sm.about.wysihtml5-editor');
+
 let quantity = $(this).closest('tr').find('a.updateProduct').attr('data-quantity');
 
 /*** извличане на данните от селектирани чекбоксове ***/
