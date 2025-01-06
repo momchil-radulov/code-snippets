@@ -15,6 +15,10 @@ readyFn( { title: '', message: data.message, result: 'success|error', time: '10'
 const textarea = document.getElementById('елемент–съсед-на-търсения');
 const iframe = textarea.parentElement.querySelector('iframe.wysihtml5-sandbox');
 const targetElement = iframe.contentDocument.querySelector('body.wysihtml5.form-control.input-sm.about.wysihtml5-editor');
+// jQuery
+const textarea = $('#елемент–съсед-на-търсения'); // Селекция на textarea с jQuery
+const iframe = textarea.parent().find('iframe.wysihtml5-sandbox'); // Намиране на iframe в родителя с jQuery
+const targetElement = iframe.contents().find('body.wysihtml5.form-control.input-sm.about.wysihtml5-editor'); // Търсене на body вътре в iframe с jQuery
 
 let quantity = $(this).closest('tr').find('a.updateProduct').attr('data-quantity');
 
