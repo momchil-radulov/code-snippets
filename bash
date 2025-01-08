@@ -109,7 +109,11 @@ cat /dev/ttyUSB0
 
 ## Line buffered stdin. Note use stdbuf -o0 if your data is not line oriented.
    see http://www.pixelbeat.org/programming/stdio_buffering/
+# показва заявките от ip, като повтарящите се редове се игнорират без да се буферират
 tail -f access.log | stdbuf -oL cut -d ' ' -f1 | uniq
+# обобщен брой заявки от всяко едно ip
+cut -d' ' -f1 access.log | sort | uniq -c | sort -nr
+
 ## unbuffered stdin for Python3, see https://bugs.python.org/issue18868
    For python use: python -u OR print("Hello world!", flush=True)
 [automate.py]
