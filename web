@@ -40,7 +40,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
 14. Правата се реализират RBAC(Role Based Access Control) with ABAC(Attribute Based Access Control):
     Subject(e.g. User), Action, Resource, Attributes
   ! Лека имплементация:
-        правата са: "ресурс:право", пр. "поръчка:създаване"
+        правата са: "ресурс:право", пр. "поръчка:създаване", минимум права: "създаване/преглед/редакция/изтриване" т.нар. CRUD
         ролите са: съвкупност от права
         потребителите: имат няколко роли, които им създават съвкупност от права
         в кода проверката е: (примерно) тук има ли право "продукт:създаване" в правата на текущия потребител
@@ -63,7 +63,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
                             type_id.action_id:function_yes       => yes right
                                                                  => няма запис за даден type_id/resource => no right
             of Action:      is_create, is_view, is_update, is_delete, is_active, is_lock
-15. Всеки запис в базата си има собственик, група/роля, както и права за собственик, група и други: rwxrwxrwx - както в Linux
+15. Всеки запис/обект в базата си има собственик, роля/група, както и права за собственик, група и други: rwxrwxrwx - както в Linux
 16. Превода на програмата е през функция, напр. l('текст', 'незадължителен уточняващ текст за по специализиран превод')
 17. Плъгин система за извикване/модифициране на външен код/данни
 
