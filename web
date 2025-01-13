@@ -64,6 +64,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
                                                                  => няма запис за даден type_id/resource => no right
             of Action:      is_create, is_view, is_update, is_delete, is_active, is_lock
 15. Превода на програмата е през функция, напр. l('текст', 'незадължителен уточняващ текст за по специализиран превод')
+16. Плъгин система за извикване/модифициране на външен код/данни
 
 # links
 https://www.youtube.com/watch?v=8j29aAbtYWo => Web architecture
