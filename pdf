@@ -1,0 +1,25 @@
+<?php
+# Image to PDF convert
+// http://www.fpdf.org/ от тук свали fpdf.php
+require_once 'path/to/fpdf.php'; // Увери се, че пътят до FPDF е правилен
+// Път до изображението
+$imageFile = 'path/to/your/image.jpg'; 
+$pdfFile = 'output.pdf';
+// Провери дали файлът съществува
+if (!file_exists($imageFile)) {
+    die('Файлът с изображението не съществува.');
+}
+// Създаване на PDF
+$pdf = new FPDF();
+$pdf->AddPage();
+// Получаване на размерите на изображението
+list($width, $height) = getimagesize($imageFile);
+// Конвертиране на размерите в милиметри (FPDF използва единици mm по подразбиране)
+$widthMM = $width * 0.264583; // 1 пиксел = 0.264583 мм
+$heightMM = $height * 0.264583;
+// Добавяне на изображението към PDF
+$pdf->Image($imageFile, 10, 10, $widthMM > 190 ? 190 : $widthMM); // Ограничава ширината до 190 мм
+// Запазване на PDF файла
+$pdf->Output('F', $pdfFile);
+echo 'PDF файлът е създаден успешно: ' . $pdfFile;
+?>
