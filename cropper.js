@@ -1,3 +1,4 @@
+<input type="file" id="fileInput" name="files[]" accept="image/*" required>
 // Зареждане на изображението
 imageInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
