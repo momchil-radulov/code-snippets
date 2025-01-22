@@ -4,7 +4,7 @@ git clone https://github.com/kingk85/uFTP.git
 cd uFTP
 make
 
-sudo cp build/uFTP /sbin/uFTP
+sudo cp build/uFTP /usr/sbin/uFTP
 sudo cp uftpd.cfg /etc/uftpd.cfg
 
 sudo vim /etc/uftpd.cfg
@@ -14,7 +14,7 @@ HOME_0 = /var/www/html/site_name/
 GROUP_NAME_OWNER_0 = www-data
 USER_NAME_OWNER_0 = www-data
 
-sudo chown root:root /sbin/uFTP
+sudo chown root:root /usr/sbin/uFTP
 sudo chown root:root /etc/uftpd.cfg
 sudo chmod -rwx /etc/uftpd.cfg
 
@@ -37,7 +37,7 @@ After=network.target auditd.service
 
 [Service]
 Type=forking
-ExecStart=/sbin/uFTP -c /etc/uftpd.cfg
+ExecStart=/usr/sbin/uFTP -c /etc/uftpd.cfg
 Restart=on-failure
 User=root
 Group=root
