@@ -3,6 +3,10 @@ Ctrl + Shift + V -> paste in console
 date
 timedatectl
 sudo timedatectl set-timezone Europe/Sofia
+# заключване на bash задача
+flock -n /tmp/example.lock -c "echo 'Работя върху задачата'; sleep 5" || echo "Прескачане: задачата вече е в процес."
+flock -w 10 /tmp/example.lock -c "echo 'Започвам работа'; sleep 5" || echo "Timeout 10 секунди: задачата не можа да започне."
+timeout 10 bash -c 'flock myfile.txt -c "echo Hello, World! > myfile.txt"'  # ограничава общото изпълнение до 10 секунди
 # copy to clipboard
 cat file_name.txt | xclip -sel clip
 # bash scripts
