@@ -14,6 +14,8 @@ git push -f
 git reset
 
 git ls-files  # show files in a git repository
+GIT_COMMITTER_DATE="2025-01-18 15:00:00" git commit --date="2025-01-18 15:00:00" -m "Commit със специфична дата и час"
+git log --pretty=fuller  # view autor and datetime
 
 # basic workflow
 git init
