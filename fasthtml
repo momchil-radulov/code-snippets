@@ -1,0 +1,30 @@
+app, rt = fast_app()
+# app, rt = fast_app(debug=True)
+
+@rt("/")
+def get():
+    # Събиране на информация за всеки елемент
+    result = []
+    for name in dir(common):
+        if not name.startswith("_"):  # Пропускаме скритите елементи
+            obj = getattr(common, name)  # Вземаме референция към обекта
+
+            # Определяне на типа
+            if inspect.isclass(obj):
+                obj_type = "Клас"
+            elif inspect.isfunction(obj):
+                obj_type = "Функция"
+            elif inspect.ismethod(obj):
+                obj_type = "Метод"
+            elif inspect.isbuiltin(obj):
+                obj_type = "Вградена функция"
+            else:
+                obj_type = "Променлива"
+
+            # Извличане на документация
+            doc = inspect.getdoc(obj) or "Няма документация"
+            result.append(f">>> {name} ({obj_type}):\n{doc}")
+
+    return '<pre>' + "\n\n".join(result) + '</pre>'
+
+serve()
