@@ -26,9 +26,10 @@ def get():
                 obj_type = "Променлива"
 
             # Извличане на документация
-            doc = inspect.getdoc(obj) or "Няма документация"
+            doc = inspect.getdoc(obj) or ''
+            if len(doc) > 1: doc += "\n"
             result.append(f">>> {name} ({obj_type}):\n{doc}")
 
-    return '<pre>' + "\n\n".join(result) + '</pre>'
+    return '<pre>' + "\n".join(result) + '</pre>'
 
 serve()
