@@ -1,3 +1,7 @@
+from fasthtml.common import *
+import fasthtml.common as common
+import inspect
+
 app, rt = fast_app()
 # app, rt = fast_app(debug=True)
 
