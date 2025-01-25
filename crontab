@@ -11,3 +11,7 @@ add lines:
 */5 * * * * /bin/bash /root/git/db/restart_fpm.sh
 # to run a job at 1 a.m.
 0 1 * * * /usr/sbin/service mqtt2db restart
+# wait 10 seconds for unlocking the file
+flock -w 10 /tmp/example.lock -c "echo 'Започвам работа'; sleep 5" || echo "Timeout 10s: задачата не можа да започне."
+# общ таймаут 5 минути за изпълнение на задачата
+timeout 600 bash -c 'flock -n /tmp/example.lock -c "echo Hello, World! >> myfile.txt"'
