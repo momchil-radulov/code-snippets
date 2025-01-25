@@ -2,6 +2,8 @@ run:
 crontab -e => for local user
 sudo crontab -e => for root user
 
+grep CRON /var/log/syslog
+
 add lines:
 # on every one minute with lock
 * * * * * flock -n /tmp/one-minute-lock -c '/път/до/командата >> /път/до/лог-файла 2>&1'
