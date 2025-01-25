@@ -15,7 +15,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
 -- How To Write Unmaintainable Code
 
 # Принципи
-1.  ! Data-Oriented programming !
+1.  ! Data-Oriented programming and TDD (Test driven development) !
 2.  Данните са във формат Dictionary, ключовете (освен ако не е много наложително) са текстови "key.subkey..."
 3.  Всяка причина на промяна се капсулира в ! Event ! и се пропагандира по целия стек на промяна
 4.  Workflow е:
@@ -45,7 +45,15 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
         -- при успех функцията записва лог във ! промените по документа !
         -- при неуспех функцията записва лог във ! error log !
 9.  Ниво на абстракция Data Manipulation Functions
-10.  Two function abstraction, една глобална и една локална за модула
+10. Two function abstraction, една глобална и една локална за модула
+    =>  event = {"id": 123, "type": "user_action"}
+        settings = {"db_file": "/var/db/firm.db", "db_type": "sqlite3"}
+        params = {"query_type": "insert", "query_table": "users", "query_fields": {"name": "John Doe", "email": "john@example.com"}}
+    =>  db_service.handle_database_request(event, settings, params)
+                   if settings['db_type'] == 'sqlite3':
+                       db = load_db_sqlite3
+                   ... db.insert()
+    =>  всеки локален db има метод select, insert, update, delete ...
 11. Данните, Настройките се вземат със функция/getter (една глобална и една локална [виж предходната точка])
     Файлът с настройките има префикс за environment
     Опционално url в настройките за зареждане на мрежови настройки с опция ако не може да го зареди дали да спре изпълнението
