@@ -309,3 +309,88 @@ short_open_tag = On
 /opt/cpanel/ea-php72/root/usr/bin/php /home/client-name/public_html/index.php controller_name method_name param_value
 # ако не искаме email от cron job, анулираме изход от командата
  >/dev/null 2>&1
+
+
+########################
+###  email extended  ###
+########################
+Създайте файл с име MY_Email.php в папката application/libraries.
+CodeIgniter автоматично ще зарежда файловете с префикс MY_ като разширения на стандартните библиотеки.
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class MY_Email extends CI_Email
+{
+    private $email_data = [];
+
+    public function from($from, $name = '', $return_path = NULL)
+    {
+        $this->email_data['from'] = ['email' => $from, 'name' => $name];
+        return parent::from($from, $name, $return_path);
+    }
+
+    public function to($to)
+    {
+        $this->email_data['to'] = $to;
+        return parent::to($to);
+    }
+
+    public function cc($cc)
+    {
+        $this->email_data['cc'] = $cc;
+        return parent::cc($cc);
+    }
+
+    public function bcc($bcc)
+    {
+        $this->email_data['bcc'] = $bcc;
+        return parent::bcc($bcc);
+    }
+
+    public function subject($subject)
+    {
+        $this->email_data['subject'] = $subject;
+        return parent::subject($subject);
+    }
+
+    public function message($body)
+    {
+        $this->email_data['message'] = $body;
+        return parent::message($body);
+    }
+
+    public function send($auto_clear = TRUE)
+    {
+        // Генерира JSON файл с данните за имейла
+        $json_data = json_encode($this->email_data, JSON_PRETTY_PRINT);
+        file_put_contents('email_log.json', $json_data);
+
+        // Връща резултата от стандартния метод send()
+        return parent::send($auto_clear);
+    }
+}
+Използване на новата библиотека (като старата)
+$this->CI->load->library('email');
+
+$this->CI->email->initialize($this->emailSettings);
+$this->CI->email->from($from, $fromTitle);
+$this->CI->email->to($to);
+
+if ($cc !== false) {
+    $this->CI->email->cc($cc);
+}
+
+if ($bcc !== false) {
+    $this->CI->email->bcc($bcc);
+}
+
+$this->CI->email->subject($subject);
+$this->CI->email->message($message);
+
+$result = $this->CI->email->send();
+
+if ($result) {
+    echo "Имейлът беше успешно изпратен.";
+} else {
+    echo "Възникна грешка при изпращането на имейла.";
+}
