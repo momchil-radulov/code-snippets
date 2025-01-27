@@ -369,7 +369,10 @@ class MY_Email extends CI_Email
         return parent::send($auto_clear);
     }
 }
-Използване на новата библиотека (като старата)
+
+// Използване на новата библиотека (като старата)
+$this->CI =& get_instance();
+
 $this->CI->load->library('email');
 
 $this->CI->email->initialize($this->emailSettings);
