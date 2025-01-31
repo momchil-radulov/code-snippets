@@ -285,6 +285,19 @@ class QrcodeController extends CI_Controller {
 
 във view: <img src="<?= $qrCode ?>" alt="QR Code">
 
+# html select
+$jobtypesManager          = $this->getManager('Jobtypes_manager');
+$jobtypes                 = array();
+$jobtypes_options         = $jobtypesManager->getAllArrays();
+$jobtypes['options']      = array_map(function ($option) {
+                                            return ['val' => $option['id'], 'title' => $option['name']];
+                                      },
+                                      $jobtypes_options);
+$jobtypes['name']         = 'filter1_jobtype';
+$jobtypes['custom_title'] = 'Бранш';
+$jobtypes['style']        = 'width:100% !important;';
+$jobtypes['val']          = av_get( $this->data['filters'], 'filter1_jobtype' );
+$jobtype_select           = $this->_addForm_select($jobtypes);
 
 # Рутиране
 [application/config/routes.php]
