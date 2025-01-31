@@ -27,6 +27,9 @@ CREATE USER 'admin_usr1'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON my_database.* TO 'admin_usr1'@'localhost';
 SHOW GRANTS FOR 'admin_usr1'@'localhost';
 
+# ip add/remove
+sudo ip addr add 192.168.1.98/24 dev lo
+sudo ip addr del 192.168.1.98/24 dev lo
 
 # къде са конфигурационните файлове, обикновенно
 # /etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf
