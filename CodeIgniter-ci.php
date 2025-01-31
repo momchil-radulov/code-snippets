@@ -299,6 +299,29 @@ $jobtypes['style']        = 'width:100% !important;';
 $jobtypes['val']          = av_get( $this->data['filters'], 'filter1_jobtype' );
 $jobtype_select           = $this->_addForm_select($jobtypes);
 
+# Филтър: Бранш
+if( isset( $_POST['filter1_jobtype'] ) && trim( $_POST['filter1_jobtype'] ) != '' ){
+    $where[] = array(
+        'external' => true,
+        'external_module' => 'user',  # FROM users
+        'childs' => array(                    # AND
+            array(
+                'external_module' => 'user',  # ( users.jobtype_id = '1' )
+                'field' => 'jobtype_id',
+                'value' => $_POST['filter1_jobtype'],
+            ),
+            array(
+                'external_module' => 'user',  # ( users.id = order_offers.user_id )
+                'field' => 'id',
+                'dynamic' => 'order_offers',
+                'value' => 'user_id',
+            ),
+        )
+    );
+}
+WHERE ( EXISTS ( SELECT 1 FROM  users WHERE  ( users.jobtype_id = '1' )  AND ( users.id = order_offers.user_id ) ) )  # вложен селект за всеки ред
+
+
 # Рутиране
 [application/config/routes.php]
 // от метода на един контролер към друг метод на друг контролер
