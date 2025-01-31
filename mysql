@@ -7,6 +7,15 @@ mysqldump -u [потребител] -p --databases admin_db --no-data > admin_db
 mysqldump -u [потребител] -p admin_db big_table --where="created_at >= '2024-12-01'" > incremental_backup_big_table_$(date +%Y-%m-%d).sql
 mysqldump -u [потребител] -p admin_db --ignore-table=admin_db.big_table > admin_db_data_$(date +%Y-%m-%d).sql
 
+# raw hdd access
+sudo modprobe nbd
+sudo qemu-nbd --connect=/dev/nbd0 /var/snap/multipass/common/data/multipassd/vault/instances/php/ubuntu-20.04-server-cloudimg-amd64.img
+sudo mount /dev/nbd0p1 /mnt
+cd /mnt
+...
+sudo umount /mnt
+sudo qemu-nbd --disconnect /dev/nbd0
+sudo rmmod nbd
 
 # install
 sudo apt update
@@ -28,13 +37,13 @@ mysqld --help --verbose | grep -A 1 'Default options are read from the following
 # премахване на аутентикацията
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 [mysqld]
-# skip-grant-tables !!!
+skip-grant-tables
 sql_mode = "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
 default_authentication_plugin=mysql_native_password
 
-# после fix ако пропадне update
+# после fix ако пропадне update !!!
 sudo apt update
-#skip-grant-tables
+# skip-grant-tables !!!
 sudo dpkg --configure -a
 sudo apt upgrade
 tail -f /var/log/mysql/error.log
