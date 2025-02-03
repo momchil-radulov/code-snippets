@@ -1,0 +1,2 @@
+grep -rl 'http://' . | xargs sed -i 's|http://|https://|g'  # заместваме htpp със https
+
