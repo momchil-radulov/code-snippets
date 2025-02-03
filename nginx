@@ -16,6 +16,9 @@ sudo systemctl stop nginx
 sudo systemctl restart nginx
 sudo systemctl status nginx
 
+# view logs
+$ lnav, goaccess, tail
+
 sudo vim /etc/nginx/sites-available/your-site
 server {
     listen 80 default_server;
@@ -73,6 +76,10 @@ server {
     server_name my_site.com;
     root /var/www/my_site;
     index index.html index.htm index.php;
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
     location ~* \.(ico|css|js|gif|jpe?g|png)(\?[0-9]+)?$ {
         expires max;
         log_not_found off;
