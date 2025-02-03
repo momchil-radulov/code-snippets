@@ -27,11 +27,11 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
             записва генерираните данни във DAL
         викат се глобални методи от глобални модули (BUSINESS, DAL, ...)
         викат се локални методи от конкретните локални модули
-5.  Ниво на абстракция Data Manipulation Functions
+5.  Ниво на абстракция за данните, модули: "Data Manipulation Functions" и "DAL"
         Има функции за работа с типовете данни, които абстрахират работата с данните на конкретния програмен език и
         са разбираеми и интуитивни за четене от човек, например: extract_column(items, 'column_name')
-        която може да инкапсулира евентуално => php.array_column($items, 'column_name'), python.[item.get('column_name') for item in items]
-6.  Two function abstraction, глобални и локални модули
+        която може да инкапсулира например => php.array_column($items, 'column_name'), python.[item.get('column_name') for item in items]
+6.   Ниво на абстракция за модулите: глобални и локални модули, Two function abstraction
     =>  event = {"id": 123, "type": "user_action"}
         settings = {"db_file": "/var/db/firm.db", "db_type": "sqlite3"}
         params = {"query_type": "insert", "query_table": "users", "query_fields": {"name": "John Doe", "email": "john@example.com"}}
@@ -39,7 +39,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
                    if settings['db_type'] == 'sqlite3':
                        db = load_db_sqlite3
                    ... db.insert()
-    =>  всеки локален db има метод select, insert, update, delete ...
+    =>  всеки локален db модул има метод имплементирани select, insert, update, delete ..., които се викат от глобалните модули
 7.  Първо се описва функционалността със псевдокод и
         после всеки ред от псевдокода се прави на функция със подобно име
 8.  Защитено програмиране, т.е. функциите валидират и входа и изхода си
@@ -65,9 +65,10 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
     Настройка се презаписва със bash/env variable със специфичен префикс за приложението
 12. DAL който
         генерира SQL
-        таблиците са със префикс
+        таблиците са със префикс за отделните модули, напр. trz4payments_sum
         колоните са с уникално име за цялата база данни
-        колона ключ (първичен или вторичен) може името да се повтаря
+        име колона първичен ключ: има-на-таблицата_id, напр. trz4payments_id
+        име колона вторичен ключ: първо името на колоната + име–първичен-ключ, напр. trz4payments_employee_users_id 
 13. Данните имат статус (изтрити, активни, версия)
 14. EventSource => id, created_at, type_id, period_id, timestamp, data (field:old_value:value,), entity_id, by_eventsource_id
     Entity      => id, created_at, type_id, period_id, timestamp, data,
