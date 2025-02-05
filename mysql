@@ -125,3 +125,13 @@ print(sys.stdin.read().replace('\\\\', '\\').encode('utf-8').decode('unicode_esc
 
 # socat
 sudo socat -v TCP-LISTEN:3306,reuseaddr,fork,bind=10.125.184.1 TCP:127.0.0.1:3306
+
+### SQL ###
+CREATE TABLE modulename4tablename (
+  modulename4tablename_id int NOT NULL AUTO_INCREMENT,
+  modulename4tablename_column_name_modulename4tablename_id int NULL,
+  modulename4tablename_column_name int NOT NULL DEFAULT '0',
+  modulename4tablename_updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  modulename4tablename_created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (modulename4tablename_id)
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
