@@ -25,9 +25,9 @@ function postData() {
     })
     .fail(function (xhr) {
         console.error("Error:", xhr.responseText);
-        let messageBox = $("#formAnnualleave-messageBox"); // Използвай jQuery селектор
+        let messageBox = $("#messageBox");
         messageBox
-            .html("Грешка: " + xhr.status + " " + xhr.responseText) // Променя текста
+            .html("Грешка: " + xhr.status + " " + xhr.responseText)
             .css("background-color", "red") // Променя цвета на фона
             .fadeIn(1000) // Плавно показване за 1 сек
             .delay(3000) // Задържане за 3 сек
@@ -38,7 +38,21 @@ function postData() {
     });
 }
 </script>
-
+<style>
+    #messageBox {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #333;
+        color: white;
+        font-size: 19px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        display: none; /* Скриване по подразбиране */
+        z-index: 9999;
+    }
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
