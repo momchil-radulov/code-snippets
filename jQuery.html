@@ -25,6 +25,13 @@ function postData() {
     })
     .fail(function (xhr) {
         console.error("Error:", xhr.responseText);
+        let messageBox = $("#formAnnualleave-messageBox"); // Използвай jQuery селектор
+        messageBox
+            .html("Грешка: " + xhr.status + " " + xhr.responseText) // Променя текста
+            .css("background-color", "red") // Променя цвета на фона
+            .fadeIn(1000) // Плавно показване за 1 сек
+            .delay(3000) // Задържане за 3 сек
+            .fadeOut(1000); // Плавно скриване за 1 сек
     })
     .always(function () {
         console.log("Request completed.");
