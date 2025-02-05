@@ -23,10 +23,10 @@ function postData() {
             console.log("Fail:", response.message);
         }
     })
-    .fail(function (xhr) {
+    .fail(function (xhr, status, error) {
         console.error("Error:", xhr.responseText);
         $("#messageBox")
-            .html("Грешка: " + xhr.status + " " + xhr.responseText)
+            .html("Грешка: " + error)
             .css("background-color", "red") // Променя цвета на фона
             .fadeIn(1000).delay(3000).fadeOut(1000); // Плавно показване и скриване
     })
