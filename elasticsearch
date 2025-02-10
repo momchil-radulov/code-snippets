@@ -34,6 +34,7 @@ sudo systemctl enable kibana
 sudo systemctl start kibana
 sudo systemctl status kibana
 http://localhost:5601/
+http://localhost:5601/app/dev_tools#/console/shell
 ## codes
 sudo /usr/share/elasticsearch/bin/elasticsearch-reset-password --username kibana_system
 sudo /usr/share/kibana/bin/kibana-verification-code
