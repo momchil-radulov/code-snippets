@@ -1,4 +1,5 @@
 # install opensearch
+
 ## install
 curl -o- https://artifacts.opensearch.org/publickeys/opensearch.pgp | sudo apt-key add -
 echo "deb https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/opensearch-2.x.list
@@ -10,6 +11,7 @@ sudo apt-get install opensearch
 sudo apt-get install opensearch-dashboards
 sudo apt-get upgrade opensearch
 sudo apt-get upgrade opensearch-dashboards
+
 ## enable and run
 sudo systemctl enable opensearch
 sudo systemctl start opensearch
@@ -17,13 +19,29 @@ sudo systemctl status opensearch
 sudo systemctl enable opensearch-dashboards
 sudo systemctl start opensearch-dashboards
 sudo systemctl status opensearch-dashboards
+
 ## test
 curl -X GET https://localhost:9200 -u 'admin:admin' --insecure
 ## urls
 curl -X GET https://localhost:9200/_cat/plugins?v -u 'admin:admin' --insecure  # get plugins
 
-## settings
+## install dpkg
+wget https://artifacts.opensearch.org/releases/bundle/opensearch/2.18.0/opensearch-2.18.0-linux-x64.deb
+sudo env OPENSEARCH_INITIAL_ADMIN_PASSWORD=64hJvIaEUUQTkJGfo2ejZNWVwMyYbORE dpkg -i opensearch-2.18.0-linux-x64.deb
+sudo systemctl daemon-reload
+sudo systemctl enable opensearch.service
+sudo systemctl start opensearch.service
+sudo apt install default-jre
+java --version
+wget https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.18.0/opensearch-dashboards-2.18.0-linux-x64.deb
+sudo dpkg -i opensearch-dashboards-2.18.0-linux-x64.deb
+sudo systemctl daemon-reload
+sudo systemctl enable opensearch-dashboards.service
+sudo systemctl start opensearch-dashboards.service
+http://localhost:5601/
+http://localhost:5601/app/dev_tools#/console
 
+## settings
 [/etc/opensearch/opensearch.yml]
 network.host: 0.0.0.0
 discovery.type: single-node
