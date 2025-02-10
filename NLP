@@ -12,6 +12,10 @@ CREATE TABLE articles (
 # if exists
 ALTER TABLE articles DROP INDEX content;
 SET GLOBAL ngram_token_size = 4;  # default is 3
+[/etc/mysql/mysql.conf.d/mysqld.cnf]
+[mysqld]
+ngram_token_size=4
+SHOW VARIABLES LIKE 'ngram_token_size';
 ALTER TABLE articles ADD FULLTEXT(content) WITH PARSER ngram;
 
 SELECT * FROM articles WHERE MATCH(content) AGAINST('учител' IN NATURAL LANGUAGE MODE);
