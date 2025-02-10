@@ -9,5 +9,9 @@ CREATE TABLE articles (
     content TEXT NOT NULL,
     FULLTEXT(content) WITH PARSER ngram
 );
-SELECT * FROM articles WHERE MATCH(content) AGAINST('учител' IN NATURAL LANGUAGE MODE);
+# if exists
+SET GLOBAL ngram_token_size = 4;  # default is 3
+ALTER TABLE articles DROP INDEX content;
+ALTER TABLE articles ADD FULLTEXT(content) WITH PARSER ngram;
 
+SELECT * FROM articles WHERE MATCH(content) AGAINST('учител' IN NATURAL LANGUAGE MODE);
