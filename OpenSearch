@@ -29,7 +29,7 @@ curl -X GET https://localhost:9200/_cat/plugins?v -u 'admin:admin' --insecure  #
 wget https://artifacts.opensearch.org/releases/bundle/opensearch/2.18.0/opensearch-2.18.0-linux-x64.deb
 sudo env OPENSEARCH_INITIAL_ADMIN_PASSWORD=64hJvIaEUUQTkJGfo2ejZNWVwMyYbORE dpkg -i opensearch-2.18.0-linux-x64.deb
 # to remove, first find: dpkg -l '*opensearch*'
-#            and remove: sudo dpkg -r opensearch; dpkg -r opensearch-dashboards;
+#            and remove: sudo dpkg -r opensearch; sudo dpkg -r opensearch-dashboards;
 sudo systemctl daemon-reload
 sudo systemctl enable opensearch.service
 sudo systemctl start opensearch.service
