@@ -24,6 +24,7 @@ sudo systemctl enable elasticsearch.service
 sudo systemctl start elasticsearch.service
 sudo systemctl status elasticsearch.service
 curl --insecure https://localhost:9200/
+
 ### kibana
 wget https://artifacts.elastic.co/downloads/kibana/kibana-8.17.1-amd64.deb
 shasum -a 512 kibana-8.17.1-amd64.deb 
@@ -33,6 +34,9 @@ sudo systemctl enable kibana
 sudo systemctl start kibana
 sudo systemctl status kibana
 http://localhost:5601/
+## codes
+sudo /usr/share/elasticsearch/bin/elasticsearch-reset-password --username kibana_system
+sudo /usr/share/kibana/bin/kibana-verification-code
 
 
 # install opensearch
