@@ -43,6 +43,8 @@ sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 skip-grant-tables
 sql_mode = "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
 default_authentication_plugin=mysql_native_password
+ngram_token_size=4 # Fulltext Search word splitting
+ft_min_word_len=3  # Fulltext Search min word len
 
 SET sql_mode = '';  -- only for current session !
 # после fix ако пропадне update !!!
