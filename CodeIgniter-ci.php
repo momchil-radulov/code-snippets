@@ -82,6 +82,8 @@ if (   $this->db->insert('table_name', $data)   ) {
     echo "Грешка при добавяне на записа.";
 }
 # debug generated sql
+echo $this->db->last_query();
+OR
 $this->db->set($data);
 $sql = $this->db->get_compiled_insert('table_name');
 echo $sql;
