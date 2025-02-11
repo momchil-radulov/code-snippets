@@ -10,6 +10,7 @@ CREATE TABLE articles (
     FULLTEXT(content) WITH PARSER ngram
 );
 # if exists
+SHOW INDEXES FROM articles;
 ALTER TABLE articles DROP INDEX content;
 SET GLOBAL ngram_token_size = 4;  # default is 3
 [/etc/mysql/mysql.conf.d/mysqld.cnf]
