@@ -39,6 +39,7 @@ mysqld --help --verbose | grep -A 1 'Default options are read from the following
 
 # премахване на аутентикацията
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo vim /etc/mysql/mariadb.conf.d/50-server.cnf  # MariaDB
 [mysqld]
 skip-grant-tables
 sql_mode = "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
