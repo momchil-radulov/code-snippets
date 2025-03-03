@@ -4,6 +4,10 @@ https://github.com/k88hudson/git-flight-rules
 # fix if broken
 git remote prune origin
 
+# ssh
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+
 # Git да не променя крайни редове (line endings) въобще в текущото репозитори
 git config core.autocrlf false
 
