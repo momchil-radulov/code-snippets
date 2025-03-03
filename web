@@ -17,12 +17,13 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
 # Принципи
 1.  ! Data-Oriented programming and TDD (Test driven development) !
 2.  Данните са във формат Dictionary, ключовете (освен ако не е много наложително) са текстови "key.subkey..."
+    Функциите се викат с три dictionary параметъра, които са опционални/незадължителни: params, settings, event
 3.  Всяка причина на промяна се капсулира в ! Event ! и се пропагандира по целия стек на промяна
 4.  Workflow е:
         събитие от най високо ниво (генерирано от UI, cron, web hook)
         вика се метод от първичния Service layer
             който оркестрира викания код
-            подава event, settings, params от най високо ниво
+            подава params, settings, event от най високо ниво
             генерира вторични events във опашките
             записва генерираните данни във DAL
         викат се глобални методи от глобални модули (BUSINESS, DAL, ...)
