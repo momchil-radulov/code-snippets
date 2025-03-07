@@ -11,6 +11,9 @@
   box-sizing: border-box;
 }
 
+# input with auto size from content
+field-sizing: content;
+
 # detect phone layout and change position
 @media only screen and ( max-device-width: 736px ) {
   div.class {
