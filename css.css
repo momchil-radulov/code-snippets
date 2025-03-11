@@ -1,3 +1,8 @@
+# Свойства:
+rgba(0, 0, 255, 0.5);	 # Само цвета на фона или текста	Фонът става прозрачен, но съдържанието (текста) остава напълно видимо
+opacity: 0.5;          # Целият елемент	Всички вътрешни елементи също стават прозрачни (включително текста)
+field-sizing: content; # input with auto size from content
+
 # минимална дължина на span 24 широчини на цифрата 0
 <span style="display: inline-block; min-width: 24ch;">
 
@@ -10,9 +15,6 @@
   border-radius: 4px;
   box-sizing: border-box;
 }
-
-# input with auto size from content
-field-sizing: content;
 
 # detect phone layout and change position
 @media only screen and ( max-device-width: 736px ) {
