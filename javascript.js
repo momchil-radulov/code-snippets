@@ -214,3 +214,33 @@ button.loading {
     cursor: not-allowed;
     opacity: 0.5;
 }
+
+# Последно посетени страници
+function loadVisited() {
+    // Показване на списъка в HTML
+    let listContainer = document.getElementById("pagesList");
+    listContainer.innerHTML = ""; // Изчиства преди обновяване
+
+    visitedPages.forEach(page => {
+        let listItem = document.createElement("li");
+        let link = document.createElement("a");
+        link.href = page;
+        link.textContent = page;
+        listItem.appendChild(link);
+        listContainer.appendChild(listItem);
+    });
+}
+function saveVisited() {
+    const maxPages = 10; // Запазва последните 10 страници
+    let visitedPages = JSON.parse(localStorage.getItem("visitedPages")) || [];
+
+    const currentPage = window.location.href;
+
+    if (!visitedPages.includes(currentPage)) {
+        visitedPages.unshift(currentPage); // Добавя текущата страница най-отпред
+        if (visitedPages.length > maxPages) {
+            visitedPages.pop(); // Премахва най-стария запис
+        }
+        localStorage.setItem("visitedPages", JSON.stringify(visitedPages));
+    }
+}
