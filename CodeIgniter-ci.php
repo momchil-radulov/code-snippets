@@ -218,6 +218,34 @@ function write_log($file_name, $log_type, $message) {
     file_put_contents($file_name, $formatted_message, FILE_APPEND);
 }
 
+function safe_print(&$variable = null, bool $is_safe_html = false): void {
+    if (!isset($variable) || is_null($variable)) {
+        echo '';
+        return;
+    }
+    
+    switch (gettype($variable)) {
+        case 'boolean':
+            echo $variable ? 'true' : 'false';
+            break;
+        
+        case 'array':
+        case 'object':
+            $json = json_encode($variable, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            echo $is_safe_html ? htmlspecialchars($json, ENT_QUOTES, 'UTF-8') : $json;
+            break;
+        
+        case 'string':
+        case 'integer':
+        case 'double':
+            echo $is_safe_html ? htmlspecialchars((string)$variable, ENT_QUOTES, 'UTF-8') : (string)$variable;
+            break;
+        
+        default:
+            echo '';
+    }
+}
+
 try {
     // Вашият код, който може да хвърли изключение
 } catch (Throwable $tr) {
