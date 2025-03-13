@@ -54,6 +54,24 @@ function camelCaseToText(text) {
   return text.replace(/([A-Z])/g, " $1");
 }
 
+function toggleFavorite(modulKey, menuTitle) {
+    let favContainer = document.getElementById("favoriteLinks");
+    let existingLink = document.getElementById("fav-" + modulKey);
+
+    if (existingLink) {
+        // Ако линкът вече е в "Любими", премахни го
+        favContainer.removeChild(existingLink);
+    } else {
+        // Добави нов любим линк
+        let newLink = document.createElement("a");
+        newLink.href = "/base_url/" + modulKey;
+        newLink.innerText = menuTitle;
+        newLink.id = "fav-" + modulKey;
+        newLink.style = "display: block; margin: 5px; color: red; font-weight: bold;";
+        favContainer.appendChild(newLink);
+    }
+}
+
 /*** export a html table to csv ***/
 function downloadCSV(csv, filename) {
     var csvFile = new Blob([csv], {type: "text/csv"});
