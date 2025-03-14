@@ -1,4 +1,6 @@
 # razni
+sudo snap install multipass
+
 multipass list
 multipass info vpn
 multipass shell vpn
