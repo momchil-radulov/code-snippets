@@ -69,6 +69,8 @@ sudo certbot --nginx
 sudo certbot renew --dry-run
 sudo certbot renew
 
+snap-store --quit && sudo snap refresh snap-store  # update snapstore
+
 # networking
 sudo apt install iproute2              =>  ip          =>  ip a
 sudo apt install net-tools             =>  netstat     =>  netstat -lt
