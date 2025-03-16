@@ -63,6 +63,11 @@ innodb_ft_min_token_size=3  # Fulltext Search min word len, InnoDB
 SHOW VARIABLES LIKE 'ngram_token_size';
 SHOW VARIABLES LIKE 'ft_min_word_len';
 
+SELECT user, host, plugin FROM mysql.user WHERE user = 'admin_usr1';
+CREATE USER 'admin_usr1'@'localhost' IDENTIFIED WITH mysql_native_password BY 'you_password';
+GRANT ALL PRIVILEGES ON you_database.* TO 'admin_usr1'@'localhost';
+FLUSH PRIVILEGES;
+
 SET sql_mode = '';  -- only for current session !
 # после fix ако пропадне update !!!
 sudo apt update
