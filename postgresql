@@ -104,7 +104,8 @@ SELECT
 FROM
     pg_catalog.pg_statio_user_tables
 ORDER BY
-    pg_total_relation_size(relid) DESC;
+    pg_total_relation_size(relid) DESC
+LIMIT 10;
 
 gzip db.sql
 gzip -t db.sql.gz  # test
@@ -113,8 +114,9 @@ zcat db.sql.gz | head -n 10
 zgrep "CREATE TABLE" db.sql.gz
 zcat db.sql.gz | tail -n 10
 
-DELETE FROM "DeviceLogs" WHERE "Time" < EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - INTERVAL '6 months'));
-DELETE FROM "ErrorLogs" WHERE "CreatedOn" < CURRENT_TIMESTAMP - INTERVAL '6 months';
+DELETE FROM "DeviceLogs" WHERE "Time" < EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - INTERVAL '3 months'));
+DELETE FROM "ErrorLogs" WHERE "CreatedOn" < CURRENT_TIMESTAMP - INTERVAL '3 months';
+DELETE FROM "DeviceCommunicationLogs" WHERE "DateTime" < CURRENT_TIMESTAMP - INTERVAL '3 months';
 
 # дефрагментиране и оптимизация
 PostgresQL: VACUUM FULL; VACUUM ANALYZE;
