@@ -380,3 +380,43 @@ Swal.fire({
   }
 });
 </script>
+
+Пример за синхронно извикване:
+sync call (some alternative for await)
+<script>
+function readyFn(data) {
+    console.log(data);
+}
+$.ajax({
+    method: "POST",
+    url: "/your_end_point/url",
+    dataType: "json",
+    data: {somedata: "some data"},
+    async: false, // Задава заявката като синхронна
+    success: function(data) {
+        if (data.success === true) {
+            readyFn({
+                title: '',
+                message: data.message,
+                result: 'success',
+                time: '10'
+            });
+        } else {
+            readyFn({
+                title: '',
+                message: JSON.stringify(data.errors),
+                result: 'error',
+                time: '10'
+            });
+        }
+    },
+    error: function(xhr, status, error) {
+        readyFn({
+            title: '',
+            message: 'AJAX Error: ' + error,
+            result: 'error',
+            time: '10'
+        });
+    }
+});
+</script>
