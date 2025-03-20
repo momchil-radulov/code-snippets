@@ -7,6 +7,8 @@ field-sizing: content; # input with auto size from content
 
 # минимална дължина на span 24 широчини на цифрата 0
 <span style="display: inline-block; min-width: 24ch;">
+# минимална височина 2 реда ("|" минимална широчина без base_line), примерно на td
+<span style="height: 2em; line-height: 2em; font-size: 2em; color: rgba(0,0,0,0);">|</span>
 
 # форматиране на падащ списък
 #id_select select {
