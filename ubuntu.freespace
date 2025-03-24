@@ -1,0 +1,14 @@
+df -h
+# най-големите директории
+sudo du -h / --max-depth=1 | sort -rh | head -n 20
+# най-големите файлове
+sudo find / -type f -exec du -h {} + | sort -rh | head -n 20
+
+sudo rm -rf /var/lib/apport/*
+sudo find /var/crash -type f -delete
+sudo systemctl stop apport.service
+sudo vim /etc/default/apport
+enabled=1 => enabled=0
+
+sudo vim /etc/mosquitto/mosquitto.conf
+log_type warning
