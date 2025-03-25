@@ -1,0 +1,55 @@
+##################################
+###*** Защита по ip address ***###
+##################################
+
+server {
+    listen 443 ssl;
+    server_name your_domain.com;
+
+    ssl_certificate /etc/nginx/ssl/server.crt;
+    ssl_certificate_key /etc/nginx/ssl/server.key;
+
+    allow 192.168.1.100;   # Разрешен IP
+    deny all;              # Забранява всички останали
+
+    location / {
+        root /var/www/admin;
+        index index.html;
+    }
+}
+
+##################################
+###*** Клиентски сертификат ***###
+##################################
+
+mkdir -p /etc/nginx/ssl
+
+# Генериране на частен ключ за клиента
+openssl genpkey -algorithm RSA -out /etc/nginx/ssl/client.key
+
+# Създаване на сертификатно запитване (CSR)
+openssl req -new -key /etc/nginx/ssl/client.key -out /etc/nginx/ssl/client.csr
+
+# Самоподписване на клиентския сертификат (валиден 1 година)
+openssl x509 -req -days 365 -in /etc/nginx/ssl/client.csr -signkey /etc/nginx/ssl/client.key -out /etc/nginx/ssl/client.crt
+
+server {
+    listen 443 ssl;
+    server_name your_domain.com;
+
+    ssl_certificate /etc/nginx/ssl/server.crt;
+    ssl_certificate_key /etc/nginx/ssl/server.key;
+
+    # Изисква клиентски сертификат
+    ssl_client_certificate /etc/nginx/ssl/client.crt;
+    ssl_verify_client on;
+
+    location / {
+        root /var/www/admin;
+        index index.html;
+    }
+}
+
+## Импортиране на клиентския сертификат във браузъра ##
+openssl pkcs12 -export -out client.pfx -inkey /etc/nginx/ssl/client.key -in /etc/nginx/ssl/client.crt
+# импортирай client.pfx в браузъра
