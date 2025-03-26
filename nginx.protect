@@ -265,3 +265,7 @@ ARP Spoofing	Статични ARP записи / VPN / Arpon
 DNS Spoofing	DNS-over-TLS (1.1.1.1) / Cloudflare DNS
 SSLStrip	    HSTS / HTTPS Everywhere
 MITM атаки	    Wireshark / Проверка на шлюза
+
+## CloudFlare ##
+curl -I https://example.com | grep "cf-ray"  # check if CloudFlare
+curl -s ifconfig.me  # check my outer ip
