@@ -159,3 +159,8 @@ CREATE TABLE modulename4tablename (
   modulename4tablename_created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (modulename4tablename_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+## JSON ##
+UPDATE job_schedule 
+    SET params = JSON_SET(params, '$.to', 'mail@domain.com') 
+    WHERE id = 349;
