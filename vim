@@ -1,4 +1,5 @@
 Ctrl - d -> complete suggestions
+:set paste  # Преди да поставиш текст, активирай paste mode, за да избегнеш автоматичните отстъпи
 :set ruler
 :set ruler! OR :set noruler
 :set wildmenu
