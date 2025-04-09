@@ -85,6 +85,7 @@ N,N = не използва check digit и не обръща текста.
 # търсене в мрежата
 sudo arp-scan --interface=eth0 --localnet
 sudo arp-scan --interface=wlp5s0 --localnet
+arp -an
 ❗️Принтерът ще се появи с MAC адрес, често започващ с:
 00:22:58
 AC:3F:A4
