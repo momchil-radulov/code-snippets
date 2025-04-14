@@ -67,6 +67,42 @@
             $(this).remove();
         });
     }
+
+    function postData() { 
+        // Вземане на стойности от елементи
+        var username = $('#username').val(); // Входно поле за потребителско име
+        var email = $('#email').val();       // Входно поле за email
+        var message = $('#message').val();   // Текстово поле за съобщение
+    
+        // AJAX заявка
+        $.ajax({
+            url: '/your-endpoint-url', // Замени с твоя URL
+            type: 'POST',
+            dataType: 'json',          // Указва, че очакваме JSON резултат
+            data: {
+                username: username,
+                email: email,
+                message: message
+            }
+        })
+        .done(function (response) {
+            if (response.success) {
+                console.log("Success:", response.message);
+            } else {
+                console.log("Fail:", response.message);
+            }
+        })
+        .fail(function (xhr, status, error) {
+            console.error("Error:", xhr.responseText);
+            $("#messageBox")
+                .html("Грешка: " + error)
+                .css("background-color", "red") // Променя цвета на фона
+                .fadeIn(1000).delay(3000).fadeOut(1000); // Плавно показване и скриване
+        })
+        .always(function () {
+            console.log("Request completed.");
+        });
+    }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
