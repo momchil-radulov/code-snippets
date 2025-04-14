@@ -8,13 +8,13 @@
     <title>Popup</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .default { background: #e9ecef; color: #212529; } /* Неутрален сив цвят */
-        .basic   { background: #fff; color: #212529; } /* Бял цвят */
-        .primary { background: #337ab7; color: #fff; }
-        .info    { background: #17a2b8; color: #fff; }
-        .warning { background: #ffc107; color: #212529; }
-        .success { background: #28a745; color: #fff; }
-        .danger  { background: #dc3545; color: #fff; }
+        .btn-default { background: #e9ecef; color: #212529; } /* Неутрален сив цвят */
+        .btn-basic   { background: #fff; color: #212529; } /* Бял цвят */
+        .btn-primary { background: #337ab7; color: #fff; }
+        .btn-info    { background: #17a2b8; color: #fff; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-success { background: #28a745; color: #fff; }
+        .btn-danger  { background: #dc3545; color: #fff; }
 
         .btn {
             margin: 5px;
@@ -43,13 +43,13 @@
 
     <div id="popup-container"></div>
 
-    <button class="btn primary" onclick="showPopup('primary', 'Това е primary съобщение!',         5000)">  Primary  </button>
-    <button class="btn default" onclick="showPopup('default', 'Това е default съобщение!',         5000)">  Default  </button>
-    <button class="btn basic"   onclick="showPopup('basic',   'Това е основно съобщение!',         5000)">  Basic    </button>
-    <button class="btn info"    onclick="showPopup('info',    'Това е информационно съобщение!',   5000)">  Info     </button>
-    <button class="btn warning" onclick="showPopup('warning', 'Внимание! Нещо се случи!',          5000)">  Warning  </button>
-    <button class="btn success" onclick="showPopup('success', 'Успешно запазено!',                 5000)">  Success  </button>
-    <button class="btn danger"  onclick="showPopup('danger',  'Грешка! Опасявам се, че не стана.', 6000)">  Error    </button>
+    <button class="btn btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',         5000)">  Primary  </button>
+    <button class="btn btn-default" onclick="showPopup('btn-default', 'Това е default съобщение!',         5000)">  Default  </button>
+    <button class="btn btn-basic"   onclick="showPopup('btn-basic',   'Това е основно съобщение!',         5000)">  Basic    </button>
+    <button class="btn btn-info"    onclick="showPopup('btn-info',    'Това е информационно съобщение!',   5000)">  Info     </button>
+    <button class="btn btn-warning" onclick="showPopup('btn-warning', 'Внимание! Нещо се случи!',          5000)">  Warning  </button>
+    <button class="btn btn-success" onclick="showPopup('btn-success', 'Успешно запазено!',                 5000)">  Success  </button>
+    <button class="btn btn-danger"  onclick="showPopup('btn-danger',  'Грешка! Опасявам се, че не стана.', 6000)">  Error    </button>
 
     <script>
     function showPopup(type, message, duration) {
