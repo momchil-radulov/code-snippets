@@ -48,20 +48,20 @@
 
     <div id="btn-popup-container"></div>
 
-    <a href="#" class="btn-round btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',     5000)">  Link  </a>
-    <div href="#" class="btn-round btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',   5000)">  Div  </div>
-    <button class="btn-round btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',         5000)">  Primary  </button>
-    <button class="btn-round btn-default" onclick="showPopup('btn-default', 'Това е default съобщение!',         5000)">  Default  </button>
-    <button class="btn-round btn-basic"   onclick="showPopup('btn-basic',   'Това е основно съобщение!',         5000)">  Basic    </button>
-    <button class="btn-round btn-info"    onclick="showPopup('btn-info',    'Това е информационно съобщение!',   5000)">  Info     </button>
-    <button class="btn-round btn-warning" onclick="showPopup('btn-warning', 'Внимание! Нещо се случи!',          5000)">  Warning  </button>
-    <button class="btn-round btn-success" onclick="showPopup('btn-success', 'Успешно запазено!',                 5000)">  Success  </button>
-    <button class="btn-round btn-danger"  onclick="showPopup('btn-danger',  'Грешка! Опасявам се, че не стана.', 6000)">  Error    </button>
+    <a href="#" class="btn-round btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',         5000)">  Link  </a>
+    <div class="btn-round btn-primary"        onclick="showPopup('btn-primary', 'Това е primary съобщение!',         5000)">  Div  </div>
+    <button class="btn-round btn-primary"     onclick="showPopup('btn-primary', 'Това е primary съобщение!',         5000)">  Primary  </button>
+    <button class="btn-round btn-default"     onclick="showPopup('btn-default', 'Това е default съобщение!',         5000)">  Default  </button>
+    <button class="btn-round btn-basic"       onclick="showPopup('btn-basic',   'Това е основно съобщение!',         5000)">  Basic    </button>
+    <button class="btn-round btn-info"        onclick="showPopup('btn-info',    'Това е информационно съобщение!',   5000)">  Info     </button>
+    <button class="btn-round btn-warning"     onclick="showPopup('btn-warning', 'Внимание! Нещо се случи!',          5000)">  Warning  </button>
+    <button class="btn-round btn-success"     onclick="showPopup('btn-success', 'Успешно запазено!',                 5000)">  Success  </button>
+    <button class="btn-round btn-danger"      onclick="showPopup('btn-danger',  'Грешка! Опасявам се, че не стана.', 6000)">  Error    </button>
 
     <script>
     function showPopup(type, message, duration) {
-        var popup = $('<div class="popup ' + type + '">' + message + '</div>');
-        $('#popup-container').append(popup);
+        var popup = $('<div class="btn-popup ' + type + '">' + message + '</div>');
+        $('#btn-popup-container').append(popup);
         popup.fadeIn(300).delay(duration).fadeOut(500, function() {
             $(this).remove();
         });
