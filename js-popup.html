@@ -17,11 +17,16 @@
         .btn-danger  { background: #dc3545; color: #fff; }
 
         .btn-round {
+            text-align: center;
+            text-decoration: none;
             margin: 5px;
             padding: 8px 12px;
             border: 1px solid #dee2e6;
             border-radius: 4px;
             cursor: pointer;
+        }
+        .btn-no-round {
+            border-radius: 0 !important; /* премахва заоблянето */
         }
         #popup-container {
             position: fixed;
@@ -43,6 +48,8 @@
 
     <div id="popup-container"></div>
 
+    <a href="#" class="btn-round btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',     5000)">  Link  </a>
+    <div href="#" class="btn-round btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',   5000)">  Div  </div>
     <button class="btn-round btn-primary" onclick="showPopup('btn-primary', 'Това е primary съобщение!',         5000)">  Primary  </button>
     <button class="btn-round btn-default" onclick="showPopup('btn-default', 'Това е default съобщение!',         5000)">  Default  </button>
     <button class="btn-round btn-basic"   onclick="showPopup('btn-basic',   'Това е основно съобщение!',         5000)">  Basic    </button>
