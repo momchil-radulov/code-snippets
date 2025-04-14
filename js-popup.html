@@ -87,12 +87,15 @@
         })
         .done(function (response) {
             if (response.success) {
+                showPopup('btn-success', response.message, 3000);
                 console.log("Success:", response.message);
             } else {
+                showPopup('btn-danger', response.message, 3000);
                 console.log("Fail:", response.message);
             }
         })
         .fail(function (xhr, status, error) {
+            showPopup('btn-danger', `Грешка: ${error}`, 3000);
             console.error("Error:", xhr.responseText);
             $("#messageBox")
                 .html("Грешка: " + error)
