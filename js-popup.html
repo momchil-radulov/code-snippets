@@ -65,7 +65,7 @@
         var popup = $('<div class="btn-popup ' + type + '">' + message + '</div>');
         $('#btn-popup-container').append(popup);
         popup.fadeIn(300).delay(duration).fadeOut(500, function() {
-            $(this).remove();
+            popup.remove();
         });
     }
 
