@@ -6,6 +6,12 @@
     <title>Popup</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        body {
+            font-family: sans-serif;
+        	max-width: 37.5rem;
+            background: #f5f5f5;
+            margin: auto;
+        }
         .btn-default { background: #e9ecef; color: #212529; } /* Неутрален сив цвят */
         .btn-basic   { background: #fff; color: #212529; } /* Бял цвят */
         .btn-primary { background: #007bff; color: #fff; }
@@ -41,6 +47,42 @@
             border-radius: 0.25rem;
             display: none;
         }
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-group {
+	        margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.2rem;
+            margin-left: 0.5rem;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .form-screen-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
     </style>
 </head>
 <body>
@@ -57,6 +99,34 @@
     <button class="btn-round btn-warning"     onclick="showPopup('btn-warning', 'Внимание! Нещо се случи!',          5000)">  Warning  </button>
     <button class="btn-round btn-success"     onclick="showPopup('btn-success', 'Успешно запазено!',                 5000)">  Success  </button>
     <button class="btn-round btn-danger"      onclick="showPopup('btn-danger',  'Грешка! Опасявам се, че не стана.', 6000)">  Error    </button>
+
+
+
+  <div class="form-container">
+    <h2>Регистрация</h2>
+    <form>
+      <div class="form-group">
+        <label for="text-input">Име:</label>
+        <input id="first_name" type="text" placeholder="Име" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Емайл:</label>
+        <input type="email" placeholder="Имейл" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Изберете:</label>
+        <select id="select_option" required>
+          <option value="" disabled selected>Изберете опция</option>
+          <option>Опция 1</option>
+          <option>Опция 2</option>
+          <option>Опция 3</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-round btn-primary">Изпрати</button>
+    </form>
+  </div>
+  
+
 
     <script>
     function showPopup(type, message, duration) {
