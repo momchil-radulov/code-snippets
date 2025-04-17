@@ -102,6 +102,8 @@ Y = показва текста отдолу,
 N,N = не използва check digit и не обръща текста.
 
 # търсене в мрежата
+sudo apt update
+sudo apt install arp-scan
 sudo arp-scan --interface=eth0 --localnet
 sudo arp-scan --interface=wlp5s0 --localnet
 arp -an
