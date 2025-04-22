@@ -92,6 +92,7 @@ SHOW CREATE DATABASE database_name;
 DROP DATABASE database_name;
 CREATE DATABASE `database_name` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 mysql database_name < database_name.sql
+gunzip < admin_db_2024-12-19.sql.gz | sudo mysql database_name
 
 # sql backup
 mysqldump -u user -p --skip-comments --skip-extended-insert --skip-dump-date --compact --single-transaction --quick mydatabase > backup.sql
