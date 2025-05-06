@@ -13,6 +13,10 @@ $data = $this->Your_model->methodToGetSomeData();
 # Бърза заявка
 return $this->db->get_where('contacts', ['id' => $contact_id])->row('email') ?? 'default@example.com';
 return $this->db->select('email')->where('id', $contact_id)->get('contacts')->row('email') ?: $default;
+$contact = $this->db->get_where('contacts', ['id' => $contact_id])->row_array();
+if ($contact && !empty($contact['email']) {
+    return $contact['email'];
+}
 
 # Заявка
 $this->db->select('p.id as product_id', false);
