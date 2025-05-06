@@ -76,6 +76,10 @@ public function setDeleted($id) {
         $this->db->where('id', $id);
         $result = $this->db->update('table_name', ['deleted' => 1]);
         return $result;
+
+        $this->db->set('deleted', 1);
+        $this->db->where('id', $id);
+        return $this->db->update('table_name');
 }
 
 # INSERT
@@ -84,7 +88,12 @@ $data = array(
     'column2' => 'value2',
     'user_id' => $this->session->userdata('user_id');
 );
-if (   $this->db->insert('table_name', $data)   ) {
+$result = $this->db->insert('table_name', $data);
+OR
+$this->db->set('column1', 'value1');
+$this->db->set('column2', 'value2');
+$result = $this->db->insert('table_name');
+if ( $result ) {
     echo "Записът е добавен успешно!";
 } else {
     echo "Грешка при добавяне на записа.";
