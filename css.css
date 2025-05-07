@@ -89,3 +89,137 @@ table tr td:nth-child(2), table tr th:nth-child(2) {
 
 </body>
 </html>
+
+<?php
+function getRatingColor($score) {
+    $score = max(1, min(10, $score));
+    
+    if ($score <= 2) {
+        // Червено (0°-30°)
+        $hue = ($score - 1) * 30; // 1→0°, 2→30°
+    } else {
+        // Зелено (30°-120°)
+        $hue = 30 + ($score - 2) * (90 / 8); // 2→30°, 10→120°
+    }
+    
+    return "hsl($hue, 100%, 80%)";
+}
+?>
+<td style="background-color: <?= getRatingColor($score) ?>; text-align: center;">
+    <?= $score ?>
+</td>
+td:hover { transform: scale(1.2); transition: all 0.2s; }
+
+<div class="ratings-container">
+    <?php foreach ($questions as $qIndex => $qId): ?>
+        <div class="question-group">
+            <h3 class="question-title"><?= $questions_name[$qIndex] ?></h3>
+            <div class="question-number">№ <?= $questions_no[$qIndex] ?></div>
+            
+            <div class="technicians-list">
+                <?php foreach ($bar_datasets as $techIndex => $tech): ?>
+                    <?php 
+                    $score = $tech['data'][$qIndex] ?: 0;
+                    $percentage = min(100, $score * 10); // Преобразуваме 1-10 в 10-100%
+                    $bgColor = "hsl(".($techIndex * 40).", 60%, 60%)";
+                    ?>
+                    
+                    <div class="technician-row">
+                        <span class="technician-name"><?= $tech['label'] ?></span>
+                        
+                        <div class="score-bar-container">
+                            <div class="score-bar" 
+                                 style="width: <?= $percentage ?>%; background-color: <?= $bgColor ?>">
+                                <span class="score-value"><?= number_format($score, 1) ?></span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<style>
+.ratings-container {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.question-group {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.question-title {
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.question-number {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.technicians-list {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.technician-row {
+    display: contents;
+}
+
+.technician-name {
+    font-weight: bold;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+.score-bar-container {
+    height: 30px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.score-bar {
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+    transition: width 0.5s ease;
+}
+
+.score-value {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    font-size: 12px;
+}
+
+/* Контрастен цвят за текста върху тъмни барове */
+.score-bar[style*="hsl(0"], 
+.score-bar[style*="hsl(40"], 
+.score-bar[style*="hsl(80"] {
+    color: #333;
+}
+.score-bar[style*="hsl(120"],
+.score-bar[style*="hsl(160"],
+.score-bar[style*="hsl(200"],
+.score-bar[style*="hsl(240"],
+.score-bar[style*="hsl(280"],
+.score-bar[style*="hsl(320"] {
+    color: white;
+}
+</style>
