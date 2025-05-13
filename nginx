@@ -152,3 +152,30 @@ $ sudo systemctl reload nginx
 # basic authorization
 sudo apt install apache2-utils
 sudo htpasswd -c /etc/apache2/.htpasswd user1
+
+
+
+# PROXY PASS
+## PHP
+<?php
+$url = 'http://your-domain.com/' . $_SERVER['REQUEST_URI'];
+$data = file_get_contents('php://input');  // Взима POST данните
+
+$options = [
+    'http' => [
+        'method' => $_SERVER['REQUEST_METHOD'],
+        'header' => getallheaders(),  // Предава всички хедъри
+        'content' => $data,
+    ],
+];
+
+$context = stream_context_create($options);
+$response = file_get_contents($url, false, $context);
+
+// Предава оригиналните хедъри от целевия сървър
+foreach ($http_response_header as $header) {
+    header($header);
+}
+
+echo $response;
+?>
