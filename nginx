@@ -179,3 +179,10 @@ foreach ($http_response_header as $header) {
 
 echo $response;
 ?>
+## NGINX
+    location /proxy/ {
+        # return 200 "from location /proxy\n";
+        proxy_pass http://localhost:8000;
+        # Премахване на /proxy от URL
+        rewrite ^/proxy/(.*) /$1 break;
+    }
