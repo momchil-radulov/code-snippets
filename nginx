@@ -158,6 +158,7 @@ sudo htpasswd -c /etc/apache2/.htpasswd user1
 # PROXY PASS
 ## PHP
 <?php
+$token = $_GET['token'] ?? '';
 $url = 'http://your-domain.com/' . $_SERVER['REQUEST_URI'];
 $data = file_get_contents('php://input');  // Взима POST данните
 
