@@ -1,6 +1,6 @@
 psql -U dbuser -h localhost -d copied_1675085997
 $sudo -u postgres psql -d copied_1675085997
-$sudo -i -u postgres psql
+$sudo -i -u postgres psql OR $sudo -i -u postgres;  $psql
 CREATE USER dbuser WITH ENCRYPTED PASSWORD 'astrongpassword';
 (OR AFTER CREATE) ALTER USER dbuser WITH ENCRYPTED PASSWORD 'anewstrongpassword';
 ALTER USER dbuser CREATEDB;
