@@ -68,13 +68,17 @@ $ vim locale/bg/LC_MESSAGES/*.po
 $ django-admin compilemessages
 ## използване
 from django.utils.translation import gettext_lazy as _
+
 [models.py]
 class Country(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, verbose_name=_("Държава"))
 
     class Meta:
         verbose_name = _("Държава")
         verbose_name_plural = _("Държави")
+        managed = False  # Django няма да прави миграции за тази таблица
+        db_table = 'employee'  # името на таблицата в базата
 
     def __str__(self):
         return self.name
