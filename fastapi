@@ -108,6 +108,8 @@ WorkingDirectory=/home/user_name/fastapi
 Environment="PATH=/home/user_name/fastapi/venv/bin"
 ExecStart=/home/user_name/fastapi/venv/bin/uvicorn fastapi_app:app --host 0.0.0.0 --port 8000
 
+OR uvicorn project_path.main:app --reload
+
 [Install]
 WantedBy=multi-user.target
 [:endfile]
