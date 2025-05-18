@@ -17,6 +17,7 @@ cd iot
 ./manage.py migrate
 ./createsuperuser
 in settings.py add to ALLOWED_HOSTS your_domain
+in settings.py add to INSTALLED_APPS = ['iot.apps.IotConfig',
 ./manage.py runserver
 
 django-admin makemessages -l en
