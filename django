@@ -114,3 +114,622 @@ sudo systemctl start my_service.service
 sudo systemctl enable my_service.service
 sudo systemctl status my_service.service
 journalctl -u my_service.service
+
+
+### MODELS.PY ###
+
+from django.db import models
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
+
+class Author(models.Model):
+    """
+    Модел за автори на книги.
+    Включва основни информации за автора и неговата кариера.
+    """
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Име на автора",
+        help_text="Пълното име на автора"
+    )
+    birth_date = models.DateField(
+        verbose_name="Дата на раждане"
+    )
+    biography = models.TextField(
+        verbose_name="Биография",
+        blank=True,
+        help_text="Подробна биография на автора"
+    )
+    nationality = models.CharField(
+        max_length=50,
+        verbose_name="Националност"
+    )
+    death_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name="Дата на смърт",
+        help_text="Попълнете само ако автора е починал"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="Активен автор",
+        help_text="Дали автора все още пише книги"
+    )
+
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Автори"
+        ordering = ['name']
+        
+    def __str__(self):
+        return self.name
+        
+    def get_age(self):
+        """
+        Връща възрастта на автора или годините на живот ако е починал
+        """
+        today = timezone.now().date()
+        if self.death_date:
+            return self.death_date.year - self.birth_date.year
+        return today.year - self.birth_date.year
+        
+    @property
+    def is_alive(self):
+        """Връща дали автора е жив"""
+        return self.death_date is None
+
+
+class Genre(models.Model):
+    """
+    Модел за жанрове на книгите.
+    """
+    POPULARITY_CHOICES = [
+        ('L', 'Нисък'),
+        ('M', 'Среден'),
+        ('H', 'Висок'),
+    ]
+    
+    name = models.CharField(
+        max_length=50,
+        verbose_name="Име на жанра",
+        unique=True
+    )
+    description = models.TextField(
+        verbose_name="Описание",
+        blank=True
+    )
+    popularity = models.CharField(
+        max_length=1,
+        choices=POPULARITY_CHOICES,
+        default='M',
+        verbose_name="Популярност"
+    )
+    
+    class Meta:
+        verbose_name = "Жанр"
+        verbose_name_plural = "Жанрове"
+        
+    def __str__(self):
+        return self.name
+        
+    def get_popularity_display(self):
+        """Връща четимото име на популярността"""
+        return dict(self.POPULARITY_CHOICES)[self.popularity]
+
+
+class Publisher(models.Model):
+    """
+    Модел за издатели на книги.
+    """
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Име на издател"
+    )
+    founded_date = models.DateField(
+        verbose_name="Дата на основаване"
+    )
+    country = models.CharField(
+        max_length=50,
+        verbose_name="Държава"
+    )
+    website = models.URLField(
+        max_length=200,
+        blank=True,
+        verbose_name="Уебсайт"
+    )
+    
+    class Meta:
+        verbose_name = "Издател"
+        verbose_name_plural = "Издатели"
+        ordering = ['name']
+        
+    def __str__(self):
+        return self.name
+        
+    def get_years_active(self):
+        """Връща годините от създаването на издателството"""
+        today = timezone.now().date()
+        return today.year - self.founded_date.year
+
+
+class Book(models.Model):
+    """
+    Основен модел за книгите в библиотеката.
+    """
+    title = models.CharField(
+        max_length=200,
+        verbose_name="Заглавие"
+    )
+    author = models.ForeignKey(
+        Author,
+        on_delete=models.CASCADE,
+        related_name='books',
+        verbose_name="Автор"
+    )
+    genre = models.ManyToManyField(
+        Genre,
+        related_name='books',
+        verbose_name="Жанр"
+    )
+    publish_date = models.DateField(
+        verbose_name="Дата на публикуване"
+    )
+    isbn = models.CharField(
+        max_length=13,
+        unique=True,
+        verbose_name="ISBN номер",
+        help_text="Международен стандартен номер на книгата"
+    )
+    pages = models.PositiveIntegerField(
+        verbose_name="Брой страници",
+        validators=[MinValueValidator(1)]
+    )
+    rating = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name="Рейтинг (1-5)",
+        help_text="Рейтинг от 1 до 5 звезди"
+    )
+    is_available = models.BooleanField(
+        default=True,
+        verbose_name="Наличност",
+        help_text="Дали книгата е налична в библиотеката"
+    )
+    
+    class Meta:
+        verbose_name = "Книга"
+        verbose_name_plural = "Книги"
+        ordering = ['title']
+        indexes = [
+            models.Index(fields=['title']),
+            models.Index(fields=['isbn']),
+        ]
+        
+    def __str__(self):
+        return f"{self.title} от {self.author.name}"
+        
+    def get_genres_display(self):
+        """Връща списък с жанровете като стринг"""
+        return ", ".join([genre.name for genre in self.genre.all()])
+        
+    @property
+    def age(self):
+        """Връща на колко години е книгата"""
+        today = timezone.now().date()
+        return today.year - self.publish_date.year
+
+
+class Edition(models.Model):
+    """
+    Модел за различните издания на книгите.
+    """
+    EDITION_CHOICES = [
+        ('1', 'Първо издание'),
+        ('2', 'Второ издание'),
+        ('3', 'Трето издание'),
+        ('4', 'Четвърто издание'),
+        ('5', 'Пето издание'),
+        ('S', 'Специално издание'),
+        ('L', 'Ограничено издание'),
+    ]
+    
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE,
+        related_name='editions',
+        verbose_name="Книга"
+    )
+    publisher = models.ForeignKey(
+        Publisher,
+        on_delete=models.CASCADE,
+        related_name='editions',
+        verbose_name="Издател"
+    )
+    year = models.PositiveIntegerField(
+        verbose_name="Година на издаване",
+        validators=[MinValueValidator(1000), MaxValueValidator(2100)]
+    )
+    edition_type = models.CharField(
+        max_length=1,
+        choices=EDITION_CHOICES,
+        verbose_name="Тип издание"
+    )
+    copies_sold = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Продадени копия"
+    )
+    
+    class Meta:
+        verbose_name = "Издание"
+        verbose_name_plural = "Издания"
+        unique_together = ['book', 'edition_type']
+        ordering = ['book', '-year']
+        
+    def __str__(self):
+        return f"{self.get_edition_type_display()} на {self.book.title} ({self.year})"
+        
+    def is_recent(self):
+        """Връща дали изданието е от последните 5 години"""
+        current_year = timezone.now().year
+        return current_year - self.year <= 5
+
+
+class Reader(models.Model):
+    """
+    Модел за читатели в библиотеката.
+    """
+    STATUS_CHOICES = [
+        ('A', 'Активен'),
+        ('I', 'Неактивен'),
+        ('B', 'Блокиран'),
+    ]
+    
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='reader_profile',
+        verbose_name="Потребител"
+    )
+    registration_date = models.DateField(
+        auto_now_add=True,
+        verbose_name="Дата на регистрация"
+    )
+    favorite_genre = models.ForeignKey(
+        Genre,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Любим жанр"
+    )
+    status = models.CharField(
+        max_length=1,
+        choices=STATUS_CHOICES,
+        default='A',
+        verbose_name="Статус"
+    )
+    
+    class Meta:
+        verbose_name = "Читател"
+        verbose_name_plural = "Читатели"
+        ordering = ['user__last_name', 'user__first_name']
+        
+    def __str__(self):
+        return f"{self.user.get_full_name()}"
+        
+    def is_active(self):
+        """Връща дали читателят е активен"""
+        return self.status == 'A'
+        
+    def get_status_color(self):
+        """Връща цвят според статуса за визуализация"""
+        status_colors = {
+            'A': 'green',
+            'I': 'orange',
+            'B': 'red',
+        }
+        return status_colors.get(self.status, 'gray')
+
+class Organization(models.Model):
+    name = models.CharField(max_length=100)
+
+class Department(models.Model):
+    name = models.CharField(max_length=100)
+    top_org = models.ForeignKey(Organization, related_name='top_departments')
+    sub_org = models.ForeignKey(Organization, related_name='sub_departments')
+
+
+### ADMIN.PY ###
+
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from django.utils.html import format_html
+from .models import Author, Book, Genre, Publisher, Edition, Reader
+
+# Регистрация на моделите с custom административни класове
+
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    """
+    Административен панел за жанровете.
+    Демонстрира проста конфигурация с търсене и филтриране.
+    """
+    list_display = ('name', 'get_popularity_display', 'description_short')
+    list_filter = ('popularity',)
+    search_fields = ('name', 'description')
+    ordering = ('name',)
+    
+    def description_short(self, obj):
+        """Съкратено описание за табличния изглед"""
+        return obj.description[:50] + '...' if obj.description else '-'
+    description_short.short_description = "Описание (съкратено)"
+
+
+@admin.register(Publisher)
+class PublisherAdmin(admin.ModelAdmin):
+    """
+    Административен панел за издателите.
+    Демонстрира изчисляеми полета в list_display.
+    """
+    list_display = ('name', 'country', 'founded_date', 'years_active')
+    list_filter = ('country',)
+    search_fields = ('name', 'website')
+    date_hierarchy = 'founded_date'
+    
+    def years_active(self, obj):
+        """Години активност на издателството"""
+        return obj.get_years_active()
+    years_active.short_description = "Години активност"
+
+
+class EditionInline(admin.TabularInline):
+    """
+    Вграден административен панел за изданията в книгата.
+    Демонстрира inline редактиране на свързани обекти.
+    """
+    model = Edition
+    fk_name = 'top_org'  # Указва коя foreign key да се използва за връзката
+    extra = 0
+    fields = ('publisher', 'year', 'edition_type', 'copies_sold')
+    readonly_fields = ('copies_sold',)
+
+
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    """
+    Административен панел за книгите.
+    Демонстрира филтри, търсене, групиране на полета и inlines.
+    """
+    list_display = ('title', 'author_link', 'publish_date', 'age', 'rating_stars', 'is_available_display')
+    list_filter = ('author', 'genre', 'is_available', 'publish_date')
+    search_fields = ('title', 'author__name', 'isbn')
+    list_editable = ('is_available',)
+    date_hierarchy = 'publish_date'
+    filter_horizontal = ('genre',)
+    inlines = [EditionInline]
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'author', 'genre')
+        }),
+        ('Детайли', {
+            'fields': ('isbn', 'publish_date', 'pages', 'rating'),
+            'classes': ('collapse',)
+        }),
+        ('Наличност', {
+            'fields': ('is_available',),
+            'description': 'Информация за наличността на книгата'
+        }),
+    )
+    
+    def author_link(self, obj):
+        """Линк към автора вместо просто име"""
+        from django.urls import reverse
+        from django.utils.html import escape
+        url = reverse('admin:library_author_change', args=[obj.author.id])
+        return format_html('<a href="{}">{}</a>', url, escape(obj.author.name))
+    author_link.short_description = "Автор"
+    author_link.admin_order_field = 'author__name'
+    
+    def rating_stars(self, obj):
+        """Визуализация на рейтинга със звездички"""
+        return '★' * obj.rating + '☆' * (5 - obj.rating)
+    rating_stars.short_description = "Рейтинг"
+    
+    def age(self, obj):
+        """Връща годините на книгата"""
+        return obj.age
+    age.short_description = "Години"
+    
+    def is_available_display(self, obj):
+        """Визуализация на наличността с цветове"""
+        if obj.is_available:
+            return format_html('<span style="color: green;">✓ Налична</span>')
+        return format_html('<span style="color: red;">✗ Не е налична</span>')
+    is_available_display.short_description = "Наличност"
+
+
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    """
+    Административен панел за авторите.
+    Демонстрира custom actions, bulk редактиране и детайлен изглед.
+    """
+    list_display = ('name', 'nationality', 'birth_date', 'age_or_death', 'is_active_display')
+    list_filter = ('nationality', 'is_active')
+    search_fields = ('name', 'biography')
+    actions = ['mark_as_active', 'mark_as_inactive']
+    readonly_fields = ('get_age', 'is_alive')
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'nationality', 'is_active')
+        }),
+        ('Биография', {
+            'fields': ('birth_date', 'death_date', 'biography'),
+            'classes': ('wide',)
+        }),
+        ('Допълнително', {
+            'fields': ('get_age', 'is_alive'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def age_or_death(self, obj):
+        """Показва възраст или години на живот"""
+        if obj.death_date:
+            return f"Починал на {obj.death_date} ({obj.get_age()}г.)"
+        return f"{obj.get_age()} години"
+    age_or_death.short_description = "Възраст/Години на живот"
+    
+    def is_active_display(self, obj):
+        """Визуализация на активността"""
+        return "Активен" if obj.is_active else "Неактивен"
+    is_active_display.short_description = "Статус"
+    is_active_display.admin_order_field = 'is_active'
+    
+    def mark_as_active(self, request, queryset):
+        """Custom действие за маркиране като активен"""
+        queryset.update(is_active=True)
+        self.message_user(request, f"Маркирахте {queryset.count()} автори като активни.")
+    mark_as_active.short_description = "Маркирай избраните като активни"
+    
+    def mark_as_inactive(self, request, queryset):
+        """Custom действие за маркиране като неактивен"""
+        queryset.update(is_active=False)
+        self.message_user(request, f"Маркирахте {queryset.count()} автори като неактивни.")
+    mark_as_inactive.short_description = "Маркирай избраните като неактивни"
+
+
+@admin.register(Edition)
+class EditionAdmin(admin.ModelAdmin):
+    """
+    Административен панел за изданията.
+    Демонстрира групиране на данни и custom методи за визуализация.
+    """
+    list_display = ('book_title', 'publisher', 'year', 'edition_type_display', 'is_recent_display', 'copies_sold')
+    list_filter = ('publisher', 'year', 'edition_type')
+    search_fields = ('book__title', 'publisher__name')
+    list_select_related = ('book', 'publisher')
+    
+    def book_title(self, obj):
+        """Заглавие на книгата с линк към редактирането ѝ"""
+        from django.urls import reverse
+        url = reverse('admin:library_book_change', args=[obj.book.id])
+        return format_html('<a href="{}">{}</a>', url, obj.book.title)
+    book_title.short_description = "Книга"
+    book_title.admin_order_field = 'book__title'
+    
+    def edition_type_display(self, obj):
+        """Визуализация на типа издание"""
+        return obj.get_edition_type_display()
+    edition_type_display.short_description = "Тип издание"
+    edition_type_display.admin_order_field = 'edition_type'
+    
+    def is_recent_display(self, obj):
+        """Визуализация дали изданието е скорошно"""
+        if obj.is_recent():
+            return format_html('<span style="color: green;">✓ Скорошно</span>')
+        return format_html('<span style="color: gray;">✗ Старо</span>')
+    is_recent_display.short_description = "Скорошно издание"
+
+
+# Разширяване на User администрацията за да включва Reader
+class ReaderInline(admin.StackedInline):
+    """Вграден панел за Reader в User администрацията"""
+    model = Reader
+    can_delete = False
+    verbose_name_plural = 'Допълнителна информация за читател'
+    fields = ('registration_date', 'favorite_genre', 'status', 'status_color')
+    readonly_fields = ('registration_date', 'status_color')
+    
+    def status_color(self, obj):
+        """Визуализация на статуса с цвят"""
+        color = obj.get_status_color()
+        return format_html(
+            '<span style="display: inline-block; width: 20px; height: 20px; background-color: {};"></span> {}',
+            color, obj.get_status_display()
+        )
+    status_color.short_description = "Статус (визуализация)"
+
+
+class CustomUserAdmin(UserAdmin):
+    """Разширен User административен панел с Reader информация"""
+    inlines = [ReaderInline]
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'reader_status')
+    
+    def reader_status(self, obj):
+        """Показва статуса на читателя ако има такъв"""
+        if hasattr(obj, 'reader_profile'):
+            return obj.reader_profile.get_status_display()
+        return "-"
+    reader_status.short_description = "Статус на читателя"
+
+
+# Презаписване на регистрацията на User с custom администрация
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
+
+
+@admin.register(Reader)
+class ReaderAdmin(admin.ModelAdmin):
+    """
+    Административен панел за читателите.
+    Демонстрира свързване с User модела и custom методи.
+    """
+    list_display = ('user_full_name', 'user_email', 'registration_date', 'favorite_genre', 'status_display')
+    list_filter = ('status', 'favorite_genre')
+    search_fields = ('user__first_name', 'user__last_name', 'user__email')
+    raw_id_fields = ('user',)
+    readonly_fields = ('registration_date', 'user_info')
+    
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'user_info', 'status')
+        }),
+        ('Предпочитания', {
+            'fields': ('favorite_genre',),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def user_full_name(self, obj):
+        """Пълно име на потребителя"""
+        return obj.user.get_full_name()
+    user_full_name.short_description = "Име"
+    user_full_name.admin_order_field = 'user__last_name'
+    
+    def user_email(self, obj):
+        """Имейл на потребителя"""
+        return obj.user.email
+    user_email.short_description = "Имейл"
+    user_email.admin_order_field = 'user__email'
+    
+    def status_display(self, obj):
+        """Визуализация на статуса с цвят"""
+        color = obj.get_status_color()
+        return format_html(
+            '<span style="color: {};">{}</span>',
+            color, obj.get_status_display()
+        )
+    status_display.short_description = "Статус"
+    
+    def user_info(self, obj):
+        """Допълнителна информация за потребителя"""
+        return format_html(
+            """
+            <strong>Потребител:</strong> {}<br>
+            <strong>Имейл:</strong> {}<br>
+            <strong>Регистрация:</strong> {}
+            """,
+            obj.user.username,
+            obj.user.email,
+            obj.registration_date
+        )
+    user_info.short_description = "Информация за потребителя"
+
+class DepartmentInline(admin.TabularInline):
+    model = Department
+    fk_name = 'top_org'  # Указва коя foreign key да се използва за връзката
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    raw_id_fields = ('sub_org',)  # Ще покаже поле за въвеждане на ID вместо dropdown
