@@ -4,6 +4,9 @@ sudo ufw default allow outgoing
 sudo ufw allow ssh
 sudo ss -tulnp | grep ssh  # за всеки случай провери
 sudo ufw show added
+# други
+sudo ufw allow http
+sudo ufw allow https
 
 sudo ufw enable
 
