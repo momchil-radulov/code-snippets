@@ -221,3 +221,9 @@ git log --format="%an" | sort -u        # show users
 git log --format="%ae" | sort -u        # show emails
 git log --format="%an - %ae" | sort -u  # users with emails
 git log -p --author="author OR email"   # show code changes from a author
+
+# changed files, променени файлове
+git diff --name-only master > files2upload_diff.txt
+git rev-parse HEAD  # get current hash
+git diff --name-only hash1 hash12  # changed files between two commits
+
