@@ -232,4 +232,9 @@ git log -p --author="author OR email"   # show code changes from a author
 git diff --name-only master > files2upload_diff.txt
 git rev-parse HEAD  # get current hash
 git diff --name-only hash1 hash12  # changed files between two commits
-
+git diff --name-only hash1 HEAD
+# Да видиш и типа промени (добавен, изтрит, променен):
+git diff --name-status hash1 HEAD
+git diff --name-only 98d75e8..HEAD -- '*.php'
+# Да видиш пълните промени
+git diff 98d75e8..HEAD
