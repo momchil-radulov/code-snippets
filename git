@@ -5,8 +5,8 @@ https://github.com/k88hudson/git-flight-rules
 git remote prune origin
 
 # ssh
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa
+eval "$(ssh-agent -s)"  # стартира ssh-agent
+ssh-add ~/.ssh/id_rsa   # добавя твоя частен SSH ключ (в случая ~/.ssh/id_rsa) към стартирания ssh-agent
 
 # Git да не променя крайни редове (line endings) въобще в текущото репозитори
 git config core.autocrlf false
