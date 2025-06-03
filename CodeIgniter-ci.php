@@ -480,3 +480,18 @@ if ($result) {
 } else {
     echo "Възникна грешка при изпращането на имейла.";
 }
+
+
+# backup and restore "phpspreadsheet" for composer
+tar -czvf phpspreadsheet_backup.tar.gz vendor/phpoffice/phpspreadsheet
+scp user@working-server:/path/to/project/phpspreadsheet_backup.tar.gz ~/
+# Премести архива в проекта (ако не е вече там)
+mv ~/phpspreadsheet_backup.tar.gz /home/your_user/projects/you_project/
+# Отиваме в проекта
+cd /home/momchil/projects/you_project/vendor/phpoffice/
+# Изтриваме стария (ако има)
+rm -rf phpspreadsheet
+# Разпакетираме архива
+tar -xzvf phpspreadsheet_backup.tar.gz
+# Обновяваме autoloader (важно!)
+composer dump-autoload
