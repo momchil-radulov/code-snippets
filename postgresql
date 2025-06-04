@@ -5,7 +5,18 @@ sudo apt install postgresql postgresql-contrib
 sudo systemctl status postgresql
 sudo -i -u postgres
 psql
-	List databases: \l ; Quit: \q ; List users: \du
+	List databases: \l ; Quit: \q ; List users: \du ; \c mydb 
+# As postgres user in psql:
+CREATE USER iotuser WITH PASSWORD 'yourpassword';
+CREATE DATABASE iotdb;
+GRANT ALL PRIVILEGES ON DATABASE iotdb TO iotuser;
+ALTER ROLE iotuser SET timezone TO 'UTC';
+ALTER ROLE iotuser SET client_encoding TO 'utf8';
+SELECT rolname, rolconfig FROM pg_roles WHERE rolname = 'iotuser';
+SHOW timezone;
+SHOW client_encoding;
+SHOW default_transaction_isolation;
+
 
 psql -U dbuser -h localhost -d copied_1675085997
 $sudo -u postgres psql -d copied_1675085997
