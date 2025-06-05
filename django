@@ -122,6 +122,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 class Author(models.Model):
     """
@@ -158,8 +159,11 @@ class Author(models.Model):
     )
 
     class Meta:
-        verbose_name = "Автор"
-        verbose_name_plural = "Автори"
+        managed = False
+        db_table = 'trz_author'
+        unique_together = (('name', 'birth_date'),)
+        verbose_name = _("Автор")
+        verbose_name_plural = _("Автори")
         ordering = ['name']
         
     def __str__(self):
