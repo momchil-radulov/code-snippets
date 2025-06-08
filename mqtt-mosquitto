@@ -83,3 +83,40 @@ def main():
 if __name__ == "__main__":
     main()
     
+## Mosquitto config example
+# Основни настройки
+autosave_interval 900  # Запазване на всеки 15 минути вместо 30
+persistence true
+persistence_file mosquitto.db
+persistence_location /var/lib/mosquitto/  # По-подходящо място от /tmp/
+
+# Логиране
+log_dest file /var/log/mosquitto/mosquitto.log
+log_type warning
+log_type error
+log_type notice  # Добавено за важни събития
+log_timestamp true
+log_facility local5  # За интеграция с syslog
+
+# Мрежови настройки
+max_connections 1000  # Лимит на връзките
+connection_messages true
+listener 1883 127.0.0.1  # Нешифрован порт
+
+# TLS настройки
+listener 8883 0.0.0.0
+cafile /etc/mosquitto/certificates/ca.crt
+certfile /etc/mosquitto/certificates/mqtt.crt
+keyfile /etc/mosquitto/certificates/mqtt.key
+tls_version tlsv1.2  # Принудително използване на TLS 1.2+
+
+# Сигурност
+allow_anonymous false
+password_file /etc/mosquitto/passwd  # Файл с потребители/пароли
+acl_file /etc/mosquitto/acls  # Файл с ACL правила
+
+# Оптимизации
+set_tcp_nodelay true  # По-добра мрежова ефективност
+message_size_limit 268435455  # ~256MB максимален размер на съобщение
+
+## end Mosquitto config example
