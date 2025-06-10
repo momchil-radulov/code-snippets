@@ -19,6 +19,13 @@ SELECT CONCAT('ANALYZE TABLE ', GROUP_CONCAT(TABLE_NAME), ';')
     WHERE TABLE_SCHEMA = 'вашата_база';
 #=> След това копирате резултата и го изпълнявате.
 
+              -o / --optimize  # използвайте по РЯДКО
+mariadb-check -o --all-databases -u root -p
+mysqlcheck    -o --all-databases -u root -p
+              -a / --analyze  # използвайте по ЧЕСТО
+mariadb-check -a --all-databases -u root -p
+mysqlcheck    -a --all-databases -u root -p
+
 # raw hdd access
 sudo modprobe nbd
 sudo qemu-nbd --connect=/dev/nbd0 /var/snap/multipass/common/data/multipassd/vault/instances/php/ubuntu-20.04-server-cloudimg-amd64.img
