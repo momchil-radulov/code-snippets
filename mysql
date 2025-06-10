@@ -1,5 +1,6 @@
 #backup
 sudo mysqldump --databases admin_db | gzip > admin_db_$(date +%Y-%m-%d).sql.gz
+gunzip < admin_db_2025-07-19.sql.gz | sudo mysql admin_db
 gunzip < admin_db_2024-12-19.sql.gz | mysql -u [потребител] -p admin_db
 df -h
 
