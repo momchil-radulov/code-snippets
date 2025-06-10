@@ -13,7 +13,11 @@ SET SESSION group_concat_max_len = 1000000;
 SELECT CONCAT('OPTIMIZE TABLE ', GROUP_CONCAT(TABLE_NAME), ';') 
     FROM INFORMATION_SCHEMA.TABLES 
     WHERE TABLE_SCHEMA = 'вашата_база';
-След това копирате резултата и го изпълнявате.
+#=> След това копирате резултата и го изпълнявате.
+SELECT CONCAT('ANALYZE TABLE ', GROUP_CONCAT(TABLE_NAME), ';') 
+    FROM INFORMATION_SCHEMA.TABLES 
+    WHERE TABLE_SCHEMA = 'вашата_база';
+#=> След това копирате резултата и го изпълнявате.
 
 # raw hdd access
 sudo modprobe nbd
