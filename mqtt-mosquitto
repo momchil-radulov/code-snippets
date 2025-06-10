@@ -120,3 +120,54 @@ set_tcp_nodelay true  # По-добра мрежова ефективност
 message_size_limit 268435455  # ~256MB максимален размер на съобщение
 
 ## end Mosquitto config example
+
+
+## mosquitto_user_manager.py ##
+import sys
+import subprocess
+import os
+
+def create_mosquitto_user(username, topic, password):
+    # Проверка дали Mosquitto е инсталиран
+    try:
+        subprocess.run(["mosquitto_passwd", "--version"], capture_output=True, check=True)
+    except FileNotFoundError:
+        print("Грешка: Mosquitto не е инсталиран или не е в PATH.")
+        sys.exit(1)
+
+    # Създаване на потребител (с или без парола)
+    passwd_file = "/etc/mosquitto/passwd"  # Стандартен път; променете според вашата конфигурация
+    if not os.path.exists(passwd_file):
+        open(passwd_file, "w").close()  # Създава файла, ако не съществува
+
+    if password:
+        subprocess.run(["mosquitto_passwd", "-b", passwd_file, username, password], check=True)
+    else:
+        with open(passwd_file, "a") as f:
+            f.write(f"{username}:\n")  # Потребител без парола
+
+    # Конфигурационен файл за ACL (Access Control List)
+    acl_file = "/etc/mosquitto/acl"  # Променете според вашата конфигурация
+    with open(acl_file, "a") as f:
+        f.write(f"\nuser {username}\ntopic readwrite {topic}/#\n")
+
+    print(f"Потребител {username} е създаден успешно с права за '{topic}/#'.")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Употреба: python mosquitto_user_manager.py 'user:topic:pass'")
+        sys.exit(1)
+
+    input_str = sys.argv[1]
+    parts = input_str.split(":")
+    if len(parts) != 3:
+        print("Грешен формат. Очаква се 'user:topic:pass'")
+        sys.exit(1)
+
+    username, topic, password = parts
+    if not username or not topic:
+        print("Потребителското име и topic са задължителни.")
+        sys.exit(1)
+
+    create_mosquitto_user(username, password if password != "" else None, topic)
+## end mosquitto_user_manager.py ##
