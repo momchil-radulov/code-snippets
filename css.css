@@ -9,6 +9,8 @@ position: relative; left: -20px;
   white-space: nowrap;  /* Забранява преминаването на нов ред */
   overflow: hidden;   /* Скрива частта, която не се побира */
   overflow: visible;  /* Или ако искате да се показва без скриване, дори да стърчи */
+  display: flex;         /* Модерен подход */
+  flex-wrap: nowrap;     /* Без пренасяне */
 }
 
 # Свойства:
