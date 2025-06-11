@@ -5,6 +5,9 @@ error_log('Some message ...');
 # Печатаме в error log на CodeIgniter
 log_message('error', 'Some message ...');
 
+[application/config/config.php]
+$config['cookie_secure'] = TRUE;  // това ако се работи локално без https, да се махне, иначе създава постоянно нови сесии
+
 # Зареждане на модел
 // Зареждате модела, ако вече не е зареден
 $this->load->model('Your_model');
