@@ -6,8 +6,8 @@ error_log('Some message ...');
 log_message('error', 'Some message ...');
 
 [application/config/config.php]
-$config['cookie_secure'] = TRUE;  // това ако се работи локално без https, да се махне, иначе създава постоянно нови сесии
-$config['cookie_samesite'] = 'Lax';
+$config['cookie_secure'] = TRUE;  // FALSE ако се работи локално без https, иначе създава постоянно нови сесии
+$config['cookie_samesite'] = 'None';  // 'Lax' ако се работи локално без https
 // ако се съхраняват в база данни, обикновено таблицата е ci_sessions
 
 # Зареждане на модел
