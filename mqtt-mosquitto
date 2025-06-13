@@ -122,7 +122,7 @@ message_size_limit 268435455  # ~256MB максимален размер на с
 ## end Mosquitto config example
 
 
-## mosquitto_user_manager.py ##
+=> ## mosquitto_user_manager.py ##
 import sys
 import subprocess
 import os
@@ -195,4 +195,51 @@ if __name__ == "__main__":
 
     input_str = sys.argv[1]
     create_mosquitto_user(input_str)
-## end mosquitto_user_manager.py ##
+<= ## end mosquitto_user_manager.py ##
+
+=> ## python script with reconect ##
+import paho.mqtt.client as mqtt
+import time
+
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print("Успешно свързване с MQTT брокер")
+        client.subscribe("your/topic")  # Ре-абониране при повторно свързване
+    else:
+        print(f"Грешка при свързване. Код: {rc}")
+
+def on_disconnect(client, userdata, rc):
+    print(f"Прекъсната връзка с код: {rc}")
+    if rc != 0:
+        print("Опит за повторно свързване...")
+        reconnect(client)
+
+def on_message(client, userdata, msg):
+    print(f"Получено съобщение: {msg.topic} {str(msg.payload.decode())}")
+
+def reconnect(client):
+    while True:
+        try:
+            print("Опит за повторно свързване...")
+            client.reconnect()
+            return
+        except Exception as e:
+            print(f"Грешка при повторно свързване: {e}")
+            time.sleep(5)  # Изчакване преди следващ опит
+
+client = mqtt.Client(client_id="your_client_id")
+client.on_connect = on_connect
+client.on_message = on_message
+client.on_disconnect = on_disconnect
+
+# Задаване на потребител/парола ако е нужно
+# client.username_pw_set("username", "password")
+
+try:
+    client.connect("broker.hivemq.com", 1883, 60)
+except Exception as e:
+    print(f"Грешка при първоначално свързване: {e}")
+    reconnect(client)
+
+client.loop_forever()  # Това автоматично ще се опита да се свърже отново при прекъсване
+<= ## python script with reconect ##
