@@ -2,6 +2,24 @@
 * { border: 1px solid red; }
 .problem-element { background: rgba(255, 0, 0, 0.3); }
 
+# позициониране
+# Подрежда всички дъщерни елементи в редица (по подразбиране по хоризонтала)
+.flexbox {
+  display: flex;
+  gap: 10px;
+}
+# Подрежда в 2 колони и колкото реда са нужни.
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+# Центрира вътре съдържанието
+.parent {
+  display: grid;
+  place-items: center;
+}
+
 # За да преместите елемент наляво
 position: relative; left: -20px;
 # Запазване на елементите на един ред
