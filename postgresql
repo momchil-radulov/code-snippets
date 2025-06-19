@@ -28,6 +28,8 @@ CREATE DATABASE websitedb ENCODING 'UTF8' OWNER dbuser;
 (OR AFTER CREATE)
 GRANT ALL PRIVILEGES ON DATABASE websitedb TO dbuser;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO dbuser;
+ALTER TABLE public.table_name OWNER TO user_name;  # change owner of a table
+
 
 $sudo -u postgres createuser dbuser
 $sudo -u postgres createdb websitedb
