@@ -140,6 +140,8 @@ DELETE FROM "DeviceLogs" WHERE "Time" < EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - 
 DELETE FROM "ErrorLogs" WHERE "CreatedOn" < CURRENT_TIMESTAMP - INTERVAL '3 months';
 DELETE FROM "DeviceCommunicationLogs" WHERE "DateTime" < CURRENT_TIMESTAMP - INTERVAL '3 months';
 
+SELECT column_str FROM your_table_name WHERE column_str !~ '^\d+$';  # проверка дали има текст, който не е цяло число
+
 # дефрагментиране и оптимизация
 PostgresQL: VACUUM FULL; VACUUM ANALYZE;
 MySQL:      mysqlcheck -o my_database
