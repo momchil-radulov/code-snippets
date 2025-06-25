@@ -113,3 +113,19 @@ OR uvicorn project_path.main:app --reload
 [Install]
 WantedBy=multi-user.target
 [:endfile]
+
+# Database
+from sqlalchemy import text
+
+sql = text("""
+    SELECT d.*
+    FROM devices d
+    JOIN boards b ON d.boards_id = b.id
+    WHERE b.board_id = :board_id
+""")
+
+result = dbn.execute(sql, {"board_id": board_id})
+
+device_row = result.fetchone()   # return a Object
+row = result.mappings().first()  # return a Dictionary
+rows = result.mappings().all()   # return a List of Dictionaries
