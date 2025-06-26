@@ -15,8 +15,10 @@
     [{"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
       "data": "json_serialized_data", "hash": "hash_data_with_secret_key"} ,]
     "json_serialized_data" => {"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
-                               "data": {"finit-state": number, "pin_number": "value", "unique_kye": "value" ...}}
+                               "data": {"finit_state": number, "pin_number": "value", "unique_kye": "value" ...}}
 12. iot хардуера работи на принципа на Краен автомат / Finite-state machine, т.е. винаги е в строго определено състояние
+    Всеки процес/workflow работи на принципа на Краен автомат / Finite-state machine.
+    finit_state-your_process_name-your_state_name
 13. сървъра има mapping между "dev", "finit-state", "pin_number" / unique_key -> към -> unique key
     за потребителско значение записвано в базата данни,
     т.е. какво се включва / изключва, или какво се измерва от даден пин се съхранява във сървъра
