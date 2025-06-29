@@ -17,7 +17,7 @@ server {
 []
 sudo certbot --nginx -d api3.kemsa.net
 sudo systemctl reload nginx
-
+sudo certbot renew
 
 # Long
 sudo apt update
