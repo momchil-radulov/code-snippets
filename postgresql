@@ -1,5 +1,6 @@
 # backup
 sudo -u postgres pg_dump iotdb > iotdb_backup.sql
+sudo -u postgres pg_dump -F p iotdb > iotdb_backup.sql
 sudo -u postgres dropdb iotdb
 sudo -u postgres createdb iotdb
 sudo -u postgres psql iotdb < iotdb_backup.sql
