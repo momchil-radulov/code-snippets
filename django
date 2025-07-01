@@ -15,7 +15,7 @@ cd iot
 ./manage.py startapp mc
 ./manage.py inspectdb > mc/models.py
 ./manage.py migrate
-./createsuperuser
+./manage.py createsuperuser
 in settings.py add to ALLOWED_HOSTS your_domain
 in settings.py add to INSTALLED_APPS = ['iot.apps.IotConfig',
 ./manage.py runserver
