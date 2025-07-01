@@ -1,3 +1,7 @@
+# backup
+sudo -u postgres pg_dump iotdb > iotdb_backup.sql
+
+
 # Install
 sudo apt update
 sudo apt upgrade
