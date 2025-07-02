@@ -500,3 +500,6 @@ rm -rf phpspreadsheet
 tar -xzvf phpspreadsheet_backup.tar.gz
 # Обновяваме autoloader (важно!)
 composer dump-autoload
+
+# Разни, нестандартни
+debug_print($this->controler_config['view_perm'], true);
