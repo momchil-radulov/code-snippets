@@ -9,6 +9,16 @@
 # Центрира вътре съдържанието
 .parent { display: grid;  place-items: center; }
 
+<div style="width: 100%;"> <!-- или по новия вариант <div class="d-flex justify-content-between mb-3 no-print"> -->
+<a href="/some_url" class="btn btn-default">
+    <i class="fa fa-angle-left"></i>
+    <span class="hidden-480">Назад</span>
+</a>
+<button onclick="window.print()" class="btn btn-primary pull-right">
+    <i class="fa fa-print"></i>
+    <span class="hidden-480">Печат</span>
+</button>
+</div>
 # За да преместите елемент наляво
 position: relative; left: -20px;
 # Запазване на елементите на един ред
@@ -73,17 +83,43 @@ table tr td:nth-child(2), table tr th:nth-child(2) {
 
 /* Печат на таблицата */
 @media print {
+  .no-print {
+      display: none !important;
+  }
   page {
     size: A4 landscape;
   }
   body, html {
     width: 100%;
     padding: 0mm 0mm 0mm 10mm;
+    font-family: "Times New Roman", serif;
   }
   /* Стил за таблицата при печат */
   table {
     width: calc(100% - 25mm);
   }
+  /* Стил на размерите на шрифта */
+  body {
+      font-size: 12pt;
+  }
+  table {
+    font-size: 11pt;
+  }
+  h1 {
+      font-size: 18pt;
+  }
+  h2 {
+      font-size: 16pt;
+  }
+  footer {
+      font-size: 9pt;
+  }
+}
+
+
+  
+
+  
 }
 
 <!DOCTYPE html>
