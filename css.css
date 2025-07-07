@@ -61,6 +61,72 @@ field-sizing: content; # input with auto size from content
 }
 
 @media print {
+    /* --- ОСНОВНИ НАСТРОЙКИ И НУЛИРАНЕ --- */
+    /* Премахва цветове, сенки и задава черен текст на бял фон за всичко. */
+    * {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    /* Настройва размера на страницата и маржовете. Това е правилният начин, вместо да се задават на body. */
+    @page {
+        size: A4;
+        margin-top: 10mm;
+        margin-right: 10mm;
+        margin-bottom: 20mm;
+        margin-left: 20mm;
+    }
+    body {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+    /* --- КОНТРОЛ НА СЪДЪРЖАНИЕТО И ОФОРМЛЕНИЕТО --- */
+    /* Скрива всички елементи, които не са нужни при печат. */
+    .no-print {
+        display: none !important;
+    }
+    /* Предотвратява "висящи" редове (един ред от параграф на нова страница). */
+    p {
+        orphans: 3; /* Минимален брой редове, които да останат в края на страницата */
+        widows: 3;  /* Минимален брой редове, които да се прехвърлят на нова страница */
+    }
+    /* Предотвратява започването на нова страница веднага след заглавие. */
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+    /* --- СТИЛОВЕ ЗА КОНКРЕТНИ ЕЛЕМЕНТИ --- */
+    /* Йерархия на заглавията */
+    h1 { font-size: 18pt; }
+    h2 { font-size: 16pt; }
+    h3 { font-size: 14pt; }
+    /* Таблици - с рамки за по-добра четимост */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11pt;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+    /* Линкове - черни, подчертани и с показан URL адрес */
+    a, a:visited {
+        text-decoration: underline;
+    }
+    /* Показва пълния URL адрес само на външни линкове (тези, които започват с http) */
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+    }
+    /* Стил за долния колонтитул (footer) */
+    footer {
+        font-size: 9pt;
+    }
+}
+
+@media print {
     body {
         width: 210mm; /* Широчина на A4 формат */
         margin: 0 auto; /* Центриране */
