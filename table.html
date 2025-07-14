@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8" />
+    <title>Образец на таблица (центрирана)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .page {
+            background: white;
+            padding: 20mm;
+            max-width: 210mm;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            page-break-inside: auto;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        /* Центриране на номер, мярка и количество */
+        td.number,
+        th.number,
+        td.measure,
+        th.measure,
+        td.quantity,
+        th.quantity {
+            text-align: center;
+            max-width: 5em;
+        }
+
+        th {
+            background-color: #e0e0e0;
+        }
+
+        tr.section-header td {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        /* Премахване на дясната граница на първата клетка в section-header */
+        tr.section-header td:first-child {
+            border-right: none;
+        }
+        tr.section-header td:nth-child(2) {
+            border-left: none;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                background: none;
+            }
+
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: auto;
+                padding: 10mm;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            table {
+                page-break-inside: auto;
+            }
+
+            thead {
+                display: table-header-group;
+            }
+
+            tfoot {
+                display: table-footer-group;
+            }
+
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+        }
+
+        .btn-container {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-left: 10px;
+            font-size: 14px;
+            background-color: #ddd;
+            border: 1px solid #999;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+        }
+
+        .btn:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="btn-container no-print">
+    <a href="#" onclick="window.print();" class="btn">Печат</a>
+</div>
+
+<div class="page">
+    <h1>Образец на таблица с две страници</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="number">№</th>
+                <th>Наименование</th>
+                <th class="measure">Ед. мярка</th>
+                <th class="quantity">Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="section-header">
+                <td></td>
+                <td colspan="3">Раздел 1: Строителни материали</td>
+            </tr>
+            <!-- Примерни данни -->
+            <tr><td class="number">1</td><td>Цимент</td><td class="measure">кг</td><td class="quantity">50</td></tr>
+            <tr><td class="number">2</td><td>Пясък</td><td class="measure">м³</td><td class="quantity">3</td></tr>
+            <tr><td class="number">3</td><td>Щракел</td><td class="measure">бр.</td><td class="quantity">100</td></tr>
+            <tr><td class="number">4</td><td>Гипс</td><td class="measure">кг</td><td class="quantity">25</td></tr>
+            <tr><td class="number">5</td><td>Плочки</td><td class="measure">м²</td><td class="quantity">30</td></tr>
+            <tr><td class="number">6</td><td>Пробивни анкери</td><td class="measure">бр.</td><td class="quantity">40</td></tr>
+            <tr><td class="number">7</td><td>Профили</td><td class="measure">м</td><td class="quantity">100</td></tr>
+            <tr><td class="number">8</td><td>Парапет</td><td class="measure">м</td><td class="quantity">15</td></tr>
+            <tr><td class="number">9</td><td>Покривни керемиди</td><td class="measure">бр.</td><td class="quantity">200</td></tr>
+            <tr><td class="number">10</td><td>Лепило</td><td class="measure">кг</td><td class="quantity">20</td></tr>
+            <tr><td class="number">11</td><td>Врати</td><td class="measure">бр.</td><td class="quantity">5</td></tr>
+            <tr><td class="number">12</td><td>Прозорци</td><td class="measure">бр.</td><td class="quantity">8</td></tr>
+            <tr><td class="number">13</td><td>Бои</td><td class="measure">л</td><td class="quantity">15</td></tr>
+            <tr><td class="number">14</td><td>Изолация</td><td class="measure">м²</td><td class="quantity">45</td></tr>
+            <tr><td class="number">15</td><td>Фугираща смес</td><td class="measure">кг</td><td class="quantity">30</td></tr>
+            <tr><td class="number">16</td><td>Мазилка</td><td class="measure">кг</td><td class="quantity">40</td></tr>
+            <tr><td class="number">17</td><td>Тръби</td><td class="measure">м</td><td class="quantity">70</td></tr>
+            <tr><td class="number">18</td><td>Полиуретанов уплътнител</td><td class="measure">бр.</td><td class="quantity">10</td></tr>
+            <tr><td class="number">19</td><td>Метални скоби</td><td class="measure">бр.</td><td class="quantity">500</td></tr>
+            <tr><td class="number">20</td><td>Винтове</td><td class="measure">бр.</td><td class="quantity">1000</td></tr>
+
+            <tr class="section-header">
+                <td></td>
+                <td colspan="3">Раздел 2: Инструменти</td>
+            </tr>
+
+            <tr><td class="number">21</td><td>Кофа</td><td class="measure">бр.</td><td class="quantity">10</td></tr>
+            <tr><td class="number">22</td><td>Мистрия</td><td class="measure">бр.</td><td class="quantity">5</td></tr>
+            <tr><td class="number">23</td><td>Бормашина</td><td class="measure">бр.</td><td class="quantity">2</td></tr>
+            <tr><td class="number">24</td><td>Нивелир</td><td class="measure">бр.</td><td class="quantity">3</td></tr>
+            <tr><td class="number">25</td><td>Чук</td><td class="measure">бр.</td><td class="quantity">8</td></tr>
+            <tr><td class="number">26</td><td>Отвертка</td><td class="measure">бр.</td><td class="quantity">15</td></tr>
+            <tr><td class="number">27</td><td>Ножовка</td><td class="measure">бр.</td><td class="quantity">4</td></tr>
+            <tr><td class="number">28</td><td>Ленточна машина</td><td class="measure">бр.</td><td class="quantity">1</td></tr>
+            <tr><td class="number">29</td><td>Рулетка</td><td class="measure">бр.</td><td class="quantity">20</td></tr>
+            <tr><td class="number">30</td><td>Респиратор</td><td class="measure">бр.</td><td class="quantity">10</td></tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
