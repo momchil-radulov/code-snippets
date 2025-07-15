@@ -1,0 +1,81 @@
+<form id="fileDocumentsUploadForm" method="POST"
+      action="/admin/uploadExcelFile" enctype="multipart/form-data" accept-charset="UTF-8">
+    <input type="hidden" name="order_num" value="<?= $offer_data['order_num']; ?>">
+    <div class="form-group">
+        <input type="file" id="fileInput" name="file" required
+               accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        <button type="submit">Качи Excel</button>
+    </div>
+</form>
+<div id="uploadResult"></div>
+
+<script>
+document.getElementById('fileDocumentsUploadForm').addEventListener('submit', function (e) {
+    e.preventDefault(); // спира класическото изпращане
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            document.getElementById('uploadResult').innerHTML = '<span style="color: green;">✅ Успешно качване</span>';
+        } else {
+            document.getElementById('uploadResult').innerHTML = '<span style="color: red;">❌ Неуспешно качване</span>';
+        }
+    })
+    .catch(error => {
+        document.getElementById('uploadResult').innerHTML = '<span style="color: red;">⚠️ Грешка при качване</span>';
+        console.error('Грешка:', error);
+    });
+});
+</script>
+
+<?php
+public function uploadExcelFile()
+{
+    header('Content-Type: application/json');
+
+    $file = $_FILES['file'];
+
+    if (!$file || $file['error'] !== UPLOAD_ERR_OK) {
+        echo json_encode(['success' => false, 'message' => 'Файлът не е получен.']);
+        return;
+    }
+
+    // MIME и разширение проверка
+    $allowedMimeTypes = [
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-excel'
+    ];
+    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $mime = mime_content_type($file['tmp_name']);
+
+    if (!in_array($extension, ['xls', 'xlsx']) || !in_array($mime, $allowedMimeTypes)) {
+        echo json_encode(['success' => false, 'message' => 'Невалиден файл.']);
+        return;
+    }
+
+    // Качи файла или направи нещо с него
+    $uploadPath = FCPATH . 'uploads/excel/';
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0755, true);
+    }
+
+    $filename = time() . '_' . basename($file['name']);
+    $target = $uploadPath . $filename;
+
+    if (move_uploaded_file($file['tmp_name'], $target)) {
+        echo json_encode(['success' => true, 'filename' => $filename]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Грешка при запазване.']);
+    }
+}
+?>
