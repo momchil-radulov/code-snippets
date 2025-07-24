@@ -153,3 +153,9 @@ SELECT column_str FROM your_table_name WHERE column_str !~ '^\d+$';  # пров�
 PostgresQL: VACUUM FULL; VACUUM ANALYZE;
 MySQL:      mysqlcheck -o my_database
 sqlite:     VACUUM;
+
+# remote access / отдалечен достъп / tunnel / тунел
+ssh -L 15432:localhost:5432 user@vm_ip
+psql -h localhost -p 15432 -U postgres -d mydatabase
+# проверка на remote
+ss -tnlp | grep 5432  # или sudo netstat -tnlp | grep 5432
