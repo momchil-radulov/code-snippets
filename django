@@ -737,3 +737,7 @@ class DepartmentInline(admin.TabularInline):
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     raw_id_fields = ('sub_org',)  # Ще покаже поле за въвеждане на ID вместо dropdown
+
+### SQL ###
+# raw update само на полето!
+Devices.objects.filter(device_id=device_id).update(software_update_id=software_update_id)
