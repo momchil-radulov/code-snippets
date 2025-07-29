@@ -142,3 +142,144 @@ curl -X POST http://localhost:8000/chat \
 cd ~/ai-venv
 source venv/bin/activate
 uvicorn main:app --host 127.0.0.1 --port 8000
+
+[voice_chat.py]
+import speech_recognition as sr
+import pyttsx3
+from llama_cpp import Llama
+
+# Зареждане на AI модела
+llm = Llama(
+    model_path="./models/tinyllama-1.1b-chat.q4_K_M.gguf",
+    n_ctx=512,
+    n_threads=4,
+    verbose=False
+)
+
+# Настройка на говорещия глас
+engine = pyttsx3.init()
+engine.setProperty("rate", 160)
+engine.setProperty("voice", "bulgarian")  # Опитай "bulgarian", "english"
+
+# Разпознаване на реч
+recognizer = sr.Recognizer()
+mic = sr.Microphone()
+
+def speak(text):
+    print(f"\n🤖 AI: {text}")
+    engine.say(text)
+    engine.runAndWait()
+
+def listen():
+    with mic as source:
+        print("\n🎤 Кажи нещо (или 'изход' за край)...")
+        recognizer.adjust_for_ambient_noise(source)
+        audio = recognizer.listen(source)
+    try:
+        text = recognizer.recognize_google(audio, language="bg-BG")
+        print(f"\n🗣️ Ти каза: {text}")
+        return text
+    except sr.UnknownValueError:
+        print("🤷 Не те разбрах.")
+        return None
+    except sr.RequestError as e:
+        print(f"⚠️ Грешка в разпознаване: {e}")
+        return None
+
+def ask_ai(prompt):
+    res = llm(prompt, max_tokens=256, stop=["User:", "You:"], echo=False)
+    return res["choices"][0]["text"].strip()
+
+# Главен цикъл
+while True:
+    user_text = listen()
+    if user_text is None:
+        continue
+    if user_text.lower() in ["изход", "край", "спри"]:
+        speak("Довиждане!")
+        break
+    reply = ask_ai(user_text)
+    speak(reply)
+[voice_chat.py] end
+
+source ~/ai-venv/venv/bin/activate
+pip install speechrecognition pyttsx3 pyaudio
+sudo apt install portaudio19-dev python3-pyaudio
+
+[voice_chat_vosk.py]
+import queue
+import sounddevice as sd
+import pyttsx3
+import json
+from vosk import Model, KaldiRecognizer
+from llama_cpp import Llama
+
+# Зареждане на модела за разпознаване
+model = Model("vosk-models/bg")
+recognizer = KaldiRecognizer(model, 16000)
+q = queue.Queue()
+
+# Гласов изход
+engine = pyttsx3.init()
+engine.setProperty("rate", 160)
+engine.setProperty("voice", "bulgarian")
+
+# Зареждане на AI модел
+llm = Llama(
+    model_path="./models/tinyllama-1.1b-chat.q4_K_M.gguf",
+    n_ctx=512,
+    n_threads=4,
+    verbose=False
+)
+
+def speak(text):
+    print(f"\n🤖 AI: {text}")
+    engine.say(text)
+    engine.runAndWait()
+
+def callback(indata, frames, time, status):
+    if status:
+        print(status)
+    q.put(bytes(indata))
+
+def listen():
+    print("\n🎤 Говори... (или кажи „изход“ за край)")
+    with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype='int16',
+                           channels=1, callback=callback):
+        result = ""
+        while True:
+            data = q.get()
+            if recognizer.AcceptWaveform(data):
+                res = json.loads(recognizer.Result())
+                result = res.get("text", "")
+                break
+    print(f"🗣️ Ти каза: {result}")
+    return result.strip()
+
+def ask_ai(prompt):
+    res = llm(prompt, max_tokens=256, stop=["User:", "You:"], echo=False)
+    return res["choices"][0]["text"].strip()
+
+# Главен цикъл
+while True:
+    user_input = listen()
+    if not user_input:
+        print("🤷 Не те разбрах.")
+        continue
+    if user_input.lower() in ["изход", "край", "спри"]:
+        speak("Довиждане!")
+        break
+    reply = ask_ai(user_input)
+    speak(reply)
+[voice_chat_vosk.py] end
+
+source ~/ai-venv/venv/bin/activate
+pip install vosk sounddevice pyttsx3
+mkdir -p ~/ai-venv/vosk-models && cd ~/ai-venv/vosk-models
+wget https://alphacephei.com/vosk/models/vosk-model-small-bg-0.4.zip
+unzip vosk-model-small-bg-0.4.zip
+mv vosk-model-small-bg-0.4 bg
+
+arecord -l
+sd.default.device = 1  # или ID от arecord, избор на устройство
+
