@@ -1,0 +1,82 @@
+sudo apt update
+sudo apt install python3 python3-venv build-essential cmake -y
+
+mkdir ~/ai-venv && cd ~/ai-venv
+python3 -m venv venv
+source venv/bin/activate
+
+pip install --upgrade pip
+pip install llama-cpp-python
+
+mkdir models && cd models
+wget https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-GGUF/resolve/main/tinyllama-1.1b-chat.q4_K_M.gguf
+cd ..
+
+### CLI ###
+[chat.py]
+from llama_cpp import Llama
+
+llm = Llama(
+    model_path="./models/tinyllama-1.1b-chat.q4_K_M.gguf",
+    n_ctx=512,
+    verbose=True
+)
+
+while True:
+    prompt = input("\nYou: ")
+    if prompt.lower() in ["exit", "quit"]:
+        break
+    response = llm(prompt, max_tokens=256, stop=["You:"], echo=False)
+    print("AI:", response["choices"][0]["text"].strip())
+
+### FastAPI ###
+source ~/ai-venv/venv/bin/activate
+pip install fastapi uvicorn
+
+[main.py]
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from llama_cpp import Llama
+
+app = FastAPI()
+
+# Зареждане на модела веднъж при стартиране
+llm = Llama(
+    model_path="./models/tinyllama-1.1b-chat.q4_K_M.gguf",
+    n_ctx=512,
+    n_threads=4,       # Настрой според ядрото на CPU
+    n_batch=64,
+    verbose=True
+)
+
+# Модел за входни данни
+class PromptRequest(BaseModel):
+    prompt: str
+    max_tokens: int = 256
+
+@app.post("/chat")
+def chat(request: PromptRequest):
+    if not request.prompt.strip():
+        raise HTTPException(status_code=400, detail="Empty prompt.")
+
+    output = llm(
+        request.prompt,
+        max_tokens=request.max_tokens,
+        stop=["User:", "You:"],
+        echo=False
+    )
+    text = output["choices"][0]["text"].strip()
+    return {"response": text}
+[main.py] end
+
+uvicorn main:app --host 0.0.0.0 --port 8000
+
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "What is the capital of Bulgaria?"}'
+
+[start-api.sh]
+#!/bin/bash
+cd ~/ai-venv
+source venv/bin/activate
+uvicorn main:app --host 127.0.0.1 --port 8000
