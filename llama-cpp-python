@@ -34,22 +34,22 @@ source ~/ai-venv/venv/bin/activate
 pip install fastapi uvicorn
 
 [main.py]
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from llama_cpp import Llama
+import os
 
 app = FastAPI()
 
-# Зареждане на модела веднъж при стартиране
 llm = Llama(
     model_path="./models/tinyllama-1.1b-chat.q4_K_M.gguf",
     n_ctx=512,
-    n_threads=4,       # Настрой според ядрото на CPU
+    n_threads=4,
     n_batch=64,
-    verbose=True
+    verbose=False
 )
 
-# Модел за входни данни
 class PromptRequest(BaseModel):
     prompt: str
     max_tokens: int = 256
@@ -67,6 +67,10 @@ def chat(request: PromptRequest):
     )
     text = output["choices"][0]["text"].strip()
     return {"response": text}
+
+@app.get("/")
+def serve_index():
+    return FileResponse("static/index.html")
 [main.py] end
 
 uvicorn main:app --host 0.0.0.0 --port 8000
