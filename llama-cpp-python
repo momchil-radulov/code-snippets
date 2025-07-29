@@ -47,7 +47,7 @@ llm = Llama(
     n_ctx=512,
     n_threads=4,
     n_batch=64,
-    verbose=False
+    verbose=True,
 )
 
 class PromptRequest(BaseModel):
@@ -72,6 +72,64 @@ def chat(request: PromptRequest):
 def serve_index():
     return FileResponse("static/index.html")
 [main.py] end
+
+[static/index.html]
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <title>Локален AI чат</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      max-width: 700px;
+    }
+    #response {
+      white-space: pre-wrap;
+      background: #f0f0f0;
+      padding: 10px;
+      margin-top: 10px;
+      border-left: 3px solid #888;
+    }
+    input, button {
+      font-size: 16px;
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h2>💬 Локален AI Чат</h2>
+  <textarea id="prompt" rows="4" placeholder="Напиши нещо..."></textarea>
+  <button onclick="sendPrompt()">Изпрати</button>
+  <div id="response"></div>
+
+  <script>
+    async function sendPrompt() {
+      const prompt = document.getElementById("prompt").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerText = "Изчакване на отговор...";
+
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt: prompt})
+      });
+
+      if (!res.ok) {
+        responseDiv.innerText = "Грешка при изпращане.";
+        return;
+      }
+
+      const data = await res.json();
+      responseDiv.innerText = data.response;
+    }
+  </script>
+</body>
+</html>
+[static/index.html] end
 
 uvicorn main:app --host 0.0.0.0 --port 8000
 
