@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <title>Оглед на обект — Качване и запис на файлове</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .preview-thumb { max-width:80px; max-height:80px; object-fit:cover; margin-right:10px;}
+    .audio-player, .video-player {max-width:120px;}
+    .file-actions {min-width:70px;}
+    .preview-list li { align-items:center; }
+  </style>
+</head>
+<body class="bg-light">
+<div class="container py-3">
+  <h4 class="mb-3">Оглед на обект</h4>
+  <form id="uploadForm" enctype="multipart/form-data" autocomplete="off">
+    <div class="mb-3">
+      <label for="text-notes" class="form-label">Бележки</label>
+      <textarea class="form-control" id="text-notes" name="text_notes" rows="2" placeholder="Опишете обекта..."></textarea>
+    </div>
+
+    <!-- Файлове -->
+    <div class="mb-3">
+      <label class="form-label">Добави файлове (снимки, аудио, видео):</label>
+      <input class="form-control" type="file" id="file-input" name="files[]" multiple accept="image/*,audio/*,video/*">
+      <ul class="list-group preview-list mt-2 mb-3" id="preview-list"></ul>
+    </div>
+
+    <!-- Запис на аудио -->
+    <div class="mb-3">
+      <label class="form-label">Аудио запис:</label><br>
+      <button id="start-audio" type="button" class="btn btn-outline-primary btn-sm mb-2">Започни аудио запис</button>
+      <button id="stop-audio" type="button" class="btn btn-outline-danger btn-sm mb-2" disabled>Стоп аудио</button>
+      <audio id="audio-preview" controls style="display:none;"></audio>
+    </div>
+
+    <!-- Запис на видео -->
+    <div class="mb-3">
+      <label class="form-label">Видео запис:</label><br>
+      <button id="start-video" type="button" class="btn btn-outline-primary btn-sm mb-2">Започни видео запис</button>
+      <button id="stop-video" type="button" class="btn btn-outline-danger btn-sm mb-2" disabled>Стоп видео</button>
+      <video id="video-preview" controls style="display:none; width:200px;"></video>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Качи всички файлове</button>
+  </form>
+
+  <div class="alert alert-success mt-3 d-none" id="success-alert">Файловете са качени успешно!</div>
+  <div class="alert alert-danger mt-3 d-none" id="error-alert">Грешка при качване. Опитайте пак.</div>
+</div>
+
+<script>
+  // Закачаме файлове в този масив:
+  let fileList = [];
+
+  function updatePreview() {
+    const preview = document.getElementById('preview-list');
+    preview.innerHTML = '';
+    fileList.forEach((file, idx) => {
+      const li = document.createElement('li');
+      li.className = "list-group-item d-flex preview-item";
+
+      let previewEl;
+      if (file.type.startsWith('image/')) {
+        previewEl = document.createElement('img');
+        previewEl.className = "preview-thumb rounded";
+        previewEl.src = URL.createObjectURL(file);
+      }
+      else if (file.type.startsWith('audio/')) {
+        previewEl = document.createElement('audio');
+        previewEl.className = "audio-player";
+        previewEl.controls = true;
+        previewEl.src = URL.createObjectURL(file);
+      }
+      else if (file.type.startsWith('video/')) {
+        previewEl = document.createElement('video');
+        previewEl.className = "video-player";
+        previewEl.controls = true;
+        previewEl.src = URL.createObjectURL(file);
+      } else {
+        previewEl = document.createElement('span');
+        previewEl.textContent = file.name;
+      }
+
+      let title = document.createElement('span');
+      title.textContent = file.name;
+      title.style.flex = '1 1 auto';
+      title.style.marginLeft = "8px";
+
+      let delBtn = document.createElement('button');
+      delBtn.type = "button";
+      delBtn.className = "btn btn-danger btn-sm file-actions";
+      delBtn.textContent = "Изтрий";
+      delBtn.onclick = () => { fileList.splice(idx,1); updatePreview(); };
+
+      li.appendChild(previewEl);
+      li.appendChild(title);
+      li.appendChild(delBtn);
+      preview.appendChild(li);
+    });
+  }
+
+  document.getElementById('file-input').addEventListener('change', function(e) {
+    for (const file of e.target.files) { fileList.push(file); }
+    updatePreview();
+    e.target.value = '';
+  });
+
+  // ========== MediaRecorder (AUDIO) ==========
+  let audioRecorder, audioChunks = [];
+  let audioStream;
+
+  document.getElementById('start-audio').onclick = async function(){
+    audioStream = await navigator.mediaDevices.getUserMedia({audio:true});
+    audioRecorder = new MediaRecorder(audioStream);
+    audioRecorder.ondataavailable = e => audioChunks.push(e.data);
+    audioRecorder.onstop = function() {
+      let audioBlob = new Blob(audioChunks, {type:'audio/webm'});
+      audioChunks = [];
+      let file = new File([audioBlob], 'audio-'+Date.now()+'.webm', {type:'audio/webm'});
+      fileList.push(file);
+      updatePreview();
+      // optional: преглед
+      let url = URL.createObjectURL(audioBlob);
+      let preview = document.getElementById('audio-preview');
+      preview.src = url; preview.style.display = 'block';
+    };
+    audioRecorder.start();
+    document.getElementById('start-audio').disabled = true;
+    document.getElementById('stop-audio').disabled = false;
+  };
+
+  document.getElementById('stop-audio').onclick = function(){
+    audioRecorder.stop();
+    audioStream.getTracks().forEach(t=>t.stop());
+    document.getElementById('start-audio').disabled = false;
+    document.getElementById('stop-audio').disabled = true;
+  };
+
+  // ========== MediaRecorder (VIDEO) ==========
+  let videoRecorder, videoChunks = [];
+  let videoStream;
+
+  document.getElementById('start-video').onclick = async function(){
+    videoStream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+    videoRecorder = new MediaRecorder(videoStream);
+    videoRecorder.ondataavailable = e => videoChunks.push(e.data);
+    videoRecorder.onstop = function() {
+      let videoBlob = new Blob(videoChunks, {type:'video/webm'});
+      videoChunks = [];
+      let file = new File([videoBlob], 'video-'+Date.now()+'.webm', {type:'video/webm'});
+      fileList.push(file);
+      updatePreview();
+      // optional: преглед
+      let url = URL.createObjectURL(videoBlob);
+      let preview = document.getElementById('video-preview');
+      preview.src = url; preview.style.display='block'; preview.play();
+    };
+    let preview = document.getElementById('video-preview');
+    preview.srcObject = videoStream;
+    preview.style.display = 'block';
+    preview.play();
+    videoRecorder.start();
+    document.getElementById('start-video').disabled = true;
+    document.getElementById('stop-video').disabled = false;
+  };
+
+  document.getElementById('stop-video').onclick = function(){
+    videoRecorder.stop();
+    videoStream.getTracks().forEach(t=>t.stop());
+    document.getElementById('start-video').disabled = false;
+    document.getElementById('stop-video').disabled = true;
+  };
+
+  // ========== Качване всичко ==========
+  document.getElementById('uploadForm').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('text_notes', document.getElementById('text-notes').value);
+    fileList.forEach((f, i) => { formData.append('files[]', f); });
+
+    fetch('<?=site_url("upload/handle_upload")?>', {
+      method: "POST", body: formData
+    }).then(resp => resp.ok ? resp.json() : Promise.reject(resp))
+      .then(data => {
+        if(data.status==='success'){
+          document.getElementById('success-alert').classList.remove('d-none');
+          document.getElementById('error-alert').classList.add('d-none');
+          fileList=[]; updatePreview(); document.getElementById('uploadForm').reset();
+        } else document.getElementById('error-alert').classList.remove('d-none');
+      })
+      .catch(err => document.getElementById('error-alert').classList.remove('d-none'));
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
