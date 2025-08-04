@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <title>Професионален оглед на обект</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="icon" href="data:," />
+  <style>
+    :root {
+      --primary: #0d6efd;
+      --secondary: #6c757d;
+      --success: #198754;
+      --danger: #dc3545;
+      --warning: #ffc107;
+      --light: #f8f9fa;
+      --dark: #212529;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .container {
+      max-width: 1000px;
+    }
+    
+    .app-header {
+      background: linear-gradient(120deg, #0d6efd, #0b5ed7);
+      color: white;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    
+    .app-title {
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    .section-card {
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-radius: 12px;
+      border: none;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .section-card:hover {
+      transform: translateY(-3px);
+    }
+    
+    .section-card .card-header {
+      background: linear-gradient(120deg, #0d6efd, #0b5ed7);
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.75rem 1.25rem;
+    }
+    
+    .preview-thumb {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      margin-right: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .audio-player, .video-player {
+      max-width: 120px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .file-actions {
+      min-width: 70px;
+    }
+    
+    .preview-list li {
+      align-items: center;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .signature-container {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 10px 0;
+      background: white;
+      position: relative;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    #signatureCanvas {
+      width: 100%;
+      height: 200px;
+      background-color: #f8f9fa;
+      touch-action: none;
+      border-radius: 8px;
+      user-select: none;
+      cursor: pointer;
+    }
+    
+    .signature-clear {
+      margin-top: 10px;
+      margin-right: 5px;
+    }
+    
+    .signature-preview-container {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      display: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    #signaturePreview {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .progress {
+      height: 8px;
+      margin-top: 10px;
+      display: none;
+      border-radius: 4px;
+    }
+    
+    .btn-record {
+      transition: all 0.2s;
+      border-radius: 50px;
+      min-width: 150px;
+    }
+    
+    .btn-record.active {
+      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+      transform: scale(1.05);
+    }
+    
+    .file-counter {
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+    
+    #drop-area {
+      border: 2px dashed #6c757d;
+      border-radius: 12px;
+      padding: 30px;
+      background: #f9f9f9;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    
+    #drop-area.dragover {
+      background-color: #e3f2fd;
+      border-color: var(--primary);
+      transform: scale(1.02);
+    }
+    
+    #drop-area:focus {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+    
+    #alerts-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1200;
+      max-width: 320px;
+    }
+    
+    .map-container {
+      height: 300px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .location-card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .location-info {
+      font-family: monospace;
+      font-size: 1rem;
+    }
+    
+    .btn-location {
+      border-radius: 50px;
+      padding: 8px 20px;
+    }
+    
+    .recording-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: var(--danger);
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+    
+    .status-badge {
+      font-size: 0.8rem;
+      padding: 4px 8px;
+      border-radius: 20px;
+      margin-left: 8px;
+    }
+    
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      color: white;
+      font-size: 1.2rem;
+    }
+    
+    .step-indicator {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 25px;
+    }
+    
+    .step-indicator::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .step-1::before { content: '1'; }
+    .step-2::before { content: '2'; }
+    .step-3::before { content: '3'; }
+    .step-4::before { content: '4'; }
+    .step-5::before { content: '5'; }
+    .step-6::before { content: '6'; }
+    
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="app-header py-4">
+    <div class="container text-center">
+      <h1 class="app-title mb-0"><i class="bi bi-house-check"></i> Професионален оглед на обект</h1>
+      <p class="mb-0">Пълен инструментариум за документиране на имущество</p>
+    </div>
+  </div>
+  
+  <div class="container py-3">
+    <div class="row mb-4">
+      <div class="col-md-4 mb-3">
+        <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+          <div class="feature-icon">
+            <i class="bi bi-camera"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">Мултимедия</h5>
+            <small class="text-muted">Снимки, видео, аудио</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+          <div class="feature-icon">
+            <i class="bi bi-geo-alt"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">Геолокация</h5>
+            <small class="text-muted">Точно позициониране</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+          <div class="feature-icon">
+            <i class="bi bi-pen"></i>
+          </div>
+          <div>
+            <h5 class="mb-0">Цифров подпис</h5>
+            <small class="text-muted">Легално удостоверяване</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <form id="uploadForm" enctype="multipart/form-data" autocomplete="off" novalidate>
+      <div class="step-indicator step-1">
+        <div class="card section-card">
+          <div class="card-header">Основна информация</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="text-notes" class="form-label">
+                <i class="bi bi-journal-text"></i> Бележки <span class="text-danger" aria-label="задължително">*</span>
+              </label>
+              <textarea
+                class="form-control"
+                id="text-notes"
+                name="text_notes"
+                rows="4"
+                placeholder="Опишете обекта, неговите характеристики, състояние и специфики..."
+                required
+                aria-required="true"
+              ></textarea>
+              <div class="form-text">Моля, опишете подробно всички аспекти на обекта</div>
+              <div class="invalid-feedback">
+                Моля, попълнете бележките.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="step-indicator step-2">
+        <div class="card section-card">
+          <div class="card-header">Местоположение</div>
+          <div class="card-body">
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <button id="capture-location" type="button" class="btn btn-primary btn-location">
+                <i class="bi bi-geo-alt"></i> Запиши GPS координати
+              </button>
+              <button id="view-map" type="button" class="btn btn-outline-primary btn-location" disabled>
+                <i class="bi bi-map"></i> Виж на карта
+              </button>
+              <button id="get-directions" type="button" class="btn btn-outline-success btn-location" disabled>
+                <i class="bi bi-signpost"></i> Упътване
+              </button>
+            </div>
+            
+            <div class="location-card" id="location-info" style="display:none;">
+              <h6><i class="bi bi-geo"></i> Текущи координати:</h6>
+              <div class="location-info" id="coordinates"></div>
+              <div class="mt-2">
+                <span class="badge bg-success" id="accuracy"></span>
+                <span class="badge bg-info" id="timestamp"></span>
+              </div>
+            </div>
+            
+            <div class="map-container" id="map" style="display:none;"></div>
+            
+            <input type="hidden" id="gps-coordinates" name="gps_coordinates">
+          </div>
+        </div>
+      </div>
+      
+      <div class="step-indicator step-3">
+        <div class="card section-card">
+          <div class="card-header">Файлове</div>
+          <div class="card-body">
+            <label for="file-input" class="form-label">
+              <i class="bi bi-paperclip"></i> Добави файлове (снимки, аудио, видео):
+            </label>
+            <div id="drop-area" tabindex="0" role="button" aria-describedby="fileHelp" aria-label="Качване на файлове чрез плъзгане или избор">
+              <p><i class="bi bi-cloud-arrow-up-fill fs-1 text-primary"></i></p>
+              <p>Плъзнете файлове тук или кликнете, за да изберете</p>
+              <p class="small text-muted">Поддържани формати: JPG, PNG, MP3, WAV, MP4</p>
+              <input
+                type="file"
+                id="file-input"
+                name="files[]"
+                multiple
+                accept="image/*,audio/*,video/*"
+                style="display:none;"
+              />
+            </div>
+            <small id="fileHelp" class="form-text text-muted">Максимален размер на файл: 10MB</small>
+            <div class="mt-3 d-flex justify-content-between align-items-center">
+              <div id="file-counter" style="display:none;">
+                <span class="badge bg-primary"><i class="bi bi-files"></i> <span id="file-count">0</span> файла избрани</span>
+              </div>
+              <button type="button" id="remove-all-files" class="btn btn-outline-danger btn-sm" style="display:none;">
+                <i class="bi bi-trash"></i> Изчисти всички
+              </button>
+            </div>
+            <ul class="list-group preview-list mt-3 mb-3" id="preview-list" aria-live="polite" aria-atomic="true"></ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="step-indicator step-4">
+        <div class="card section-card">
+          <div class="card-header">Аудио запис</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <div class="d-flex flex-wrap gap-2 mb-2">
+                <button id="start-audio" type="button" class="btn btn-outline-primary btn-record" aria-pressed="false" aria-label="Започни аудио запис">
+                  <i class="bi bi-mic"></i> Започни запис
+                </button>
+                <button id="pause-audio" type="button" class="btn btn-outline-warning btn-record" disabled style="display:none;">
+                  <i class="bi bi-pause-circle"></i> Пауза
+                </button>
+                <button id="resume-audio" type="button" class="btn btn-outline-primary btn-record" disabled style="display:none;">
+                  <i class="bi bi-play-circle"></i> Възобнови
+                </button>
+                <button id="stop-audio" type="button" class="btn btn-outline-danger btn-record" disabled>
+                  <i class="bi bi-stop-circle"></i> Спри запис
+                </button>
+              </div>
+              <div class="progress" id="audio-progress" aria-live="polite" aria-atomic="true" aria-label="Прогрес на аудио запис">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+              </div>
+              <div class="mt-2 d-flex align-items-center">
+                <audio id="audio-preview" controls class="mt-2" style="display:none; width: 100%;" aria-label="Преглед на аудио"></audio>
+                <div id="audio-length" class="text-muted small mt-1 ms-2" style="display:none;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="step-indicator step-5">
+        <div class="card section-card">
+          <div class="card-header">Видео запис</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <div class="d-flex flex-wrap gap-2 mb-2">
+                <button id="start-video" type="button" class="btn btn-outline-primary btn-record" aria-pressed="false" aria-label="Започни видео запис">
+                  <i class="bi bi-camera-video"></i> Започни запис
+                </button>
+                <button id="pause-video" type="button" class="btn btn-outline-warning btn-record" disabled style="display:none;">
+                  <i class="bi bi-pause-circle"></i> Пауза
+                </button>
+                <button id="resume-video" type="button" class="btn btn-outline-primary btn-record" disabled style="display:none;">
+                  <i class="bi bi-play-circle"></i> Възобнови
+                </button>
+                <button id="stop-video" type="button" class="btn btn-outline-danger btn-record" disabled>
+                  <i class="bi bi-stop-circle"></i> Спри запис
+                </button>
+              </div>
+              <div class="progress" id="video-progress" aria-live="polite" aria-atomic="true" aria-label="Прогрес на видео запис">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+              </div>
+              <div class="mt-2">
+                <video id="video-preview" controls class="mt-2" style="display:none; max-width:100%; border-radius: 8px;" aria-label="Преглед на видео"></video>
+                <div id="video-length" class="text-muted small mt-1" style="display:none;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="step-indicator step-6">
+        <div class="card section-card">
+          <div class="card-header">Клиентски подпис</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="clientName" class="form-label">
+                <i class="bi bi-person"></i> Име на клиента <span class="text-danger" aria-label="задължително">*</span>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="clientName"
+                name="client_name"
+                required
+                aria-required="true"
+                placeholder="Въведете пълното име на клиента"
+                autocomplete="off"
+              />
+              <div class="invalid-feedback">
+                Моля, попълнете името на клиента.
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">
+                <i class="bi bi-pen"></i> Подпис <span class="text-danger" aria-label="задължително">*</span>
+              </label>
+              <div class="signature-container">
+                <canvas id="signatureCanvas" aria-label="Поле за подпис" role="img"></canvas>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mt-2">
+                <button type="button" id="clearSignature" class="btn btn-sm btn-outline-danger signature-clear" aria-label="Изчисти подписа">
+                  <i class="bi bi-eraser"></i> Изчисти
+                </button>
+              </div>
+              <div class="form-text">Моля, подпишете в горното поле. Подписът се запазва автоматично.</div>
+              
+              <input type="hidden" id="signatureData" name="signature_data" required />
+              
+              <div class="signature-preview-container mt-3" id="previewContainer" aria-live="polite" aria-atomic="true">
+                <p class="text-muted mb-1">Запазен подпис:</p>
+                <img id="signaturePreview" alt="Преглед на подписа" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="d-grid gap-2 mt-4">
+        <button type="submit" class="btn btn-primary btn-lg py-3" id="submit-btn" aria-live="polite">
+          <i class="bi bi-save"></i> Запази информацията
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <div class="footer">
+    <div class="container">
+      <p class="mb-0">Професионален инструмент за огледи &copy; 2023 | Всички права запазени</p>
+    </div>
+  </div>
+  
+  <div id="alerts-container" class="p-1"></div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // ===== Глобални променливи =====
+    let fileList = [];
+    let signaturePad;
+    let audioRecorder, audioChunks = [], audioStream;
+    let videoRecorder, videoChunks = [], videoStream;
+    let audioRecordingSeconds = 0;
+    let videoRecordingSeconds = 0;
+    let audioRecordingInterval, videoRecordingInterval;
+    let map, marker;
+    let currentLocation = null;
+
+    // ===== Инициализация на картата =====
+    function initMap() {
+      map = L.map('map').setView([42.698334, 23.319941], 13); // София по подразбиране
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      
+      marker = L.marker([42.698334, 23.319941]).addTo(map)
+        .bindPopup('Текуща позиция')
+        .openPopup();
+    }
+
+    // ===== Помощни функции =====
+
+    // Изчиства и обновява файловия преглед
+    function updatePreview() {
+      const preview = document.getElementById('preview-list');
+      preview.innerHTML = '';
+
+      const counter = document.getElementById('file-counter');
+      const countEl = document.getElementById('file-count');
+      const removeAllBtn = document.getElementById('remove-all-files');
+
+      if (fileList.length > 0) {
+        counter.style.display = 'block';
+        removeAllBtn.style.display = 'inline-block';
+        countEl.textContent = fileList.length;
+      } else {
+        counter.style.display = 'none';
+        removeAllBtn.style.display = 'none';
+      }
+
+      fileList.forEach((file, idx) => {
+        const li = document.createElement('li');
+        li.className = "list-group-item d-flex preview-item align-items-center";
+
+        let previewEl;
+        if (file.type.startsWith('image/')) {
+          previewEl = document.createElement('img');
+          previewEl.className = "preview-thumb rounded";
+          previewEl.src = URL.createObjectURL(file);
+          previewEl.alt = file.name;
+        }
+        else if (file.type.startsWith('audio/')) {
+          previewEl = document.createElement('audio');
+          previewEl.className = "audio-player";
+          previewEl.controls = true;
+          previewEl.src = URL.createObjectURL(file);
+          previewEl.setAttribute('aria-label', file.name);
+        }
+        else if (file.type.startsWith('video/')) {
+          previewEl = document.createElement('video');
+          previewEl.className = "video-player";
+          previewEl.controls = true;
+          previewEl.src = URL.createObjectURL(file);
+          previewEl.setAttribute('aria-label', file.name);
+        } else {
+          previewEl = document.createElement('span');
+          previewEl.textContent = file.name;
+        }
+
+        let title = document.createElement('span');
+        title.textContent = file.name.length > 30 ? file.name.substring(0, 27) + '...' : file.name;
+        title.style.flex = '1 1 auto';
+        title.style.marginLeft = "8px";
+        title.style.overflow = "hidden";
+        title.style.textOverflow = "ellipsis";
+        title.style.whiteSpace = "nowrap";
+
+        let delBtn = document.createElement('button');
+        delBtn.type = "button";
+        delBtn.className = "btn btn-outline-danger btn-sm file-actions";
+        delBtn.innerHTML = '<i class="bi bi-trash"></i>';
+        delBtn.title = "Изтрий";
+        delBtn.setAttribute('aria-label', `Изтрий файла ${file.name}`);
+        delBtn.onclick = () => { 
+          if (confirm(`Сигурни ли сте, че искате да изтриете ${file.name}?`)) {
+            fileList.splice(idx,1); 
+            updatePreview(); 
+            showAlert('Файлът е премахнат.', 'info', 2000);
+          }
+        };
+
+        li.appendChild(previewEl);
+        li.appendChild(title);
+        li.appendChild(delBtn);
+        preview.appendChild(li);
+      });
+    }
+
+    // Показва alert съобщения в горния десен ъгъл
+    function showAlert(message, type = 'info', timeout = 0) {
+      const alertsContainer = document.getElementById('alerts-container');
+      const alertBox = document.createElement('div');
+      alertBox.className = `alert alert-${type} alert-dismissible fade show`;
+      alertBox.role = 'alert';
+      alertBox.style.marginBottom = "0.5rem";
+      alertBox.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Затвори"></button>
+      `;
+
+      alertsContainer.appendChild(alertBox);
+      // Автоматично затваряне
+      if (timeout > 0) {
+        setTimeout(() => {
+          const bsAlert = bootstrap.Alert.getInstance(alertBox) ?? new bootstrap.Alert(alertBox);
+          bsAlert.close();
+        }, timeout);
+      }
+    }
+
+    // ===== Drag and Drop за файлове =====
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file-input');
+    const removeAllBtn = document.getElementById('remove-all-files');
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, () => dropArea.classList.add('dragover'), false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, () => dropArea.classList.remove('dragover'), false);
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      if (!dt) return;
+      const files = dt.files;
+      handleFiles(files);
+    });
+    dropArea.addEventListener('click', () => fileInput.click());
+    dropArea.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        fileInput.click();
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        handleFiles(fileInput.files);
+        fileInput.value = '';
+      }
+    });
+
+    removeAllBtn.addEventListener('click', () => {
+      if (fileList.length === 0) return;
+      if (confirm('Сигурни ли сте, че искате да изтриете всички файлове?')) {
+        fileList = [];
+        updatePreview();
+        showAlert('Всички файлове са изчистени.', 'info', 2000);
+      }
+    });
+
+    function handleFiles(files) {
+      let addedCount = 0;
+      for (const file of files) {
+        if (file.size > 10 * 1024 * 1024) { // 10MB limit
+          showAlert(`Файлът "${file.name}" надвишава максималния размер от 10MB и няма да бъде добавен.`, 'warning', 4000);
+          continue;
+        }
+        fileList.push(file);
+        addedCount++;
+      }
+      if(addedCount > 0){
+        updatePreview();
+        showAlert(`Добавени са ${addedCount} файла.`, 'success', 2000);
+      }
+    }
+
+    // ===== Signature Pad =====
+    document.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.getElementById('signatureCanvas');
+      signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgb(248, 249, 250)',
+        penColor: 'rgb(0, 0, 0)',
+        minWidth: 1,
+        maxWidth: 3,
+        throttle: 16
+      });
+
+      function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        // Запазваме текущия подпис, ако има такъв
+        const data = signaturePad.toDataURL();
+        
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+
+        // Презареждаме подписа след преоразмеряването, за да не се изгуби
+        signaturePad.fromDataURL(data);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      // Автоматично запазване на подписа при рисуване
+      signaturePad.onEnd = () => {
+        if (signaturePad.isEmpty()) {
+          document.getElementById('signatureData').value = '';
+          document.getElementById('previewContainer').style.display = 'none';
+          return;
+        }
+        const dataUrl = signaturePad.toDataURL();
+        document.getElementById('signatureData').value = dataUrl;
+
+        const previewImg = document.getElementById('signaturePreview');
+        previewImg.src = dataUrl;
+        document.getElementById('previewContainer').style.display = 'block';
+
+        showAlert('Подписът е обновен.', 'success', 1000);
+      };
+
+      document.getElementById('clearSignature').addEventListener('click', function () {
+        if (confirm('Сигурни ли сте, че искате да изчистите подписа?')) {
+          signaturePad.clear();
+          document.getElementById('signatureData').value = '';
+          document.getElementById('previewContainer').style.display = 'none';
+          showAlert('Подписът е изчистен.', 'info', 1000);
+        }
+      });
+    });
+
+    // ===== GPS Location =====
+    const captureLocationBtn = document.getElementById('capture-location');
+    const viewMapBtn = document.getElementById('view-map');
+    const getDirectionsBtn = document.getElementById('get-directions');
+    const locationInfo = document.getElementById('location-info');
+    const mapContainer = document.getElementById('map');
+    const coordinatesEl = document.getElementById('coordinates');
+    const accuracyEl = document.getElementById('accuracy');
+    const timestampEl = document.getElementById('timestamp');
+
+    captureLocationBtn.addEventListener('click', function() {
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Търсене...';
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            const coords = position.coords;
+            currentLocation = {
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+              accuracy: coords.accuracy,
+              timestamp: position.timestamp
+            };
+            
+            // Показване на информацията
+            coordinatesEl.textContent = `${currentLocation.latitude.toFixed(6)}, ${currentLocation.longitude.toFixed(6)}`;
+            accuracyEl.textContent = `Точност: ${Math.round(currentLocation.accuracy)} метра`;
+            
+            const date = new Date(currentLocation.timestamp);
+            timestampEl.textContent = `Записано: ${date.toLocaleString()}`;
+            
+            locationInfo.style.display = 'block';
+            document.getElementById('gps-coordinates').value = JSON.stringify(currentLocation);
+            
+            // Активиране на бутоните
+            viewMapBtn.disabled = false;
+            getDirectionsBtn.disabled = false;
+            
+            // Инициализация на картата ако не е инициализирана
+            if (!map) {
+              initMap();
+            }
+            
+            // Актуализиране на картата
+            map.setView([currentLocation.latitude, currentLocation.longitude], 16);
+            marker.setLatLng([currentLocation.latitude, currentLocation.longitude])
+              .bindPopup(`Обект: ${currentLocation.latitude.toFixed(6)}, ${currentLocation.longitude.toFixed(6)}`)
+              .openPopup();
+            
+            mapContainer.style.display = 'block';
+            
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            showAlert('Местоположението е записано успешно!', 'success', 3000);
+          },
+          function(error) {
+            let errorMsg;
+            switch(error.code) {
+              case error.PERMISSION_DENIED:
+                errorMsg = "Потребителят отказа достъп до местоположението.";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                errorMsg = "Информацията за местоположение не е налична.";
+                break;
+              case error.TIMEOUT:
+                errorMsg = "Заявката за местоположение изтече.";
+                break;
+              default:
+                errorMsg = "Неизвестна грешка при получаване на местоположение.";
+            }
+            showAlert(errorMsg, 'danger', 5000);
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          }
+        );
+      } else {
+        showAlert("Геолокацията не се поддържа от браузъра ви.", 'warning', 5000);
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    });
+
+    viewMapBtn.addEventListener('click', function() {
+      if (currentLocation) {
+        mapContainer.style.display = mapContainer.style.display === 'none' ? 'block' : 'none';
+      }
+    });
+
+    getDirectionsBtn.addEventListener('click', function() {
+      if (currentLocation) {
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${currentLocation.latitude},${currentLocation.longitude}&travelmode=driving`;
+        window.open(url, '_blank');
+      }
+    });
+
+    // ===== Audio Recorder =====
+    const startAudioBtn = document.getElementById('start-audio');
+    const stopAudioBtn = document.getElementById('stop-audio');
+    const pauseAudioBtn = document.getElementById('pause-audio');
+    const resumeAudioBtn = document.getElementById('resume-audio');
+    const audioPreview = document.getElementById('audio-preview');
+    const audioLengthText = document.getElementById('audio-length');
+    const audioProgress = document.getElementById('audio-progress');
+    const audioProgressBar = audioProgress.querySelector('.progress-bar');
+
+    let audioPaused = false;
+    let audioTimerInterval;
+
+    startAudioBtn.onclick = async function () {
+      try {
+        audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioRecorder = new MediaRecorder(audioStream);
+        audioChunks = [];
+
+        audioRecorder.ondataavailable = e => audioChunks.push(e.data);
+        audioRecorder.onstop = function () {
+          clearInterval(audioRecordingInterval);
+          audioRecordingSeconds = 0;
+
+          let audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          let file = new File([audioBlob], 'audio-' + Date.now() + '.webm', { type: 'audio/webm' });
+          fileList.push(file);
+          updatePreview();
+
+          // Показване на преглед
+          let url = URL.createObjectURL(audioBlob);
+          audioPreview.src = url;
+          audioPreview.style.display = 'block';
+
+          // Показване на продължителност
+          const audioElement = new Audio(url);
+          audioElement.onloadedmetadata = () => {
+            const duration = Math.round(audioElement.duration);
+            audioLengthText.textContent = `${duration} сек.`;
+            audioLengthText.style.display = 'block';
+          };
+
+          showAlert('Аудио записът е запазен успешно!', 'success', 2000);
+          resetAudioControls();
+        };
+
+        audioRecorder.start();
+        audioRecordingSeconds = 0;
+        audioPaused = false;
+        audioProgress.style.display = 'block';
+        audioProgressBar.style.width = '0%';
+
+        startAudioBtn.disabled = true;
+        stopAudioBtn.disabled = false;
+        pauseAudioBtn.disabled = false;
+        pauseAudioBtn.style.display = '';
+        resumeAudioBtn.disabled = true;
+        resumeAudioBtn.style.display = 'none';
+        startAudioBtn.classList.add('active');
+        startAudioBtn.setAttribute('aria-pressed', 'true');
+
+        // Добавяне на индикатор за запис
+        startAudioBtn.innerHTML = '<span class="recording-indicator"></span> Записва се...';
+        
+        audioRecordingInterval = setInterval(() => {
+          if (!audioPaused) {
+            audioRecordingSeconds++;
+            const progress = Math.min((audioRecordingSeconds * 2), 100); // Макс 50сек
+            audioProgressBar.style.width = `${progress}%`;
+            startAudioBtn.innerHTML = `<span class="recording-indicator"></span> Записва се... ${audioRecordingSeconds}s`;
+          }
+        }, 1000);
+
+      } catch (error) {
+        showAlert('Грешка при достъп до микрофона: ' + error.message, 'danger');
+        resetAudioControls();
+      }
+    };
+
+    function resetAudioControls(){
+      clearInterval(audioRecordingInterval);
+      audioProgress.style.display = 'none';
+      audioProgressBar.style.width = '0%';
+      startAudioBtn.disabled = false;
+      stopAudioBtn.disabled = true;
+      pauseAudioBtn.disabled = true;
+      pauseAudioBtn.style.display = 'none';
+      resumeAudioBtn.disabled = true;
+      resumeAudioBtn.style.display = 'none';
+      startAudioBtn.classList.remove('active');
+      startAudioBtn.innerHTML = '<i class="bi bi-mic"></i> Започни запис';
+      startAudioBtn.setAttribute('aria-pressed', 'false');
+      if(audioStream){
+        audioStream.getTracks().forEach(t => t.stop());
+        audioStream = null;
+      }
+    }
+
+    stopAudioBtn.onclick = function () {
+      if (audioRecorder && audioRecorder.state !== 'inactive') audioRecorder.stop();
+    };
+    pauseAudioBtn.onclick = function () {
+      if (audioRecorder && audioRecorder.state === 'recording') {
+        audioRecorder.pause();
+        audioPaused = true;
+        pauseAudioBtn.style.display = 'none';
+        resumeAudioBtn.style.display = '';
+        resumeAudioBtn.disabled = false;
+        startAudioBtn.innerHTML = '<i class="bi bi-pause-circle"></i> Пауза';
+      }
+    };
+    resumeAudioBtn.onclick = function () {
+      if (audioRecorder && audioRecorder.state === 'paused') {
+        audioRecorder.resume();
+        audioPaused = false;
+        pauseAudioBtn.style.display = '';
+        pauseAudioBtn.disabled = false;
+        resumeAudioBtn.style.display = 'none';
+        startAudioBtn.innerHTML = `<span class="recording-indicator"></span> Записва се... ${audioRecordingSeconds}s`;
+      }
+    };
+
+    // ===== Video Recorder =====
+    const startVideoBtn = document.getElementById('start-video');
+    const stopVideoBtn = document.getElementById('stop-video');
+    const pauseVideoBtn = document.getElementById('pause-video');
+    const resumeVideoBtn = document.getElementById('resume-video');
+    const videoPreview = document.getElementById('video-preview');
+    const videoLengthText = document.getElementById('video-length');
+    const videoProgress = document.getElementById('video-progress');
+    const videoProgressBar = videoProgress.querySelector('.progress-bar');
+
+    let videoPaused = false;
+
+    startVideoBtn.onclick = async function () {
+      try {
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        videoRecorder = new MediaRecorder(videoStream);
+        videoChunks = [];
+
+        videoRecorder.ondataavailable = e => videoChunks.push(e.data);
+        videoRecorder.onstop = function () {
+          clearInterval(videoRecordingInterval);
+          videoRecordingSeconds = 0;
+
+          let videoBlob = new Blob(videoChunks, { type: 'video/webm' });
+          let file = new File([videoBlob], 'video-' + Date.now() + '.webm', { type: 'video/webm' });
+          fileList.push(file);
+          updatePreview();
+
+          // Показване на преглед
+          let url = URL.createObjectURL(videoBlob);
+          videoPreview.src = url;
+          videoPreview.srcObject = null; // Премахване на живия стрийм
+          videoPreview.style.display = 'block';
+          videoPreview.play();
+
+          // Показване на продължителност
+          const videoElement = document.createElement('video');
+          videoElement.src = url;
+          videoElement.onloadedmetadata = () => {
+            const duration = Math.round(videoElement.duration);
+            videoLengthText.textContent = `Продължителност: ${duration} сек.`;
+            videoLengthText.style.display = 'block';
+          };
+
+          showAlert('Видео записът е запазен успешно!', 'success', 2000);
+          resetVideoControls();
+        };
+
+        videoRecorder.start();
+        videoRecordingSeconds = 0;
+        videoPaused = false;
+        videoProgress.style.display = 'block';
+        videoProgressBar.style.width = '0%';
+
+        videoPreview.srcObject = videoStream;
+        videoPreview.style.display = 'block';
+        videoPreview.play();
+
+        startVideoBtn.disabled = true;
+        stopVideoBtn.disabled = false;
+        pauseVideoBtn.disabled = false;
+        pauseVideoBtn.style.display = '';
+        resumeVideoBtn.disabled = true;
+        resumeVideoBtn.style.display = 'none';
+        startVideoBtn.classList.add('active');
+        startVideoBtn.setAttribute('aria-pressed', 'true');
+        
+        // Добавяне на индикатор за запис
+        startVideoBtn.innerHTML = '<span class="recording-indicator"></span> Записва се...';
+
+        videoRecordingInterval = setInterval(() => {
+          if (!videoPaused) {
+            videoRecordingSeconds++;
+            const progress = Math.min((videoRecordingSeconds * 2), 100);
+            videoProgressBar.style.width = `${progress}%`;
+            startVideoBtn.innerHTML = `<span class="recording-indicator"></span> Записва се... ${videoRecordingSeconds}s`;
+          }
+        }, 1000);
+
+      } catch (error) {
+        showAlert('Грешка при достъп до камера/микрофон: ' + error.message, 'danger');
+        resetVideoControls();
+      }
+    };
+
+    function resetVideoControls() {
+      clearInterval(videoRecordingInterval);
+      videoProgress.style.display = 'none';
+      videoProgressBar.style.width = '0%';
+      startVideoBtn.disabled = false;
+      stopVideoBtn.disabled = true;
+      pauseVideoBtn.disabled = true;
+      pauseVideoBtn.style.display = 'none';
+      resumeVideoBtn.disabled = true;
+      resumeVideoBtn.style.display = 'none';
+      startVideoBtn.classList.remove('active');
+      startVideoBtn.innerHTML = '<i class="bi bi-camera-video"></i> Започни запис';
+      startVideoBtn.setAttribute('aria-pressed', 'false');
+      if(videoStream){
+        videoStream.getTracks().forEach(t => t.stop());
+        videoStream = null;
+      }
+      videoPreview.srcObject = null;
+    };
+
+    stopVideoBtn.onclick = function () {
+      if (videoRecorder && videoRecorder.state !== 'inactive') videoRecorder.stop();
+    };
+    pauseVideoBtn.onclick = function () {
+      if (videoRecorder && videoRecorder.state === 'recording') {
+        videoRecorder.pause();
+        videoPaused = true;
+        pauseVideoBtn.style.display = 'none';
+        resumeVideoBtn.style.display = '';
+        resumeVideoBtn.disabled = false;
+        startVideoBtn.innerHTML = '<i class="bi bi-pause-circle"></i> Пауза';
+      }
+    };
+    resumeVideoBtn.onclick = function () {
+      if (videoRecorder && videoRecorder.state === 'paused') {
+        videoRecorder.resume();
+        videoPaused = false;
+        pauseVideoBtn.style.display = '';
+        pauseVideoBtn.disabled = false;
+        resumeVideoBtn.style.display = 'none';
+        startVideoBtn.innerHTML = `<span class="recording-indicator"></span> Записва се... ${videoRecordingSeconds}s`;
+      }
+    };
+
+    // ===== Форма и валидация =====
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Ръчна валидация
+      if (!form.checkValidity()) {
+        form.classList.add('was-validated');
+        showAlert('Моля, попълнете всички задължителни полета!', 'warning', 4000);
+        return;
+      }
+      // Проверка за подпис
+      if (!document.getElementById('signatureData').value) {
+        showAlert('Моля, предоставете клиентски подпис!', 'warning', 4000);
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Изпращане...';
+
+      const formData = new FormData();
+      formData.append('text_notes', document.getElementById('text-notes').value);
+      formData.append('client_name', document.getElementById('clientName').value);
+      formData.append('signature_data', document.getElementById('signatureData').value);
+      formData.append('gps_coordinates', document.getElementById('gps-coordinates').value);
+      fileList.forEach((f) => formData.append('files[]', f));
+      
+      // ===== СИМУЛАЦИЯ НА ИЗПРАЩАНЕ =====
+      new Promise((resolve, reject) => {
+        // Симулираме мрежово забавяне от 1.5 секунди
+        setTimeout(() => {
+          console.log("Формата е изпратена (СИМУЛАЦИЯ). Данните, които биха били изпратени:");
+          console.log({
+              text_notes: formData.get('text_notes'),
+              client_name: formData.get('client_name'),
+              signature_data: formData.get('signature_data').substring(0, 50) + '...', // съкратено за прегледност
+              gps_coordinates: formData.get('gps_coordinates'),
+              files: fileList.map(f => f.name)
+          });
+          resolve({ status: 'success', message: 'Данните са качени успешно!' });
+        }, 1500);
+      })
+      .then(data => {
+        if (data.status === 'success') {
+          showAlert('Информацията е запазена успешно! (Симулация)', 'success', 5000);
+
+          // Пълно изчистване на формата
+          fileList = [];
+          updatePreview();
+          form.reset();
+          form.classList.remove('was-validated');
+
+          if (signaturePad) {
+            signaturePad.clear();
+          }
+          document.getElementById('signatureData').value = '';
+          document.getElementById('previewContainer').style.display = 'none';
+
+          document.getElementById('audio-preview').style.display = 'none';
+          document.getElementById('video-preview').style.display = 'none';
+          document.getElementById('audio-length').style.display = 'none';
+          document.getElementById('video-length').style.display = 'none';
+          
+          document.getElementById('location-info').style.display = 'none';
+          document.getElementById('map').style.display = 'none';
+          document.getElementById('gps-coordinates').value = '';
+          currentLocation = null;
+          
+          viewMapBtn.disabled = true;
+          getDirectionsBtn.disabled = true;
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          throw new Error(data.message || 'Неизвестна грешка');
+        }
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        showAlert(`Грешка при запазване: ${err.message}. Моля, опитайте отново.`, 'danger', 5000);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      });
+    });
+    
+    // Инициализация на картата при зареждане
+    initMap();
+  </script>
+</body>
+</html>
