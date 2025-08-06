@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Табулация с DIV елементи</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        .tabs {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .tab-headers {
+            display: flex;
+            margin-bottom: -1px;
+        }
+        
+        .tab-header {
+            padding: 12px 24px;
+            background: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            user-select: none;
+        }
+        
+        .tab-header:hover {
+            background: #e1e1e1;
+        }
+        
+        .tab-header.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        .tab-contents {
+            border: 1px solid #ddd;
+            border-radius: 0 5px 5px 5px;
+            overflow: hidden;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: white;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Демонстрация на табулация с DIV елементи</h1>
+    
+    <div class="tabs">
+        <div class="tab-headers">
+            <div class="tab-header active" data-tab="tab1">Първи таб</div>
+            <div class="tab-header" data-tab="tab2">Втори таб</div>
+            <div class="tab-header" data-tab="tab3">Трети таб</div>
+        </div>
+        
+        <div class="tab-contents">
+            <div id="tab1" class="tab-content active">
+                <h2>Съдържание на първия таб</h2>
+                <p>Това е съдържанието на първия таб, който се активира с DIV елемент вместо бутон.</p>
+                <p>Функционалността е абсолютно същата, но използваме div вместо button.</p>
+            </div>
+            
+            <div id="tab2" class="tab-content">
+                <h2>Съдържание на втория таб</h2>
+                <p>Тук е съдържанието на втория таб.</p>
+                <p>Забележете че преходите са плавни както при бутоните.</p>
+            </div>
+            
+            <div id="tab3" class="tab-content">
+                <h2>Съдържание на третия таб</h2>
+                <p>Това е последният таб в демонстрацията с DIV елементи.</p>
+                <p>Можете да добавяте още табове по същия начин.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabHeaders = document.querySelectorAll('.tab-header');
+            
+            tabHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    // Премахваме активния клас от всички headers
+                    document.querySelectorAll('.tab-header.active').forEach(h => {
+                        h.classList.remove('active');
+                    });
+                    
+                    // Добавяме активния клас към текущия header
+                    this.classList.add('active');
+                    
+                    // Скриваме всички табове
+                    document.querySelectorAll('.tab-content.active').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    
+                    // Показваме съответния таб
+                    const tabId = this.getAttribute('data-tab');
+                    const tabToShow = document.getElementById(tabId);
+                    tabToShow.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
