@@ -3,21 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Табулация с DIV елементи</title>
+    <title>Респонсивни Табове</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            padding: 0;
         }
         
         .tabs {
-            max-width: 600px;
+            max-width: 100%;
             margin: 0 auto;
         }
         
         .tab-headers {
             display: flex;
+            flex-direction: row; /* По подразбиране хоризонтално */
             margin-bottom: -1px;
+        }
+        
+        /* Стилове за мобилни устройства */
+        @media (max-width: 768px) {
+            .tab-headers {
+                flex-direction: column; /* Вертикално подреждане на малки екрани */
+            }
+            
+            .tab-header {
+                width: 100%;
+                border-radius: 5px 5px 0 0;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            
+            .tab-header.active {
+                border-radius: 5px 5px 0 0;
+            }
+            
+            .tab-contents {
+                border-radius: 0 0 5px 5px;
+            }
         }
         
         .tab-header {
@@ -31,6 +55,7 @@
             border-radius: 5px 5px 0 0;
             margin-right: 5px;
             user-select: none;
+            text-align: center;
         }
         
         .tab-header:hover {
@@ -61,43 +86,76 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         h1 {
             color: #333;
             text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        h2 {
+            font-size: 1.3rem;
+            margin-top: 0;
+        }
+        
+        /* Допълнителни стилове за по-добро mobile изживяване */
+        @media (max-width: 480px) {
+            .tab-header {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .tab-content {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Демонстрация на табулация с DIV елементи</h1>
+    <h1>Респонсивна Табулация</h1>
     
     <div class="tabs">
         <div class="tab-headers">
-            <div class="tab-header active" data-tab="tab1">Първи таб</div>
-            <div class="tab-header" data-tab="tab2">Втори таб</div>
-            <div class="tab-header" data-tab="tab3">Трети таб</div>
+            <div class="tab-header active" data-tab="tab1">Първи</div>
+            <div class="tab-header" data-tab="tab2">Втори</div>
+            <div class="tab-header" data-tab="tab3">Трети</div>
+            <div class="tab-header" data-tab="tab4">Допълнителен</div>
         </div>
         
         <div class="tab-contents">
             <div id="tab1" class="tab-content active">
-                <h2>Съдържание на първия таб</h2>
-                <p>Това е съдържанието на първия таб, който се активира с DIV елемент вместо бутон.</p>
-                <p>Функционалността е абсолютно същата, но използваме div вместо button.</p>
+                <h2>Първи таб</h2>
+                <p>Това е съдържанието на първия таб. На малки екрани заглавките на табовете ще се показват вертикално.</p>
+                <p>Тествайте да променяте размера на прозореца или отворете на мобилно устройство.</p>
             </div>
             
             <div id="tab2" class="tab-content">
-                <h2>Съдържание на втория таб</h2>
-                <p>Тук е съдържанието на втория таб.</p>
-                <p>Забележете че преходите са плавни както при бутоните.</p>
+                <h2>Втори таб</h2>
+                <p>Това е съдържанието на втория таб.</p>
+                <p>На малки екрани всички табове ще са един под друг, което ги прави лесни за използване с пръст.</p>
             </div>
             
             <div id="tab3" class="tab-content">
-                <h2>Съдържание на третия таб</h2>
-                <p>Това е последният таб в демонстрацията с DIV елементи.</p>
-                <p>Можете да добавяте още табове по същия начин.</p>
+                <h2>Трети таб</h2>
+                <p>Това е съдържанието на третия таб.</p>
+                <p>Анимациите са оптимизирани и за мобилни устройства.</p>
+            </div>
+            
+            <div id="tab4" class="tab-content">
+                <h2>Допълнителен таб</h2>
+                <p>Това демонстрира как системата работи и с повече табове.</p>
+                <p>На малки екрани всички табове ще се събират автоматично.</p>
             </div>
         </div>
     </div>
@@ -126,6 +184,14 @@
                     const tabToShow = document.getElementById(tabId);
                     tabToShow.classList.add('active');
                 });
+            });
+            
+            // Опционално: автоматично активиране на първия таб при ресайз
+            // за да се избегне проблем с размерите при промяна на ориентацията
+            window.addEventListener('resize', function() {
+                if (document.querySelectorAll('.tab-content.active').length === 0) {
+                    document.querySelector('.tab-header').click();
+                }
             });
         });
     </script>
