@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хоризонтална навигация</title>
+    <style>
+        :root {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Навигационен панел */
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-header {
+            color: #333;
+            margin: 0 0 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+            text-align: center;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .nav-menu li {
+            margin: 0;
+        }
+        
+        .nav-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            white-space: nowrap;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        
+        /* Копче за връщане горе */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 99;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover {
+            background: #45a049;
+        }
+        
+        /* Основно съдържание */
+        .content {
+            width: 100%;
+            padding: 20px 0;
+        }
+        
+        .section {
+            padding: 80px 0 40px;
+            border-bottom: 1px solid #eee;
+            min-height: 60vh;
+            position: relative;
+        }
+        
+        .section h2 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        
+        /* Анимация при скрол */
+        .section:target {
+            animation: highlight 1.5s ease;
+        }
+        
+        @keyframes highlight {
+            from { background-color: rgba(76, 175, 80, 0.1); }
+            to { background-color: transparent; }
+        }
+        
+        /* Оптимизации за малки екрани */
+        @media (max-width: 600px) {
+            .nav-menu {
+                gap: 5px;
+                padding: 0 10px;
+            }
+            
+            .nav-menu a {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .section {
+                padding: 60px 0 30px;
+                min-height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Навигационен панел -->
+        <div class="nav-container">
+            <h2 class="nav-header">Навигация</h2>
+            <ul class="nav-menu">
+                <li><a href="#section1" class="active">Раздел 1</a></li>
+                <li><a href="#section2">Раздел 2</a></li>
+                <li><a href="#section3">Раздел 3</a></li>
+                <li><a href="#section4">Раздел 4</a></li>
+                <li><a href="#section5">Раздел 5</a></li>
+                <li><a href="#section6">Допълнителен раздел</a></li>
+                <li><a href="#section7">Още един</a></li>
+                <li><a href="#section8">Последен раздел</a></li>
+            </ul>
+        </div>
+        
+        <!-- Основно съдържание -->
+        <main class="content">
+            <section id="section1" class="section">
+                <h2>Раздел 1</h2>
+                <p>Това е съдържанието на първия раздел. Навигационните табове са подредени хоризонтално и автоматично се пренареждат на нов ред, когато не се събират.</p>
+            </section>
+            
+            <section id="section2" class="section">
+                <h2>Раздел 2</h2>
+                <p>Втората секция с примерено съдържание. Забележете как навигацията остава отгоре при скролиране.</p>
+            </section>
+            
+            <section id="section3" class="section">
+                <h2>Раздел 3</h2>
+                <p>Трети раздел с демонстрационно съдържание. Намалете ширината на браузъра, за да видите как табовете се пренареждат автоматично.</p>
+            </section>
+            
+            <section id="section4" class="section">
+                <h2>Раздел 4</h2>
+                <p>Четвърти раздел от демонстрацията. Добавихме още табове, за да демонстрираме автоматичното пренареждане.</p>
+            </section>
+            
+            <section id="section5" class="section">
+                <h2>Раздел 5</h2>
+                <p>Пета секция с примерено съдържание. Имате бутон за връщане горе, който се появява при скрол надолу.</p>
+            </section>
+            
+            <section id="section6" class="section">
+                <h2>Допълнителен раздел</h2>
+                <p>Това е допълнителен раздел за демонстрация на навигацията с повече елементи.</p>
+            </section>
+            
+            <section id="section7" class="section">
+                <h2>Още един раздел</h2>
+                <p>Още една секция, която показва как системата работи с множество табове.</p>
+            </section>
+            
+            <section id="section8" class="section">
+                <h2>Последен раздел</h2>
+                <p>Финална секция от демонстрацията. Навигацията работи перфектно независимо от броя на табовете.</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Плаващ бутон за връщане горе -->
+    <a href="#" class="back-to-top" title="Върни се горе">↑</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            const sections = document.querySelectorAll('.section');
+            const backToTopBtn = document.querySelector('.back-to-top');
+            
+            // При зареждане на страницата маркираме първия раздел като активен
+            function setInitialActive() {
+                // Премахваме активния клас от всички
+                navLinks.forEach(link => link.classList.remove('active'));
+                // Маркираме първия линк като активен
+                navLinks[0].classList.add('active');
+            }
+            
+            // Промяна на активния линк при скрол
+            function updateActiveNav() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.pageYOffset >= (sectionTop - 100)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Ако не сме намерили активен раздел (в началото на страницата), маркираме първия
+                if (current === '' && window.pageYOffset === 0) {
+                    navLinks[0].classList.add('active');
+                }
+                
+                // Показване/скриване на бутона за връщане горе
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            }
+            
+            // Плавен скрол при клик
+            function smoothScroll(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                
+                if (targetId === '#') {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    return;
+                }
+                
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Активен линк
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+            
+            // Инициализация
+            setInitialActive();
+            window.addEventListener('scroll', updateActiveNav);
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', smoothScroll);
+            });
+            
+            backToTopBtn.addEventListener('click', smoothScroll);
+        });
+    </script>
+</body>
+</html>
