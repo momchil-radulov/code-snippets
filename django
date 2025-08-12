@@ -464,6 +464,22 @@ from .models import Author, Book, Genre, Publisher, Edition, Reader
 
 # Регистрация на моделите с custom административни класове
 
+from django.contrib import admin
+
+@admin.register(MyModel)
+class MyModelAdmin(admin.ModelAdmin):
+    list_display = ('name', 'status')
+    
+    def get_readonly_fields(self, request, obj=None):
+        # Взимаме readonly_fields от родителя
+        readonly_fields = super().get_readonly_fields(request, obj) or ()
+        
+        if obj:  # Ако обектът съществува (не е създаване на нов)
+            if obj.status == 'approved':  # Примерна проверка
+                readonly_fields += ('status', 'another_field')  # Добавяме полетата
+                
+        return readonly_fields
+
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     """
