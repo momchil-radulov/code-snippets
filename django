@@ -81,6 +81,17 @@ class Country(models.Model):
         managed = False  # Django няма да прави миграции за тази таблица
         db_table = 'employee'  # името на таблицата в базата
 
+    def save(self, *args, **kwargs):
+        # Тук добавяш своя логика преди запис
+        if not self.name:
+            self.name = "Без име"  # Ако няма име, сложи default
+        # Например, ако искаш да следиш кога е обновено, може да направиш:
+        self.updated_at = timezone.now()
+        # !!! Извикваш базовия save, за да се запази в базата
+        super().save(*args, **kwargs)
+        # Тук може да добавиш логика след записа (например логване)
+        print(f"Product '{self.name}' беше записан/обновен.")
+
     def __str__(self):
         return self.name
 
