@@ -118,11 +118,23 @@ journalctl -u my_service.service
 
 ### MODELS.PY ###
 
+import json
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+
+class CustomJSONField(models.TextField):
+    def from_db_value(self, value, expression, connection):
+        """
+        Convert database value to Python object
+        """
+        if value is None:
+            return value
+        
+        if isinstance(value, dict):  # Already decoded
+            return json.dumps(value, ensure_ascii=False);
 
 class Author(models.Model):
     """
