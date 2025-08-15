@@ -185,12 +185,28 @@ UPDATE job_schedule
     SET params = JSON_SET(params, '$.to', 'mail@domain.com') 
     WHERE id = 349;
 
-## reset_admin_db.sh ##
+## reset_admin_db.sh 2025-08-15 ##
 #!/bin/bash
-set -e  # Спира изпълнението, ако има грешка
+set -e  # Спира при грешка
 
 DB_NAME="admin_db"
-DUMP_FILE="admin_db_2025-08-15.sql.gz"
+
+# Ако е подаден аргумент → ползваме него за дата, иначе вземаме днешната
+if [[ -n "$1" ]]; then
+    DATE_STR="$1"
+else
+    DATE_STR=$(date +%Y-%m-%d)
+fi
+
+DUMP_FILE="${DB_NAME}_${DATE_STR}.sql.gz"
+
+# Проверка дали файлът съществува
+if [[ ! -f "$DUMP_FILE" ]]; then
+    echo "❌ Файлът $DUMP_FILE не съществува."
+    exit 1
+fi
+
+echo "ℹ️ Възстановяване на база $DB_NAME от $DUMP_FILE..."
 
 # 1. Изтриване на базата (ако съществува)
 sudo mysql -e "DROP DATABASE IF EXISTS \`$DB_NAME\`;"
@@ -201,4 +217,4 @@ sudo mysql -e "CREATE DATABASE \`$DB_NAME\` /*!40100 DEFAULT CHARACTER SET utf8m
 # 3. Импорт от gzip
 gunzip < "$DUMP_FILE" | sudo mysql "$DB_NAME"
 
-echo "✅ Базата $DB_NAME е възстановена успешно."
+echo "✅ Базата $DB_NAME е възстановена успешно от $DUMP_FILE."
