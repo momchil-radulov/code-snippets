@@ -184,3 +184,21 @@ CREATE TABLE modulename4tablename (
 UPDATE job_schedule 
     SET params = JSON_SET(params, '$.to', 'mail@domain.com') 
     WHERE id = 349;
+
+## reset_admin_db.sh ##
+#!/bin/bash
+set -e  # Спира изпълнението, ако има грешка
+
+DB_NAME="admin_db"
+DUMP_FILE="admin_db_2025-08-15.sql.gz"
+
+# 1. Изтриване на базата (ако съществува)
+sudo mysql -e "DROP DATABASE IF EXISTS \`$DB_NAME\`;"
+
+# 2. Създаване на нова база
+sudo mysql -e "CREATE DATABASE \`$DB_NAME\` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;"
+
+# 3. Импорт от gzip
+gunzip < "$DUMP_FILE" | sudo mysql "$DB_NAME"
+
+echo "✅ Базата $DB_NAME е възстановена успешно."
