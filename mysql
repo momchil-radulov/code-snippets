@@ -47,6 +47,7 @@ sudo systemctl status mariadb
 sudo systemctl is-enabled mariadb
 CREATE USER 'admin_usr1'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON my_database.* TO 'admin_usr1'@'localhost';
+FLUSH PRIVILEGES;
 SHOW GRANTS FOR 'admin_usr1'@'localhost';
 
 # install mysql
