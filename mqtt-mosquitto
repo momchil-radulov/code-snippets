@@ -47,7 +47,7 @@ $mosquitto_sub -h hostname -p 1883 -t topic_name -u user_name -P password
 openssl s_client -connect host.com:8883 -showcerts => copy Server certificate to ca.crt
 
 mosquitto_sub -h host.com -p 8883 -t topic/topic -u user_name -P password --cafile ca.crt --insecure
-mosquitto_sub -v -h localhost -p 1883 -t 'topic/sub_topic/#' 2>&1 | grep -v '"type":"debug"' 2>&1 | tee -a mqtt_debug.log
+mosquitto_sub -v -h localhost -p 1883 -t 'topic/sub_topic/#' 2>&1 | grep --line-buffered -v '"type":"debug"' 2>&1 | tee -a mqtt_debug.log
 
 see https://stackoverflow.com/questions/52283671/mqtt-publish-multiple-topics-with-mosquitto-pub-from-stdin
     https://hub.docker.com/_/eclipse-mosquitto
