@@ -86,6 +86,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
     ! Кодът записва всяка една промяна по стейта в детайлен вид като eventsource предизвикан от главния by_eventsource_id предизвикан от UI/crontab !
 15. Правата се реализират RBAC(Role Based Access Control) with ABAC(Attribute Based Access Control):
     Subject(e.g. User), Action, Resource, Attributes
+        атрибутите може да вкл. и final state machine, т.е. правата могат да зависят и от текущия state
   ! Лека имплементация:
         правата са: "ресурс:право", пр. "поръчка:създаване", минимум права: "създаване/преглед/редакция/изтриване" т.нар. CRUD
         ролите са: съвкупност от права
