@@ -174,3 +174,7 @@ pdftoppm -png -f 2 -l 2 document.pdf doc_2_page.png
    ```bash
    sudo chattr +i /path/to/your/file_or_directory
    ```
+
+# стартиране на viber desktop със уголемен шрифт
+[~/.bashrc]
+alias viber='QT_FONT_DPI=140 ~/bin/viber.AppImage'
