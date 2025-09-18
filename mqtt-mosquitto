@@ -247,3 +247,8 @@ except Exception as e:
 
 client.loop_forever()  # Това автоматично ще се опита да се свърже отново при прекъсване
 <= ## python script with reconect ##
+
+mosquitto_sub -v -h localhost -p 1883 -t 'top/sub_top/#' 2>&1 | \
+              grep --line-buffered -v '"type":"stat"' 2>&1 | \
+              grep --line-buffered . | \
+              tee -a dev.log
