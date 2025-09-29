@@ -8,6 +8,14 @@ curl е инструмент за изтегляне на данни от инт
 -T (upload file) име на файла или "-" за четене от стандартния вход
 -k [--insecure] (insecure) не проверява за валидност на ssl сертификата
 
+[curl_users.sh]
+#!/usr/bin/env bash
+TOKEN=$(printf 'some_api_key%s' "$(date +%Y-%m-%d)" | openssl dgst -sha512 -binary | xxd -p -c 256)
+curl -sS \
+  -H "X-Api-Token: $TOKEN" \
+  'http://localhost/api/users?activated=1&limit=50'
+[ / curl_users.sh]
+
 *** install "z" alternative to "cd" ***
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 ~/.bashrc => eval "$(zoxide init bash)"
