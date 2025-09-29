@@ -13,7 +13,8 @@ curl е инструмент за изтегляне на данни от инт
 TOKEN=$(printf 'some_api_key%s' "$(date +%Y-%m-%d)" | openssl dgst -sha512 -binary | xxd -p -c 256)
 curl -sS \
   -H "X-Api-Token: $TOKEN" \
-  'http://localhost/api/users?activated=1&limit=50'
+  'http://localhost/api/users?activated=1&limit=50' \
+  | jq
 [ / curl_users.sh]
 
 *** install "z" alternative to "cd" ***
