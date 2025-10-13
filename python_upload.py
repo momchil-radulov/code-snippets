@@ -136,6 +136,9 @@ def main() -> None:
         if "UPLOAD" in action and not args.dry_run:
             with open(local_path, "rb") as fh:
                 ftp.storbinary(f"STOR {remote_path}", fh)
+            print("uploaded")
+        else:
+            print("dry-run, not uploaded")
 
     ftp.quit()
     print("Готово.")
