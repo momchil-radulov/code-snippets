@@ -133,7 +133,7 @@ def main() -> None:
 
         print(f"- {remote_name} [{size_bytes} B] → {action}")
 
-        if "UPLOAD" in action and not args.dry-run:
+        if "UPLOAD" in action and not args.dry_run:
             with open(local_path, "rb") as fh:
                 ftp.storbinary(f"STOR {remote_path}", fh)
 
