@@ -138,9 +138,9 @@ def main() -> None:
                 ftp.storbinary(f"STOR {remote_path}", fh)
             print("  uploaded")
         elif args.dry_run:
-            print("  not uploaded, dry-run")
+            print("  not uploaded, dry-run:", remote_path)
         else:
-            print("  not uploaded")
+            print("  not uploaded:", remote_path)
 
     ftp.quit()
     print("Готово.")
