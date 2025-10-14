@@ -6,7 +6,7 @@ HOST_ALIAS="server_db"             # ssh alias (от ~/.ssh/config)
 DB_NAME="iotdb"
 LOCAL_DIR="$HOME/backups/mysql"    # къде да пазим архивите локално
 RETAIN_DAYS=30                     # колко дни да пазим
-SUDO_CMD="sudo -n"                 # ако имаш NOPASSWD за mysqldump; иначе виж бележките долу
+SUDO_CMD="sudo"                    # ако имаш sudo права
 
 # Създай локалната папка, ако липсва
 mkdir -p "$LOCAL_DIR"
