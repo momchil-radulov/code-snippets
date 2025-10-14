@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# === Конфигурация ===
+HOST_ALIAS="server_db"             # ssh alias (от ~/.ssh/config)
+DB_NAME="iotdb"
+LOCAL_DIR="$HOME/backups/mysql"    # къде да пазим архивите локално
+RETAIN_DAYS=30                     # колко дни да пазим
+SUDO_CMD="sudo -n"                 # ако имаш NOPASSWD за mysqldump; иначе виж бележките долу
+
+# Създай локалната папка, ако липсва
+mkdir -p "$LOCAL_DIR"
+
+# Име на файла: admin_muhtarov_YYYY-MM-DD.sql.gz
+STAMP="$(date +%F)"
+OUTFILE="${LOCAL_DIR}/${DB_NAME}_${STAMP}.sql.gz"
+
+# Проверки
+command -v ssh >/dev/null
+command -v gzip >/dev/null
+
+echo "[*] Правя дамп на ${DB_NAME} от ${HOST_ALIAS} → ${OUTFILE}"
+
+# ВНИМАНИЕ: ако sudo иска парола, виж бележките долу за NOPASSWD или SUDO_CMD=""
+# Стрийм през SSH, без временен файл на сървъра:
+ssh -o RequestTTY=no "${HOST_ALIAS}" \
+  "${SUDO_CMD} mysqldump --databases ${DB_NAME} | gzip -c" \
+  > "${OUTFILE}"
+
+# Верификация (по желание)
+gzip -t "${OUTFILE}"
+echo "[✓] Готово: ${OUTFILE}"
+
+# Ротация на стари архиви
+if [[ "${RETAIN_DAYS}" -gt 0 ]]; then
+  find "${LOCAL_DIR}" -type f -name "${DB_NAME}_*.sql.gz" -mtime +${RETAIN_DAYS} -print -delete || true
+fi
