@@ -11,6 +11,14 @@ window.location OR location
 
 readyFn( { title: '', message: data.message, result: 'success|error', time: '10' } );
 
+/*** сигурно сетване на property базирано на върнат резултат  ***/
+if (typeof data.is_ratings !== 'undefined' && data.is_ratings !== null) {
+    var surveyCheckbox = $('#is_ratings');
+    if (surveyCheckbox.length) {
+        surveyCheckbox.prop('checked', parseInt(data.is_ratings, 10) > 0);
+    }
+}
+
 /*** търсене в DOM  ***/
 const textarea = document.getElementById('елемент–съсед-на-търсения');
 const iframe = textarea.parentElement.querySelector('iframe.wysihtml5-sandbox');
