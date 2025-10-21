@@ -23,10 +23,27 @@
 import argparse
 import os
 import ssl
+import sys
 from ftplib import FTP, FTP_TLS, error_perm
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Tuple, Optional
+
+
+# === Цветове за по-добра визуализация в терминала ===
+class Color:
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    CYAN = "\033[96m"
+    RESET = "\033[0m"
+
+
+def colorize(text, color):
+    """Връща текст с цвят (ако терминалът поддържа ANSI)."""
+    if sys.stdout.isatty():
+        return f"{color}{text}{Color.RESET}"
+    return text
 
 
 def parse_args() -> argparse.Namespace:
@@ -220,14 +237,27 @@ def main() -> None:
     # ако има базова отдалечена директория – увери се, че съществува
     ensure_cwd(ftp, args.remote_dir)
 
+    total = 0
+    uploaded = 0
+    skipped = 0
+    failed = 0
+
+    print()
+    print("📤  Започвам качването...")
+    print("=" * 90)
+    print(f"{'ФАЙЛ':60} | {'РАЗМЕР':>10} | {'ДЕЙСТВИЕ'}")
+    print("-" * 90)
+
     for entry in entries:
+        total += 1
         local_str, remote_rel_override = parse_mapping(entry)
 
         # Локален път (приемаме, че е каквото е изредено – може да е относителен)
         local_path = Path(local_str).expanduser().resolve()
 
         if not local_path.exists() or not local_path.is_file():
-            print(f" ! Пропускам (не съществува файл): {local_path}")
+            print(colorize(f"{local_str:60} | {'-':>10} | ❌ Пропуснат (не съществува файл)", Color.RED))
+            failed += 1
             continue
 
         # Отдалечен относителен път:
@@ -264,22 +294,35 @@ def main() -> None:
             except error_perm:
                 action = "UPLOAD (remote missing)"
 
-        print(f"- {remote_rel} [{size_bytes} B] → {action}")
-
-        # Качване
-        if "UPLOAD" in action and not args.dry_run:
-            # Уверяваме се, че отдалечените директории съществуват
-            ensure_remote_dirs(ftp, remote_path)
-            with open(local_path, "rb") as fh:
-                # storbinary работи с пълен (относителен спрямо cwd) път
-                ftp.storbinary(f"STOR {remote_path}", fh)
-            print("  uploaded")
-        elif args.dry_run:
-            print("  not uploaded, dry-run:", remote_path)
+        # Подобрен изход:
+        if "UPLOAD" in action:
+            print(colorize(f"{remote_rel:60} | {size_bytes:10,d} | ⬆️  {action}", Color.CYAN))
+            if not args.dry_run:
+                try:
+                    ensure_remote_dirs(ftp, remote_path)
+                    with open(local_path, "rb") as fh:
+                        # storbinary работи с пълен (относителен спрямо cwd) път
+                        ftp.storbinary(f"STOR {remote_path}", fh)
+                    uploaded += 1
+                    print(colorize(f"{'':60} | {'':10} | ✅ Качен успешно", Color.GREEN))
+                except Exception as e:
+                    failed += 1
+                    print(colorize(f"{'':60} | {'':10} | ❌ Грешка при качване: {e}", Color.RED))
+            else:
+                print(colorize(f"{'':60} | {'':10} | 🧪 Dry-run (няма качване)", Color.YELLOW))
         else:
-            print("  not uploaded:", remote_path)
+            print(colorize(f"{remote_rel:60} | {size_bytes:10,d} | ⏩ {action}", Color.YELLOW))
+            skipped += 1
 
     ftp.quit()
+    print("=" * 90)
+    print()
+    print("📊  Резюме:")
+    print(f"  Общо файлове:   {total}")
+    print(f"  ✅ Качени:       {uploaded}")
+    print(f"  ⏩ Пропуснати:   {skipped}")
+    print(f"  ❌ Грешки:       {failed}")
+    print()
     print("Готово.")
 
 
