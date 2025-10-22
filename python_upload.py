@@ -304,12 +304,12 @@ def main() -> None:
                         # storbinary работи с пълен (относителен спрямо cwd) път
                         ftp.storbinary(f"STOR {remote_path}", fh)
                     uploaded += 1
-                    print(colorize(f"{'':60} | {'':10} | ✅ Качен успешно", Color.GREEN))
+                    print(colorize(f"{remote_path:60} | {'':10} | ✅ Качен успешно", Color.GREEN))
                 except Exception as e:
                     failed += 1
-                    print(colorize(f"{'':60} | {'':10} | ❌ Грешка при качване: {e}", Color.RED))
+                    print(colorize(f"{remote_path:60} | {'':10} | ❌ Грешка при качване: {e}", Color.RED))
             else:
-                print(colorize(f"{'':60} | {'':10} | 🧪 Dry-run (няма качване)", Color.YELLOW))
+                print(colorize(f"{remote_path:60} | {'':10} | 🧪 Dry-run (няма качване)", Color.YELLOW))
         else:
             print(colorize(f"{remote_rel:60} | {size_bytes:10,d} | ⏩ {action}", Color.YELLOW))
             skipped += 1
