@@ -35,3 +35,7 @@ echo "[✓] Готово: ${OUTFILE}"
 if [[ "${RETAIN_DAYS}" -gt 0 ]]; then
   find "${LOCAL_DIR}" -type f -name "${DB_NAME}_*.sql.gz" -mtime +${RETAIN_DAYS} -print -delete || true
 fi
+
+# razni
+# sudo EDITOR=vim visudo
+# your_username ALL=(ALL) NOPASSWD: /usr/bin/mysqldump
