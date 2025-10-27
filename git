@@ -177,7 +177,8 @@ git stash  # for all local changes
 git stash push -m "message_description"
 git stash pop  # return changes
 # show and clear stash stack
-git stash list  
+git stash list
+git stash show -p stash@{0}  # промените по кода
 git stash clear
 # revert last commit
 git reset --soft HEAD~1
