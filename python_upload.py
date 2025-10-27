@@ -235,7 +235,7 @@ def main() -> None:
 
     ftp = connect_ftp(args)
     # ако има базова отдалечена директория – увери се, че съществува
-    ensure_cwd(ftp, args.remote_dir)
+    # ensure_cwd(ftp, args.remote_dir)
 
     total = 0
     uploaded = 0
@@ -292,6 +292,7 @@ def main() -> None:
                 r_mtime = remote_timestamp_utc(ftp, remote_path)
                 action = "UPLOAD (local is newer)" if local_mtime > r_mtime else "SKIP (remote up-to-date/newer)"
             except error_perm:
+                print('missing', remote_path)
                 action = "UPLOAD (remote missing)"
 
         # Подобрен изход:
