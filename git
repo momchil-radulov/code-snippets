@@ -67,6 +67,8 @@ git show [hash]        # show one commit diff
 git remote -v
 git remote show origin
 git fetch --prune OR git remote prune origin  # remove tracking branches no longer on remote
+# change remote
+git remote set-url origin git@github.com:username/new-repo.git
 
 # How to ignore new files
 .gitignore # globally
