@@ -1,5 +1,9 @@
 # install
 
+# debug
+ini_set('display_errors', 1);  # например в index.php
+
+
 # install v.7
 sudo apt update
 sudo apt install software-properties-common
