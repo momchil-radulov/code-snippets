@@ -2,7 +2,10 @@
 
 # debug
 ini_set('display_errors', 1);  # например в index.php
-
+$GLOBALS['a_var'] === $a_var   # достъп до глобалните променливи
+$locals = get_defined_vars()   # достъп до локалните променливи
+$vars = ['a' => 1, 'b' => 2]; extract($vars); echo $a; // 1
+$vars = compact('a', 'b', 'c'); $vars === ['a' => 1, 'b' => 2];
 
 # install v.7
 sudo apt update
