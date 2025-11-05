@@ -178,15 +178,21 @@ git tag -d v1.4-lw # delete a tag
 # temporary undo changes in a file and after that, return changes
 git stash push project_name/appsettings.json  # for a individual file
 git stash  # for all local changes
+
 git stash push -m "message_description"
+
 git stash pop  # return changes
+
 # show and clear stash stack
 git stash list
 git stash show
 git stash show stash@{0}
 git stash show -p
 git stash show -p stash@{0}  # промените по кода
-git stash clear
+
+git stash drop stash@{0}     # изтриване на конкретен stash
+git stash clear              # изтриване на ВСИЧКИ stash
+
 # revert last commit
 git reset --soft HEAD~1
 # undo last add command
