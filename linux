@@ -17,6 +17,21 @@ chromium --kiosk start.html
 
 sudo systemd-resolve --flush-caches
 
+# дали сме инсталирали, в случая търсим viber
+dpkg -l | grep -i viber
+apt list --installed | grep -i viber
+snap list | grep -i viber
+flatpak list | grep -i viber
+which viber
+whereis viber
+# деинсталиране
+sudo apt remove viber
+sudo apt purge viber        # ако искаш да махнеш и конфигурации
+sudo apt autoremove         # за да изчистиш неизползвани зависимости
+sudo snap remove viber      # snap
+flatpak uninstall com.viber.Viber
+sudo dpkg -r viber
+
 # users
 sudo adduser user_name
 sudo adduser user_name --shell=/bin/false --no-create-home
