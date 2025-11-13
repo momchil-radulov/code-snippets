@@ -38,3 +38,6 @@ fi
 
 # razni
 # sudo update-locale LANG=bg_BG.UTF-8
+# zcat iotdb_2025-11-13.sql.gz | head -n 10
+# zcat iotdb_2025-11-13.sql.gz | tail -n 10
+# zless iotdb_2025-11-13.sql.gz
