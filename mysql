@@ -7,6 +7,8 @@ df -h
 sudo mysql clientdb_name < clientdb_backup.sql
 sudo mysql < clientdb_backup_with_create_database.sql
 
+mysql -h 127.0.0.1 -u user_name -p'user_password' database_name
+
 mysqldump -u [потребител] -p --databases admin_db --no-data > admin_db_structure_$(date +%Y-%m-%d).sql
 mysqldump -u [потребител] -p admin_db big_table --where="created_at >= '2024-12-01'" > incremental_backup_big_table_$(date +%Y-%m-%d).sql
 mysqldump -u [потребител] -p admin_db --ignore-table=admin_db.big_table > admin_db_data_$(date +%Y-%m-%d).sql
