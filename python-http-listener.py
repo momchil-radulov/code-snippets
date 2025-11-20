@@ -99,7 +99,7 @@ async def h(req):
     return web.Response(text="OK")
 
 app = web.Application()
-app.router.add_route("*", "/mqtt", h)
+app.router.add_route("*", "/", h)
 web.run_app(app, host="127.0.0.1", port=8008)
 
 
