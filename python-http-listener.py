@@ -72,24 +72,9 @@ async def handler(request):
     return web.Response(text="OK")
 
 app = web.Application()
-app.router.add_route("*", "/mqtt", handler)
+app.router.add_route("*", "/{url:.*}", handler)
 
 web.run_app(app, host="127.0.0.1", port=8008)
-
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
-class H(BaseHTTPRequestHandler):
-    def do_POST(self):
-        l = int(self.headers.get("content-length", 0))
-        body = self.rfile.read(l).decode()
-        print(self.command, self.path, body)
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"OK")
-
-server = HTTPServer(("127.0.0.1", 8008), H)
-server.serve_forever()
-
 
 #!/usr/bin/env python3
 from aiohttp import web
@@ -99,7 +84,7 @@ async def h(req):
     return web.Response(text="OK")
 
 app = web.Application()
-app.router.add_route("*", "/", h)
+app.router.add_route("*", "/{url:.*}", h)
 web.run_app(app, host="127.0.0.1", port=8008)
 
 
