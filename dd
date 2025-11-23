@@ -1,0 +1,3 @@
+lsblk | grep sd
+sudo umount /dev/sda*  # виж каква е твоята буква !!!
+sudo dd if=./Windows.10.Lite.Edition.19H2.x64.iso of=/dev/sda bs=4M status=progress oflag=sync
