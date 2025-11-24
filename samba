@@ -10,3 +10,4 @@ $ smbclient -L //192.168.1.13 -N
 	petar_share     Disk      
 
 $ sudo mount -t cifs //192.168.1.13/petar_share ~/petar_share -o username=WINUSER,password=WINPASS,vers=3.0
+$ sudo umount ~/petar_share
