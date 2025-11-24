@@ -21,6 +21,6 @@ sudo vim /etc/samba/smb.conf
    browseable = yes
    read only = yes
    guest ok = yes
-   force user = momchil
+#  force user = momchil
 
 $ sudo systemctl restart smbd
