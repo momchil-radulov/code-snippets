@@ -11,3 +11,16 @@ $ smbclient -L //192.168.1.13 -N
 
 $ sudo mount -t cifs //192.168.1.13/petar_share ~/petar_share -o username=WINUSER,password=WINPASS,vers=3.0
 $ sudo umount ~/petar_share
+
+$ sudo apt install samba
+$ smbd --version
+
+sudo vim /etc/samba/smb.conf
+[shared]
+   path = /home/your_name/shared_folder
+   browseable = yes
+   read only = yes
+   guest ok = yes
+   force user = momchil
+
+$ sudo systemctl restart smbd
