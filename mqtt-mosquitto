@@ -7,7 +7,16 @@ sudo systemctl stop mosquitto
 sudo systemctl restart mosquitto
 sudo systemctl reload mosquitto
 
+#> debug only
 sudo mosquitto -c /etc/mosquitto/mosquitto.conf
+# persistence true
+# persistence_location /var/lib/mosquitto/
+# log_dest file /var/log/mosquitto/mosquitto.log
+port 1883
+allow_anonymous true
+log_dest stdout
+log_type all
+#< debug only
 
 # truncate a big log file
 # ще намали размера на файла до 0 байта, без да го изтрива или променя неговите файлови дескриптори,
