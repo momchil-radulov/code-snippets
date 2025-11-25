@@ -1,9 +1,11 @@
 sudo apt install mosquitto mosquitto-clients  # !!! overload /etc/mosquitto/mosquitto.conf
 sudo systemctl status mosquitto
 sudo systemctl enable mosquitto
-sudo systemctl restart mosquitto
+sudo systemctl disable mosquitto
 sudo systemctl start mosquitto
 sudo systemctl stop mosquitto
+sudo systemctl restart mosquitto
+sudo systemctl reload mosquitto
 
 sudo mosquitto -c /etc/mosquitto/mosquitto.conf
 
