@@ -5,8 +5,6 @@ import sqlite3
 import sys
 import os
 
-# how to use
-# $ python python-db-dump.py --type pgsql --db iotdb --user postgres --host 127.0.0.1 --rows 10 --out iotdb_dump.sql
 
 def run_cmd(cmd: list[str], capture_output=False, env=None):
     """Run shell command safely, optionally returning output."""
@@ -18,6 +16,24 @@ def run_cmd(cmd: list[str], capture_output=False, env=None):
         print(f"[ERROR] Command failed: {' '.join(cmd)}")
         print(e)
         sys.exit(1)
+
+
+def format_insert(table: str, cols: list[str], vals: list[str], mysql=False):
+    """
+    Returns formatted SQL INSERT block.
+    cols stay on one line, values go multiline.
+    """
+    if mysql:
+        quote_table = f"`{table}`"
+    else:
+        quote_table = f'"{table}"'
+
+    return (
+        f"INSERT INTO {quote_table} ({', '.join(cols)})\n"
+        f"VALUES (\n"
+        f"    {',\n    '.join([repr(v) for v in vals])}\n"
+        f");\n"
+    )
 
 
 # =========================================================
@@ -58,7 +74,7 @@ def dump_mysql(args):
         f.write("\n-- Last rows\n\n")
 
         for t in tables:
-            print(f"[INFO] Querying table: {t}")
+            print(f"[INFO] Querying: {t}")
 
             sql = f"SELECT * FROM `{t}` ORDER BY 1 DESC LIMIT {args.rows};"
 
@@ -82,8 +98,8 @@ def dump_mysql(args):
 
             for row in lines[1:]:
                 vals = row.split("\t")
-                vals_sql = ", ".join([repr(v) for v in vals])
-                f.write(f"INSERT INTO `{t}` ({', '.join(cols)}) VALUES ({vals_sql});\n")
+                block = format_insert(t, cols, vals, mysql=True)
+                f.write(block)
             f.write("\n")
 
 
@@ -93,7 +109,6 @@ def dump_mysql(args):
 def dump_pgsql(args):
     print("[INFO] Dumping PostgreSQL structure...")
 
-    # Allow password usage without prompt
     env = os.environ.copy()
     if args.password:
         env["PGPASSWORD"] = args.password
@@ -134,7 +149,7 @@ def dump_pgsql(args):
         f.write("\n-- Last rows\n\n")
 
         for t in tables:
-            print(f"[INFO] Querying table: {t}")
+            print(f"[INFO] Querying: {t}")
 
             sql = f'SELECT * FROM "{t}" ORDER BY 1 DESC LIMIT {args.rows};'
 
@@ -161,10 +176,8 @@ def dump_pgsql(args):
 
             for row in lines[1:]:
                 vals = row.split("\t")
-                vals_sql = ", ".join([repr(v) for v in vals])
-                f.write(
-                    f'INSERT INTO "{t}" ({", ".join(cols)}) VALUES ({vals_sql});\n'
-                )
+                block = format_insert(t, cols, vals, mysql=False)
+                f.write(block)
             f.write("\n")
 
 
@@ -193,7 +206,7 @@ def dump_sqlite(args):
         ]
 
         for t in tables:
-            print(f"[INFO] Querying table: {t}")
+            print(f"[INFO] Querying: {t}")
 
             rows = list(
                 conn.execute(
@@ -210,10 +223,8 @@ def dump_sqlite(args):
                 continue
 
             for r in rows:
-                vals_sql = ", ".join([repr(v) for v in r])
-                f.write(
-                    f"INSERT INTO {t} ({', '.join(cols)}) VALUES ({vals_sql});\n"
-                )
+                block = format_insert(t, cols, list(r), mysql=False)
+                f.write(block)
             f.write("\n")
 
     conn.close()
@@ -261,3 +272,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# how to use
+# $ python python-db-dump.py --type pgsql --db iotdb --user postgres --host 127.0.0.1 --rows 10 --out iotdb_dump.sql
