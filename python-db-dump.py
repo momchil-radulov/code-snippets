@@ -19,13 +19,13 @@ def run_cmd(cmd: list[str], capture_output=False, env=None):
 
 
 def format_insert(table: str, cols: list[str], vals: list[str], mysql=False):
-    """Return formatted SQL INSERT block."""
     table_name = f"`{table}`" if mysql else f'"{table}"'
+    joined_vals = ",\n    ".join(repr(v) for v in vals)
 
     return (
         f"INSERT INTO {table_name} ({', '.join(cols)})\n"
         f"VALUES (\n"
-        f"    {',\n    '.join([repr(v) for v in vals])}\n"
+        f"    {joined_vals}\n"
         f");\n"
     )
 
