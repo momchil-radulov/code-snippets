@@ -1,4 +1,9 @@
 <?php
+# показване на активната база данни
+$CI =& get_instance();
+$CI->load->database();
+echo $CI->db->database;
+
 # Използвай FCPATH за файлове и директории, а base_url() за URL адреси.
 # Печатаме в конзолата на php
 error_log('Some message ...');
