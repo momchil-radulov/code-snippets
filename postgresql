@@ -159,3 +159,10 @@ ssh -L 15432:localhost:5432 user@vm_ip
 psql -h localhost -p 15432 -U postgres -d mydatabase
 # проверка на remote
 ss -tnlp | grep 5432  # или sudo netstat -tnlp | grep 5432
+
+-- Fix sequence next value --
+SELECT setval(
+    'public.table_name_id_seq',
+    (SELECT COALESCE(MAX(id), 0) FROM table_name),
+    true
+);
