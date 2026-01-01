@@ -4,6 +4,13 @@ gunzip < admin_db_2025-07-19.sql.gz | sudo mysql
 gunzip < admin_db_2024-12-19.sql.gz | mysql -u [потребител] -p admin_db
 df -h
 
+mysqldump -u admin_usr -pYouPassword \
+  --single-transaction \
+  --routines \
+  --triggers \
+  --events \
+  you_database | mysql -u admin_usr -pYouPassword you_database_copy
+
 sudo mysql clientdb_name < clientdb_backup.sql
 sudo mysql < clientdb_backup_with_create_database.sql
 
