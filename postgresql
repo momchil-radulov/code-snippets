@@ -1,5 +1,7 @@
 # backup
 sudo -u postgres pg_dump iotdb > iotdb_backup.sql
+sudo -u postgres pg_dump iotdb | gzip > iotdb_$(date +%Y-%m-%d).sql.gz
+gunzip -c iotdb_2026-01-15.sql.gz | sudo -u postgres psql iotdb
 sudo -u postgres pg_dump -F p iotdb > iotdb_backup.sql
 sudo -u postgres dropdb iotdb
 sudo -u postgres createdb iotdb
