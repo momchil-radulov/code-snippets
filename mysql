@@ -4,6 +4,10 @@ gunzip < admin_db_2025-07-19.sql.gz | sudo mysql
 gunzip < admin_db_2024-12-19.sql.gz | mysql -u [потребител] -p admin_db
 df -h
 
+# копиране на таблица от една база във друга
+CREATE TABLE db_2.table_name LIKE db_1.table_name;
+INSERT INTO db_2.table_name SELECT * FROM db_1.table_name;
+
 mysqldump -u admin_usr -pYouPassword \
   --single-transaction \
   --routines \
