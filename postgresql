@@ -80,7 +80,9 @@ psql -h host_name.com -U user_name db_name
 >\l         # list database
 >\c db user # connect to database as user
 >\dn        # list schemas
+>\dn+ public # list schema public with rights and desc
 >\dt        # list tables
+>\dt+       # list tables with desc
 >\d "table" # describe table
 >\dv        # list views
 >\df        # list functions
