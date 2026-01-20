@@ -7,6 +7,15 @@ sudo -u postgres dropdb iotdb
 sudo -u postgres createdb iotdb
 sudo -u postgres psql iotdb < iotdb_backup.sql
 
+# backup with cleanup
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+ALTER SCHEMA public OWNER TO iotuser;
+GRANT USAGE, CREATE ON SCHEMA public TO iotuser;
+GRANT USAGE, CREATE ON SCHEMA public TO public;
+
+sudo -u postgres psql iotdb < iotdb_backup.sql
+
 # Install
 sudo apt update
 sudo apt upgrade
