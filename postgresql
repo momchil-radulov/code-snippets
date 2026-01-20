@@ -16,6 +16,16 @@ GRANT USAGE, CREATE ON SCHEMA public TO public;
 
 sudo -u postgres psql iotdb < iotdb_backup.sql
 
+\c iotdb
+-- 1. Права върху ВСИЧКИ съществуващи таблици
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO iotuser;
+-- 2. Права върху ВСИЧКИ sequence-и
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO iotuser;
+-- 3. Права за БЪДЕЩИ таблици
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO iotuser;
+-- 4. Права за БЪДЕЩИ sequence-и
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO iotuser;
+
 # Install
 sudo apt update
 sudo apt upgrade
