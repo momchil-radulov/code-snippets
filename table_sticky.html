@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sticky таблица: първи ред + първа колона</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 24px;
+      line-height: 1.35;
+    }
+
+    .note {
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    /* Scroll контейнер */
+    .table-wrapper {
+      width: 100%;
+      max-width: 1000px;
+      height: 420px;          /* вертикален скрол */
+      overflow: auto;         /* ключово за sticky */
+      border: 1px solid #cfcfcf;
+      border-radius: 10px;
+      box-shadow: 0 2px 14px rgba(0,0,0,.06);
+      background: #fff;
+    }
+
+    table.sticky-table {
+      border-collapse: separate; /* важно: по-надеждно със sticky */
+      border-spacing: 0;
+      width: max-content;        /* позволява хоризонтален скрол при много колони */
+      min-width: 100%;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-right: 1px solid #e6e6e6;
+      border-bottom: 1px solid #e6e6e6;
+      white-space: nowrap;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    thead th {
+      font-weight: 600;
+    }
+
+    /* Sticky header (първи ред) */
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: #f3f5f7;
+      box-shadow: 0 1px 0 #e6e6e6; /* леко отделяне */
+    }
+
+    /* Sticky first column (първа колона) */
+    tbody td:first-child,
+    thead th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: #fafafa;
+      box-shadow: 1px 0 0 #e6e6e6; /* отделяне вдясно */
+    }
+
+    /* Top-left cell (над всичко) */
+    thead th:first-child {
+      z-index: 4;
+      background: #e9edf2;
+    }
+
+    /* по-красиво: заоблени ъгли на рамката */
+    thead th:first-child { border-top-left-radius: 10px; }
+    thead th:last-child  { border-top-right-radius: 10px; }
+
+    /* Hover ред (внимавай: sticky клетките си остават с фон) */
+    tbody tr:hover td {
+      background: #fffef2;
+    }
+    tbody tr:hover td:first-child {
+      background: #f6f6ea; /* отделен фон за sticky колона при hover */
+    }
+
+    /* Първи ред/колона граници */
+    thead th { border-top: 0; }
+    tr td:first-child, tr th:first-child { border-left: 0; }
+  </style>
+</head>
+<body>
+  <div class="note">
+    Скролирай надолу и надясно: <b>header</b> и <b>първа колона</b> остават видими.
+  </div>
+
+  <div class="table-wrapper">
+    <table class="sticky-table" id="t">
+      <thead>
+        <tr id="header-row"></tr>
+      </thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    // Генерираме примерни данни
+    const cols = 14;   // брой колони
+    const rows = 60;   // брой редове
+
+    const headerRow = document.getElementById("header-row");
+    const body = document.getElementById("body");
+
+    // Header
+    const th0 = document.createElement("th");
+    th0.textContent = "ID";
+    headerRow.appendChild(th0);
+
+    for (let c = 1; c <= cols; c++) {
+      const th = document.createElement("th");
+      th.textContent = "Колона " + c;
+      headerRow.appendChild(th);
+    }
+
+    // Body
+    for (let r = 1; r <= rows; r++) {
+      const tr = document.createElement("tr");
+
+      const td0 = document.createElement("td");
+      td0.textContent = r;
+      tr.appendChild(td0);
+
+      for (let c = 1; c <= cols; c++) {
+        const td = document.createElement("td");
+        td.textContent = `R${r}C${c} (данни)`;
+        tr.appendChild(td);
+      }
+
+      body.appendChild(tr);
+    }
+  </script>
+</body>
+</html>
