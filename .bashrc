@@ -5,6 +5,8 @@ complete -f -d -W "runserver createsuperuser test shell dbshell \
 migrate makemigrations loaddata dumpdata" ./manage.py
 complete -f -d -W "notebook" jupiter
 
+alias viber='QT_SCALE_FACTOR=1.2 QT_FONT_DPI=150 ~/bin/viber.AppImage'
+
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
