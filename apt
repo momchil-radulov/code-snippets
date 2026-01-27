@@ -1,5 +1,29 @@
 sudo apt update
 sudo apt upgrade
 
+#> error
+
+$ sudo apt-get update
+...
+Err:5 https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/focal pgadmin4 Release                                                  
+  404  Not Found [IP: 146.75.3.52 443]
+...
+Reading package lists... Done
+E: The repository 'https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/focal pgadmin4 Release' no longer has a Release file.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+
+$ ls /etc/apt/sources.list.d | grep -i pgadmin
+pgadmin4.list
+pgadmin4.list.save
+
+$ sudo rm -f /etc/apt/sources.list.d/pgadmin4.list
+$ sudo rm -f /etc/apt/sources.list.d/pgadmin4.list.save
+$ ls /etc/apt/sources.list.d | grep -i pgadmin
+
+$ sudo apt-get update  # OK
+
+#< error
+
 sudo apt install exfat-fuse exfat-utils
 sudo apt-get install unrar
