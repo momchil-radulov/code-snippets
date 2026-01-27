@@ -1,0 +1,25 @@
+{
+  "apt": [
+    { "name": "curl" }
+  ],
+  "snap": [
+    { "name": "btop" }
+  ],
+  "pipx": [
+    { "name": "httpie" }
+  ],
+  "venvs": [
+    {
+      "name": "django_5",
+      "base_dir": "venv",
+      "python": "python3.10",
+      "pip": [
+        { "name": "django", "version": "5.2.1" },
+        { "name": "gunicorn" }
+      ]
+    }
+  ],
+  "commands": [
+  ]
+}
+
