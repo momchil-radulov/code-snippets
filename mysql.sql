@@ -2,6 +2,7 @@
 SHOW FULL PROCESSLIST;
 EXPLAIN SELECT * FROM table_name WHERE column_name = 'some_filter';
 type=ALL, key=NULL, rows=some_high_number ⇒ full table scan
+SHOW INDEX FROM table_name;
 ALTER TABLE table_name
   ADD INDEX idx_column_name (column_name);
 type=ref, key=idx_column_name, rows=1 ⇒ index table scan
