@@ -46,6 +46,13 @@ commands:
   - name: "oh-my-zsh (пример)"
     check: "test -d ~/.oh-my-zsh"
     install: "sh -c \\"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\\""
+
+copy:
+  - src: "/path/from/file1.txt"
+    dst: "/path/to/file1.txt"
+  - src: "local/file2.conf"
+    dst: "/etc/myapp/file2.conf"
+    overwrite: true
 """
 
 EXAMPLE_JSON = """\
@@ -89,6 +96,17 @@ EXAMPLE_JSON = """\
       "check": "test -d ~/.oh-my-zsh",
       "install": "sh -c \\"$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\\""
     }
+  ],
+  "copy": [
+    {
+      "src": "/path/from/file1.txt",
+      "dst": "/path/to/file1.txt"
+    },
+    {
+      "src": "local/file2.conf",
+      "dst": "/etc/myapp/file2.conf",
+      "overwrite": true
+    }
   ]
 }
 """
@@ -97,7 +115,7 @@ EXAMPLE_JSON = """\
 @dataclass
 class Result:
     name: str
-    action: str   # ok | installed | skipped | failed | planned
+    action: str   # ok | installed | copied | skipped | failed | planned
     detail: str = ""
 
 
@@ -400,9 +418,63 @@ def install_commands(items: List[Dict[str, Any]], *, dry_run: bool) -> List[Resu
     return results
 
 
+def copy_files(items: List[Dict[str, Any]], *, dry_run: bool) -> List[Result]:
+    results: List[Result] = []
+    for it in items or []:
+        if not isinstance(it, dict):
+            continue
+
+        src = str((it or {}).get("src") or "").strip()
+        dst = str((it or {}).get("dst") or "").strip()
+        overwrite = bool((it or {}).get("overwrite", False))
+
+        if not src or not dst:
+            print("[SKIP] copy (missing src/dst)")
+            results.append(Result("copy", "skipped", "missing src/dst"))
+            continue
+
+        src_path = Path(src).expanduser()
+        dst_path = Path(dst).expanduser()
+
+        if not src_path.exists():
+            print(f"[MISS] copy {src_path} (source missing)")
+            results.append(Result(str(src_path), "skipped", "missing source"))
+            continue
+
+        if src_path.is_dir():
+            print(f"[ERR] copy {src_path} (source is a directory)")
+            results.append(Result(str(src_path), "failed", "source is a directory"))
+            continue
+
+        if dst_path.exists() and not overwrite:
+            print(f"[SKIP] copy {src_path} -> {dst_path} (destination exists)")
+            results.append(Result(f"{src_path} -> {dst_path}", "skipped", "destination exists"))
+            continue
+
+        if dry_run:
+            action = "would overwrite" if dst_path.exists() else "would copy"
+            print(f"[..]  copy {src_path} -> {dst_path} ({action})")
+            results.append(Result(f"{src_path} -> {dst_path}", "planned", action))
+            continue
+
+        print(f"[..]  copy {src_path} -> {dst_path} (copying)")
+        try:
+            dst_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src_path, dst_path)
+            print(f"[OK]  copy {src_path} -> {dst_path} (copied)")
+            detail = "overwritten" if dst_path.exists() and overwrite else "copied"
+            results.append(Result(f"{src_path} -> {dst_path}", "copied", detail))
+        except Exception as e:
+            print(f"[ERR] copy {src_path} -> {dst_path} (failed)")
+            results.append(Result(f"{src_path} -> {dst_path}", "failed", str(e)))
+
+    return results
+
+
 def summarize(results: List[Result]) -> int:
     ok = sum(1 for r in results if r.action == "ok")
     installed = sum(1 for r in results if r.action == "installed")
+    copied = sum(1 for r in results if r.action == "copied")
     planned = sum(1 for r in results if r.action == "planned")
     failed = sum(1 for r in results if r.action == "failed")
     skipped = sum(1 for r in results if r.action == "skipped")
@@ -410,6 +482,7 @@ def summarize(results: List[Result]) -> int:
     print("\n=== Summary ===")
     print(f"OK:        {ok}")
     print(f"Installed: {installed}")
+    print(f"Copied:    {copied}")
     print(f"Planned:   {planned}")
     print(f"Failed:    {failed}")
     print(f"Skipped:   {skipped}")
@@ -502,9 +575,14 @@ def main() -> int:
     results += install_pipx(cfg.get("pipx", []) or [], dry_run=args.dry_run)
     results += install_commands(cfg.get("commands", []) or [], dry_run=args.dry_run)
 
+    copy_items = cfg.get("copy", []) or []
+    if not isinstance(copy_items, list):
+        print("[ERR] 'copy' must be a list")
+        return 1
+    results += copy_files(copy_items, dry_run=args.dry_run)
+
     return summarize(results)
 
 
 if __name__ == "__main__":
     sys.exit(main())
-
