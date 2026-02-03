@@ -18,6 +18,8 @@ sudo systemctl reload mosquitto
 exit 0
 #<
 
+nc -vz host_name.net 8883  # check if the port is open
+
 #> debug only
 sudo mosquitto -c /etc/mosquitto/mosquitto.conf
 # persistence true
