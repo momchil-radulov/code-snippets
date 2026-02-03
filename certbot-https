@@ -1,5 +1,8 @@
 # Short
 dig +short you_domain.com
+dig +short you_domain.com @1.1.1.1
+dig +short you_domain.com @8.8.8.8
+dig you_domain.com
 sudo apt update
 sudo apt install certbot python3-certbot-nginx
 [nginx basic config]
