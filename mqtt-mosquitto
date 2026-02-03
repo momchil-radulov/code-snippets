@@ -7,6 +7,17 @@ sudo systemctl stop mosquitto
 sudo systemctl restart mosquitto
 sudo systemctl reload mosquitto
 
+# copy from a server
+ssh ubuntu@you_host.com "sudo cat /etc/mosquitto/acls"   | sudo tee /etc/mosquitto/acls   >/dev/null
+ssh ubuntu@you_host.com "sudo cat /etc/mosquitto/passwd" | sudo tee /etc/mosquitto/passwd >/dev/null
+
+sudo chown root:mosquitto /etc/mosquitto/acls /etc/mosquitto/passwd
+sudo chmod 640 /etc/mosquitto/acls /etc/mosquitto/passwd
+sudo systemctl reload mosquitto
+
+exit 0
+#<
+
 #> debug only
 sudo mosquitto -c /etc/mosquitto/mosquitto.conf
 # persistence true
