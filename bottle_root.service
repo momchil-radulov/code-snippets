@@ -25,3 +25,9 @@ StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
+
+# How to use
+# sudo systemctl daemon-reload
+# sudo systemctl enable bottle_root
+# sudo systemctl start  bottle_root
+# file: /etc/systemd/system/bottle_root.service
