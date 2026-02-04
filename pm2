@@ -5,8 +5,13 @@ sudo apt install npm
 sudo npm install pm2@latest -g
 
 pm2 startup  # generate a command to setup the startup script
+pm2 install pm2-logrotate
+pm2 save
 
 pm2 start app.js --name app_name # Name process
+pm2 start /home/ubuntu/venv/django_venv/bin/python \
+  --name django-dev \
+  -- /home/ubuntu/my_django/myadmin/manage.py runserver 8080
 pm2 delete app_name              # Remove a process from the list
 pm2 save  # auto start loaded jobs in file [~/.pm2/dump.pm2]
 
