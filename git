@@ -12,6 +12,10 @@ chmod 600 /home/ubuntu/.ssh/id_ed25519_arduino
 GIT_SSH_COMMAND='ssh -i ~/.ssh/id_ed25519_arduino' git clone git@github.com:you_account/blink_arduino.git
 GIT_SSH_COMMAND='ssh -i ~/.ssh/id_ed25519_arduino' git pull
 git config core.sshCommand "ssh -i ~/.ssh/id_ed25519_arduino -o IdentitiesOnly=yes"
+sudo chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+chmod 700 /home/ubuntu/.ssh
+chmod 644 /home/ubuntu/.ssh/known_hosts
+ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 git pull
 
 # Git да не променя крайни редове (line endings) въобще в текущото репозитори
