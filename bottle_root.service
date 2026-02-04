@@ -10,7 +10,7 @@ WorkingDirectory=/root
 ExecStart=/usr/bin/python3 /root/bot.py
 
 Restart=always
-RestartSec=3
+RestartSec=15
 
 # По-добри логове (и да не "буферира" stdout)
 Environment=PYTHONUNBUFFERED=1
@@ -29,5 +29,6 @@ WantedBy=multi-user.target
 # How to use
 # sudo systemctl daemon-reload
 # sudo systemctl enable bottle_root
-# sudo systemctl start  bottle_root
+# sudo systemctl  start bottle_root
+# sudo journalctl -f -u bottle_root
 # file: /etc/systemd/system/bottle_root.service
