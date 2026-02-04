@@ -7,6 +7,7 @@ sudo npm install pm2@latest -g
 pm2 startup  # generate a command to setup the startup script
 pm2 install pm2-logrotate
 pm2 save
+pm2 startup
 
 pm2 start app.js --name app_name # Name process
 pm2 start /home/ubuntu/venv/django_venv/bin/python \
