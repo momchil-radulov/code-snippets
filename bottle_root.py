@@ -1,0 +1,27 @@
+[Unit]
+Description=Bottle Root Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/python3 /root/bot.py
+
+Restart=always
+RestartSec=3
+
+# По-добри логове (и да не "буферира" stdout)
+Environment=PYTHONUNBUFFERED=1
+
+# Логовете отиват в journald
+StandardOutput=journal
+StandardError=journal
+
+# (по желание) лимити
+# TimeoutStartSec=30
+# KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
