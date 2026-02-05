@@ -2,6 +2,6 @@
 rsync -av --include '*/' --include '*.php' --exclude '*' new/ old/
 # sync usb устройство със компа
 rsync -av --size-only --progress /home/momchil/projects/[app_name]/application/ /media/momchil/DataTravel/[app_name]
-# само новите файлове рекурсивно от remote към текущата папка
+# само новите файлове рекурсивно от remote към текущата папка, обърни внимание на "/" накрая !!! (не самата папка, а съдържанието й)
 rsync -rav --dry-run --ignore-existing ubuntu@host_name:/home/ubuntu/static/images/ ./
 rsync -rav --ignore-existing ubuntu@host_name:/home/ubuntu/static/images/ ./
