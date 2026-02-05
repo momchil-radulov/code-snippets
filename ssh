@@ -1,6 +1,7 @@
 sudo apt install openssh-client
 man ssh
 ssh-keygen
+ssh-keygen -t ed25519 -C "ubuntu@$(hostname)"
 ssh-copy-id
 add content of [id_rsa.pub] to ~/.ssh/authorized_keys on the remote site (the file should be mode 600)
 public key (.pub file): 644 (-rw-r--r--)  # chmod 644 id_rsa.pub
