@@ -9,6 +9,9 @@ docker exec -it msys-php56-app bash
 docker logs msys-php56-app
 mysql -h 127.0.0.1 -P 33061 -u root -proot
 gunzip -c database_name_2026-02-11.sql.gz | mysql -h 127.0.0.1 -P 33061 -uroot -proot database_name
+CREATE USER IF NOT EXISTS 'app_user'@'%' IDENTIFIED BY 'SILNA_PAROLA';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP, EXECUTE ON database_name.* TO 'app_user'@'%';
+FLUSH PRIVILEGES;
 !!! docker compose down  # delete containers !!!
 
 
