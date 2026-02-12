@@ -3,6 +3,7 @@ docker compose up -d  # start
 docker compose up     # for debugging
 docker compose stop   # stop
 docker-compose -f docker-compose.php56.yml restart
+docker ps
 docker exec -it -u root mosquitto /bin/sh  # enter in container
 docker exec -it msys-php56-app bash
 docker logs msys-php56-app
