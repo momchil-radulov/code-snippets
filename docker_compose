@@ -5,6 +5,7 @@ docker compose stop   # stop
 docker exec -it -u root mosquitto /bin/sh  # enter in container
 !!! docker compose down  # delete containers !!!
 
+
 [compose.yaml]
 version: "3.9"
 services:
@@ -32,3 +33,76 @@ services:
 networks:
   mosquitto_net:
     name: mosquitto_net
+
+
+[docker-compose.php56.yml]
+version: "2.4"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php56/Dockerfile
+    container_name: msys-php56-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      CI_ENV: development
+    depends_on:
+      homestead:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  homestead:
+    image: mariadb:10.3
+    container_name: msys-php56-db
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: muhtarov_msys
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+    ports:
+      - "33061:3306"
+    volumes:
+      - ./tmp/docker/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      default:
+        aliases:
+          - Homestead
+    restart: unless-stopped
+
+[Dockerfile] 
+FROM php:5.6-apache
+
+RUN sed -i 's|deb.debian.org/debian|archive.debian.org/debian|g; s|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list \
+    && sed -i '/stretch-updates/d' /etc/apt/sources.list \
+    && printf 'Acquire::Check-Valid-Until "false";\nAcquire::AllowInsecureRepositories "true";\nAcquire::AllowDowngradeToInsecureRepositories "true";\n' > /etc/apt/apt.conf.d/99archive \
+    && apt-get update \
+    && apt-get install -y --allow-unauthenticated --no-install-recommends \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    zlib1g-dev \
+    libicu-dev \
+    libmcrypt-dev \
+    unzip \
+    git \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j"$(nproc)" mysqli pdo pdo_mysql mysql mbstring gd zip intl mcrypt \
+    && a2enmod rewrite \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY docker/php56/php.ini /usr/local/etc/php/conf.d/zzz-msys.ini
+
+WORKDIR /var/www/html
