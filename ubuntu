@@ -1,0 +1,2 @@
+# / (readonly overlay) защита от промени на файловата система, kiosk
+$ sudo apt install overlayroot
