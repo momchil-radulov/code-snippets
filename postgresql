@@ -7,6 +7,20 @@ sudo -u postgres dropdb iotdb
 sudo -u postgres createdb iotdb
 sudo -u postgres psql iotdb < iotdb_backup.sql
 
+#> как временно да прекъсна всички за да мине DDL
+1. Забраняваш нови връзки
+ALTER DATABASE iotdb CONNECTION LIMIT 0;
+2. Убиваш всички активни връзки (без твоята)
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'iotdb'
+  AND pid <> pg_backend_pid();
+3. Пускаш DDL
+ALTER TABLE "your_table" ADD COLUMN "new_column" TEXT;
+4. Връщаш достъпа
+ALTER DATABASE iotdb CONNECTION LIMIT -1;
+#<
+
 # backup with cleanup
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
