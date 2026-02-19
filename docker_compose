@@ -14,6 +14,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP, EXECUTE ON dat
 FLUSH PRIVILEGES;
 !!! docker compose down  # delete containers !!!
 
+# списък услуги
+docker-compose -f docker-compose.php56.yml config --services
+# логове (замени <php_service> с името от горната команда)
+docker-compose -f docker-compose.php56.yml logs -f --tail=200 <php_service>
+docker-compose -f docker-compose.php56.yml logs -f --tail=200 app
 
 [compose.yaml]
 version: "3.9"
