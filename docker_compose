@@ -56,7 +56,7 @@ SHOW DATABASES; USE your_database_name; SHOW TABLES;
 gunzip -c /path_to/db_name_2026-02-20.sql.gz | \
     docker-compose -f /path_to/docker-compose.php56.yml exec -T homestead \
     mysql -uroot -proot db_name
- 
+
 [docker-compose.php56.yml]
 version: "2.4"
 
