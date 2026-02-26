@@ -7,6 +7,10 @@ sudo -u postgres dropdb iotdb
 sudo -u postgres createdb iotdb
 sudo -u postgres psql iotdb < iotdb_backup.sql
 
+# или само схемата
+sudo -u postgres pg_dump -d iotdb --schema-only --no-owner --no-privileges > iotdb_ddl_$(date +%F).sql
+alias scp_iotdb='scp ubuntu@your_host.com:/home/ubuntu/iotdb_ddl_$(date +%F).sql iotdb_ddl.sql'  # get your DDL
+
 sudo -u postgres pg_dump -d iotdb --schema-only --no-owner --no-privileges > iotdb_ddl_$(date +%F).sql
 #> как временно да прекъсна всички за да мине DDL
 1. Забраняваш нови връзки
