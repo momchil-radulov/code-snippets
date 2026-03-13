@@ -1,3 +1,15 @@
+# Защита на пака със парола
+sudo apt install apache2-utils
+htpasswd -nb admin password
+[/home/USERNAME/.htpasswd]
+admin:$apr1$VGBYkmeY$N3heGdyJzROsunZLKC/5B1
+[.htaccess]  # във папката, във файла да има
+AuthType Basic
+AuthName "Restricted"
+AuthUserFile /home/USERNAME/.htpasswd
+Require valid-user
+<[.htaccess]
+
 RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/privacy-policy$
 RewriteRule .* /privacy-policy.txt [NC,L]
