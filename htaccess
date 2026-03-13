@@ -32,6 +32,51 @@ AuthUserFile /home/USERNAME/.htpasswd
 </RequireAny>
 <[.htaccess]
 
+[.htaccess]
+# =========================================
+# BASIC AUTH за целия сайт
+# =========================================
+AuthType Basic
+AuthName "Restricted Area"
+AuthUserFile /home/USERNAME/.htpasswd
+Require valid-user
+
+# =========================================
+# ЗАБРАНА за чувствителни файлове
+# =========================================
+<FilesMatch "^(\.env|composer\.json|composer\.lock|package\.json|package-lock\.json|yarn\.lock|phpunit\.xml|\.gitignore|\.htpasswd)$">
+    Require all denied
+</FilesMatch>
+
+# =========================================
+# ЗАБРАНА за .git, .svn и други скрити файлове/директории
+# =========================================
+RewriteEngine On
+
+# блокирай достъп до .git, .svn, .hg
+RewriteRule "(^|/)\.(git|svn|hg)(/|$)" - [F,L]
+
+# блокирай всички hidden files, но остави .well-known ако трябва за SSL
+RewriteRule "(^|/)\.(?!well-known/)" - [F,L]
+
+# =========================================
+# ЗАБРАНА за backup/config/sql файлове
+# =========================================
+<FilesMatch "\.(bak|conf|dist|fla|ini|inc|log|psd|sh|sql|swp|tmp)$">
+    Require all denied
+</FilesMatch>
+
+# =========================================
+# ПО ЖЕЛАНИЕ: остави webhook/api публични
+# махни този блок ако искаш всичко да е с парола
+# =========================================
+# <RequireAny>
+#     Require expr %{REQUEST_URI} =~ m#^/api/#
+#     Require expr %{REQUEST_URI} =~ m#^/webhook/#
+#     Require valid-user
+# </RequireAny>
+<[.htaccess]
+
 RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/privacy-policy$
 RewriteRule .* /privacy-policy.txt [NC,L]
