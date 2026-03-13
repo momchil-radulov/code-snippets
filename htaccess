@@ -1,8 +1,10 @@
 # Защита на пака със парола
 sudo apt install apache2-utils
 htpasswd -nb admin password
+
 [/home/USERNAME/.htpasswd]
 admin:$apr1$VGBYkmeY$N3heGdyJzROsunZLKC/5B1
+
 [.htaccess]  # във папката, във файла да има
 AuthType Basic
 AuthName "Restricted"
