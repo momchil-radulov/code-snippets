@@ -2,6 +2,9 @@
 sudo apt install apache2-utils
 htpasswd -nb admin password
 
+<?php  # за да разберем абсолютния път
+echo '<pre>';
+echo '__DIR__ = ' . __DIR__ . PHP_EOL;
 [/home/USERNAME/.htpasswd]
 admin:$apr1$VGBYkmeY$N3heGdyJzROsunZLKC/5B1
 
