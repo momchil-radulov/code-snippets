@@ -1,0 +1,12 @@
+# mount
+sshfs user@server:/remote/path /local/path
+sshfs -o reconnect user@server:/path ~/remote
+sshfs -o cache=yes user@server:/path ~/remote
+# list
+findmnt -t fuse.sshfs
+mount | grep sshfs
+df -h
+# umount
+umount ~/remote_site
+fusermount -u ~/remote_site
+fusermount -uz ~/remote_site  # lazy unmount
