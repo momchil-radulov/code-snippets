@@ -10,6 +10,28 @@ AuthUserFile /home/USERNAME/.htpasswd
 Require valid-user
 <[.htaccess]
 
+[.htaccess]  # във root папката, във файла да има
+AuthType Basic
+AuthName "Restricted"
+AuthUserFile /home/USERNAME/.htpasswd
+
+<RequireAny>
+
+    # allow API without login
+    Require expr %{REQUEST_URI} =~ m#^/api#
+
+    # allow webhook
+    Require expr %{REQUEST_URI} =~ m#^/webhook#
+
+    # allow health check
+    Require expr %{REQUEST_URI} =~ m#^/health#
+
+    # otherwise require login
+    Require valid-user
+
+</RequireAny>
+<[.htaccess]
+
 RewriteEngine On
 RewriteCond %{REQUEST_URI} ^/privacy-policy$
 RewriteRule .* /privacy-policy.txt [NC,L]
