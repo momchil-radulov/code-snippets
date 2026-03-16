@@ -11,6 +11,7 @@ umount ~/remote_site
 fusermount -u ~/remote_site
 fusermount -uz ~/remote_site  # lazy unmount
 
+# with alias
 [~/.bashrc]
 alias mountyour_domain='sshfs -p 2222 \
 -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3,compression=yes \
@@ -18,3 +19,15 @@ your_user@your_domain.com:/home/your_path \
 ~/remote/your_path'
 
 alias umountyour_domain='fusermount -uz ~/remote/your_domain'
+
+# with inotify, only when changed a file
+sudo apt update
+sudo apt install sshfs inotify-tools
+inotifywait -m -r -e modify application/  # show when a file is changed
+
+inotifywait -m -r -e close_write --format '%w%f' . | while read file
+do
+    rel=${file#$LOCAL_DIR/}  # премахва префикса $LOCAL_DIR/ от пътя, за да получи релативния път (rel)
+    echo "Deploy $rel"
+    cp "$file" "$REMOTE_DIR/$rel"
+done
