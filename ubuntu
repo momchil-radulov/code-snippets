@@ -1,2 +1,6 @@
+# settings
+sudo apt update
+sudo apt install gnome-control-center
+
 # / (readonly overlay) защита от промени на файловата система, kiosk
 $ sudo apt install overlayroot
