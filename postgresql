@@ -56,6 +56,13 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT, UPDATE ON SEQUENC
 SELECT pid, state, query FROM pg_stat_activity WHERE state != 'idle';
 SELECT a.pid, a.query, a.state, now() - a.query_start AS duration
   FROM pg_stat_activity a WHERE a.state != 'idle' ORDER BY duration DESC;
+SHOW track_activity_query_size;
+[във config файла], след промяна: sudo systemctl restart postgresql
+track_activity_query_size = 16384
+log_min_duration_statement = 3000   # 3 секунди
+# после търсим/гледаме
+grep "duration" /var/log/postgresql/postgresql-*.log
+tail -f /var/log/postgresql/postgresql-*.log
 
 # Install
 sudo apt update
