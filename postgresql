@@ -51,6 +51,11 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE O
 -- 4. Права за БЪДЕЩИ sequence-и
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO iotuser;
 
+# debug проблемни заявки
+\x on
+SELECT pid, state, query FROM pg_stat_activity WHERE state != 'idle';
+SELECT a.pid, a.query, a.state, now() - a.query_start AS duration
+  FROM pg_stat_activity a WHERE a.state != 'idle' ORDER BY duration DESC;
 
 # Install
 sudo apt update
