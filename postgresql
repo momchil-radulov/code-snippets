@@ -1,3 +1,9 @@
+# освобождаване на базата от заключванки, с цел execute DDL
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'iotdb'
+  AND pid <> pg_backend_pid();
+
 # backup
 sudo -u postgres pg_dump iotdb > iotdb_backup.sql
 sudo -u postgres pg_dump iotdb | gzip > iotdb_$(date +%Y-%m-%d).sql.gz
