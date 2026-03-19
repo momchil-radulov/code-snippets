@@ -1,0 +1,6 @@
+sudo apt update
+sudo apt install composer
+
+cd където–ти-е-index.php
+composer require zircote/swagger-php  # добавяне на пакет
+php7.4 $(which composer) install      # install, стартиране с конкретна версия на php
