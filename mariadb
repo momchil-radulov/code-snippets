@@ -19,3 +19,26 @@ innodb_ft_min_token_size=3  # Fulltext Search min word len, InnoDB
 
 SHOW VARIABLES LIKE 'ngram_token_size';
 SHOW VARIABLES LIKE 'ft_min_word_len';
+
+## version ##
+sudo mariadb --version
+sudo mysql --version
+apt list --installed | grep mariadb
+dpkg -l | grep mariadb
+SHOW VARIABLES LIKE 'version%';
+SHOW VARIABLES LIKE 'general_log%';
+SHOW FULL PROCESSLIST;
+SELECT * FROM information_schema.PROCESSLIST;
+SHOW VARIABLES LIKE 'slow_query_log_file';
+SET GLOBAL slow_query_log = 'ON';
+SET GLOBAL long_query_time = 1; -- над 1 секунда
+SHOW VARIABLES LIKE 'general_log_file';
+SET GLOBAL general_log = 'ON';
+SET GLOBAL general_log = 'OFF';
+
+| Команда    | Поведение             |
+| ---------- | --------------------- |
+| sudo -i    | ✔ най-чист root login |
+| sudo su -  | ✔ подобно             |
+| sudo su    | ⚠️ не е пълен login   |
+| sudo cmd   | ✔ единична команда    |
