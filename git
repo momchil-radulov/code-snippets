@@ -59,6 +59,14 @@ git diff -W   # show whole function as context lines for each change
 git add path/file_name OR git commit -a
 git commit -m 'commit message'
 git push
+# настройки базови глобални
+git config --global user.name "Momchil Radulov"
+git config --global user.email "momchil_radulov@yahoo.com"
+git config --global core.editor "vim"
+git config --global core.autocrlf input # за linux
+git config --global --list # проверка какви са настройките
+git config --global core.excludesFile /home/momchil/.gitignore # евентуално
+git config --global --edit
 [.gitconfig]
 1 [user]
 2     email = momchil_radulov@yahoo.com
