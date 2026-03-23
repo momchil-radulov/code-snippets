@@ -64,7 +64,8 @@ git config --global user.name "Momchil Radulov"
 git config --global user.email "momchil_radulov@yahoo.com"
 git config --global core.editor "vim"
 git config --global core.autocrlf input # за linux
-git config --global --list # проверка какви са настройките
+git config --global --list # проверка какви са глобалните настройки
+git config --list # проверка какви са настройките вкл. текущото repository
 git config --global core.excludesFile /home/momchil/.gitignore # евентуално
 git config --global --edit
 [.gitconfig]
