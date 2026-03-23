@@ -27,8 +27,15 @@ apt list --installed | grep mariadb
 dpkg -l | grep mariadb
 SHOW VARIABLES LIKE 'version%';
 SHOW VARIABLES LIKE 'general_log%';
+
 mysql --help | grep -A 1 "Default options";
+# но тъй като има include, тук:
+/etc/mysql/mysql.conf.d/mysqld.cnf
+
 mariadb --help | grep -A 1 "Default options";
+# но тъй като има include, тук:
+/etc/mysql/mariadb.conf.d/50-server.cnf
+
 SHOW FULL PROCESSLIST;
 SELECT * FROM information_schema.PROCESSLIST;
 
