@@ -43,6 +43,8 @@ git status 2>&1 | grep -o "share\/[0-9]\+" | sort -u | xargs -I {} sudo rm -rf "
 
 # basic workflow
 git init
+OR
+git clone <url_of_a_project> [path_for_project]
 git add . OR git add <file_name> # add all files or a file to the git 
 git rm <file_name> # remove file from git and from the project
 git rm --cached <file_name> # remove file only from git (not physicaly)
@@ -50,12 +52,13 @@ git mv <file_name> <file_name_new> # rename git file
 git status
 git diff
 git diff --staged
+git restore --staged .            # unstage all files, unstage на всички файлове
+git restore --staged path/to/file # unstage a file, remove a file from the staging area
 git diff -U5  # show 5 context lines OR git config --global diff.context 5
 git diff -W   # show whole function as context lines for each change
 git add path/file_name OR git commit -a
-git reset HEAD -- path/to/file => remove file from staging area
-OR
-git clone <url_of_a_project> [path_for_project]
+git commit -m 'commit message'
+git push
 [.gitconfig]
 1 [user]
 2     email = momchil_radulov@yahoo.com
@@ -139,9 +142,11 @@ git reset --soft origin  # keep the changes, remove commits
 
 git checkout -- .  # връща обратно само променените файлове (не commit-нати)
 
-# branch
+# branch, basic workflow with branches
 git checkout -b <branch_name> # create a new branch from current code
 git commit -a # commit branch changes
+git restore --source onother_branch path/to/file # взема съдържанието/състоянието на файл от друг бранч и го слага в този
+git restore path/to/file # връща промените обратно, т.е. връща съдържанието/състоянието на файл от main/master branch
 git push # push branch changes
 git checkout master # return to master/main branch
 git pull # get last changes before merge
