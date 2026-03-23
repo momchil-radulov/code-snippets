@@ -27,8 +27,11 @@ apt list --installed | grep mariadb
 dpkg -l | grep mariadb
 SHOW VARIABLES LIKE 'version%';
 SHOW VARIABLES LIKE 'general_log%';
+mysql --help | grep -A 1 "Default options";
+mariadb --help | grep -A 1 "Default options";
 SHOW FULL PROCESSLIST;
 SELECT * FROM information_schema.PROCESSLIST;
+
 SHOW VARIABLES LIKE 'slow_query_log_file';
 SET GLOBAL slow_query_log = 'ON';
 SET GLOBAL long_query_time = 1; -- над 1 секунда
