@@ -1,0 +1,4 @@
+# деинсталиране
+sudo apt purge apache2*
+sudo apt autoremove
+sudo apt autoclean
