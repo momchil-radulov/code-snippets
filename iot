@@ -23,3 +23,59 @@
     за потребителско значение записвано в базата данни,
     т.е. какво се включва / изключва, или какво се измерва от даден пин се съхранява във сървъра
 14. по възможност до 512 байта, за да минат на един пасс от esp32 стека
+15. Scoped flat RBAC
+🧠 Role-Based Access Control + scope
+👉 Идеята:
+Ролята дава права, но само върху конкретни ресурси
+
+📌 Базова идея
+User → Role → (Permissions + Resources)
+🧱 1. Основни компоненти
+👤 Users
+user_id
+name
+🧩 Roles
+role_id
+name
+🔑 Permissions
+permission_id
+name (read, write, delete...)
+📦 Resources
+resource_id
+type (device, org...)
+name
+🔗 2. Връзки (core на системата)
+User ↔ Role
+user_roles (
+    user_id,
+    role_id
+)
+Role ↔ Permissions
+role_permissions (
+    role_id,
+    permission_id
+)
+⭐ Role ↔ Resources (ТОВА е “scoped” частта)
+role_resources (
+    role_id,
+    resource_id
+)
+🧠 3. Как работи (логика)
+👉 Пример:
+
+⚡ 4. Реален SQL check (пример)
+SELECT 1
+FROM user_roles ur
+JOIN role_permissions rp ON rp.role_id = ur.role_id
+JOIN role_resources rr ON rr.role_id = ur.role_id
+WHERE ur.user_id = :user_id
+  AND rp.permission = 'write'
+  AND rr.resource_id = :device_id
+LIMIT 1;
+
+🔥 5. Предимства
+
+✔️ много бързо (joins)
+✔️ лесно за разбиране
+✔️ scalable (става за милиони устройства)
+✔️ идеално за multi-tenant
