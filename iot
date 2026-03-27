@@ -7,23 +7,38 @@
    тези състояния или верига от състояния са част от Краен автомат / Finite-state machine,
    т.е. предварително определени и описани
 6. iot нещата работят по LAN и/или WiFi и/или RS485
-7. iot нещата работят със 7 сегментен дисплей и/или LED подсветка
-8. За GUI в реално време се използва MQTT сървис, който зарежда url в браузъра
+7. iot нещата работят със 7 сегментен дисплей и LED подсветка за текста
+8. За GUI в реално време се използва MQTT сървис, който зарежда/презарежда url в браузъра
 9. За комуникация в реално време се използва MQTT to HTTP gateway
 10. В случай на високо натоварване се използват опашки и кеширане с REDIS
 11. Комуникационен протокол:
-    [{"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
-      "data": "json_serialized_data", "hash": "hash_data_with_secret_key"} ,]
-    "json_serialized_data" => {"msg": "info|cmd|error", "id": "unique_message_id" "dev": "unique_device_id", "ts": timestamp,
-                               "data": {"finit_state": number, "pin_number": "value", "unique_kye": "value" ...}}
+    mqtt topic:
+        {env}/{app}/{tenant}/{location}/{device_id}/{message_type}
+    Пример:
+        prod/iot/main/stz/vend-0001/telemetry
+        prod/iot/main/stz/vend-0001/status
+        prod/iot/main/stz/vend-0001/event
+        prod/iot/main/stz/vend-0001/cmd
+        prod/iot/main/stz/vend-0001/cmd_result
+        prod/iot/main/stz/vend-0001/shadow/reported
+        prod/iot/main/stz/vend-0001/shadow/desired
+        prod/iot/main/stz/vend-0001/shadow/delta
+   mqtt message:
+        [ { "msg": "info|cmd|error",   "id": "unique_message_id",
+            "dev": "unique_device_id", "ts": timestamp,
+            "data": "json_serialized_data", "hash": "hash_data_with_secret_key"} , ]
+        "json_serialized_data"      => { "msg": "info|cmd|error",   "id": "unique_message_id",
+         (encrypted symmetric key )      "dev": "unique_device_id", "ts": timestamp,
+         (   ChaCha20-Poly1305    )      "data": {"finit_state": number, "pin_number": "value", "unique_kye": "value" ...} }
+   размер на пакета: 
+       по възможност до 512 байта, за да минат на един пасс от esp32 стека
 12. iot хардуера работи на принципа на Краен автомат / Finite-state machine, т.е. винаги е в строго определено състояние
     Всеки процес/workflow работи на принципа на Краен автомат / Finite-state machine.
     finit_state-your_process_name-your_state_name
 13. сървъра има mapping между "dev", "finit-state", "pin_number" / unique_key -> към -> unique key
     за потребителско значение записвано в базата данни,
     т.е. какво се включва / изключва, или какво се измерва от даден пин се съхранява във сървъра
-14. по възможност до 512 байта, за да минат на един пасс от esp32 стека
-15. Scoped flat RBAC, Role-Based Access Control + scope + flat
+14. Scoped flat RBAC, Role-Based Access Control + scope + flat
 🧠 Идеята: Ролята дава права, но само върху конкретни ресурси
 User → Role → (Permissions + Resources)
 🧱 1. Основни компоненти
@@ -53,8 +68,5 @@ User → Role → (Permissions + Resources)
                      "scope":       [ "/organizations/456", "/devices/15", "/devices/18" ]
                    }
                  ] }
-🔥 5. Предимства
-✔️ много бързо (joins)
-✔️ лесно за разбиране
-✔️ scalable (става за милиони устройства)
-✔️ идеално за multi-tenant
+🔥 5. Предимства: ✔️ много бързо (joins), лесно за разбиране, scalable, идеално за multi-tenant
+
