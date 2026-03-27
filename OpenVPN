@@ -64,3 +64,22 @@ sudo apt install arduino
 # anydesk
 sudo dpkg -i anydesk_6.2.0-1_amd64.deb
 sudo dpkg --remove anydesk
+
+### very simple point-to-point vpn ###
+🖥️ Сървър (вътре във vpn, наш: tun0 10.0.0.1, партньор: 10.0.0.2):
+sudo openvpn \
+  --dev tun0 \
+  --ifconfig 10.0.0.1 10.0.0.2 \
+  --port 1194 \
+  --proto udp \
+  --secret static.key
+💻 Клиент (вътре във vpn, наш: tun0 10.0.0.2, партньор: 10.0.0.1, партньор реален: 192.168.50.147):
+sudo openvpn \
+  --dev tun0 \
+  --ifconfig 10.0.0.2 10.0.0.1 \
+  --remote 192.168.50.147 \
+  --port 1194 \
+  --proto udp \
+  --secret static.key
+
+💡 openvpn --genkey --secret static.key
