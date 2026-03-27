@@ -13,6 +13,8 @@
 10. В случай на високо натоварване се използват опашки и кеширане с REDIS
 11. Комуникационен протокол:
     mqtt topic:
+        {device_type}/{device_id} със цел комуникацията със устройството винаги да е предвидима (firmware of a device)
+        -> adapter pattern със междинен mqtt broker, преобразува съобщението във application friendly format ->
         {env}/{app}/{tenant}/{location}/{device_id}/{message_type}
     Пример:
         prod/iot/main/stz/vend-0001/telemetry
