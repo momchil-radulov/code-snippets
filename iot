@@ -23,58 +23,37 @@
     за потребителско значение записвано в базата данни,
     т.е. какво се включва / изключва, или какво се измерва от даден пин се съхранява във сървъра
 14. по възможност до 512 байта, за да минат на един пасс от esp32 стека
-15. Scoped flat RBAC
-🧠 Role-Based Access Control + scope
-👉 Идеята:
-Ролята дава права, но само върху конкретни ресурси
-
-📌 Базова идея
+15. Scoped flat RBAC, Role-Based Access Control + scope + flat
+🧠 Идеята: Ролята дава права, но само върху конкретни ресурси
 User → Role → (Permissions + Resources)
 🧱 1. Основни компоненти
-👤 Users
-user_id
-name
-🧩 Roles
-role_id
-name
-🔑 Permissions
-permission_id
-name (read, write, delete...)
-📦 Resources
-resource_id
-type (device, org...)
-name
+      Users:       user_id,       name
+      Roles:       role_id,       name
+      Permissions: permission_id, name (read, write...)
+      Resources:   resource_id,   name, type (device, organisation...), object_id ( original id of a resource )
 🔗 2. Връзки (core на системата)
-User ↔ Role
-user_roles (
-    user_id,
-    role_id
-)
-Role ↔ Permissions
-role_permissions (
-    role_id,
-    permission_id
-)
-⭐ Role ↔ Resources (ТОВА е “scoped” частта)
-role_resources (
-    role_id,
-    resource_id
-)
-🧠 3. Как работи (логика)
-👉 Пример:
-
-⚡ 4. Реален SQL check (пример)
-SELECT 1
-FROM user_roles ur
-JOIN role_permissions rp ON rp.role_id = ur.role_id
-JOIN role_resources rr ON rr.role_id = ur.role_id
-WHERE ur.user_id = :user_id
-  AND rp.permission = 'write'
-  AND rr.resource_id = :device_id
-LIMIT 1;
-
+      Role ↔ Permissions:         role_permissions ( role_id, permission_id     )
+   ⭐ Role ↔ Resources (“scope”): role_resources   ( role_id, resource_id       )
+      User ↔ Role:                user_roles       ( role_id, user_id, is_admin )
+👉 3. Реален SQL check (пример)
+      SELECT 1
+          FROM user_roles ur
+          JOIN role_permissions rp ON rp.role_id = ur.role_id
+          JOIN role_resources rr ON rr.role_id = ur.role_id
+         WHERE ur.user_id = :user_id
+           AND rp.permission = 'write'
+           AND rr.object_id = :device_id AND rr.type = 'device'
+         LIMIT 1;
+👉 4. Реален JSON (пример)
+      { "roles": [ {
+                     "name":          "OrgAdmin",
+                     "permissions": [ "read", "write", "delete" ],
+                     "users":       [ "ivan@gmail.com", "petkan@yahoo.com" ],
+                     "admins":      [ "ivan@gmail.com" ],
+                     "scope":       [ "/organizations/456", "/devices/15", "/devices/18" ]
+                   }
+                 ] }
 🔥 5. Предимства
-
 ✔️ много бързо (joins)
 ✔️ лесно за разбиране
 ✔️ scalable (става за милиони устройства)
