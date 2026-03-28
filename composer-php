@@ -6,3 +6,7 @@ composer require zircote/swagger-php  # добавяне на пакет
 php7.4 $(which composer) install      # install, стартиране с конкретна версия на php
 
 sudo php7.4 -S localhost:80           # стартиране на сайта локално
+
+ln -s ../../common/application/helpers helpers
+ln -s ../../common/application/libraries libraries
+ln -s ../../common/application/models models
