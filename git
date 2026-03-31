@@ -118,6 +118,8 @@ git log -S function_name # to find the last commit that changed the number of oc
 git diff section-3.1
 git diff master:dir/file_name dir/file_name
 git diff master  # diff branches, diff with master
+git diff master -- '*.py'  # only python files
+git diff master -- '*.php'  # only php files
 git diff --name-only master  # show names of modified files
 git diff master -- ./**/file_name  # diff only file_name one file
 # разликите в текущия бранч спрямо master бранча от момента, в който е бил разклонен
