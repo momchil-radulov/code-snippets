@@ -51,7 +51,7 @@
    14.2 Връзки (core на системата)
          Role ↔ Permissions:         role_permissions ( role_id, permission_id     )
       ⭐ Role ↔ Resources (“scope”): role_resources   ( role_id, resource_id       )
-         User ↔ Role:                user_roles       ( role_id, user_id, is_admin )
+         Role ↔ User:                roles_users      ( role_id, user_id, is_admin )
    14.3 Реален SQL check (пример)
          SELECT 1
              FROM user_roles ur
