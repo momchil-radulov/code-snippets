@@ -1,3 +1,6 @@
+docker ps
+docker exec -it db_1 mysql -uroot -proot
+
 # for node-red with mosquitto
 docker compose up -d  # start
 docker compose up     # for debugging
