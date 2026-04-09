@@ -1,5 +1,7 @@
 docker version
 docker-compose version
+docker ps
+docker exec -it db_1 mysql -uroot -proot
 
 # running docker commands without sudo
 sudo groupadd docker  # usually not needed
