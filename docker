@@ -1,7 +1,8 @@
 docker version
 docker-compose version
 docker ps
-docker exec -it db_1 mysql -uroot -proot
+docker exec -it db_1 mysql -uroot -proot  # mysql cli
+docker exec app_1 php -l application/models/Products.php  # php lint check
 
 # running docker commands without sudo
 sudo groupadd docker  # usually not needed
