@@ -1,6 +1,6 @@
 PGPASSWORD="you_pass" psql -U user_name -d database_name -h localhost
-sudo -u postgres pg_dump mydb > mydb.sql
-PGPASSWORD="mypassword" pg_dump -h localhost -U myuser -d mydb > mydb.sql
+sudo -u postgres pg_dump iotdb > iotdb.sql
+PGPASSWORD="your_pass" pg_dump -h localhost -U myuser -d iotdb > iotdb.sql
 -- изчистване на базата, преди restore
 -- ако има активни връзки → kill
 SELECT pg_terminate_backend(pid)
@@ -10,7 +10,7 @@ WHERE datname = 'iotdb'
 DROP DATABASE iotdb;
 CREATE DATABASE iotdb OWNER iotuser;
 -- restore
-sudo -u postgres pg_restore -U iotuser -d iotdb iotdb.dump
+PGPASSWORD="your_pass" psql -U iotuser -h localhost -d iotdb < iotdb.sql
 
 sudo -u postgres psql
 \l
