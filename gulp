@@ -1,0 +1,11 @@
+# install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+# install node with a version
+nvm install 14.18.1
+nvm use 14.18.1
+node -v
+
+# rm -rf node_modules package-lock.json
+npm install
+npm install -g gulp-cli
+npx gulp buildSite
