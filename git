@@ -8,7 +8,8 @@ git remote prune origin
 ## you are in the root of a git repository
 git diff path/to/your_file.py > you_file.py.diff
 git apply --check you_file.py.diff  # if not a error
-git apply you_file.py.diff  # apply a patch
+git apply you_file.py.diff          # apply a patch
+git log -p path/to/your_file.py     # check changes for the file
 
 # ssh
 eval "$(ssh-agent -s)"  # стартира ssh-agent
