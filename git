@@ -4,6 +4,12 @@ https://github.com/k88hudson/git-flight-rules
 # fix if broken
 git remote prune origin
 
+# save a change and apply later
+## you are in the root of a git repository
+git diff path/to/your_file.py > you_file.py.diff
+git apply --check you_file.py.diff  # if not a error
+git apply you_file.py.diff  # apply a patch
+
 # ssh
 eval "$(ssh-agent -s)"  # стартира ssh-agent
 ssh-add ~/.ssh/id_rsa   # добавя твоя частен SSH ключ (в случая ~/.ssh/id_rsa) към стартирания ssh-agent
