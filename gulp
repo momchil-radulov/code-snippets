@@ -9,3 +9,8 @@ node -v
 npm install
 npm install -g gulp-cli
 npx gulp buildSite
+
+# simple workflow
+nvm use 14.18.1
+npm install
+npx gulp buildSite
