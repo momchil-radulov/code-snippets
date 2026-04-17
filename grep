@@ -1,2 +1,9 @@
 grep -rl 'http://' . | xargs sed -i 's|http://|https://|g'  # заместваме htpp със https
 
+grep -Fxv -f file2.txt file1.txt
+  -F → търси точни стрингове (не regex)
+  -x → съвпадение на целия ред
+  -v → обръща (взима НЕсъвпадащите)
+  -f file2.txt → използва file2 като списък за сравнение
+  👉 Резултат: редовете от file1.txt, които ги няма в file2.txt
+
