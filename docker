@@ -3,6 +3,8 @@ docker-compose version
 docker ps
 docker exec -it db_1 mysql -uroot -proot  # mysql cli
 docker exec app_1 php -l application/models/Products.php  # php lint check
+docker exec -i db_1 mysql -uroot -proot -e "DROP DATABASE IF EXISTS iot_db; CREATE DATABASE iot_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+gunzip -c iot_db_2026-04-29.sql.gz | docker exec -i db_1 mysql -uroot -proot iot_db
 
 # running docker commands without sudo
 sudo groupadd docker  # usually not needed
