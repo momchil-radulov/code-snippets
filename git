@@ -78,6 +78,13 @@ git config --list # проверка какви са настройките вк
 git config --global core.excludesFile /home/momchil/.gitignore # евентуално
 git config --edit # локалния конфиг файл
 git config --global --edit # глобалния конфиг файл
+git config --global core.pager "less -FRSX"  # по четим diff
+git config --global --unset core.pager       # reset по четим diff, ако не ти харесва
+  -F (Quit if one screen) 👉 Ако съдържанието се побира в един екран → не влиза в less, а директно го показва.
+  -R (Raw control chars)  👉 Позволява цветове (ANSI escape codes)
+  -S (Chop long lines)    👉 НЕ wrap-ва дълги редове, а ги реже; ➡ движиш се хоризонтално със стрелки → ← →
+  -X (No clear screen)    👉 Когато излезеш от less (q), съдържанието остава на екрана
+
 [.gitconfig]
 1 [user]
 2     email = momchil_radulov@yahoo.com
@@ -120,6 +127,10 @@ git log --stat --graph
 git log -p -- path/file  # show log one file
 git log -p [--patch] # shows the difference (the patch output) introduced in each commit
 git log -p <file_name> # show changes only for <file_name>, log for one file
+git log -p -- '*.php' '*.py'                                   # може да зададеш какви файлове да виждаш
+git log -p -- . ':(exclude)assets/js/' ':(exclude)assets/css/' # или кои папки да не виждаш
+git log -p -- . ':(exclude)*.css' ':(exclude)*.js'             # или кои типове файлове да не виждаш
+git log -p -- . ':(exclude)assets/app.js' ':(exclude)*.css'    # или кои файлове да не виждаш, или комбинация от филтри
 git blame <file_name> # show file row by row with who and when created this row
 git log -S function_name # to find the last commit that changed the number of occurrences of that string
 
