@@ -3,10 +3,13 @@ sudo mysqldump --databases admin_db | gzip > admin_db_$(date +%Y-%m-%d).sql.gz
 gunzip < admin_db_2025-07-19.sql.gz | sudo mysql
 gunzip < admin_db_2024-12-19.sql.gz | mysql -u [потребител] -p admin_db
 df -h
-
 # копиране на таблица от една база във друга
 CREATE TABLE db_2.table_name LIKE db_1.table_name;
 INSERT INTO db_2.table_name SELECT * FROM db_1.table_name;
+# разни
+mysql -h127.0.0.1 -P33061 -uroot -proot iot_db -e "SHOW COLUMNS FROM iot_offers
+mysql -h127.0.0.1 -P33061 -uroot -proot iot_db -e "SELECT status, COUNT(*) AS cnt, MIN(created_at) AS first_created,
+             FROM iot_offers WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH) GROUP BY status ORDER BY status
 
 mysqldump -u admin_usr -pYouPassword \
   --single-transaction \
