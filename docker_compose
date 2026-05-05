@@ -1,6 +1,18 @@
 docker ps
 docker exec -it db_1 mysql -uroot -proot
 
+cd /home/your_name/projects/your_project
+Пускане:
+docker-compose -p msys -f docker-compose.php56.yml up -d
+Спиране:
+docker-compose -p msys -f docker-compose.php56.yml stop
+Рестарт само на app контейнера:
+docker-compose -p msys -f docker-compose.php56.yml restart app
+Проверка дали работят:
+docker-compose -p msys -f docker-compose.php56.yml ps
+Ако си променял Dockerfile и трябва нов build:
+docker-compose -p msys -f docker-compose.php56.yml up -d --build
+
 # for node-red with mosquitto
 docker compose up -d  # start
 docker compose up     # for debugging
