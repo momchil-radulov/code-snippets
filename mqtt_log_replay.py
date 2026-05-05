@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# python3 -m pip install paho-mqtt
+# chmod +x mqtt_log_replay.py
 # how to use: /mqtt_log_replay.py file.log --filter 'iot/dev123' --seconds 2 --dry-run
 import argparse
 import json
