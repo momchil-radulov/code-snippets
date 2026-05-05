@@ -148,3 +148,16 @@ docker run --rm -ti -v /data:/tmp elasticdump/elasticsearch-dump \
   --input=http://production.es.com:9200/my_index \
   --output=/tmp/my_index_mapping.json \
   --type=data
+
+mkdir -p ./pdf-test
+docker run --rm \
+  -v "$PWD/pdf-test:/out" \
+  your_app:latest \
+  sh -c 'printf "%s" \
+  "<html><head><meta charset=\"utf-8\"></head><body>Протокол от оглед</body></html>" > /tmp/test.html && \
+  xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" \
+  wkhtmltopdf --quiet --encoding utf-8 --page-size A4 --orientation Portrait \
+              --margin-top 10mm --margin-right 10mm \
+              --margin-bottom 12mm --margin-left 10mm \
+              /tmp/test.html /out/test.pdf && \
+  ls -lh /out/test.pdf'
