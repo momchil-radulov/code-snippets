@@ -4,3 +4,6 @@ sudo apt install gnome-control-center
 
 # / (readonly overlay) защита от промени на файловата система, kiosk
 $ sudo apt install overlayroot
+
+# html to pdf, https://wkhtmltopdf.org/
+sudo apt install wkhtmltopdf  # how to use: wkhtmltopdf http://google.com google.pdf
