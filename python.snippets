@@ -49,3 +49,26 @@ logger = logging.getLogger()
 for handler in logger.handlers:
     if handler.get_name() == 'console':
         handler.setLevel(logging.DEBUG)
+
+# get a value
+def _object_to_dict(value):
+    if hasattr(value, "to_dict_recursive"):
+        return value.to_dict_recursive()
+    if hasattr(value, "to_dict"):
+        return value.to_dict()
+    return value
+
+def _obj_value_get(value, key, default=None):
+    if value is None:
+        return default
+    if isinstance(value, dict):
+        return value.get(key, default)
+    if hasattr(value, "get"):
+        return value.get(key, default)
+    return getattr(value, key, default)
+
+def _order_id(value):
+    if value is None or isinstance(value, (str, int, float)):
+        return value
+    return _obj_value_get(value, "id", str(value))
+
