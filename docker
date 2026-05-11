@@ -6,6 +6,13 @@ docker exec app_1 php -l application/models/Products.php  # php lint check
 docker exec -i db_1 mysql -uroot -proot -e "DROP DATABASE IF EXISTS iot_db; CREATE DATABASE iot_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 gunzip -c iot_db_2026-04-29.sql.gz | docker exec -i db_1 mysql -uroot -proot iot_db
 
+# test wkhtmltopdf, html to pdf
+docker-compose -f docker-compose.php56.yml ps wkhtmltopdf
+docker-compose -f docker-compose.php56.yml exec -T wkhtmltopdf \
+  python3 -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:3000/health').read().decode())"
+docker-compose -f docker-compose.php56.yml exec -T wkhtmltopdf python3 \
+  -c "import json, urllib.request; payload=json.dumps({'html':'<html><body><h1>Test PDF</h1><p>Проба</p></body></html>'}).encode('utf-8'); req=urllib.request.Request('http://127.0.0.1:3000/convert', data=payload, headers={'Content-Type':'application/json'}); resp=urllib.request.urlopen(req, timeout=30); body=resp.read(); print(resp.status, resp.headers.get('Content-Type'), len(body), body[:4].decode('latin1'))"
+
 # running docker commands without sudo
 sudo groupadd docker  # usually not needed
 sudo usermod -aG docker $USER
