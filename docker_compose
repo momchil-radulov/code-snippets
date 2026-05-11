@@ -1,5 +1,7 @@
-docker ps
+docker ps    # работещи контейнери
+docker ps -a # всички контейнери
 docker exec -it db_1 mysql -uroot -proot
+docker image prune -a -f  # изтриваме всички images които нямат контейнер
 
 cd /home/your_name/projects/your_project
 Пускане:
