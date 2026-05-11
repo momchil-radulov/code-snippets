@@ -12,6 +12,8 @@ docker-compose -f docker-compose.php56.yml exec -T wkhtmltopdf \
   python3 -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:3000/health').read().decode())"
 docker-compose -f docker-compose.php56.yml exec -T wkhtmltopdf python3 \
   -c "import json, urllib.request; payload=json.dumps({'html':'<html><body><h1>Test PDF</h1><p>Проба</p></body></html>'}).encode('utf-8'); req=urllib.request.Request('http://127.0.0.1:3000/convert', data=payload, headers={'Content-Type':'application/json'}); resp=urllib.request.urlopen(req, timeout=30); body=resp.read(); print(resp.status, resp.headers.get('Content-Type'), len(body), body[:4].decode('latin1'))"
+docker-compose -f docker-compose.php56.yml exec -T wkhtmltopdf python3 -c "import json, urllib.request, sys; payload=json.dumps({'html':'<html><body><h1>Test PDF</h1><p>Проба</p></body></html>'}).encode('utf-8'); req=urllib.request.Request('http://127.0.0.1:3000/convert', data=payload, headers={'Content-Type':'application/json'}); sys.stdout.buffer.write(urllib.request.urlopen(req, timeout=30).read())" \
+  > test-wkhtmltopdf.pdf
 
 # running docker commands without sudo
 sudo groupadd docker  # usually not needed
