@@ -127,7 +127,7 @@
   Реализация на базовите патерни: Factory / Factory Method, Strategy, Adapter, Repository,
                                   Service Layer, Observer / Event Listener, Decorator, Singleton
   Базов стек: Service + Repository + Factory + Strategy + Adapter
-
+              Events + Queue + Notifications
 
 USER STORY MAPPING - from here to extract workflows, names of functions and data structures
 DRY - Don't repeat yourself
