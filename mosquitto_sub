@@ -2,9 +2,7 @@
 mosquitto_sub -v -h localhost -t "#" | grep -F '{"type":"log"'
 mosquitto_sub    -h localhost -t "#" | jq -c 'select(.type=="log")'
 mosquitto_sub -v -h localhost -t "#" | grep -E '"type"[[:space:]]*:[[:space:]]*"log"'
-mosquitto_sub \
-    -F '@Y-@m-@d @H:@M:@S\nTOPIC: %t\nPAYLOAD: %p' \
-    -t 'iot/dev123/#' | tee -a dev123.log
+mosquitto_sub -F '@Y-@m-@d @H:@M:@S\nTOPIC: %t\nPAYLOAD: %p' -t 'iot/dev123/#' | tee -a dev123.log
 mosquitto_sub -t /sensors/temps/# -F "UPDATE Temperatures(%t, %p)" | mysqlcli
 
 mosquitto_sub -h hostname -p 1883 -t topic_name -u user_name -P password
