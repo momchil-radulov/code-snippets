@@ -3,7 +3,7 @@
 # how to use
 # chmod +x dump_pg_metadata.sh
 # ./dump_pg_metadata.sh
-# glow -s dark -p db-name_schema_ai.md
+# glow -w 0 -s dark -p db-name_schema_ai.md
 # less db-name_schema.sql
 
 set -euo pipefail
