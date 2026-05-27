@@ -1,0 +1,12 @@
+sudo lsof -i :33061
+sudo ss -tulpn | grep :33061
+sudo netstat -tulpn | grep :33061
+sudo fuser -v 33061/tcp
+docker info
+sudo docker ps | grep 33061
+sudo docker ps --format "table {{.Names}}\t{{.Ports}}"
+sudo docker inspect container_name
+ps -fp 1842
+ps -fp 1842 51601
+cat /proc/1842/cmdline | tr '\0' ' '
+cat /proc/51601/cmdline | tr '\0' ' '
