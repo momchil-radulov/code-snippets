@@ -56,6 +56,8 @@
 **Извличане на root ключовете:**
 ```bash
 jq 'keys' data.json
+# by one on row
+jq 'keys[]' data.json
 ```
 **Резултат:** `[
   "адрес",
@@ -64,7 +66,7 @@ jq 'keys' data.json
 ]
 `
 
-**Извличане на ключовете рекурсивно:**
+**Извличане на ключовете рекурсивно в raw -r формат:**
 ```bash
 jq -r 'paths | map(tostring) | join(".")' data.json 
 ```
