@@ -94,6 +94,39 @@
 
 
 ***### principles-of-software-design ###***
+# Алгоритми
+- времеви прозорец след определено събитие, например 60 секунди след стартиране
+- timeout алгоритъм: ако команда не получи потвърждение до N ms/sec -> failback/default state
+- watchdog алгоритъм: ако main loop, MQTT, DB, Redis или device heartbeat спре -> restart/reconnect/safe mode
+- retry алгоритъм с backoff: 1s, 2s, 5s, 10s + max attempts + dead-letter queue
+- debounce алгоритъм за входове: бутон/датчик се приема за стабилен само след N последователни еднакви прочитания
+- edge detection: засичане на rising edge / falling edge вместо постоянно четене на стойност
+- finite-state transition алгоритъм: state + event -> next_state + action
+- priority queue scheduler: critical > high > normal > low, FIFO вътре в приоритета
+- rate limiting: максимум N команди/събития за дадено устройство/потребител/tenant
+- idempotency алгоритъм: една команда с един и същ `message_id` се изпълнява само веднъж
+- command acknowledgement: cmd -> accepted -> executed/failed/timeout
+- shadow sync алгоритъм: desired state се сравнява с reported state и се генерира delta
+- offline-first sync: локални логове/събития се пазят и при online се изпращат по ред
+- conflict resolution: при разминаване между local/server state печели по-нов timestamp или по-висок priority source
+- checksum/hash validation: всяко съобщение се приема само ако hash/HMAC е валиден
+- packet size guard: payload се реже/отказва/компресира ако надхвърля примерно 512 bytes
+- circuit breaker: ако външна услуга дава много грешки, временно се спира викането ѝ
+- graceful degradation: ако MQTT/Redis/Internet падне, системата продължава локално с минимална функционалност
+- health check алгоритъм: периодична проверка на device, broker, database, queue, gateway
+- leader/primary selection: ако има повече от един контролер, само един има право да управлява изходите
+- audit trail алгоритъм: всяка промяна записва event_id, user_id, device_id, old_value, new_value, timestamp
+- access check алгоритъм: user + role + permission + resource scope -> allow/deny
+- configuration merge алгоритъм: default config -> local config -> server override -> runtime args
+- migration алгоритъм: версия на firmware/settings/schema -> apply incremental migrations
+- sampling алгоритъм: четене на входове през фиксиран интервал и агрегиране min/max/avg/count
+- batching алгоритъм: групиране на много малки събития в един пакет
+- deduplication алгоритъм: премахване на повторени telemetry/event записи по unique id/hash
+- TTL алгоритъм: временни стойности, locks, tokens и cache записи изтичат автоматично
+- lock алгоритъм: даден ресурс/device/action може да се управлява само от един процес в даден момент
+- transaction boundary алгоритъм: command handler отваря transaction, записва промени, commit/rollback
+- dead-letter queue: неуспешни събития след max retries отиват в отделна опашка за диагностика
+
 # Принципи
   Устойчивост и Промени с минимална съпротива:
 - DP (Defensive Programming), Защитно програмиране
