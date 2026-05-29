@@ -38,6 +38,8 @@
    mqtt message:
         [ { "msg": "info|cmd|error",   "id": "unique_message_id",
             "dev": "unique_device_id", "ts": timestamp,
+            # firmware_version, protocol_version, settings_version
+            "fv": "1.2.3", "pv": "1.0.0", "sv": "5.1.0",
             "data": "json_serialized_data", "hash": "hash_data_with_secret_key"} , ]
         "json_serialized_data"      => { "msg": "info|cmd|error",   "id": "unique_message_id",
          (encrypted symmetric key )      "dev": "unique_device_id", "ts": timestamp,
@@ -128,7 +130,7 @@
 - dead-letter queue: неуспешни events след max retries отиват в отделна опашка за диагностика.
 
 # Принципи
-  Устойчивост и Промени с минимална съпротива:
+  Устойчивост и Промени с минимална съпротива (Data, Event, Finite State Machine):
 - DP (Defensive Programming), Защитно програмиране
   Валидиране на входните данни, проверка на входните параметри на функцията.
   Проверка на изходните данни дали са в правилния формат, преди да се върне резултат.
