@@ -118,13 +118,18 @@
 # Алгоритми
 - find or create: търсиш това, което ти трябва, но ако не го намериш,
                   създаваш с маркер за автоматично създадено и връщаш новосъздаденото
+- time window / времеви прозорец: времеви маркер след определено събитие,
+                  който изтича след определено време, например 60 секунди след стартиране
+- watchdog:       ако main loop спре, се изпълнява restart/reconnect/safe mode
+- queue scheduler: всичко се описва във опашка FIFO със статус
+                  и тогава се изпълнява, така се проследява процеса 
+                  може със приоритет / priority : critical > high > normal > low
+###
 - timeout: ако команда не получи потвърждение до N ms/sec, се изпълнява fallback;
-- watchdog: ако main loop, MQTT, DB, Redis или heartbeat спре, се изпълнява restart/reconnect/safe mode;
 - retry с backoff: 1s, 2s, 5s, 10s + max attempts + dead-letter queue;
 - debounce: вход се приема за стабилен след N последователни еднакви прочитания;
 - edge detection: rising/falling edge вместо постоянно повтаряне на стойност;
 - finite-state transition: state + event -> next_state + action;
-- priority queue scheduler: critical > high > normal > low, FIFO във всеки приоритет;
 - rate limiting: максимум N commands/events за устройство, потребител или tenant;
 - idempotency: команда със същия idempotency key се изпълнява само веднъж;
 - command acknowledgement: cmd -> accepted -> executed/failed/timeout;
