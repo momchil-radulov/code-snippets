@@ -55,22 +55,28 @@
     finit_state-your_process_name-your_state_name
 13. сървъра има mapping между "dev", "finit-state", "pin_number" / unique_key -> към -> unique key
     за потребителско значение записвано в базата данни,
-    т.е. ,какво се включва / изключва, или какво се измерва от даден пин се съхранява във сървъра
+    т.е. ,какво се включва / изключва, или какво се измерва от даден пин се, is_admin съхранява във сървъра
 14. 🧠 Scoped RBAC, Role-Based Access Control + scope + (preferably flat)
        Идеята: Ролята дава права, но само върху конкретни ресурси
-       User → Role → (Permissions + Resources)
-   14.1 Основни компоненти, всички обекти в системата са от:
-         Users:       user_id,       name
-         Roles:       role_id,       name
-         Permissions: permission_id, name (read, write...)
-         Resources:   resource_id,   name, type (device, organisation...), object_id ( original id of a resource )
-   14.1.1 Обектите се групират във хомогенни групи (от потребители, права или ресурси), групите могат да имат само един parent и
-        по такъв начин могат да формират йерархия от групи
+       Role → (Users + Permissions + Resources)
+   14.1 Основни компоненти, т.е. обекти в системата са:
+         Users:        user_id,       name
+         Roles:        role_id,       name
+         Permissions:  permission_id, name (read, write, deny)
+         Resources:    resource_id,   name, type_id (device, organisation...),        т.е. номенклатури / master data
+         Transactions: списък от редове/транзакции описващ процес, а не номенклатура, т.е. операции     / transactional data
+         Object_id:    поредно id от дадената база, т.е. всеки ресурс си има уникален пореден номер в системата
+                       може да бъде реализирано и като текст, напр. device-15, 
+         Object_uid:   UUID (Universally Unique Identifier) използва се за достъп/референция от външни системи
+                       отпред има задължително префикс, който указва типа device_EIVRUOE... или invoice_EIHVRI...
+   14.1.1 Обектите се групират във хомогенни групи (от роли, потребители, права или ресурси),
+          групите могат да имат само един parent друга група и по такъв начин могат да формират йерархия от групи
    14.2 Връзки (core на системата),
          Ролята обединява групи от потребители, групи от права и групи от ресурси в едно цяло
-         Role ↔ Permissions:         role_permissions ( role_id, permission_id     )
-      ⭐ Role ↔ Resources (“scope”): role_resources   ( role_id, resource_id       )
-         Role ↔ User:                roles_users      ( role_id, user_id, is_admin )
+         Role ↔ Permissions:         role_permissions  ( role_id, group_permission_id or permission_id )
+      ⭐ Role ↔ Resources (“scope”): role_resources    ( role_id, group_resource_id   or resource_id   )
+         Role ↔ Users:               roles_users       ( role_id, group_user_id       or user_id       )
+         Role ↔ Admin Users:         roles_admin_users ( role_id, user_id                              )
    14.3 Реален SQL check (пример)
          SELECT 1
              FROM user_roles ur
