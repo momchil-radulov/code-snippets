@@ -65,8 +65,10 @@
          Permissions:  permission_id, name (read, write, deny)
          Resources:    resource_id,   name, type_id (device, organisation...),        т.е. номенклатури / master data
          Transactions: списък от редове/транзакции описващ процес, а не номенклатура, т.е. операции     / transactional data
-         Object_id:    поредно id от дадената база, т.е. всеки ресурс си има уникален пореден номер в системата
-                       може да бъде реализирано и като текст, напр. device-15, 
+         Object_id:    id на ресурса от дадената база
+                       Варианти: всеки id да си има уникален пореден номер в системата
+                                 да бъде реализирано като текст и типа да бъде вграден в id, напр. device-15
+         Object_type:  device, organization
          Object_uid:   UUID (Universally Unique Identifier) използва се за достъп/референция от външни системи
                        отпред има задължително префикс, който указва типа device_EIVRUOE... или invoice_EIHVRI...
    14.1.1 Обектите се групират във хомогенни групи (от роли, потребители, права или ресурси),
@@ -81,20 +83,27 @@
          SELECT 1
              FROM user_roles ur
              JOIN role_permissions rp ON rp.role_id = ur.role_id
-             JOIN role_resources rr ON rr.role_id = ur.role_id
-            WHERE ur.user_id = :user_id
-              AND rp.permission = 'write'
-              AND rr.object_id = :device_id AND rr.type = 'device'
+            WHERE ur.role_id = :role_id
+              AND ur.user_id = :user_id
+              AND rp.permission = 'device.settings'
             LIMIT 1;
+         SELECT rr.object_id
+             FROM user_roles ur
+             JOIN role_resources rr ON rr.role_id = ur.role_id
+            WHERE ur.role_id = :role_id
+              AND ur.user_id = :user_id
+              AND rr.object_id = :device_id AND rr.object_type = 'device';
    14.4 Реален JSON (пример)
-         { "roles": [ {
-                        "name":          "OrgAdmin",
-                        "permissions": [ "read", "write", "delete" ],
-                        "users":       [ "ivan@gmail.com", "petkan@yahoo.com" ],
-                        "admins":      [ "ivan@gmail.com" ],
-                        "scope":       [ "/organizations/456", "/devices/15", "/devices/18" ]
-                      }
-                    ] }
+         { "role": { "name":          "OrgAdmin",
+                     "permissions": [ "device.settings", "organization.name.read",
+                                      "device.log", "device.log.delete"
+                                    ],
+                     "deny":        [ "organization.finance"],
+                     "users":       [ "ivan@gmail.com", "petkan@yahoo.com" ],
+                     "admins":      [ "ivan@gmail.com" ],
+                     "scope":       [ "/organizations/456", "/devices/15", "/devices/18" ]
+                   }
+         }
    14.5 Предимства: много бързо (joins), лесно за разбиране, scalable, идеално за multi-tenant
    14.6 Описание: Това се нарича "Scoped RBAC", Role-Based Access Control + scope + (preferably flat)
                   или "групова политика за достъп / групово разрешение" (group-based access policy или group permission)
@@ -107,6 +116,8 @@
 
 ***### principles-of-software-design ###***
 # Алгоритми
+- find or create: търсиш това, което ти трябва, но ако не го намериш,
+                  създаваш с маркер за автоматично създадено и връщаш новосъздаденото
 - timeout: ако команда не получи потвърждение до N ms/sec, се изпълнява fallback;
 - watchdog: ако main loop, MQTT, DB, Redis или heartbeat спре, се изпълнява restart/reconnect/safe mode;
 - retry с backoff: 1s, 2s, 5s, 10s + max attempts + dead-letter queue;
