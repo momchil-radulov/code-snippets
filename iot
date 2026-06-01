@@ -153,10 +153,16 @@
                  device_dto – нормализиран вътрешен формат, Domain model използван от приложението.
                  raw_device_dto идва от store в неговия формат и със функция normalize_device(raw_device_dto) -> device_dto
                  Това позволява бизнес логиката да бъде независима от конкретния източник на данни.
+Event-Driven + Event Sourcing: Event-Driven input -> Raw Event DTO -> normalize_event(raw_event_dto) -> Domain Event
+                -> validate_event(domain_event) -> Event Store (Event Sourcing)
+                -> Projectors / Subscribers (save current state to DB, generate alarms and so on) -> Read Model
+                { "dev": "A15", "temp": 23.7, "ts": 1710000000 } -> { "event_type": "DeviceTemperatureReported",
+                    "device_id": "A15", "temperature": 23.7, "occurred_at": "2026-06-01T12:00:00Z" }
 ###
 Optimistic Locking
 Pessimistic Locking
-Event Sourcing
+
+
 Audit Trail
 Append-Only Log
 Role-Based Access Control (RBAC)
@@ -202,7 +208,7 @@ Least Privilege
   за да задоволи първоначалните клиенти и да предостави обратна връзка за бъдещо развитие
 - TDD (Test-Driven Development) е подход за разработка на софтуер, при който тестовете се пишат преди самия код.
   Този процес гарантира, че всяка нова функция работи според очакванията и помага за предотвратяване на грешки в по-късните етапи на разработката.
-- Event driven programming, всеки код който се изпълнява има уникален event_id който го задвижва и този
+- Event driven programming + Event sourcing: всеки код който се изпълнява има уникален event_id който го задвижва и този
   event_id се пропагандира във всеки код който се вика, във всеки лог и във всички данни във всеки CRUD.
   Събитието може да генериран от потребител, външна система или таймер/cron job.
   Събитието се записва със уникален идентификатор за системата и се пропагандира във стека който е генерирало.
