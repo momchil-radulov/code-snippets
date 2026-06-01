@@ -71,6 +71,8 @@
                         Може да бъде реализирана с отделен компютър/хардуер собственост на клиента и съдържащ базата данни
                         и права за достъп отвън през външната система, обслужваща организацията, за онлайн ERP
                         На практика всеки запис трябва да има toporg_id (без Permissions защото те са общи за всички)
+                        Потребителите и ролите са отделени в отделна база данни за логване в системата и след логването
+                        потребителя си избира роля, и съответно работи вече с конкретната база данни за тази top organization
          Object_id:     id на ресурса от дадената база
                         Варианти: всеки id да си има уникален пореден номер в системата
                                   да бъде реализирано като текст и типа да бъде вграден в id, напр. device-15
@@ -79,12 +81,16 @@
                         отпред има задължително префикс, който указва типа device_EIVRUOE... или invoice_EIHVRI...
    14.1.1 Обектите се групират във хомогенни групи (от роли, потребители, права или ресурси/номенклатури, организации),
           групите могат да имат само един PARENT друга група и по такъв начин могат да формират йерархия от групи
-   14.2 Връзки (core на системата),
+   14.2.1 Организациите дефинират изолацията на системата в отделна база данни и GDPR
+   14.2.2 Ролите дефинират връзките (core на системата),
+         Имаме списък от предифинирани шаблони на роли, със твърдо зададени групи права
+         с цел лесно създаване на роли към дадена организация, например роля "Администратор" и т.н.: 
          Ролята обединява групи от потребители, групи от права и групи от ресурси в едно цяло
-         Role ↔ Permissions:         role_permissions  ( role_id, group_permission_id or permission_id )
-      ⭐ Role ↔ Resources (“scope”): role_resources    ( role_id, group_resource_id   or resource_id   )
-         Role ↔ Users:               roles_users       ( role_id, group_user_id       or user_id       )
-         Role ↔ Admin Users:         roles_admin_users ( role_id, user_id                              )
+         Role ↔ Permissions:         role_permissions   ( role_id, group_permission_id or permission_id )
+      ⭐ Role ↔ Resources (“scope”): role_resources     ( role_id, group_resource_id   or resource_id   )
+         Role ↔ Users:               role_users         ( role_id, group_user_id       or user_id       )
+         Role ↔ Admin Users:         role_admin_users   ( role_id, user_id                              )
+         Role ↔ Organization:        role_organizations ( role_id, organization_id                      )
    14.3 Реален SQL check (пример)
          SELECT 1
              FROM user_roles ur
@@ -100,14 +106,15 @@
               AND ur.user_id = :user_id
               AND rr.object_id = :device_id AND rr.object_type = 'device';
    14.4 Реален JSON (пример)
-         { "role": { "name":          "OrgAdmin",
+         { "role": { "name":          "Оператори във Пенчо ООД",
                      "permissions": [ "device.settings", "organization.name.read",
                                       "device.log", "device.log.delete"
                                     ],
                      "deny":        [ "organization.finance"],
                      "users":       [ "ivan@gmail.com", "petkan@yahoo.com" ],
                      "admins":      [ "ivan@gmail.com" ],
-                     "scope":       [ "/organizations/456", "/devices/15", "/devices/18" ]
+                     "scope":       [ "/organizations/456/1", "/devices/15", "/devices/18" ],
+                     "organization":["/organizations/456"]  # top organization
                    }
          }
    14.5 Предимства: много бързо (joins), лесно за разбиране, scalable, идеално за multi-tenant
