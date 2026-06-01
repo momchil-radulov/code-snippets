@@ -36,7 +36,8 @@
         prod/iot/main/stz/vend-0001/shadow/desired
         prod/iot/main/stz/vend-0001/shadow/delta
    mqtt message:
-        [ { "msg": "info|cmd|error",   "id": "unique_message_id",
+        [ { "msg": "info|cmd|error", "id": "unique_message_id",
+            "msg_type": "domain_message_type(напр: clock_sync)",
             "dev": "unique_device_id", "ts": timestamp,
             # firmware_version, protocol_version, settings_version
             "fv": "1.2.3", "pv": "1.0.0", "sv": "5.1.0",
