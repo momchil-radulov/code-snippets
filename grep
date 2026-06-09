@@ -1,3 +1,9 @@
+# network grep
+sudo apt install ngrep
+sudo ngrep -d lo -W byline '' 'tcp port 8000'
+
+# files
+
 grep -rl 'http://' . | xargs sed -i 's|http://|https://|g'  # заместваме htpp със https
 
 grep -Fxv -f file2.txt file1.txt
