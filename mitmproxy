@@ -1,3 +1,7 @@
+# lite version
+sudo apt install ngrep
+sudo ngrep -d lo -W byline '' 'tcp port 8000'
+
 pipx install mitmproxy
 mitmproxy --mode reverse:http://localhost:4000 -p 4001  # debug reverse proxy
 mitmproxy --mode reverse:http://localhost:5000 -p 4000  # listen 4000 send 5000
