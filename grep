@@ -1,13 +1,24 @@
-# network
+### network ###
+
 # ngrep
 sudo apt install ngrep
+
 sudo ngrep -d lo -W byline '' 'tcp port 8000'
+
 # tshark
+sudo apt install tshark
+sudo apt install termshark
+sudo apt install tcpflow
+
 sudo tshark -i lo -f "tcp port 8000" -w dump.pcap
+
 tshark -r dump.pcap -T fields -e tcp.stream | sort -nu  # виж колко стрима има
 tshark -r dump.pcap -qz follow,tcp,ascii,15 | less      # виж stream 15
+tspflow -r dump.pcap                                    # ! но в отделна папка
+termshark dump.pcap
 
-# files
+
+### files ###
 
 grep -rl 'http://' . | xargs sed -i 's|http://|https://|g'  # заместваме htpp със https
 
