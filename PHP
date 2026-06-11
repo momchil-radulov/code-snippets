@@ -1,5 +1,7 @@
 # install
 
+sudo env PHP_CLI_SERVER_WORKERS=8 php7.4 -S 127.0.0.1:80
+
 # debug
 ini_set('display_errors', 1);  # например в index.php
 $GLOBALS['a_var'] === $a_var   # достъп до глобалните променливи
