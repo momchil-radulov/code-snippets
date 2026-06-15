@@ -75,13 +75,11 @@ MYSQL_PORT="3306"
 # Ако root@localhost не приема връзки с парола
 # (например е настроен с auth_socket),
 # може да се създаде/промени така:
+# CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY 'root';
+# Ако root@localhost съществува, но не приема връзки с парола:
+# ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
 #
-# CREATE USER IF NOT EXISTS 'root'@'localhost'
-# IDENTIFIED BY 'root';
-#
-# GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost'
-# WITH GRANT OPTION;
-#
+# GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 # FLUSH PRIVILEGES;
 #
 # Проверка:
