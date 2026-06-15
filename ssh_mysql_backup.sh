@@ -67,8 +67,25 @@ RETAIN_DAYS=365
 # Локален MySQL
 # ============================================================
 
-MYSQL_HOST="localhost"
+# ВНИМАНИЕ:
+# localhost може да използва Unix socket и да се свърже към локален MySQL.
+# За Docker контейнер използвай 127.0.0.1 + публикувания порт.
+MYSQL_HOST="127.0.0.1"
 MYSQL_PORT="3306"
+# Ако root@localhost не приема връзки с парола
+# (например е настроен с auth_socket),
+# може да се създаде/промени така:
+#
+# CREATE USER IF NOT EXISTS 'root'@'localhost'
+# IDENTIFIED BY 'root';
+#
+# GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost'
+# WITH GRANT OPTION;
+#
+# FLUSH PRIVILEGES;
+#
+# Проверка:
+# mysql -h 127.0.0.1 -P 3306 -u root -proot
 MYSQL_USER="root"
 MYSQL_PASS="root"
 
