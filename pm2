@@ -17,6 +17,7 @@ pm2 delete app_name              # Remove a process from the list
 pm2 save  # auto start loaded jobs in file [~/.pm2/dump.pm2]
 
 vim ~/.pm2/dump.pm2  # to view jobs
+pm2 list
 pm2 show app_name
 pm2 logs
 pm2 logs app_name
@@ -24,6 +25,7 @@ pm2 logs app_name --lines 100 --out
 pm2 logs app_name --lines 100 --err
 cat ~/.pm2/logs/app_name-out.log
 cat ~/.pm2/logs/app_name-error.log
+pm2 pid api-web => ps -wwfp <pid>
 
 pm2 start app_name
 pm2 stop app_name
