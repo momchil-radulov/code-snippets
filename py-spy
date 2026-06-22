@@ -30,7 +30,15 @@ tail -n 300 /tmp/pyspy-dump.log
 top -b -H -p 2440851 -n 60 -d 1 > /tmp/top-threads.log
 
 tar -czf /tmp/cpu-debug.tar.gz /tmp/pyspy-profile.svg /tmp/pyspy-dump.log /tmp/top-threads.log
-
+# ако искаме без подпапки
+tar -xzvf cpu-debug.tar.gz --strip-components=1
+tmp/pyspy-profile.svg
+tmp/pyspy-dump.log
+tmp/top-threads.log
+=>
+./pyspy-profile.svg
+./pyspy-dump.log
+./top-threads.log
 
 # by fastapi
 import time
