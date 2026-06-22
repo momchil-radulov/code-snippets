@@ -1,0 +1,66 @@
+sudo apt update
+sudo apt install -y pipx
+pipx install py-spy
+pipx ensurepath
+source ~/.bashrc
+
+ps aux | grep uvicorn
+top -Hp <PID>
+top -Hp 2440851
+
+py-spy top --pid <PID>
+py-spy record -o profile.svg --pid <PID> --duration 60
+
+sudo ~/.local/bin/py-spy top --pid 2440851
+sudo ~/.local/bin/py-spy record -o /tmp/profile.svg --pid 2440851 --duration 60
+
+# logs
+sudo /home/ubuntu/.local/bin/py-spy record \
+  --pid 2440851 \
+  --duration 60 \
+  --output /tmp/pyspy-profile.svg
+
+for i in {1..30}; do
+  echo "===== $(date) ====="
+  sudo /home/ubuntu/.local/bin/py-spy dump --pid 2440851
+  sleep 2
+done > /tmp/pyspy-dump.log 2>&1
+tail -n 300 /tmp/pyspy-dump.log
+
+top -b -H -p 2440851 -n 60 -d 1 > /tmp/top-threads.log
+
+tar -czf /tmp/cpu-debug.tar.gz /tmp/pyspy-profile.svg /tmp/pyspy-dump.log /tmp/top-threads.log
+
+
+# by fastapi
+import time
+import logging
+
+def install_request_timing(app, name):
+    @app.middleware("http")
+    async def log_request_time(request: Request, call_next):
+        start = time.perf_counter()
+        start_cpu = time.process_time()
+
+        try:
+            response = await call_next(request)
+            return response
+        finally:
+            wall_ms = (time.perf_counter() - start) * 1000
+            cpu_ms = (time.process_time() - start_cpu) * 1000
+
+            if wall_ms > 500 or cpu_ms > 200:
+                logging.warning(
+                    "slow_request app=%s method=%s path=%s wall_ms=%.1f cpu_ms=%.1f",
+                    name,
+                    request.method,
+                    request.url.path,
+                    wall_ms,
+                    cpu_ms,
+                )
+
+install_request_timing(app, "api")
+install_request_timing(app_mqtt_systems, "mqtt")
+
+tail -f app.log | grep slow_request
+
