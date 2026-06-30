@@ -1,0 +1,59 @@
+Всички текущи таблици
+GRANT USAGE ON SCHEMA public TO iotuser;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON ALL TABLES IN SCHEMA public
+TO iotuser;
+
+GRANT USAGE, SELECT, UPDATE
+ON ALL SEQUENCES IN SCHEMA public
+TO iotuser;
+
+GRANT EXECUTE
+ON ALL FUNCTIONS IN SCHEMA public
+TO iotuser;
+Всички бъдещи таблици
+
+Това гарантира, че новосъздадените обекти също ще получават права:
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLES TO iotuser;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT USAGE, SELECT, UPDATE
+ON SEQUENCES TO iotuser;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT EXECUTE
+ON FUNCTIONS TO iotuser;
+Ако искаш iotuser да има абсолютно всички права (dev среда)
+GRANT ALL PRIVILEGES
+ON ALL TABLES IN SCHEMA public
+TO iotuser;
+
+GRANT ALL PRIVILEGES
+ON ALL SEQUENCES IN SCHEMA public
+TO iotuser;
+
+GRANT ALL PRIVILEGES
+ON ALL FUNCTIONS IN SCHEMA public
+TO iotuser;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT ALL PRIVILEGES ON TABLES TO iotuser;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT ALL PRIVILEGES ON SEQUENCES TO iotuser;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT ALL PRIVILEGES ON FUNCTIONS TO iotuser;
+Проверка
+
+След това можеш да провериш с:
+
+\dp
+
+или за конкретна таблица:
+
+\dp settings
