@@ -1,0 +1,47 @@
+# таб Console:
+☑ Preserve log
+☑ Log XMLHttpRequests
+☑ Selected context only - ако страницата има iframe
+typeof fbq
+window.fbq
+fbq
+console.dir(fbq)
+После можеш да натиснеш върху функцията и Chrome ще те заведе до мястото, откъдето е дефинирана.
+F5, Ctrl+R, location.reload()
+Ctrl + L, console.clear()
+
+# таб Network:
+☑ Preserve log
+☑ Disable cache
+Работи само докато DevTools е отворен.
+
+Console
+✅ Preserve log – запазва логовете между презарежданията.
+✅ Log XMLHttpRequests – показва XHR/fetch заявките в конзолата.
+✅ Eager Evaluation – показва резултата от израза още докато пишеш.
+✅ Autocomplete from history – предлага предишни команди.
+Sources
+
+Ако дебъгваш JavaScript:
+Pause on exceptions (⏸) – спира при всяка грешка.
+Pause on caught exceptions – спира дори ако грешката е хваната с try/catch. Много полезно, когато някой framework "поглъща" грешките.
+
+Network
+✅ Disable cache – докато DevTools е отворен.
+✅ Preserve log – както вече знаеш, пази заявките между навигации.
+Throttling – симулира бавен интернет (3G, Slow 4G и др.).
+
+Elements
+При инспектиран елемент:
+Break on → Attribute modifications
+Break on → Subtree modifications
+Break on → Node removal
+
+$0  # Последният избран елемент.
+$1  # Предишният избран.
+$$('button')  # document.querySelectorAll('button')
+$('form')     # document.querySelector('form')
+copy($0.outerHTML)          # Копира HTML-а на избрания елемент директно в clipboard.
+getEventListeners($0)       # Показва всички event listeners на елемента.
+monitorEvents($0, 'click')  # Следи всички click събития.
+
