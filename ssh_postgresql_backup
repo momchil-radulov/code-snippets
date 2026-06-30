@@ -36,6 +36,43 @@ if [[ "${RETAIN_DAYS}" -gt 0 ]]; then
   find "${LOCAL_DIR}" -type f -name "${DB_NAME}_*.sql.gz" -mtime +${RETAIN_DAYS} -print -delete || true
 fi
 
+exit
+
+# как да възстановим
+-- 1) спираш нови връзки
+REVOKE CONNECT ON DATABASE iotdb FROM PUBLIC;
+REVOKE CONNECT ON DATABASE iotdb FROM iotuser;
+
+-- 2) прекъсваш активните връзки
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = 'iotdb'
+  AND pid <> pg_backend_pid();
+
+-- 3) триеш старата база
+DROP DATABASE iotdb;
+
+-- 4) създаваш празна нова база със същия owner
+CREATE DATABASE iotdb
+  OWNER iotuser
+  ENCODING 'UTF8'
+  LC_COLLATE 'en_US.UTF-8'
+  LC_CTYPE 'en_US.UTF-8'
+  TEMPLATE template0;
+
+-- 5) излизаш
+\q
+
+# cli
+gunzip -c /home/momchil/backups/pgsql/iotdb_2026-06-30.sql.gz | sudo -u postgres psql -d iotdb
+OR
+gunzip -c /home/momchil/backups/kemsa/iotdb_2026-06-30.sql.gz > /tmp/iotdb.dump
+sudo -u postgres pg_restore -d iotdb /tmp/iotdb.dump
+
+# test
+sudo -u postgres psql -d iotdb -c "\dt"
+sudo -u postgres psql -d iotdb -c "SELECT current_database(), current_user;"
+
 # razni
 # sudo update-locale LANG=bg_BG.UTF-8
 # zcat iotdb_2025-11-13.sql.gz | head -n 10
