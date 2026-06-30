@@ -63,6 +63,34 @@ CREATE DATABASE iotdb
 -- 5) излизаш
 \q
 
+# ако няма права потребителя
+GRANT USAGE ON SCHEMA public TO iotuser;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON ALL TABLES IN SCHEMA public
+TO iotuser;
+
+GRANT USAGE, SELECT, UPDATE
+ON ALL SEQUENCES IN SCHEMA public
+TO iotuser;
+
+GRANT EXECUTE
+ON ALL FUNCTIONS IN SCHEMA public
+TO iotuser;
+
+-- и за бъдещите таблици
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON TABLES TO iotuser;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT USAGE, SELECT, UPDATE
+ON SEQUENCES TO iotuser;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public
+GRANT EXECUTE
+ON FUNCTIONS TO iotuser;
+
 # cli
 gunzip -c /home/momchil/backups/pgsql/iotdb_2026-06-30.sql.gz | sudo -u postgres psql -d iotdb
 OR
