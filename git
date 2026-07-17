@@ -2,6 +2,8 @@
 https://github.com/k88hudson/git-flight-rules
 # show tree, после: git diff 8d0d2ff..branch-name (къмита точно преди разклоняването до името на бранча)
 git log --graph --oneline --decorate --all
+# последните промени след commit, но преди push
+git diff origin/main..HEAD
 
 # fix if broken
 git remote prune origin
