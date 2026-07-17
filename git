@@ -4,6 +4,8 @@ https://github.com/k88hudson/git-flight-rules
 git log --graph --oneline --decorate --all
 # последните промени след commit, но преди push
 git diff origin/main..HEAD
+# премахване на:
+git add . # със: git restore --staged .
 
 # fix if broken
 git remote prune origin
