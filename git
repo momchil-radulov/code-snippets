@@ -7,8 +7,10 @@ git log --graph --oneline --decorate --all
 git diff origin/main..HEAD
 # премахване на:
 git add . # със: git restore --staged .
-# промените във даден stash
-git stash show -p 'stash@{1}'
+git stash list                 # списък на stash's
+git stash show -p 'stash@{1}'  # показваме промените във даден stash
+git stash apply   'stash@{1}'  # прилага и запазва stash-а, без да го вадим от stash list
+git stash pop     'stash@{1}'  # прилага и при успех премахва stash-а
 
 # fix if broken
 git remote prune origin
