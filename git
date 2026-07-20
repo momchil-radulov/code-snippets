@@ -2,10 +2,13 @@
 https://github.com/k88hudson/git-flight-rules
 # show tree, после: git diff 8d0d2ff..branch-name (къмита точно преди разклоняването до името на бранча)
 git log --graph --oneline --decorate --all
+
 # последните промени след commit, но преди push
 git diff origin/main..HEAD
 # премахване на:
 git add . # със: git restore --staged .
+# промените във даден stash
+git stash show -p 'stash@{1}'
 
 # fix if broken
 git remote prune origin
@@ -109,6 +112,7 @@ git checkout -b project_feature  # create a new branch
 git show --oneline -s  # show last/current commit which is currently checked out in Git (-s => suppress diff output)
 git show               # show last commit diff
 git show [hash]        # show one commit diff
+git stash show -p 'stash@{1}'  # show one stash diff
 
 # remote
 git remote -v
