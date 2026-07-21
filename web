@@ -39,6 +39,8 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
                 >> DAL.извличане_данни()->some_DTO >> обработка данни some_DTO >> DAL.запис_данни(some_DTO)
                 >> лог some_DTO >> визуализция данни some_DTO
         >> response
+4.3 workflow за kanban:
+        глобална опашка за задачи и worker който ги обхожда в цикъл и по този начин не претоварваме системата
 5.  Ниво на абстракция за данните, модули: "Data Manipulation Functions" и "DAL"
         Има функции за работа с типовете данни, които абстрахират работата с данните на конкретния програмен език и
         са разбираеми и интуитивни за четене от човек, например: extract_column(items, 'column_name')
