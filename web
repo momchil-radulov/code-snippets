@@ -23,7 +23,7 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
         напр. PARAM_IOT_MQTT_PORT_N2020 = 2020, т.е. SETTINGS_IOT[ PARAM_IOT_MQTT_PORT_N2020 ] = 8883
     Функциите се викат с три dictionary параметъра, които са опционални/незадължителни: params, settings, event
 3.  Всяка причина на промяна се капсулира в ! Event ! и се пропагандира по целия стек на промяна
-4.  Workflow е:
+4.1 workflow е:
         събитие от най високо ниво (генерирано от UI, cron, web hook)
         вика се метод от първичния Service layer
             който оркестрира викания код
@@ -32,6 +32,13 @@ https://codecourse.sourceforge.net/materials/How-To-Write-Unmaintainable-Code.ht
             записва генерираните данни във DAL
         викат се глобални методи от глобални модули (BUSINESS, DAL, ...)
         викат се локални методи от конкретните локални модули
+4.2 workflow за web:
+        -> request
+                >> права за достъп до some_DTO
+                >> нормализация >> валидация
+                >> DAL.извличане_данни()->some_DTO >> обработка данни some_DTO >> DAL.запис_данни(some_DTO)
+                >> лог some_DTO >> визуализция данни some_DTO
+        >> response
 5.  Ниво на абстракция за данните, модули: "Data Manipulation Functions" и "DAL"
         Има функции за работа с типовете данни, които абстрахират работата с данните на конкретния програмен език и
         са разбираеми и интуитивни за четене от човек, например: extract_column(items, 'column_name')
