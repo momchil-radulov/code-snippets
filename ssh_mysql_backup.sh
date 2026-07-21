@@ -84,6 +84,7 @@ MYSQL_PORT="3306"
 #
 # Проверка:
 # mysql -h 127.0.0.1 -P 3306 -u root -proot
+MYSQL_PORT="3306"
 MYSQL_USER="root"
 MYSQL_PASS="root"
 
