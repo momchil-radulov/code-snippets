@@ -5,6 +5,8 @@ mosquitto_sub -v -h localhost -t "#" | grep -E '"type"[[:space:]]*:[[:space:]]*"
 mosquitto_sub -F '@Y-@m-@d @H:@M:@S\nTOPIC: %t\nPAYLOAD: %p' -t 'iot/dev123/#' | tee -a dev123.log
 mosquitto_sub -t /sensors/temps/# -F "UPDATE Temperatures(%t, %p)" | mysqlcli
 
+mosquitto_sub -t 'path-1/path-2/#' -F '%I %t %p' | tee path-2.log  # добавяме време и топик към логването на съобщенията
+
 mosquitto_sub -h hostname -p 1883 -t topic_name -u user_name -P password
 # with ssl
 openssl s_client -connect host.com:8883 -showcerts => copy Server certificate to ca.crt
