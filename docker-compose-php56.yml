@@ -1,0 +1,79 @@
+version: "2.4"
+
+services:
+  app:
+    image: msys_app:latest
+    ports:
+      - "127.0.0.1:${APP_PORT:-8081}:80"
+    volumes:
+      - ./:/var/www/html
+      - app_logs:/var/www/html/application/logs
+      - app_cache:/var/www/html/application/cache
+      - app_files:/var/www/html/files
+      - app_captcha:/var/www/html/assets/files/captcha
+      - db_socket:/var/run/mysqld
+    environment:
+      CI_ENV: ${CI_ENV:-development}
+    command: >
+      sh -c "ln -sf /var/run/mysqld/mysqld.sock /tmp/mysql.sock
+      && mkdir -p
+      /var/www/html/application/logs
+      /var/www/html/application/cache
+      /var/www/html/files/files
+      /var/www/html/assets/files/captcha
+      && chown -R www-data:www-data
+      /var/www/html/application/logs
+      /var/www/html/application/cache
+      /var/www/html/files
+      /var/www/html/assets/files/captcha
+      && apache2-foreground"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mariadb:10.3
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_general_ci
+    ports:
+      - "127.0.0.1:${DB_FORWARD_PORT:-33062}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: iot_db
+      MYSQL_USER: iot_user
+      MYSQL_PASSWORD: iot_some_password
+    volumes:
+      - db_data:/var/lib/mysql
+      - db_socket:/var/run/mysqld
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping -h 127.0.0.1 -uroot -p"$$MYSQL_ROOT_PASSWORD" --silent
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  app_logs:
+  app_cache:
+  app_files:
+  app_captcha:
+  db_socket:
+
+# How to run
+docker compose up -d
+docker-compose up -d  # по стара версия
+#  docker compose down         # изтрива контейнерите
+## docker compose down -v  !!! # изтрива контейнерите и volumes (внимание: губят се данните в БД)
+docker compose start
+docker compose stop
+docker compose ps
+docker compose logs -f
+docker compose logs -f app
+docker compose logs -f db
+http://127.0.0.1:8081
+mysql -h 127.0.0.1 -P 33062 -u iot_user -piot_pass
