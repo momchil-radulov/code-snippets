@@ -1,3 +1,4 @@
+[docker-compose.yml]
 version: "2.4"
 
 services:
@@ -43,7 +44,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: iot_db
       MYSQL_USER: iot_user
-      MYSQL_PASSWORD: iot_some_password
+      MYSQL_PASSWORD: iot_db_pass
     volumes:
       - db_data:/var/lib/mysql
       - db_socket:/var/run/mysqld
@@ -64,6 +65,15 @@ volumes:
   app_captcha:
   db_socket:
 
+[.env]
+APP_PORT=8081
+CI_ENV=development
+DB_FORWARD_PORT=33062
+DB_NAME=iot_db
+DB_USER=iot_user
+DB_PASSWORD=iot_db_pass
+DB_ROOT_PASSWORD=iot_db_root_pass
+
 # How to run
 docker compose up -d
 docker-compose up -d  # по стара версия
@@ -76,4 +86,323 @@ docker compose logs -f
 docker compose logs -f app
 docker compose logs -f db
 http://127.0.0.1:8081
-mysql -h 127.0.0.1 -P 33062 -u iot_user -piot_pass
+mysql -h 127.0.0.1 -P 33062 -u iot_user -piot_db_pass
+
+# How to backup and restore database
+
+[restore-database.sh]
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+usage() {
+    cat <<'EOF'
+Usage:
+  ./scripts/restore-database.sh \
+    --file PATH \
+    --database NAME \
+    --user NAME \
+    --password VALUE \
+    [--drop] [--yes]
+
+Required options:
+  -f, --file PATH        Path to a .sql or .sql.gz dump
+  -d, --database NAME    Database to restore
+  -u, --user NAME        User that receives all privileges on the database
+  -p, --password VALUE   Password for that user
+
+Optional flags:
+      --drop             Drop the database and user before recreating them
+  -y, --yes              Skip confirmation when --drop is used
+  -h, --help             Show this help
+
+Without --drop, the database and user are created only if missing. The supplied
+password and grants are still applied before the dump is imported.
+EOF
+}
+
+die() {
+    printf 'Error: %s\n' "$*" >&2
+    exit 1
+}
+
+sql_quote() {
+    local value=$1
+
+    value=${value//\\/\\\\}
+    value=${value//\'/\'\'}
+    printf "'%s'" "$value"
+}
+
+wait_for_database() {
+    local attempt
+
+    for attempt in {1..60}; do
+        if "${compose[@]}" exec -T db sh -c \
+            'mysqladmin ping -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" --silent' \
+            </dev/null >/dev/null 2>&1; then
+            return
+        fi
+        sleep 1
+    done
+
+    die 'MariaDB did not become ready within 60 seconds.'
+}
+
+confirm_drop() {
+    local answer
+
+    printf '\nWARNING: Database "%s" and user "%s" will be dropped.\n' \
+        "$db_name" "$db_user"
+    printf 'Dump: %s\n\n' "$dump_file"
+    read -r -p "Type $db_name to continue: " answer
+    [[ "$answer" == "$db_name" ]] || die 'Restore cancelled.'
+}
+
+build_database_sql() {
+    local quoted_user
+    local quoted_password
+    local quoted_localhost
+    local quoted_any_host
+
+    quoted_user=$(sql_quote "$db_user")
+    quoted_password=$(sql_quote "$db_password")
+    quoted_localhost=$(sql_quote 'localhost')
+    quoted_any_host=$(sql_quote '%')
+
+    if [[ "$drop_first" == true ]]; then
+        drop_sql="
+DROP DATABASE IF EXISTS \`$db_name\`;
+DROP USER IF EXISTS $quoted_user@$quoted_localhost;
+DROP USER IF EXISTS $quoted_user@$quoted_any_host;
+"
+    else
+        drop_sql=''
+    fi
+
+    setup_sql="
+CREATE DATABASE IF NOT EXISTS \`$db_name\`
+    CHARACTER SET utf8
+    COLLATE utf8_general_ci;
+
+CREATE USER IF NOT EXISTS $quoted_user@$quoted_localhost
+    IDENTIFIED BY $quoted_password;
+ALTER USER $quoted_user@$quoted_localhost
+    IDENTIFIED BY $quoted_password;
+GRANT ALL PRIVILEGES ON \`$db_name\`.* TO $quoted_user@$quoted_localhost;
+
+CREATE USER IF NOT EXISTS $quoted_user@$quoted_any_host
+    IDENTIFIED BY $quoted_password;
+ALTER USER $quoted_user@$quoted_any_host
+    IDENTIFIED BY $quoted_password;
+GRANT ALL PRIVILEGES ON \`$db_name\`.* TO $quoted_user@$quoted_any_host;
+
+FLUSH PRIVILEGES;
+"
+}
+
+prepare_database() {
+    "${compose[@]}" exec -T db sh -c \
+        'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' <<SQL
+SET SESSION sql_mode = REPLACE(@@SESSION.sql_mode, 'NO_BACKSLASH_ESCAPES', '');
+$drop_sql
+$setup_sql
+SQL
+}
+
+import_dump() {
+    case "$dump_file" in
+        *.sql)
+            "${compose[@]}" exec -T db sh -c \
+                'exec mysql --default-character-set=utf8 -uroot -p"$MYSQL_ROOT_PASSWORD" "$1"' \
+                sh "$db_name" < "$dump_file"
+            ;;
+        *.sql.gz|*.gz)
+            gzip -dc -- "$dump_file" |
+                "${compose[@]}" exec -T db sh -c \
+                    'exec mysql --default-character-set=utf8 -uroot -p"$MYSQL_ROOT_PASSWORD" "$1"' \
+                    sh "$db_name"
+            ;;
+    esac
+}
+
+verify_user_access() {
+    printf '%s\n%s\n%s\n' "$db_name" "$db_user" "$db_password" |
+        "${compose[@]}" exec -T db sh -ceu '
+            IFS= read -r db_name
+            IFS= read -r db_user
+            IFS= read -r db_password
+            export MYSQL_PWD="$db_password"
+            exec mysql --protocol=socket -u "$db_user" "$db_name" \
+                -e "SELECT 1"
+        ' >/dev/null
+}
+
+dump_file=''
+db_name=''
+db_user=''
+db_password=''
+password_set=false
+drop_first=false
+assume_yes=false
+
+while (($#)); do
+    case "$1" in
+        -f|--file)
+            (($# >= 2)) || die "$1 requires a value."
+            dump_file=$2
+            shift 2
+            ;;
+        --file=*)
+            dump_file=${1#*=}
+            shift
+            ;;
+        -d|--database)
+            (($# >= 2)) || die "$1 requires a value."
+            db_name=$2
+            shift 2
+            ;;
+        --database=*)
+            db_name=${1#*=}
+            shift
+            ;;
+        -u|--user)
+            (($# >= 2)) || die "$1 requires a value."
+            db_user=$2
+            shift 2
+            ;;
+        --user=*)
+            db_user=${1#*=}
+            shift
+            ;;
+        -p|--password)
+            (($# >= 2)) || die "$1 requires a value."
+            db_password=$2
+            password_set=true
+            shift 2
+            ;;
+        --password=*)
+            db_password=${1#*=}
+            password_set=true
+            shift
+            ;;
+        --drop)
+            drop_first=true
+            shift
+            ;;
+        -y|--yes)
+            assume_yes=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            die "Unknown argument: $1"
+            ;;
+    esac
+done
+
+[[ -n "$dump_file" ]] || die '--file is required.'
+[[ -n "$db_name" ]] || die '--database is required.'
+[[ -n "$db_user" ]] || die '--user is required.'
+[[ "$password_set" == true ]] || die '--password is required.'
+
+[[ -f "$dump_file" ]] || die "Dump file not found: $dump_file"
+[[ -r "$dump_file" ]] || die "Dump file is not readable: $dump_file"
+[[ -s "$dump_file" ]] || die "Dump file is empty: $dump_file"
+[[ "$db_name" =~ ^[a-zA-Z0-9_]+$ ]] ||
+    die 'Database name may contain only letters, numbers, and underscores.'
+[[ "$db_user" != *$'\n'* ]] || die 'User must not contain a newline.'
+[[ "$db_password" != *$'\n'* ]] || die 'Password must not contain a newline.'
+
+if [[ "$dump_file" != /* ]]; then
+    dump_file=$PWD/$dump_file
+fi
+
+case "$dump_file" in
+    *.sql)
+        ;;
+    *.sql.gz|*.gz)
+        command -v gzip >/dev/null 2>&1 ||
+            die 'gzip is required for compressed dumps.'
+        gzip -t -- "$dump_file" ||
+            die 'The gzip archive is damaged or incomplete.'
+        ;;
+    *)
+        die 'Unsupported dump format. Use a .sql or .sql.gz file.'
+        ;;
+esac
+
+project_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+cd "$project_dir"
+
+if docker compose version >/dev/null 2>&1; then
+    compose=(docker compose)
+elif docker-compose version >/dev/null 2>&1; then
+    compose=(docker-compose)
+else
+    die 'Docker Compose is not installed.'
+fi
+
+"${compose[@]}" config --quiet
+
+if [[ "$drop_first" == true && "$assume_yes" != true ]]; then
+    confirm_drop
+fi
+
+printf 'Starting MariaDB...\n'
+"${compose[@]}" up -d db
+wait_for_database
+
+app_was_running=false
+
+restart_application() {
+    local status=$?
+    trap - EXIT
+
+    if [[ "$app_was_running" == true ]]; then
+        printf 'Starting the application...\n'
+        if ! "${compose[@]}" up -d app; then
+            printf 'Error: The application could not be restarted.\n' >&2
+            status=1
+        fi
+    fi
+
+    exit "$status"
+}
+trap restart_application EXIT
+
+app_container=$("${compose[@]}" ps -q app 2>/dev/null || true)
+if [[ -n "$app_container" ]] &&
+    [[ "$(docker inspect --format '{{.State.Running}}' "$app_container")" == true ]]; then
+    app_was_running=true
+    printf 'Stopping the application during the restore...\n'
+    "${compose[@]}" stop app
+fi
+
+build_database_sql
+
+if [[ "$drop_first" == true ]]; then
+    printf 'Dropping and recreating database and user...\n'
+else
+    printf 'Preparing database and user without dropping them...\n'
+fi
+prepare_database
+
+printf 'Importing %s...\n' "$dump_file"
+import_dump
+
+printf 'Verifying user access and database privileges...\n'
+verify_user_access
+
+printf 'Database restore completed successfully.\n'
+
+# How to use
+./scripts/restore-database.sh \
+  --file /home/momchil/Downloads/iot_db_backup.sql \
+  --database iot_db \
+  --user iot_user \
+  --password 'iot_some_password' \
+  --drop --yes
