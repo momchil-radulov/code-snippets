@@ -9,7 +9,7 @@ git diff origin/main..HEAD
 git add . # със: git restore --staged .
 git stash list                 # списък на stash's
 # stash-ваме текущите промени във stash_name, или ако подадем имена на файлове само тях
-git stash push -m "stash_name" \
+git stash push -m "stash_name" -- \
     path/file_name \
     path2/file_name2
 git stash show -p 'stash@{1}'  # показваме промените във даден stash
