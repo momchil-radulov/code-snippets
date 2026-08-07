@@ -15,6 +15,13 @@ git stash push -m "stash_name" -- \
 git stash show -p 'stash@{1}'  # показваме промените във даден stash
 git stash apply   'stash@{1}'  # прилага и запазва stash-а, без да го вадим от stash list
 git stash pop     'stash@{1}'  # прилага и при успех премахва stash-а
+# backup 6 (from 0 - 5) stash
+mkdir stash-backup
+git stash list > stash-backup/list.txt
+for i in 0 1 2 3 4 5
+do
+    git stash show -p stash@{$i} > stash-backup/stash-$i.patch
+done
 
 # fix if broken
 git remote prune origin
