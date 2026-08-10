@@ -88,6 +88,10 @@ MYSQL_PORT="3306"
 MYSQL_USER="root"
 MYSQL_PASS="root"
 
+# Локалният Docker MySQL не предлага TLS. Новите MariaDB клиенти
+# включват SSL по подразбиране, затова го изключваме за тази localhost връзка.
+LOCAL_MYSQL_SSL=false
+
 # Ако root работи чрез auth_socket:
 #
 # sudo mysql
@@ -191,9 +195,17 @@ command -v ssh >/dev/null
 command -v gzip >/dev/null
 command -v gunzip >/dev/null
 
-# mysql е нужен само ако ще има restore
+# MariaDB клиентът е нужен само ако ще има restore. Името `mysql` се пази
+# като fallback за системи, на които няма отделна команда `mariadb`.
 if $DO_RESTORE; then
-    command -v mysql >/dev/null
+    if command -v mariadb >/dev/null; then
+        MYSQL_CLIENT="mariadb"
+    elif command -v mysql >/dev/null; then
+        MYSQL_CLIENT="mysql"
+    else
+        echo "[!] Не е намерен MariaDB/MySQL клиент (mariadb или mysql)." >&2
+        exit 1
+    fi
 fi
 
 
@@ -270,11 +282,15 @@ if $DO_RESTORE; then
     # --------------------------------------------------------
 
     MYSQL_CMD=(
-        mysql
+        "$MYSQL_CLIENT"
         -h "$MYSQL_HOST"
         -P "$MYSQL_PORT"
         -u "$MYSQL_USER"
     )
+
+    if ! $LOCAL_MYSQL_SSL; then
+        MYSQL_CMD+=(--skip-ssl)
+    fi
 
     # Добавяне на парола ако има такава
     if [[ -n "$MYSQL_PASS" ]]; then
