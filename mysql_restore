@@ -1,0 +1,96 @@
+Цялостна цел
+Това е процедура за аварийно възстановяване на MySQL база данни от снимка (snapshot) на друга система. По-конкретно - опит за възстановяване на конкретен запис (id=47349) от стара таблица, преди да се направи промяна в продукционната среда.
+
+Стъпка по стъпка разбор:
+1. Проверка на текущата MySQL среда
+bash
+sudo mysql -N -B -e "SHOW VARIABLES LIKE 'datadir';"
+Показва къде се съхраняват MySQL данните (/var/lib/mysql/)
+
+2. Проверка на дисковото пространство
+bash
+findmnt -T /var/lib/mysql
+df -hT /var/lib/mysql
+ls -ld /var/lib/mysql
+Проверява къде е монтирана директорията с MySQL данни
+
+Вижда колко свободно място има (42GB свободни от 97GB)
+
+3. Анализ на LVM (Logical Volume Manager) структурата
+bash
+sudo lvs -a
+sudo pvs
+sudo vgs
+Показва, че има два диска (/dev/sda3 и /dev/sdb3)
+
+ubuntu-vg - основният работещ диск (production)
+
+centos - друг диск, който вероятно е snapshot/бекъп
+
+4. Опит за монтиране на snapshot от centos диска
+bash
+sudo mkdir -p /mnt/alfa-snapshot
+sudo mount -t xfs -o ro,norecovery,nouuid /dev/mapper/centos-root /mnt/alfa-snapshot
+Прави опит да монтира snapshot от centos диска
+
+ГРЕШКА: want=104857600 sectors ≈ 50 GiB > limit=41943040 sectors ≈ 20 GiB
+
+Томът е твърде малък (20GB) за това, което се опитват да направят
+
+5. Анализ на проблемите с диска centos
+bash
+sudo xfs_repair -n /dev/mapper/centos-root
+Проверява файловата система за грешки (само за четене - -n)
+
+6. Решение: Разширяване на root тома
+bash
+sudo lvextend --alloc contiguous -l +7680 /dev/centos/root
+ВАЖНО: Разширява root тома от 20GB на ~50GB като добавя 7680 PE (Physical Extents)
+
+Това решава проблема с недостатъчното място
+
+7. Клониране на LVM за избягване на конфликти
+bash
+sudo vgimportclone --basevgname ubuntu-snapshot /dev/sdb3
+КЛЮЧОВА СТЪПКА: Клонира LVM конфигурацията от /dev/sdb3 в нова група ubuntu-snapshot
+
+Променя UUID-ите, за да не конфликтува с production диска (/dev/sda3)
+
+Това позволява да се монтират едновременно и двата диска
+
+8. Активиране и монтиране на snapshot-а
+bash
+sudo vgchange -ay ubuntu-snapshot
+sudo mount -t ext4 -o ro,noload /dev/ubuntu-snapshot/ubuntu-lv /mnt/alfa-snapshot
+Активира новия LVM том
+
+Монтира го само за четене (ro) без journal зареждане (noload)
+
+9. Създаване на архив на MySQL данните
+bash
+sudo tar --xattrs --acls --numeric-owner \
+  -C /mnt/alfa-snapshot/var/lib \
+  -czf /home/ubuntu/mysql-snapshot-20260807.tar.gz \
+  mysql
+Прави компресиран архив (tar.gz) на всички MySQL данни от snapshot-а
+
+Запазва правата на файловете (--numeric-owner, --xattrs, --acls)
+
+10. Прехвърляне на архива към друг сървър
+bash
+rsync -ah --info=progress2 \
+  ubuntu@host.com:/home/ubuntu/mysql-snapshot-20260807.tar.gz \
+  /home/ubuntu/backups/
+Изтегля архива от отдалечен сървър (host.com) в локалната backup директория
+
+11. Екстракция на конкретен запис
+bash
+sudo mysqldump \
+  --no-create-info \
+  --skip-triggers \
+  --where='id=47349' \
+  db_name table_name \
+  | gzip > /home/ubuntu/offer-47349-before-production-restore.sql.gz
+ФИНАЛНА ЦЕЛ: Извлича само един конкретен запис (id=47349) от таблицата
+
+Създава SQL файл с този запис, който може да се използва за възстановяване
