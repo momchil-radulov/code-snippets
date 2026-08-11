@@ -1,6 +1,7 @@
 # копие на таблица
 CREATE TABLE table_name_backup (LIKE table_name INCLUDING ALL);
 INSERT INTO table_name_backup SELECT * FROM table_name;
+sudo -u postgres psql -d iotdb -v ON_ERROR_STOP=1 -f table_name_update.sql
 
 PGPASSWORD="you_pass" psql -U user_name -d database_name -h localhost
 sudo -u postgres pg_dump iotdb > iotdb.sql
