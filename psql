@@ -2,6 +2,20 @@
 CREATE TABLE table_name_backup (LIKE table_name INCLUDING ALL);
 INSERT INTO table_name_backup SELECT * FROM table_name;
 sudo -u postgres psql -d iotdb -v ON_ERROR_STOP=1 -f table_name_update.sql
+[table_name_update.sql]
+\set ON_ERROR_STOP on
+BEGIN;
+CREATE TEMP TABLE table_name (
+    code        TEXT PRIMARY KEY,
+    name_bg     TEXT NOT NULL,
+    name_en     TEXT NOT NULL,
+    description TEXT NOT NULL
+) ON COMMIT DROP;
+INSERT INTO table_name (field_name_1, field_name_2)
+VALUES ('value_1', 'value_2'),
+       ('value_1_1', 'value_2_2');
+COMMIT;
+[table_name_update.sql] end
 
 PGPASSWORD="you_pass" psql -U user_name -d database_name -h localhost
 sudo -u postgres pg_dump iotdb > iotdb.sql
