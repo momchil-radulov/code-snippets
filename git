@@ -22,6 +22,11 @@ for i in 0 1 2 3 4 5
 do
     git stash show -p stash@{$i} > stash-backup/stash-$i.patch
 done
+# промени между два бранча, например преди (от main) git merge dev
+git diff --stat main..dev      # кратка статистика
+git diff --name-status main..dev
+git diff main..dev             # пълният diff
+git log --oneline main..dev    # commit-ите, които ще бъдат внесени
 
 # fix if broken
 git remote prune origin
