@@ -69,79 +69,40 @@ Options
 13. сървъра има mapping между "dev", "finit-state", "pin_number" / unique_key -> към -> unique key
     за потребителско значение записвано в базата данни,
     т.е. ,какво се включва / изключва, или какво се измерва от даден пин се, is_admin съхранява във сървъра
-14. 🧠 Ролята определя достъпа до системата като workflow, интерфейс, default права и изпълним код (API, methods, functions).
+14. 🧠 Базова архитектура
+       Ролите дефинират достъпа до системата като workflow, интерфейс/url, default права и изпълним код (API, methods, functions).
        Допълнителен гранулиран достъп се дава чрез правата.
        Scoped RBAC, Role-Based Access Control + scope + (preferably flat)
        Идеята: Ролята дава default права, но имаме и допълнително гранулиране на достъпа с права
-       Users → Role (само една, защото тя определя начина на използване на системата/работен процес)
-       Users → Resources (списък)
-       Users → Permissions (списък)
+       Имаме групи от потребители. Всяка група от потребители си има:
+           Роля (:1, само една, защото тя определя начина на използване на системата/работен процес)
+           Групи от права (:n, списък, определят действията разрешени на групата)
+           Групи от ресурси (:n, списък, определят обектите които са разрешени за групата)
    14.1 Основни компоненти, т.е. обекти в системата са:
          Users:         user_id,       name
          Roles:         role_id,       name
          Permissions:   permission_id, name (read, write, deny)
          Resources:     resource_id,   name, type_id (device, organisation...),        т.е. номенклатури / master data
          Transactions:  списък от редове/транзакции описващ процес, а не номенклатура, т.е. операции     / transactional data
-         Organizations: списък от топ организации (без parent), и подорганизации които имат за parent a top organization
-                        Организацията обединява групи потребители, ресурси и транзакции в обща самостоятелна база дани
+         Organizations: Организацията обединява групи потребители, ресурси и транзакции в обща самостоятелна база дани
                         с цел GDPR, защита на данните и договор за обслужване/поддръжка
                         Може да бъде реализирана с отделен компютър/хардуер собственост на клиента и съдържащ базата данни
                         и права за достъп отвън през външната система, обслужваща организацията, за онлайн ERP
                         На практика всеки запис трябва да има toporg_id (без Permissions защото те са общи за всички)
                         Потребителите и ролите са отделени в отделна база данни за логване в системата и след логването
                         потребителя си избира роля, и съответно работи вече с конкретната база данни за тази top organization
+         Sites:         Физически обект / локация с адрес, към която принадлежат различни ресурси/номенклатури
          Object_id:     id на ресурса от дадената база
                         Варианти: всеки id да си има уникален пореден номер в системата
                                   да бъде реализирано като текст и типа да бъде вграден в id, напр. device-15
          Object_type:   device, organization
          Object_uid:    UUID (Universally Unique Identifier) използва се за достъп/референция от външни системи
                         отпред има задължително префикс, който указва типа device_EIVRUOE... или invoice_EIHVRI...
-   14.1.1 Обектите се групират във хомогенни групи (от роли, потребители, права или ресурси/номенклатури, организации),
-          групите могат да имат само един PARENT друга група и по такъв начин могат да формират йерархия от групи
+   14.1.1 Номенклатурите има групи. Връзката група към номенклатура е 1:1. Групите имат йерархичен код 00001.00001..
+          за да се формира вложено дърво от групите. Всяка група има tags където може да се изброява списък от тагове
+          със разделител, и те служат за групово избиране на елементи от номенклатурата.
+          Номенклатурите се разширяват със разширителна таблица 1:1 със допълнителни атрибути на номенклатурата
    14.2.1 Организациите дефинират изолацията на системата в отделна база данни и GDPR
-   14.2.2 Ролите дефинират връзките (core на системата),
-         Имаме списък от предифинирани шаблони на роли, със твърдо зададени групи права
-         с цел лесно създаване на роли към дадена организация, например роля "Администратор" и т.н.: 
-         Ролята обединява групи от потребители, групи от права и групи от ресурси в едно цяло
-         Role ↔ Permissions:         role_permissions   ( role_id, group_permission_id or permission_id )
-      ⭐ Role ↔ Resources (“scope”): role_resources     ( role_id, group_resource_id   or resource_id   )
-         Role ↔ Users:               role_users         ( role_id, group_user_id       or user_id       )
-         Role ↔ Admin Users:         role_admin_users   ( role_id, user_id                              )
-         Role ↔ Organization:        role_organizations ( role_id, organization_id                      )
-   14.3 Реален SQL check (пример)
-         SELECT 1
-             FROM user_roles ur
-             JOIN role_permissions rp ON rp.role_id = ur.role_id
-            WHERE ur.role_id = :role_id
-              AND ur.user_id = :user_id
-              AND rp.permission = 'device.settings'
-            LIMIT 1;
-         SELECT rr.object_id
-             FROM user_roles ur
-             JOIN role_resources rr ON rr.role_id = ur.role_id
-            WHERE ur.role_id = :role_id
-              AND ur.user_id = :user_id
-              AND rr.object_id = :device_id AND rr.object_type = 'device';
-   14.4 Реален JSON (пример)
-         { "role": { "name":          "Оператори във Пенчо ООД",
-                     "permissions": [ "device.settings", "organization.name.read",
-                                      "device.log", "device.log.delete"
-                                    ],
-                     "deny":        [ "organization.finance"],
-                     "users":       [ "ivan@gmail.com", "petkan@yahoo.com" ],
-                     "admins":      [ "ivan@gmail.com" ],
-                     "scope":       [ "/organizations/456/1", "/devices/15", "/devices/18" ],
-                     "organization":["/organizations/456"]  # top organization
-                   }
-         }
-   14.5 Предимства: много бързо (joins), лесно за разбиране, scalable, идеално за multi-tenant
-   14.6 Описание: Това се нарича "Scoped RBAC", Role-Based Access Control + scope + (preferably flat)
-                  или "групова политика за достъп / групово разрешение" (group-based access policy или group permission)
-                  или "матрица на достъпа" (access matrix).
-                  В теорията на контрола на достъпа подобна конструкция често се описва като "матрица на достъпа" (access matrix),
-                  където редовете са потребителските групи, колоните – обектните групи, а клетките съдържат множествата от права.
-                  Също така в модели като RBAC (контрол на достъпа, базиран на роли) това може да се реализира чрез:
-                  "роля" (role), която обединява групи от права и групи от обекти и се дава на група потребители.
 
 
 ***### principles-of-software-design ###***
