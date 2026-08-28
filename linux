@@ -9,6 +9,8 @@ sudo dmidecode -s system-version       => model name
 sudo dmidecode -s system-product-name  => product name
 sudo dmidecode -t system               => get ALL data
 
+sudo reboot, last reboot, uptime -s, uptime -p  # от кога е рестартиран/стартиран
+
 sudo dpkg -i /absolute/path/to/deb/package_file_for_install
 sudo apt-get install -f
 
