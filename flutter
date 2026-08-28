@@ -1,0 +1,15 @@
+ако достъпа е до подпапка:
+https://host.com/flutter
+
+flutter build web --base-href /flutter/
+
+location = /flutter {
+    return 301 /flutter/;
+}
+
+location ^~ /flutter/ {
+    root /var/www/html;
+    autoindex off;
+
+    try_files $uri $uri/ /flutter/index.html;
+}
