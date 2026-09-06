@@ -3,7 +3,7 @@ set -Eeuo pipefail
 umask 077
 
 # Defaults match core/db.py; environment variables can override these settings.
-HOST_ALIAS="${HOST_ALIAS:-iothost.com}"
+HOST_ALIAS="${HOST_ALIAS:-iothost}"
 DB_NAME="${DB_NAME:-iotdb}"
 DB_USER="${DB_USER:-iotuser}"
 DB_PASSWORD="${DB_PASSWORD:-iotpass}"
@@ -48,6 +48,18 @@ admin_psql() {
     --host="$LOCAL_PGHOST" --port="$LOCAL_PGPORT" --username=postgres "$@"
 }
 
+connection_help() {
+  printf '[!] Няма връзка с локалния PostgreSQL на %s:%s.\n' "$LOCAL_PGHOST" "$LOCAL_PGPORT" >&2
+  if command -v pg_lsclusters >/dev/null; then
+    printf '[*] Локални PostgreSQL cluster-и:\n' >&2
+    pg_lsclusters >&2 || true
+    printf '[!] Ако правилният cluster е спрян: sudo pg_ctlcluster <версия> <име> start\n' >&2
+  fi
+  printf '[!] За друг порт използвайте LOCAL_PGPORT=<порт>; за друг socket — LOCAL_PGHOST=<директория>.\n' >&2
+  printf '[!] Портът трябва да съвпада и с URL адреса в core/db.py (по подразбиране localhost:5432).\n' >&2
+  printf '[!] Възстановяването не е започнало; базите не са променени.\n' >&2
+}
+
 cleanup() {
   local status=$?
   trap - EXIT ERR
@@ -73,7 +85,8 @@ SQL
   exit "$status"
 }
 trap cleanup EXIT
-trap 'status=$?; printf "[!] %s: грешка на ред %s (код %s).\n" "$PHASE" "$LINENO" "$status" >&2; exit "$status"' ERR
+# Subshell errors propagate to the parent; report them only once there.
+trap 'status=$?; if (( BASH_SUBSHELL == 0 )); then printf "[!] %s: грешка на ред %s (код %s).\n" "$PHASE" "$LINENO" "$status" >&2; fi; exit "$status"' ERR
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
@@ -129,7 +142,13 @@ if [[ "$MODE" == restore ]]; then
     fi
     exit "$missing"
   '
-  server_version="$(admin_psql --dbname=postgres --tuples-only --no-align --command='SHOW server_version_num')"
+  if server_version="$(admin_psql --dbname=postgres --tuples-only --no-align --command='SHOW server_version_num')"; then
+    :
+  else
+    status=$?
+    connection_help
+    exit "$status"
+  fi
   [[ "$server_version" =~ ^[0-9]+$ ]] && (( server_version >= 140000 )) \
     || die "За restore е необходим PostgreSQL 14 или по-нов."
 fi
