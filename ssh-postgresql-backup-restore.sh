@@ -3,7 +3,7 @@ set -Eeuo pipefail
 umask 077
 
 # Defaults match core/db.py; environment variables can override these settings.
-HOST_ALIAS="${HOST_ALIAS:-iothost}"
+HOST_ALIAS="${HOST_ALIAS:-iothost.com}"
 DB_NAME="${DB_NAME:-iotdb}"
 DB_USER="${DB_USER:-iotuser}"
 DB_PASSWORD="${DB_PASSWORD:-iotpass}"
