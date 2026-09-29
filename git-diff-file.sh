@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 
-DEFAULT_SOURCE = 'your-branch'
+DEFAULT_SOURCE = 'main'
 
 
 def git(root, *args):
@@ -52,11 +52,11 @@ def select_file(argument, root, script_dir, source_files, source):
 def main():
     parser = argparse.ArgumentParser(
         description='Показва diff: избран бранч → текущия файл, включително незакомитени промени.',
-        epilog='Пример: ./git-diff-file settings.php your-branch',
+        epilog='Пример: ./git-diff-file settings.php main',
     )
     parser.add_argument('file', help='Име, относителен път или абсолютен път на файл')
     parser.add_argument('branch', nargs='?', default=DEFAULT_SOURCE,
-                        help='Изходен бранч (по подразбиране: your-branch)')
+                        help='Изходен бранч (по подразбиране: main)')
     args = parser.parse_args()
     source = args.branch
     script_dir = Path(__file__).resolve().parent
