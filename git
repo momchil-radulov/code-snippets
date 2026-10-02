@@ -143,8 +143,11 @@ git fetch --prune OR git remote prune origin  # remove tracking branches no long
 git remote set-url origin git@github.com:username/new-repo.git
 
 # How to ignore new files
-.gitignore # globally
-.git/info/exclude # locally 
+.gitignore            # Споделя се чрез Git с останалите разработчици
+.git/info/exclude     # Важи само за твоето локално repository
+~/.config/git/ignore  # Може да важи глобално за всички твои repositories
+.gitignore            # globally
+.git/info/exclude     # locally 
 
 # Show
 git log
