@@ -17,6 +17,10 @@ git stash push -m "stash_name" -- \
     path2/file_name2
 git stash show -p 'stash@{1}'  # показваме промените във даден stash
 git stash apply   'stash@{1}'  # прилага и запазва stash-а, без да го вадим от stash list
+git stash show -p stash@{1}    # какви промени съдържа даден сташ
+git diff stash@{1}^1 stash@{1}   -- common/application/libraries/MQTT.php          # какви промени съдържа само един файл
+git checkout         'stash@{1}' -- ':(top)common/application/libraries/MQTT.php'  # прилагаме само един файл
+git restore --source='stash@{1}' -- ':(top)common/application/libraries/MQTT.php'  # прилагаме само един файл
 git stash pop     'stash@{1}'  # прилага и при успех премахва stash-а
 # backup 6 (from 0 - 5) stash
 mkdir stash-backup
