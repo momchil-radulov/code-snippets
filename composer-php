@@ -5,6 +5,10 @@ cd където–ти-е-index.php
 composer require zircote/swagger-php  # добавяне на пакет
 php7.4 $(which composer) install      # install, стартиране с конкретна версия на php
 
+composer update developermypos/mypos-checkout-sdk --dry-run
+composer update developermypos/mypos-checkout-sdk
+php7.4 "$(command -v composer)" update developermypos/mypos-checkout-sdk --dry-run  # конкретен пакет с php7.4
+
 sudo php7.4 -S localhost:80           # стартиране на сайта локално
 
 ln -s ../../common/application/helpers helpers
