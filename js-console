@@ -1,0 +1,9 @@
+# проверка за размера/височината на редовете
+const rows = [...document.querySelectorAll('.box__option__list')]
+  .filter(row => getComputedStyle(row).display !== 'none');
+
+console.table(rows.map(row => ({
+  option: row.querySelector('.form__radio-prime__text').textContent.trim(),
+  height: row.querySelector('.box__option__item')
+    .getBoundingClientRect().height
+})));
