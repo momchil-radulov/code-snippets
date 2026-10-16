@@ -9,7 +9,13 @@ git diff main
 git diff main HEAD
 git diff origin/main..HEAD
 # премахване на:
-git add . # със: git restore --staged .
+git add .  # със: git restore --staged .
+git add -a # добавяме всички променени във нов къмит
+# ако искаме да добавим всички с изключение на .gitignore например
+git add -u                          # Подготвяме всички променени
+git restore --staged -- .gitignore  # Изваждаме .gitignore от подготвените
+git commit -m "Съобщение..."           # Commit-ваме останалото
+
 git stash list                 # списък на stash's
 # stash-ваме текущите промени във stash_name, или ако подадем имена на файлове само тях
 git stash push -m "stash_name" -- \
@@ -23,6 +29,10 @@ git checkout         'stash@{1}' -- ':(top)common/application/libraries/MQTT.php
 git restore --source='stash@{1}' -- ':(top)common/application/libraries/MQTT.php'    # прилагаме само един файл
 git restore --source='stash@{1}' --worktree -- common/application/libraries/MQTT.php # прилагаме само един файл
 git stash pop     'stash@{1}'  # прилага и при успех премахва stash-а
+# премахваме stash и после го recreate и прилагаме
+git stash drop 'stash@{4}'
+git stash push -m ".gitignore" -- .gitignore
+git stash apply stash@{4}
 # backup 6 (from 0 - 5) stash
 mkdir stash-backup
 git stash list > stash-backup/list.txt
