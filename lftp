@@ -1,0 +1,21 @@
+cd /home/momchil/projects/you_project
+lftp
+set ftp:ssl-force true
+set ftp:ssl-force no
+set ssl:check-hostname/ftp.host.com no
+ls
+open -u user_name@host.com ftp://ftp.host.com
+ls
+# копиране на цяла папка рекурсивно (без презапис)
+mirror --only-missing --parallel=4 --verbose files ./files
+mirror --only-missing --parallel=4 --verbose assets/images ./assets/images
+bye
+
+# размер на папка
+du -sh /home/momchil/projects/you_project/files
+# 10-те най-големи папки
+du -h --max-depth=1 | sort -hr | head -10
+# свободно място на диска
+df -h
+# дискове
+lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
