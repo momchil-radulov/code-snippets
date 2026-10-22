@@ -1,4 +1,11 @@
 <?php
+  // Temporary PHP configuration check, file with RANDOM name. Delete/Disable this file after verification.
+  header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+  header('X-Robots-Tag: noindex, nofollow, noarchive');
+  # exit;
+  phpinfo();
+
+<?php
 ########################
 ###  some functions  ###
 ########################
