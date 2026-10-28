@@ -1,25 +1,12 @@
-sudo apt update
-sudo apt install xfce4 xserver-xorg xdotool xprintidle
+$ sudo apt update
+$ sudo apt install xfce4 xserver-xorg xdotool xprintidle
     инсталаторът избор между gdm3 и lightdm: остави gdm3.
-sudo apt install xfce4-power-manager xfce4-power-manager-plugins
+$ sudo apt install xfce4-power-manager xfce4-power-manager-plugins
 
 След това logout, избор на потребител и от иконката за настройки избор Xfce Session Xorg от екрана за вход
 
 Ctrl + Alt + ←	Предишен Workspace
-Ctrl + Alt + →	Следващ Workspace$ cat caf.py 
-#!/usr/bin/env python3
-
-import subprocess
-import time
-
-seconds = 120 # number of seconds to start preventing blank screen / suspend
-
-while True:
-    curr_idle = subprocess.check_output(["xprintidle"]).decode("utf-8").strip()
-    if int(curr_idle) > seconds*1000:
-        subprocess.call(["xdotool", "key", "Control_L"])
-    time.sleep(10)
-
+Ctrl + Alt + →	Следващ Workspace
 
 $ cat ./insomnia.py 
 #!/usr/bin/env python3
