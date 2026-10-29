@@ -2,6 +2,12 @@ $ sudo apt update
 $ sudo apt install xfce4 xserver-xorg xdotool xprintidle
     инсталаторът избор между gdm3 и lightdm: остави gdm3.
 $ sudo apt install xfce4-power-manager xfce4-power-manager-plugins
+$ sudo apt install xfce4-pulseaudio-plugin pavucontrol
+    След това:
+        1. Десен бутон върху горния панел.
+        2. Panel → Add New Items.
+        3. Избери PulseAudio Plugin.
+        4. Ще се появи иконка за звука, която можеш да управляваш с мишката.
 
 След това logout, избор на потребител и от иконката за настройки избор Xfce Session Xorg от екрана за вход
 
