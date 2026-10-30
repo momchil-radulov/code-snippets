@@ -8,6 +8,13 @@ CREATE USER 'admin_usr1'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON my_database.* TO 'admin_usr1'@'localhost';
 SHOW GRANTS FOR 'admin_usr1'@'localhost';
 
+# clear and install
+sudo systemctl stop mysql 2>/dev/null
+sudo rm -rf /var/lib/mysql /var/lib/mysql-files /var/lib/mysql-keyring /etc/mysql /var/log/mysql
+sudo apt install mariadb-server
+sudo systemctl enable --now mariadb
+sudo mariadb -e "SELECT VERSION()"
+
 sudo vim /etc/mysql/mariadb.conf.d/50-server.cnf  # MariaDB
 [mysqld]
 skip-grant-tables
