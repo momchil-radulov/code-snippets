@@ -3,6 +3,8 @@ https://github.com/k88hudson/git-flight-rules
 # show tree, после: git diff 8d0d2ff..branch-name (къмита точно преди разклоняването до името на бранча)
 git log --graph --oneline --decorate --all
 
+git diff --staged --color=always | less -RS  # no word wrap
+
 # последните промени вкл. некъмитантите
 git diff main
 # последните промени но само тези след commit
