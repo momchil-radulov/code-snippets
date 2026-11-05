@@ -157,11 +157,20 @@ Options
                          гарантира връщания резултат, както и дали резултата има смислено значение.
                          В случай, че не може да гарантира коретно изпълнение, просто пропуща нещата без да ги променя/чупи частично.
                          Гарантира лог в случай на проблем, или debug log в случай на debug.
+- Event-Driven + Event Sourcing: Идеята е всяка промяна по данните, всяко събитие/api call, генериран лог
+        да може да се проследи до първоначален event, т.е. данните имат event_id.
+        Event-Driven input -> Raw Event DTO -> normalize_event(raw_event_dto) -> Domain Event
+                           -> validate_event(domain_event) -> Event Store (Event Sourcing)
+                           -> Projectors / Subscribers (save current state to DB, generate alarms and so on)
+                           -> Read Model { "dev": "A15", "temp": 23.7, "ts": 1710000000 }
+                           -> { "event_type": "DeviceTemperatureReported",
+                                "device_id": "A15", "temperature": 23.7, "occurred_at": "2026-06-01T12:00:00Z" }
 - Data-Oriented Programming: бизнес логиката работи със чисти данни и само със данни,
                              взема ги и ги поставя във стек/опашки от структури от данни
                              системата има адаптори които транслират стек/опашки данни от/към реални процеси
                              системата взема данни и ги визуализира, обратно взема данните от визуализацията
-                             и ги преобразува във данни, както и добавя списък със променените данни
+                             и ги преобразува във данни, както и добавя списък със променените данни.
+                             При запис/промяна записваме и event_id предизвикал записа/промяната.
 - State Machine:  елементите, които се променят, има state. По този начин се гарантира, че промяната им
                   е консистентна и валидирана. State с опасност за deadlock е задължително във timewindow.
                   State machine се имплементира със отделни класове за всеки state,
@@ -179,20 +188,8 @@ Options
                         Идеята е, че записваме промените като чисти данни като последователни редове в опашка/таблица в транзакция,
                         така гарантираме цялостност на желаните промени, транзакцията има уникален id и списък операции.
                         Примерно при прехвърляне 1. намаляме от едно място и 2. увеличаваме на друго място 3. изпращаме email.
-                        Чрез id-transaction.no-operation, status: осигуряваме idempotency на операциите и гаранция за изпълнението им.
-- Event-Driven + Event Sourcing: Идеята е всяка промяна по данните, всяко събитие/api call, генериран лог
-                                 да може да се проследи до първоначален event, т.е. данните имат event_id.
-                                 Event-Driven input
-                                 -> Raw Event DTO
-                                 -> normalize_event(raw_event_dto)
-                                 -> Domain Event
-                                 -> validate_event(domain_event)
-                                 -> Event Store (Event Sourcing)
-                                 -> Projectors / Subscribers (save current state to DB, generate alarms and so on)
-                                 -> Read Model
-                                    { "dev": "A15", "temp": 23.7, "ts": 1710000000 }
-                                    -> { "event_type": "DeviceTemperatureReported",
-                                         "device_id": "A15", "temperature": 23.7, "occurred_at": "2026-06-01T12:00:00Z" }
+                        Чрез id-transaction.no-operation, event_id, status: осигуряваме консистентност на данните,
+                                                                            idempotency на операциите и гаранция за изпълнението им.
 - Role-Based Access Control (RBAC): модел за управление на достъпа,
                                     при който базовите права (permissions) се определят чрез роли (roles),
                                     а не се задават директно на всеки потребител.
