@@ -4,6 +4,15 @@ $ sudo apt install xfce4 xserver-xorg xdotool xprintidle
 $ sudo apt install xfce4-power-manager xfce4-power-manager-plugins
     Наблюдение на батерията: Следи състоянието и нивото на заряда на батерията.
     Управление на яркостта: Позволява ви да регулирате яркостта на екрана (LCD), за да пестите енергия.
+$ sudo apt install network-manager-gnome
+    000. Да се добави като tray icon .000
+    1. Десен бутон върху XFCE панела.
+    2. Panel → Add New Items.
+    3. Добави Status Tray Plugin (или Notification Area).
+    000. Autostart .000
+    1. Settings → Session and Startup → Application Autostart
+       - Name: NetworkManager Applet
+       - Command: nm-applet
 $ sudo apt install xfce4-screensaver
 $ sudo apt install xfce4-pulseaudio-plugin pavucontrol
     След това:
