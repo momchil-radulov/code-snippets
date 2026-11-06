@@ -1,4 +1,21 @@
-# install
+### run
+DB_HOST=127.0.0.1 DB_PORT=33061 MSYS_BASE_URL=http://localhost:8074/ php7.4 -c docker/php74/php.ini -S localhost:8074 -t . router_msys.php
+<?php
+// Router за php -S: като .htaccess – съществуващ файл се сервира директно,
+// всичко останало минава през index.php.
+$root = '/home/momchil/projects/your_project_name';
+$path = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+if ($path !== '/' && is_file($root . $path)) {
+    return false;
+}
+chdir($root);
+$_SERVER['SCRIPT_NAME']     = '/index.php';
+$_SERVER['SCRIPT_FILENAME'] = $root . '/index.php';
+$_SERVER['PHP_SELF']        = '/index.php';
+require $root . '/index.php';
+
+
+### install
 
 sudo env PHP_CLI_SERVER_WORKERS=8 php7.4 -S 127.0.0.1:80  -t /var/www/html
 
